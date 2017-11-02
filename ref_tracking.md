@@ -1,0 +1,2 @@
+- Using Pascal's speech recognizer (not sure how to reference this)
+- https://stackoverflow.com/questions/1703148/is-it-possible-to-use-androids-speech-recognition-without-showing-the-dialog
