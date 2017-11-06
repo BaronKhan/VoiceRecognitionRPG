@@ -8,7 +8,7 @@ Voice interaction is video games is too restricted. On one hand, the user may be
 
 Is there a way to use NLP to strike a balance between both of these tradeoffs?
 
-Existing Voice Recognition Games
+Existing Voice Recognition (in games or otherwise)
 ---------------------
 
 #### [Verbis Virtus](https://en.wikipedia.org/wiki/In_Verbis_Virtus)
@@ -21,8 +21,27 @@ Existing Voice Recognition Games
 #### [Star Trek VR game](https://www.engadget.com/2017/05/11/ibm-watson-voice-commands-to-star-trek-bridge-crew/)
 - Integrates IBM's Watson to issue commands to crew members
 
-#### [Speech Recognition for PC Games](http://www.tazti.com/speech-recognition-software-for-pc-games.html) (Not a game)
+#### [Speech Recognition for PC Games](http://www.tazti.com/speech-recognition-software-for-pc-games.html)
 - Create profiles for keystrokes and trigger with speech command.
+
+#### Houndify
+
+- Used this in my own projects (Pascal, Cisco internship)
+- Define custom commands with a regex-style structure
+- To cover a lot of ways someone can say an intent, the 'regex' structure can get really long and complicated
+
+E.g. asking someone what their name is:
+
+```"what" . "is" . "your" . "name"```
+- weak variation (only "what is your name")
+
+```("what" . "is" | "what\'s") . "your" . "name" | "who" . "are" . "you"```
+- slightly better ("who are you", "what's your name")
+
+```("what" . "is" | "what\'s" | ["can" . "you"] . ["please"] . "tell" . "me") . "your" . "name" | "who" . "are" . "you"```
+- getting really long, still doesn't cover a lot
+
+We could go on and on, and this has to be done for *every* custom command.
 
 Limitations of Zork
 -----------------
@@ -54,8 +73,17 @@ Potential Issues with any implementation
 
 - Action conflicts with homophones (voice rec software detects wrong word)?
 
+Scribblenauts
+------------------------
+
+http://www.liquisearch.com/scribblenauts/development/engine
+
+Uses ObjectNuat engine. Each object is given properties to determine how they interact with each other. Also a hieracrchy of items (e.g. wood can burn, a boat is made of wood, therfore can also burn). Developers went word-by-word. Five people worked for six months to create a large database for Objectnaut.
+
+
+
 TODO
 --------------------------
-- [ ] Find out how scribblenauts works with its word dictionary
-- [ ] Build skeleton project in Android testing I/O
+- [x] Find out how scribblenauts works with its word dictionary
+- [x] Build skeleton project in Android testing I/O
 - [ ] More research on NLP and Wordnet API
