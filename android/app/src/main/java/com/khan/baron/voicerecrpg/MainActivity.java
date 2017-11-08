@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
 
         mTxtInput.setText(text);
-        mTxtOutput.setText(mGameState.updateState(text));
+        updateGameState(text);
     }
 
     @Override
@@ -212,6 +212,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             mCanRecord = (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED);
         }
+    }
+
+    private void updateGameState(String input) {
+        mTxtOutput.setText(mGameState.updateState(input));
+
+        // TODO: play TTS (should be optional)
     }
 
     public native String stringFromJNI();
