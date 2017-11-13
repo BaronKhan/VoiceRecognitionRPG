@@ -5,6 +5,7 @@ Room-by-room puzzle game that demonstrates the power of the voice recognition sy
 
 ### Room 1
 
+In a dark room, have to turn on the lights (let there be light, lights on)
 Key on table, use key to open door (introduce player to the mechanics)
 
 ### Room 2
