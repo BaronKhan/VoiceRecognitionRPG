@@ -10,27 +10,31 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class VoiceControl extends Activity implements RecognitionListener {
+public class VoiceControl implements RecognitionListener {
     private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 10;
     private final String LOG_TAG = "VoiceControl";
+
+    private AppCompatActivity mActivity;
 
     private TextView mTxtInput;
     private TextView mTxtOutput;
 
     private SpeechRecognizer mSpeech = null;
     private Intent mRecognizerIntent;
-    private boolean mCanRecord;
 
     private GameState mGameState;
 
-    public VoiceControl(TextView txtInput, TextView txtOutput, GameState gameState) {
-        super();
+    public boolean mCanRecord;
 
+    public VoiceControl(AppCompatActivity activity, TextView txtInput, TextView txtOutput, GameState gameState) {
+        super();
+        mActivity = activity;
         mTxtInput = txtInput;
         mTxtOutput = txtOutput;
         mGameState = gameState;
@@ -38,7 +42,7 @@ public class VoiceControl extends Activity implements RecognitionListener {
         mCanRecord = false;
         checkRecordAudioPermission();
 
-        mSpeech = SpeechRecognizer.createSpeechRecognizer(this);
+        mSpeech = SpeechRecognizer.createSpeechRecognizer(mActivity);
         mSpeech.setRecognitionListener(this);
         mRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en");
@@ -48,16 +52,16 @@ public class VoiceControl extends Activity implements RecognitionListener {
     }
 
     public void checkRecordAudioPermission() {
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(mActivity,
                 Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
                     Manifest.permission.RECORD_AUDIO)) {
                 mTxtInput.setText("Please enable permissions");
 
             } else {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(mActivity,
                         new String[]{Manifest.permission.RECORD_AUDIO},
                         PERMISSIONS_REQUEST_RECORD_AUDIO);
             }
@@ -71,16 +75,6 @@ public class VoiceControl extends Activity implements RecognitionListener {
         }
         mTxtInput.setText("Listening...");
         mSpeech.startListening(mRecognizerIntent);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -182,14 +176,6 @@ public class VoiceControl extends Activity implements RecognitionListener {
                 break;
         }
         return message;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {
-            mCanRecord = (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED);
-        }
     }
 
     private void updateGameState(String input) {
