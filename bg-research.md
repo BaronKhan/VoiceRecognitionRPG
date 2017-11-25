@@ -84,6 +84,7 @@ Uses Objectnaut engine. Each object is given properties to determine how they in
 
 TODO
 --------------------------
-- [x] Find out how scribblenauts works with its word dictionary
-- [x] Build skeleton project in Android testing I/O
-- [ ] More research on NLP and Wordnet API
+- [X] Find out how scribblenauts works with its word dictionary
+- [X] Build skeleton project in Android testing I/O
+- [X] More research on NLP and Wordnet API
+- [ ] Explore hypernyms and synonyms trees for verbs and nouns for an RPG using WordNet
