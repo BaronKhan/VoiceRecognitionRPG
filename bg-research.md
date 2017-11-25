@@ -87,4 +87,4 @@ TODO
 - [X] Find out how scribblenauts works with its word dictionary
 - [X] Build skeleton project in Android testing I/O
 - [X] More research on NLP and Wordnet API
-- [ ] Explore hypernyms and synonyms trees for verbs and nouns for an RPG using WordNet
+- [ ] Explore hypernyms and synonyms trees for verbs and nouns for an RPG using WordNet (e.g. If I say sword, shield, hammer, etc, do they have "Weapon" or "Object" in their hierarchy?)

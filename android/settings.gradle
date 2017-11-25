@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':edu.mit.jwi_2.4.0'
