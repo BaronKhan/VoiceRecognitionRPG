@@ -184,4 +184,8 @@ public class VoiceControl implements RecognitionListener {
         // TODO: play TTS (should be optional)
     }
 
+    public void setOutputText(String output) {
+        mTxtOutput.setText(output);
+    }
+
 }

@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('edu.mit.jwi_2.4.0.jar'))
