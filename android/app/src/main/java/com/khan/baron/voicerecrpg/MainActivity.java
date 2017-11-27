@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+
+import edu.mit.jwi.Dictionary;
+import edu.mit.jwi.IDictionary;
 
 public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 10;
@@ -60,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         try {
             getWordNetDatabase();
         } catch (Exception e) {
             mVoiceControl.setOutputText("Error: " + e.getMessage());
         }
+
+        copyPosTaggerModel();
     }
 
     @Override
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getWordNetDatabase() throws IOException {
+        boolean foundWordNetDatabase = false;
         if (!isSDCardPresent()) {
             Snackbar.make(findViewById(R.id.activity_main),
                     "Error: SD card not mounted. Cannot access WordNet database.",
@@ -98,8 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
         File dict_file = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
         if(dict_file.exists()) {
-            Snackbar.make(findViewById(R.id.activity_main), "Found WordNet database...",
+            Snackbar.make(findViewById(R.id.activity_main), "Found WordNet database",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            foundWordNetDatabase = true;
+
         } else {
             if (isDownloadManagerAvailable()) {
                 Snackbar.make(findViewById(R.id.activity_main), "Downloading WordNet database...",
@@ -140,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     };
-                    registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                    registerReceiver(onComplete, new IntentFilter(
+                            DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                 } else {
 
                     // Extract tarball
@@ -162,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
                     Snackbar.make(findViewById(R.id.activity_main), "Downloaded WordNet database",
                             Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                    foundWordNetDatabase = true;
                 }
 
             } else {
@@ -170,6 +183,12 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 return;
             }
+        }
+
+        if (foundWordNetDatabase) {
+            URL url = new URL("file", null, dict_file.getPath());
+            mGameState.mDict = new Dictionary(url);
+            mGameState.mDict.open();
         }
     }
 
@@ -197,6 +216,36 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             mCanDownload = true;
+        }
+    }
+
+    private void copyPosTaggerModel() {
+        AssetManager assetManager = getAssets();
+        InputStream in = null;
+        OutputStream out = null;
+        String filename = "de-pos-maxent.bin";
+        try {
+            in = assetManager.open(filename);
+            out = new FileOutputStream(
+                    Environment.getExternalStorageDirectory().getPath() + "/" + filename);
+            copyFile(in, out);
+            in.close();
+            in = null;
+            out.flush();
+            out.close();
+            out = null;
+        } catch(IOException e) {
+            Snackbar.make(findViewById(R.id.activity_main),
+                    "Error: could not copy POS tagger model", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
         }
     }
 

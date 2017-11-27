@@ -1,19 +1,30 @@
 package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
 
-import java.net.URL;
+import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.IIndexWord;
+import edu.mit.jwi.item.IWord;
+import edu.mit.jwi.item.IWordID;
+import edu.mit.jwi.item.POS;
 
 public class GameState {
-    Activity mMainActivity;
+    public Activity mMainActivity;
+
+    public IDictionary mDict = null;
 
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
     }
 
     public String updateState(String input) {
-        String path = mMainActivity.getAssets().toString();
-        return "You are in an output scenario.";
+        // get nouns
+
+
+        IIndexWord idxWord = mDict.getIndexWord ("dog", POS.NOUN );
+        IWordID wordID = idxWord.getWordIDs().get(0);
+        IWord word = mDict.getWord(wordID);
+        return word.getSynset().getGloss ();
     }
+
 }
