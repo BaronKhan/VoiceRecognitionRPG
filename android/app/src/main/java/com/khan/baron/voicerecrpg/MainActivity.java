@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        copyPosTaggerModel();
+
         mGameState = new GameState(this);
 
         mVoiceControl = new VoiceControl(this,
@@ -72,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             mVoiceControl.setOutputText("Error: " + e.getMessage());
         }
-
-        copyPosTaggerModel();
     }
 
     @Override
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        File dict_file = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
-        if(dict_file.exists()) {
+        File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
+        if(dictFile.exists()) {
             Snackbar.make(findViewById(R.id.activity_main), "Found WordNet database",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
             foundWordNetDatabase = true;
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (foundWordNetDatabase) {
-            URL url = new URL("file", null, dict_file.getPath());
+            URL url = new URL("file", null, dictFile.getPath());
             mGameState.mDict = new Dictionary(url);
             mGameState.mDict.open();
         }
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         AssetManager assetManager = getAssets();
         InputStream in = null;
         OutputStream out = null;
-        String filename = "de-pos-maxent.bin";
+        String filename = "english-left3words-distsim.tagger";
         try {
             in = assetManager.open(filename);
             out = new FileOutputStream(

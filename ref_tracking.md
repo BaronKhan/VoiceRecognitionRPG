@@ -1,2 +1,3 @@
 - https://stackoverflow.com/questions/26781436/modify-speech-recognition-without-popup
 - Check Refworks
+- Get Stanford POS tagger ref

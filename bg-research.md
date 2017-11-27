@@ -81,6 +81,19 @@ http://www.liquisearch.com/scribblenauts/development/engine
 Uses Objectnaut engine. Each object is given properties to determine how they interact with each other. Also a hieracrchy of items (e.g. wood can burn, a boat is made of wood, therfore can also burn). Developers went word-by-word. Five people worked for six months to create a large database for Objectnaut.
 
 
+POS tagger
+-------------------
+
+- Using Stanford POS tagger
+- Using left-3-words model as it is __much__ faster than bi-drecrtional model.
+
+
+Hypernym trees
+---------------------------
+
+sword
+
+
 
 TODO
 --------------------------
