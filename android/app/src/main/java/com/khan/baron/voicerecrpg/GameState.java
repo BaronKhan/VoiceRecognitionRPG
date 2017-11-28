@@ -28,26 +28,48 @@ public class GameState {
 
     public String updateState(String input) {
         try {
-            // extract noun from sentence
+            // extract noun/verb from sentence
             MaxentTagger tagger;
+            String tagged = null;
             String modelPath = Environment.getExternalStorageDirectory()
                     + "/english-left3words-distsim.tagger";
             File modelFile = new File(modelPath);
             if (modelFile.exists()) {
                 tagger = new MaxentTagger(modelPath);
-                String tagged = tagger.tagString(input);
+                tagged = tagger.tagString(input);
             } else {
                 return "Error: unable to load POS tagger model";
             }
 
-            // get nouns
-            IIndexWord idxWord = mDict.getIndexWord(input, POS.NOUN);
+            String taggedList[] = null;
+
+            if (tagged != null) {
+                taggedList = tagged.split(" ");
+            }
+
+            POS tagType = POS.NOUN;
+
+            if (taggedList != null) {
+                for (String i : taggedList) {
+                    if (i.contains("_NN")) {
+                        input = i.replace("_NN", "");
+                        break;
+                    } else if (i.contains("_VB")) {
+                        input = i.replace("_VB", "");
+                        tagType = POS.VERB;
+                        break;
+                    }
+                }
+            }
+
+            // get first verb or noun
+            IIndexWord idxWord = mDict.getIndexWord(input, tagType);
             IWordID wordID = idxWord.getWordIDs().get(0);
             IWord word = mDict.getWord(wordID);
             ISynset synset = word.getSynset();
 
             // get synonyms
-            String output = "synonyms: \n";
+            String output = tagged + "\n\nsynonyms: \n";
             for (IWord w : synset.getWords()) {
                 output += w.getLemma() + ", ";
             }
@@ -69,7 +91,7 @@ public class GameState {
             String currentWord = input;
             output += "\n\nhypernym branch: \n" + currentWord + " --> ";
             for (int i = 0; i < 5; ++i) {
-                IIndexWord idxWord2 = mDict.getIndexWord(currentWord, POS.NOUN);
+                IIndexWord idxWord2 = mDict.getIndexWord(currentWord, tagType);
                 IWordID wordID2 = idxWord2.getWordIDs().get(0);
                 IWord word2 = mDict.getWord(wordID2);
                 ISynset synset2 = word2.getSynset();
@@ -84,7 +106,7 @@ public class GameState {
             }
             return output;
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            return "input = " + input + "\n\nError: " + e.getMessage();
         }
     }
 
