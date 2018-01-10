@@ -21,22 +21,32 @@ public class GameState {
     public Activity mMainActivity;
 
     public IDictionary mDict = null;
+    MaxentTagger mTagger;
 
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
+        mTagger = null;
+
+        // Load model
+        String modelPath = Environment.getExternalStorageDirectory()
+                + "/english-left3words-distsim.tagger";
+        File modelFile = new File(modelPath);
+        if (modelFile.exists()) {
+            mTagger = new MaxentTagger(modelPath);
+        }
     }
 
     public String updateState(String input) {
+        //return testHypernyms(input);
+        return "None";
+    }
+
+    public String testHypernyms(String input) {
         try {
             // extract noun/verb from sentence
-            MaxentTagger tagger;
             String tagged = null;
-            String modelPath = Environment.getExternalStorageDirectory()
-                    + "/english-left3words-distsim.tagger";
-            File modelFile = new File(modelPath);
-            if (modelFile.exists()) {
-                tagger = new MaxentTagger(modelPath);
-                tagged = tagger.tagString(input);
+            if (mTagger != null) {
+                tagged = mTagger.tagString(input);
             } else {
                 return "Error: unable to load POS tagger model";
             }

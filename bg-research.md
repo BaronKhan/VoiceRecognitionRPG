@@ -6,6 +6,8 @@ Hypothesis
 
 Voice interaction is video games is too restricted. On one hand, the user may be restricted in the input they are allowed to say (even for slight variations of the exected input), and this is easier for the developer. On the other hand, the user may be able to say a plethora of commands, making it imporssible for the designer.
 
+In RPGs, the player needs to navigate lots of menus just to use an item. This can be tedious to the user.
+
 Is there a way to use NLP to strike a balance between both of these tradeoffs?
 
 Existing Voice Recognition (in games or otherwise)

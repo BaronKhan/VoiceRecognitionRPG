@@ -20,3 +20,15 @@ Turn-based RPG-style game
 -------------------------
 
 Similar to Pokemon/Final Fantasy. The focus should be removing the need to go through menus to select commands. Make up generic commands to perform actions. E.g. "Use a healing potion", should select any kind of potion/elixer. Any aggressive command ("attack with all you got!") should perform some sort of damage action. Block/dodge should perfrom a defensive action.
+
+
+A combination of Zork and turn-based battle RPG
+---------------------------------
+
+A combination of puzzles and fights with trolls.
+
+A puzzle room. Can look around, inspect objects. As you search, you can pick up items (potions, weapons), to use for battles.
+
+Try to open the door.
+
+After each door is a troll you health you have to fight. Fight using available weapons/fists and use items acquired.
