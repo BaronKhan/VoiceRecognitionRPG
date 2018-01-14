@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_DOWNLOAD = 20;
 
     private GameState mGameState;
-    private VoiceControl mVoiceControl;
+    public VoiceControl mVoiceControl;
 
     public boolean mCanDownload;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         copyPosTaggerModel();
 
         mGameState = new GameState(this);
+        mGameState.initState();
 
         mVoiceControl = new VoiceControl(this,
                 (TextView) findViewById(R.id.txtInput),

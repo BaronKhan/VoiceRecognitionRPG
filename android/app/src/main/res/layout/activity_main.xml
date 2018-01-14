@@ -27,7 +27,7 @@
         android:id="@+id/txtOutput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You are in an input scenario."
+        android:text="A troll appears in front of you!\n(100 HP)"
         android:textSize="24sp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
