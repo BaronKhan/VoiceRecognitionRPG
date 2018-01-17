@@ -30,6 +30,7 @@ public class GameState {
     // Environment Settings
     public enum Mode { MODE_OVERWORLD, MODE_BATTLE }
     public Inventory mInventory;
+    public ItemActionMap mMap;
 
     public Mode mGameMode;
     public Enemy mCurrentEnemy;
@@ -43,6 +44,7 @@ public class GameState {
         mCurrentEnemy = null;
 
         mInventory = new Inventory();
+        mMap = new ItemActionMap(this);
 
         try {
             // Load model
@@ -77,8 +79,8 @@ public class GameState {
         //return testHypernyms(input);
 
         if (mGameMode == MODE_BATTLE) {
-
-
+            //check verb and check in look-up table for default action
+            if (input == "attack")
 
         } else {    //mGameMode == MODE_OVERWORLD
 

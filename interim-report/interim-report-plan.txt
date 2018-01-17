@@ -10,21 +10,25 @@ Introduction (2 pages)
 - Making RPG, avoid going through lots of menus and button clicks
 
 Background (10 pages)
-- Voice Control in video games (4 pages)
+- Voice Control in video games (2 pages)
 ---- Games
+- Voice Control Implementations (2 pages)
 ---- Keyboard mapping
-- Voice control in other media (2 pages)
 ---- Houndify
----- Personal Assistants
+---- IBM Watson
 - Limitation of RPGs (2 pages)
 ---- Lots of menus
 ---- Zork + examples of acceptable and not acceptable input
 ---- Scribblenauts ObjectNaut
+- Related Work (1 page)
+---- Classic Zork in Alexa
 - NLP (3 pages)
 ---- pos tagging
 ---- hypernym tree
 ---- semantic similarity
 ---- RPG sentence structure
+
+Project Plan
 
 Evaluation plan (1 page)
 - 

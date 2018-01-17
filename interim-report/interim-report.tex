@@ -16,6 +16,7 @@
 \usepackage{tabu}
 \usepackage{bm}
 \setlength{\parindent}{0pt}
+\bibliographystyle{IEEEtran}
 
 
 \definecolor{grey}{rgb}{0.9,0.9,0.9} % Color of the box surrounding the title - these values can be changed to give the box a different color	
@@ -36,6 +37,8 @@
 		Interim Report
 		\break
 		Voice Recognition RPG
+		\break
+		Baron Khan (bak14)
 		\vspace*{0.7cm} % Space between the end of the title and the bottom of the grey box
 	}
 }
@@ -62,7 +65,7 @@ It becomes increasingly difficult for the developer to add more phrases that can
 Natural Language Processing (NLP, also referred to as Natural Language Understanding) has been used to improve inference of what users were trying to say, and to extract meaning from the user's phrases and sentences. For instance, if the user says, "push the door open", NLP can be used to infer that the user's intent is to open a door. Using NLP, several user phrases can be mapped to the same intent without having to hard-code each possible phrase.
 \\
 \\
-NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning [1].
+NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}.
 \\
 \\
 The goal of this project is to apply NLP to a voice control scheme used within a role-playing game (RPG), in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
@@ -78,4 +81,50 @@ A simple mobile RPG will be created that will use a flexible voice control inter
 
 \newpage
 \section{Background}
+\subsection{Voice Control in Games}
+Below is a list of notable recent games that have incorporated voice control functionality as a major component of the interaction experience.
+\subsubsection{In Verbis Virtus}
+In Verbis Virtus \cite{RefWorks:22} is an independent 3D fantasy adventure game developed by Indomitus Games for Windows. It requires the player to solve puzzles in a 3D environment and battle enemies using magic.
+\\
+\\
+When a microphone is connected, the player is able to cast spells using their voice by saying specific phrases defined by the game. For example, to cast a spell that produces a floating light source to brighten a room, a user must say, "let there be light", or if the user wishes to shoot an energy beam from their hand, they must say, "Beam of Light", and so. These phrases appear to be hard-coded into the game.
+\\
+\\
+There are several limitations with this implementation of voice control. Firstly, since the phrases are hard-coded, there is no lenience in variations of the phrases, e.g. "create a light" or "Laser of Light", etc. This can seem mundane and no different to a user pressing the same button repeatedly to cast a spell.
+\\
+\\
+Another limitation is that the user is still required to use a keyboard and mouse to perform other actions in the game, such as moving around, looking around, and navigating menus and message boxes. The voice control interface cannot be used to perform these actions. The voice control interface itself does not seem integral to the experience, as the user could just simply press a key that performs the spell instead of saying the same phrase over and over again.
+\\
+\\
+This voice recognition interface could be improved by allowing the player to perform any action within the game using their voice, as well as allowing for more variation in what the user can say for each action.
+
+\subsubsection{Skyrim Kinect}
+The Elders Scrolls V: Skyrim is first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
+\begin{center}
+\begin{figure}
+  \includegraphics[width=\textwidth]{skyrim-item-commands.png}
+  \caption{Voice commands that are available within the items menu in Skyrim.}
+\end{figure}
+\end{center}
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, "quick items" to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as "potions", "books", etc. However, it doesn't seem to be possible to actually use any of the items selected with only voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, "assign health potion" once you have highlighted a potion item), and then saying "equip health potion" during the game. See the Appendix for a full list of of available voice commands.
+\\
+\\
+This system, despite being optional to the player, helps to reduce the time spent searching through the menu screens. However, this system also hard-codes the phrases that can be said by the player with no flexibility.
+
+\subsubsection{Star Trek Bridge Crew}
+
+Star Trek Bridge Crew is a virtual reality game developed by Ubisoft [5]. This game allows the player to issue voice commands to AI crew members on a spaceship. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command. This gives the user more freedom in how they convey their request to the AI. IBM's Watson API is described in more detail in a later section of this report.
+\\
+\\
+The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; not only does it require a constant internet connection, but users are also charged for each API call they make.
+
+\subsection{Voice Control Implementations}
+
+
+
+
+
+\newpage
+TODO: add brackets around title in bib file.
+\bibliography{references}
 \end{document}

@@ -59,3 +59,9 @@ Objects
 - Troll (Enemy)
 - Action
 - ItemActionMap
+
+
+Pipeline
+---------------
+
+input -> get verb -> find noun, if no noun, use default
