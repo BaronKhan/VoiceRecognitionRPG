@@ -8,6 +8,15 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
+Warning--I didn't find a database entry for "RefWorks:29"
+Warning--I didn't find a database entry for "RefWorks:25"
+Warning--I didn't find a database entry for "RefWorks:26"
+Warning--I didn't find a database entry for "RefWorks:28"
+Warning--I didn't find a database entry for "RefWorks:30"
+Warning--I didn't find a database entry for "RefWorks:33"
+Warning--I didn't find a database entry for "RefWorks:27"
+Warning--I didn't find a database entry for "RefWorks:31"
+Warning--I didn't find a database entry for "RefWorks:32"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
@@ -18,7 +27,7 @@ Warning--there's a month but no year in RefWorks:24
 Done.
 You've used 4 entries,
             4087 wiz_defined-function locations,
-            844 strings with 7936 characters,
+            862 strings with 8134 characters,
 and the built_in function-call counts, 1535 in all, are:
 = -- 109
 > -- 16
@@ -57,4 +66,4 @@ warning$ -- 3
 while$ -- 4
 width$ -- 5
 write$ -- 61
-(There were 3 warnings)
+(There were 12 warnings)

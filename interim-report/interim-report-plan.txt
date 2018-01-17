@@ -16,7 +16,7 @@ Background (10 pages)
 ---- Keyboard mapping
 ---- Houndify
 ---- IBM Watson
-- Limitation of RPGs (2 pages)
+- Limitation of RPGs (1 pages)
 ---- Lots of menus
 ---- Zork + examples of acceptable and not acceptable input
 ---- Scribblenauts ObjectNaut
@@ -28,7 +28,8 @@ Background (10 pages)
 ---- semantic similarity
 ---- RPG sentence structure
 
-Project Plan
+Project Plan (1 page)
+-
 
 Evaluation plan (1 page)
-- 
+- SHould be more convenient (faster, less exertion required)

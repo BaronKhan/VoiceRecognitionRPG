@@ -48,6 +48,9 @@
 
 
 \newpage
+\thispagestyle{empty}
+\tableofcontents
+\newpage
 \setcounter{page}{1}
 \section{Introduction}
 In recent years, video games have explored various forms of input that diverge from the traditional control schemes of a keyboard and mouse, or an analogue stick and buttons on a controller. Touch-screen controls and motion controls have had varying degrees of success over the years, and provide new forms of interactions with games. A recent form of input used in video games has been voice controls; a user speaks a sentence or phrase and this would execute an action or intent within the game.
@@ -81,7 +84,7 @@ A simple mobile RPG will be created that will use a flexible voice control inter
 
 \newpage
 \section{Background}
-\subsection{Voice Control in Games}
+\subsection{Voice Recognition in Games}
 Below is a list of notable recent games that have incorporated voice control functionality as a major component of the interaction experience.
 \subsubsection{In Verbis Virtus}
 In Verbis Virtus \cite{RefWorks:22} is an independent 3D fantasy adventure game developed by Indomitus Games for Windows. It requires the player to solve puzzles in a 3D environment and battle enemies using magic.
@@ -113,18 +116,64 @@ This system, despite being optional to the player, helps to reduce the time spen
 
 \subsubsection{Star Trek Bridge Crew}
 
-Star Trek Bridge Crew is a virtual reality game developed by Ubisoft [5]. This game allows the player to issue voice commands to AI crew members on a spaceship. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command. This gives the user more freedom in how they convey their request to the AI. IBM's Watson API is described in more detail in a later section of this report.
+Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a "new level of sense of presence" \cite{RefWorks:26}. IBM's Watson API is described in more detail in a later section of this report.
 \\
 \\
-The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; not only does it require a constant internet connection, but users are also charged for each API call they make.
+The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; not only does it require a constant internet connection, but users are also charged for each API call that they make.
 
-\subsection{Voice Control Implementations}
+\subsection{Voice Recognition Implementations}
 
+There are many tools and services available that allow developers and users to add voice recognition to video games, with some discussed below:
 
+\subsubsection{Tazti - Speech Recognition for PC Games}
 
+Tazti is a keyboard mapping tool available to players to be used with any type of PC game that uses the keyboard \cite{RefWorks:28}. The user sets up a profile for each game separately by mapping speech commands to one or more keys. For instance, the user could say "fire" or "shoot fire" and this would map to the keystrokes required to cast a fire spell.
+\\
+\\
+While this tool is not directly integrated into games by the developer, it has the advantage of being able to work with almost any PC game that uses a keyboard, such as role-playing games, first-person shooter games, and even platforming games. However, the voice commands are limited to being hard-coded, so there is no way of varying the speech commands slightly, even if the meaning is the same. It is also not freely available and requires a license to be purchased.
 
+\subsubsection{Houndify}
+
+Houndify is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, "ATTACK".
+\\
+\\
+As well as having built-in voice commands already for specific domains (such as all weather commands or sports update commands), Houndify also supports the creation of custom voice commands by the developer. To create a custom command, the expression to be said by the user is specified using a syntax similar to regular expressions, but instead specifies the general phrase structure (and with very different syntax), and is mapped to an intent \cite{RefWorks:33}.
+\\
+\\
+Below is an example of a possible expression for attack a troll enemy:
+\begin{center}
+"attack" . "troll"
+\end{center}
+Here, the player would have to say, "attack troll" to execute the intent. This can be expanded to have more variation in how the user can say this command:
+\begin{center}
+("attack" $\vert$ "hit") . ["the"] . "troll"
+\end{center}
+Here, the player can say phrases such as, "attack the troll" or "hit troll". The expression can be further expanded. However, the expression will eventually become long and confusing:
+\begin{center}
+("attack" $\vert$ "hit" $\vert$ "damage") . ["the"] . ["big" $\vert$ "large"] . "troll" . [("with" $\vert$ "using") . ["a"] . ("sword" $\vert$ "hammer" $\vert$ "axe")]
+\end{center}
+Even though this expression allows for more variation in what the user can say, it still doesn't cover all the possible variations of specifying an attack, and this long expression is only for one intent; many more expressions would have to be written for other intents, and this can become tedious for the developer.
+\\
+\\
+While this API would be useful for building a personal assistant similar to Apple's Siri or Amazon's Alexa, it does not seem feasible for this project due to the time required to create a flexible voice recognition scheme. This is also a paid service, so users are charged for each query they make.
+
+\subsubsection{Watson Conversation Engine}
+
+IBM's Watson API features a Conversation service that allows developers to build voice recognition interfaces that understand natural language input \cite{RefWorks:27}. The developer defines the training data to be used by the API (in order to train a natural language classifier) using 'intents' and 'entities' \cite{RefWorks:31}.
+\\
+\\
+'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances for the intent in the form of text strings, such as "turn on the wipers", "switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
+\\
+\\
+'Entities' are classes of objects that help to provide context to intents. For example, in the above example, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
+\\
+\\
+Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples have the same meaning as those. For example, is the user says, "activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above \cite{RefWorks:32}.
+\\
+\\
+This API is very flexible and matches the requirements of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. However, a simpler system may be possible that uses a similar concept to the intents and entities framework.
 
 \newpage
-TODO: add brackets around title in bib file.
+TODO: add brackets around title and author in bib file.
 \bibliography{references}
 \end{document}
