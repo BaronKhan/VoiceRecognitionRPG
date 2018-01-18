@@ -11,12 +11,17 @@ Database file #1: references.bib
 Warning--I didn't find a database entry for "RefWorks:29"
 Warning--I didn't find a database entry for "RefWorks:25"
 Warning--I didn't find a database entry for "RefWorks:26"
+Warning--I didn't find a database entry for "RefWorks:35"
+Warning--I didn't find a database entry for "RefWorks:36"
 Warning--I didn't find a database entry for "RefWorks:28"
 Warning--I didn't find a database entry for "RefWorks:30"
 Warning--I didn't find a database entry for "RefWorks:33"
 Warning--I didn't find a database entry for "RefWorks:27"
 Warning--I didn't find a database entry for "RefWorks:31"
+Warning--I didn't find a database entry for "RefWorks:34"
 Warning--I didn't find a database entry for "RefWorks:32"
+Warning--I didn't find a database entry for "RefWorks:38"
+Warning--I didn't find a database entry for "RefWorks:39"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
@@ -27,7 +32,7 @@ Warning--there's a month but no year in RefWorks:24
 Done.
 You've used 4 entries,
             4087 wiz_defined-function locations,
-            862 strings with 8134 characters,
+            872 strings with 8244 characters,
 and the built_in function-call counts, 1535 in all, are:
 = -- 109
 > -- 16
@@ -66,4 +71,4 @@ warning$ -- 3
 while$ -- 4
 width$ -- 5
 write$ -- 61
-(There were 12 warnings)
+(There were 17 warnings)

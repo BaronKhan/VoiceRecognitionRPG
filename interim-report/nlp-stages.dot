@@ -1,0 +1,14 @@
+digraph nlp_stages{
+  subgraph mode{
+    rank=same;
+    "Tokenization" [shape=box, constrained=false];
+    "Lexical analysis" [shape=box, constrained=false];
+    "Syntactic analysis" [shape=box, constrained=false];
+    "Semantic analysis" [shape=box, constrained=false];
+    "Pragmatic analysis" [shape=box, constrained=false];
+  }
+  "Tokenization" -> "Lexical analysis";
+  "Lexical analysis" -> "Syntactic analysis";
+  "Syntactic analysis" -> "Semantic analysis";
+  "Semantic analysis" -> "Pragmatic analysis";
+}

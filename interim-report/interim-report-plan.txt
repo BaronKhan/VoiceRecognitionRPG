@@ -12,6 +12,7 @@ Introduction (2 pages)
 Background (10 pages)
 - Voice Control in video games (2 pages)
 ---- Games
+---- Classic Zork in Alexa
 - Voice Control Implementations (2 pages)
 ---- Keyboard mapping
 ---- Houndify
@@ -19,17 +20,17 @@ Background (10 pages)
 - Limitation of RPGs (1 pages)
 ---- Lots of menus
 ---- Zork + examples of acceptable and not acceptable input
----- Scribblenauts ObjectNaut
-- Related Work (1 page)
----- Classic Zork in Alexa
 - NLP (3 pages)
+---- Basics of Natural Language Processing
 ---- pos tagging
+---- synonyms and hypernyms
 ---- hypernym tree
 ---- semantic similarity
 ---- RPG sentence structure
+---- Object relations (mention Scribblenauts ObjectNaut)
 
 Project Plan (1 page)
--
+- gantt chart
 
 Evaluation plan (1 page)
 - SHould be more convenient (faster, less exertion required)

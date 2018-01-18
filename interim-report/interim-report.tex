@@ -15,8 +15,10 @@
 \usepackage{array}
 \usepackage{tabu}
 \usepackage{bm}
+\usepackage{float}
 \setlength{\parindent}{0pt}
 \bibliographystyle{IEEEtran}
+\captionsetup{justification=centering}
 
 
 \definecolor{grey}{rgb}{0.9,0.9,0.9} % Color of the box surrounding the title - these values can be changed to give the box a different color	
@@ -74,13 +76,19 @@ NLP is already used to improve voice recognition in popular personal assistants 
 The goal of this project is to apply NLP to a voice control scheme used within a role-playing game (RPG), in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
 \\
 \\
-Role-playing games involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities as the game progresses. These include turn-based games such as Pokemon and Final Fantasy, or more action-based games such as Dark Souls or Skyrim. In these games, the player possesses several items that they acquire during the game, and accesses them by navigating menus.
+Role-playing games are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities as the game progresses. These include turn-based games such as Pokemon and Final Fantasy, or more action-based games such as Dark Souls or Skyrim. In these games, the player possesses several items that they acquire during the game, and accesses them by navigating menus.
 \\
 \\
 If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the "Attack" button over and over again with no variation in the attack used. Using voice recognition and NLP, a player could just simply say a phrase such as, "use a potion" or, "attack with axe", and the corresponding item will be used without having the player navigate several menu screens.
 \\
 \\
+Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevents them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it's consoles, PC or mobile.
+\\
+\\
 A simple mobile RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments with commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses. The target platform will be Android phones to allow for hand-free voice control input.
+\\
+\\
+Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API.
 
 \newpage
 \section{Background}
@@ -103,23 +111,55 @@ This voice recognition interface could be improved by allowing the player to per
 
 \subsubsection{Skyrim Kinect}
 The Elders Scrolls V: Skyrim is first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
+\\
+\\
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, "quick items" to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as "potions", "books", etc. However, it doesn't seem to be possible to actually use any of the items selected with only voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, "assign health potion" once you have highlighted a potion item), and then saying "equip health potion" during the game. See the Appendix for a full list of of available voice commands.
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
   \includegraphics[width=\textwidth]{skyrim-item-commands.png}
   \caption{Voice commands that are available within the items menu in Skyrim.}
 \end{figure}
 \end{center}
-There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, "quick items" to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as "potions", "books", etc. However, it doesn't seem to be possible to actually use any of the items selected with only voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, "assign health potion" once you have highlighted a potion item), and then saying "equip health potion" during the game. See the Appendix for a full list of of available voice commands.
-\\
-\\
 This system, despite being optional to the player, helps to reduce the time spent searching through the menu screens. However, this system also hard-codes the phrases that can be said by the player with no flexibility.
 
 \subsubsection{Star Trek Bridge Crew}
 
-Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a "new level of sense of presence" \cite{RefWorks:26}. IBM's Watson API is described in more detail in a later section of this report.
+Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a "new level of sense of presence" \cite{RefWorks:26}. IBM's Watson API is described in more detail later in this section.
 \\
 \\
 The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; not only does it require a constant internet connection, but users are also charged for each API call that they make.
+
+\subsubsection{Classic Zork on Alexa}
+
+Zork is a trilogy of classic text-based role-playing games that supports a free-form style of input. The player is provided with an input scenario (e.g. "You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here."), and then types commands that they want to execute (e.g. "open mailbox" or "attack troll with sword") \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
+\\
+\\
+These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:35}. This allows the player to deliver commadns using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input (described in the next section).
+
+\subsection{Limitations of Zork}
+
+The exploration mechanics of the proposed design of this report will be based on Zork's general gameplay of interacting with objects in the environment to solve puzzles, and the limitations of Zork's free-form input are discussed here.
+\\
+\\
+Zork supports a number of text commands, which usually take the form of a verb-noun structure, such as "use $<$noun$>$" or "take $<$noun$>$", but it also supports some more sophisticated comamnds with complex structures, such as "give all but the pencil to the nymph" or "drop all except the dart gun" \cite{RefWorks:36}.
+\\
+\\
+Zork's free-form input still has some limitations. For example, it still cannot accept all variations of specific intents. For instance, below is a list of accepted and rejected commands if the user wishes to open a mailbox in front of them:
+\begin{itemize}
+	\item "open mailbox" - Accepted
+	\item "open the small mailbox" - Accepted
+	\item "can i open the mailbox" - Rejected
+	\item "check the mailbox" - Rejected
+	\item "find out what's in the mailbox" - Rejected
+\end{itemize}
+Below is a list of results for closing the mailbox:
+\begin{itemize}
+	\item "close mailbox" - Accepted
+	\item "shut mailbox" - Rejected
+	\item "closing mailbox" - Rejected
+	\item "close the red mailbox" - Rejected
+\end{itemize}
+Clearly the rejected text commands could be valid phrases that express an intent to open some sort of mailbox. Zork has a pre-defined list of verbs and sentence structures that it can accept, and sticks to those without much flexibility.
 
 \subsection{Voice Recognition Implementations}
 
@@ -163,15 +203,56 @@ IBM's Watson API features a Conversation service that allows developers to build
 \\
 \\
 'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances for the intent in the form of text strings, such as "turn on the wipers", "switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
-\\
-\\
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{intent-return.png}
+  \caption{An example of an intent to return something, along with examples of phrases for tehe intent \cite{RefWorks:34}.}
+\end{figure}
+\end{center}
 'Entities' are classes of objects that help to provide context to intents. For example, in the above example, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
-\\
-\\
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{returnitems.png}
+  \caption{An example of entities for items that can be returned. Entities that have been grouped together (usually synonyms) are placed on the same row \cite{RefWorks:34}.}
+\end{figure}
+\end{center}
 Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples have the same meaning as those. For example, is the user says, "activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above \cite{RefWorks:32}.
 \\
 \\
-This API is very flexible and matches the requirements of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. However, a simpler system may be possible that uses a similar concept to the intents and entities framework.
+This API is very flexible and matches the requirements of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to the cloud server) uses to many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
+
+\subsection{Natural Language Processing}
+
+Natural Language Processing (NLP) forms a major component of this project. This will give the developer the ability to take an arbitrary string of text and infer its meaning, and map it to an intent.
+
+\subsubsection{Stages of Natural Language Processing}
+
+NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenisation, where a raw text string is broken down into words (usually separated by spaces).
+\\
+\\
+The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. "what're" would tokenise to "what" and "are",. while "we're" would break down to "we" and are); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
+\\
+\\
+The third stage is syntactic analysis.
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{nlp-stages.png}
+  \caption{The general stages of processing a text string for its meaning using NLP.}
+\end{figure}
+\end{center}
+
+\subsubsection{Part-of-Speech Tagging}
+
+\subsubsection{Synonyms and Hypernyms}
+
+\subsubsection{Exploring Hypernym Trees}
+
+\subsubsection{Semantic Similarity}
+
+\subsubsection{RPG Sentence Structure}
+
+\subsubsection{Object Properties and Relations}
 
 \newpage
 TODO: add brackets around title and author in bib file.

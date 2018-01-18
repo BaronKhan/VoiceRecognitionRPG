@@ -4,7 +4,17 @@
 \contentsline {subsubsection}{\numberline {2.1.1}In Verbis Virtus}{3}
 \contentsline {subsubsection}{\numberline {2.1.2}Skyrim Kinect}{3}
 \contentsline {subsubsection}{\numberline {2.1.3}Star Trek Bridge Crew}{4}
-\contentsline {subsection}{\numberline {2.2}Voice Recognition Implementations}{5}
-\contentsline {subsubsection}{\numberline {2.2.1}Tazti - Speech Recognition for PC Games}{5}
-\contentsline {subsubsection}{\numberline {2.2.2}Houndify}{5}
-\contentsline {subsubsection}{\numberline {2.2.3}Watson Conversation Engine}{6}
+\contentsline {subsubsection}{\numberline {2.1.4}Classic Zork on Alexa}{5}
+\contentsline {subsection}{\numberline {2.2}Limitations of Zork}{5}
+\contentsline {subsection}{\numberline {2.3}Voice Recognition Implementations}{6}
+\contentsline {subsubsection}{\numberline {2.3.1}Tazti - Speech Recognition for PC Games}{6}
+\contentsline {subsubsection}{\numberline {2.3.2}Houndify}{7}
+\contentsline {subsubsection}{\numberline {2.3.3}Watson Conversation Engine}{8}
+\contentsline {subsection}{\numberline {2.4}Natural Language Processing}{9}
+\contentsline {subsubsection}{\numberline {2.4.1}Stages of Natural Language Processing}{9}
+\contentsline {subsubsection}{\numberline {2.4.2}Part-of-Speech Tagging}{10}
+\contentsline {subsubsection}{\numberline {2.4.3}Synonyms and Hypernyms}{10}
+\contentsline {subsubsection}{\numberline {2.4.4}Exploring Hypernym Trees}{10}
+\contentsline {subsubsection}{\numberline {2.4.5}Semantic Similarity}{10}
+\contentsline {subsubsection}{\numberline {2.4.6}RPG Sentence Structure}{10}
+\contentsline {subsubsection}{\numberline {2.4.7}Object Properties and Relations}{10}
