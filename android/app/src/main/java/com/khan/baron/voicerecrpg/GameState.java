@@ -29,12 +29,15 @@ public class GameState {
 
     // Environment Settings
     public enum Mode { MODE_OVERWORLD, MODE_BATTLE }
+
     public Inventory mInventory;
     public ItemActionMap mMap;
 
     public Mode mGameMode;
     public Enemy mCurrentEnemy;
     public Room mCurrentRoom;
+
+    public int mHealth = 100;
 
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
@@ -76,27 +79,32 @@ public class GameState {
     }
 
     public String updateState(String input) {
-        return testHypernyms(input);
+//        return testHypernyms(input);
 
-//        if (mGameMode == MODE_BATTLE) {
-//            //check verb and check in look-up table for default action
-//            if (input == "attack")
-//
-//        } else {    //mGameMode == MODE_OVERWORLD
-//
-//        }
-//
-//        return "None";
-    }
+        String actionOutput = "";
 
-    // GAME ACTIONS (to be added)
+        if (mGameMode == MODE_BATTLE) {
+            String enemyOutput = "";
 
-    public void doAttack() {
-        if (mGameMode != MODE_BATTLE) { return; }
-    }
+            //check verb and check in look-up table for default action
+            if (mMap.isValidAction(input)) {
+                actionOutput =  mMap.get(input).get(0).run(this);
+            } else {
+                actionOutput = "I didn't understand that.";
+            }
 
-    public void doBetter() {
-        if (mGameMode != MODE_BATTLE) { return; }
+            // Output new enemy status
+            enemyOutput = mCurrentEnemy.mName + ": " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
+
+            return actionOutput + "\n\n" + enemyOutput;
+
+        } else {    //mGameMode == MODE_OVERWORLD
+            String overworldOutput = "";
+        }
+
+
+
+        return "None";
     }
 
     public String testHypernyms(String input) {

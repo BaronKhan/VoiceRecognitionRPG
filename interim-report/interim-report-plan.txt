@@ -31,6 +31,12 @@ Background (10 pages)
 
 Project Plan (1 page)
 - gantt chart
+- get audio i/o working
+- get wordnet working
+- get pos tagger working
+- create game state objects
+- simple battle demo (no nlp added)
+- add nlp to demo
 
 Evaluation plan (1 page)
 - SHould be more convenient (faster, less exertion required)
