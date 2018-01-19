@@ -16,6 +16,6 @@ public class ItemActionMap {
     public ItemActionMap(GameState gameState) {
         mGameState = gameState;
         //  action                                  default, ...
-        mMap.put("attack", new ArrayList<Runnable>(Arrays.asList());
+//        mMap.put("attack", new ArrayList<Runnable>(Arrays.asList());
     }
 }

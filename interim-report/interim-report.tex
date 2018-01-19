@@ -16,6 +16,7 @@
 \usepackage{tabu}
 \usepackage{bm}
 \usepackage{float}
+\usepackage{listings}             % Include the listings-package
 \setlength{\parindent}{0pt}
 \bibliographystyle{IEEEtran}
 \captionsetup{justification=centering}
@@ -160,6 +161,9 @@ Below is a list of results for closing the mailbox:
 	\item "close the red mailbox" - Rejected
 \end{itemize}
 Clearly the rejected text commands could be valid phrases that express an intent to open some sort of mailbox. Zork has a pre-defined list of verbs and sentence structures that it can accept, and sticks to those without much flexibility.
+\\
+\\
+Since most of the supported commands take the form of a verb-noun structure, this could be used in the proposed design as the general structure of commands expected by the user.
 
 \subsection{Voice Recognition Implementations}
 
@@ -227,14 +231,6 @@ Natural Language Processing (NLP) forms a major component of this project. This 
 
 \subsubsection{Stages of Natural Language Processing}
 
-NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenisation, where a raw text string is broken down into words (usually separated by spaces).
-\\
-\\
-The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. "what're" would tokenise to "what" and "are",. while "we're" would break down to "we" and are); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
-\\
-\\
-The third stage is syntactic analysis.
-
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{nlp-stages.png}
@@ -242,19 +238,136 @@ The third stage is syntactic analysis.
 \end{figure}
 \end{center}
 
+NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenisation, where a raw text string is broken down into words (usually separated by spaces).
+\\
+\\
+The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. "what're" would tokenise to "what" and "are",. while "we're" would break down to "we" and are); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
+\\
+\\
+The third stage is syntactic parsing, where the grammatical structure of the sentence is determined. This is usually achieved by generating a syntax tree of each sentence, where each word is broken down into a terminal from a given grammar (e.g. verbs, nouns, adjectives, determiners, etc.) \cite{RefWorks:40}.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=1]{syntax-tree.png}
+  \caption{An example of a syntax tree for the sentence. "the old man a ship", from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
+  \end{center}
+\end{figure}
+\end{center}
+
+In the example above for the sentence, "the old man a ship", the word, "man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
+\\
+\\
+The final two stages are very similar and is difficult to separate them into separate stages. Both stages involve determining the meaning of the utterance. The fourth stage is often concerned with semantic analysis, whereas the last stage is more concerned with discourse analysis \cite{RefWorks:39}.
+
 \subsubsection{Part-of-Speech Tagging}
+
+A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset contain POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See the Appendix for the full Penn Treebank tagset.
+\\
+\\
+There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous, that is, it can be assigned a number of possible POS tags depending on its context. For instance, the word, "can" can either be a verb ("I can..."), and noun ("a can of tuna"), or another different verb ("can that noise!") \cite{RefWorks:43}. The many meanings that can be attributes to a word is known as its word sense.
+\\
+\\
+The second challenge is words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
 
 \subsubsection{Synonyms and Hypernyms}
 
-\subsubsection{Exploring Hypernym Trees}
+Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word "dog" has seven word senses (different meanings), and for one of the word senses meaning a member of the genus Canis, the synonyms would be, "domestic dog" and "Canis familiris" \cite{RefWorks:45}.
+\\
+\\
+A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, "instrument" is a hypernym of "guitar", because a guitar is a type of instrument. Similarly, the word "animal" is a hypernym of "cat" (or, at least, the sense which refers to the domestic animal, as "cat" can have several meanings).
+\\
+\\
+The synonyms and hypernyms of words and phrases can be represented as a tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense. Note that a hyponym is the inverse relationship between a word and its hypernyms.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=1]{hypernym-tree.png}
+  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the sense of the noun, "attack". Note that "attack" can also be a verb.}
+  \end{center}
+\end{figure}
+\end{center}
+
+Synonyms and hypernyms could be used to determine the semantic similarity between words and infer whether they match a certain intent of the user.
+
 
 \subsubsection{Semantic Similarity}
 
-\subsubsection{RPG Sentence Structure}
+There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a 'similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
+\\
+\\
+The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUS) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS), that is, the most general hypernym that both words have in common. For example, the WUP score for the semantic similarity between "juice" and "water" is as follows:
 
-\subsubsection{Object Properties and Relations}
+\begin{lstlisting}[frame=single]
+T1 = HyperTrees( juice ) = 
+    [Sense #1] *ROOT* < entity < physical_entity < matter
+    	< substance < food < foodstuff < juice
+    	
+T2 = HyperTrees( water ) = 
+    [Sense #3] *ROOT* < entity < physical_entity < matter
+    	< substance < water
+    	
+Lowest Common Subsumer(s) = argmax(depth(subsumer(T1,T2)))
+    = { subsumer(T1[1], T2[3]) } = { food }
+    
+DepthLCS = depth( food ) = 6
+Depth1 = min(depth( {tree in T1 | tree contains LCS } )) = 8
+Depth2 = min(depth( {tree in T2 | tree contains LCS } )) = 7
+Score = 2 * DepthLCS / ( Depth1 + Depth2 ) = 2 * 6 / (8 + 7)
+Score = 0.8
+\end{lstlisting}
+
+The WUP score of 0.8 out of 1.0. indicates that juice and water are semantically very similar \cite{RefWorks:47}. Whereas the words "breathing" and "fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
+\\
+\\
+Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
+
+\subsection{WordNet}
+
+Princeton University created
+
+\subsection{Object Properties and Relations}
+
+\newpage
+\section{Appendix}
+\subsection{Skyrim Kinect Command List}
+\includegraphics[scale=0.235]{skyrim-1.jpg}
+\includegraphics[scale=0.235]{skyrim-2.jpg}
+\break
+\includegraphics[scale=0.237]{skyrim-3.jpg}
+ \includegraphics[scale=0.237]{skyrim-4.jpg}
+\newpage
+\subsection{Penn Treebank Tagset}
+
+Below is a table of the 32 tags from the Penn Treebank tagset, used for POS tagging. The 12 remaining tags for punctuation and other symbols have been left out \cite{RefWorks:42}.
+
+$$
+\begin{tabular}{ |p{3cm}|p{3cm}|p{3cm}|p{3cm}| }
+\hline
+	CC & Coordinating\ conjunction & TO & to \\ \hline
+	CD & Cardinal\ number & UH & Interjection \\ \hline
+	DT & Determiner & VB & Verb, base\ form \\ \hline
+	EX & Existential\ there & VBD & Verb, past\ tense \\ \hline
+	FW & Foreign\ word & VBG & Verb, gerund\ or\ present\ participle \\ \hline
+	IN & Preposition\ or\ subordinating conjunction & VBN & Verb, past\ participle \\ \hline
+	PRP\$ & Possessive\ pronoun & NNS & Noun, plural \\ \hline
+	RB & Adverb & NNP & Proper noun, singular \\ \hline
+	RBR & Adverb, comparative & NNPS & Proper\ noun, plural \\ \hline
+	RBS & Adverb, superlative & PDT & Predeterminer \\ \hline
+	RP & Particle & POS & Possessive\ ending \\ \hline
+	SYM & Symbol & PRP & Personal\ pronoun \\ \hline
+	JJ & Adjective & VBP & Verb, non-3rd person\ singular\ present \\ \hline
+	JJR & Adjective, comparative & VBZ & Verb, 3rd\ person\ singular\ present \\ \hline
+	JJS & Adjective, superlative & WDT & Wh-determiner \\ \hline
+	LS & List\ item\ marker & WP & Wh-pronoun \\ \hline
+	MD & Modal & WP\$ & Possessive\ wh-pronoun \\ \hline
+	NN & Noun, singular\ or\ mass & WRB & Wh-adverb \\ \hline
+\end{tabular}
+$$
 
 \newpage
 TODO: add brackets around title and author in bib file.
+\addcontentsline{toc}{section}{References}
 \bibliography{references}
 \end{document}

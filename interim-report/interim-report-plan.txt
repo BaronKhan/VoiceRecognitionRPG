@@ -13,20 +13,20 @@ Background (10 pages)
 - Voice Control in video games (2 pages)
 ---- Games
 ---- Classic Zork in Alexa
+- Limitation of Zork (1 pages)
+---- Lots of menus
+---- Zork + examples of acceptable and not acceptable input
 - Voice Control Implementations (2 pages)
 ---- Keyboard mapping
 ---- Houndify
 ---- IBM Watson
-- Limitation of RPGs (1 pages)
----- Lots of menus
----- Zork + examples of acceptable and not acceptable input
 - NLP (3 pages)
 ---- Basics of Natural Language Processing
 ---- pos tagging
 ---- synonyms and hypernyms
 ---- hypernym tree
+---- WordNet
 ---- semantic similarity
----- RPG sentence structure
 ---- Object relations (mention Scribblenauts ObjectNaut)
 
 Project Plan (1 page)
