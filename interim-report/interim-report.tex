@@ -281,7 +281,7 @@ Synonyms are words or phrases which have a similar meaning to another word  \cit
 A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, "instrument" is a hypernym of "guitar", because a guitar is a type of instrument. Similarly, the word "animal" is a hypernym of "cat" (or, at least, the sense which refers to the domestic animal, as "cat" can have several meanings).
 \\
 \\
-The synonyms and hypernyms of words and phrases can be represented as a tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense. Note that a hyponym is the inverse relationship between a word and its hypernyms.
+The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense. Note that a hyponym is the inverse relationship between a word and its hypernyms.
 
 \begin{center}
 \begin{figure}[H]
@@ -321,20 +321,24 @@ Score = 2 * DepthLCS / ( Depth1 + Depth2 ) = 2 * 6 / (8 + 7)
 Score = 0.8
 \end{lstlisting}
 
-The WUP score of 0.8 out of 1.0. indicates that juice and water are semantically very similar \cite{RefWorks:47}. Whereas the words "breathing" and "fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
+The WUP score of 0.8 out of 1.0. indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words "breathing" and "fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
 \\
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
 \subsection{WordNet}
 
-Princeton University created
+Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating a large hyper-tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database.
 
 \subsection{Object Properties and Relations}
+
+
 
 \newpage
 \section{Appendix}
 \subsection{Skyrim Kinect Command List}
+Below is a list of all 200 commands that can be used in video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected.
+
 \includegraphics[scale=0.235]{skyrim-1.jpg}
 \includegraphics[scale=0.235]{skyrim-2.jpg}
 \newpage
@@ -346,7 +350,7 @@ Princeton University created
 Below is a table of the 32 tags from the Penn Treebank tagset, used for POS tagging. The 12 remaining tags for punctuation and other symbols have been left out \cite{RefWorks:42}.
 
 $$
-\begin{tabular}{ |p{3cm}|p{3cm}|p{3cm}|p{3cm}| }
+\begin{tabular}{ |p{3.25cm}|p{3.25cm}|p{3.25cm}|p{3.25cm}| }
 \hline
 	CC & Coordinating\ conjunction & TO & to \\ \hline
 	CD & Cardinal\ number & UH & Interjection \\ \hline
@@ -354,18 +358,18 @@ $$
 	EX & Existential\ there & VBD & Verb, past\ tense \\ \hline
 	FW & Foreign\ word & VBG & Verb, gerund\ or\ present\ participle \\ \hline
 	IN & Preposition\ or\ subordinating conjunction & VBN & Verb, past\ participle \\ \hline
-	PRP\$ & Possessive\ pronoun & NNS & Noun, plural \\ \hline
-	RB & Adverb & NNP & Proper noun, singular \\ \hline
-	RBR & Adverb, comparative & NNPS & Proper\ noun, plural \\ \hline
-	RBS & Adverb, superlative & PDT & Predeterminer \\ \hline
+	PRP\$ & Possessive\ pronoun & NNS & Noun,\ plural \\ \hline
+	RB & Adverb & NNP & Proper\ noun,\ singular \\ \hline
+	RBR & Adverb,\ comparative & NNPS & Proper\ noun, plural \\ \hline
+	RBS & Adverb,\ superlative & PDT & Predeterminer \\ \hline
 	RP & Particle & POS & Possessive\ ending \\ \hline
 	SYM & Symbol & PRP & Personal\ pronoun \\ \hline
-	JJ & Adjective & VBP & Verb, non-3rd person\ singular\ present \\ \hline
+	JJ & Adjective & VBP & Verb, non-3rd\ person\ singular\ present \\ \hline
 	JJR & Adjective, comparative & VBZ & Verb, 3rd\ person\ singular\ present \\ \hline
-	JJS & Adjective, superlative & WDT & Wh-determiner \\ \hline
+	JJS & Adjective,\ superlative & WDT & Wh-determiner \\ \hline
 	LS & List\ item\ marker & WP & Wh-pronoun \\ \hline
 	MD & Modal & WP\$ & Possessive\ wh-pronoun \\ \hline
-	NN & Noun, singular\ or\ mass & WRB & Wh-adverb \\ \hline
+	NN & Noun,\ singular\ or\ mass & WRB & Wh-adverb \\ \hline
 \end{tabular}
 $$
 

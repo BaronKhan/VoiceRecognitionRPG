@@ -38,45 +38,45 @@ Warning--there's a month but no year in RefWorks:23
 Warning--there's a month but no year in RefWorks:24
 
 Done.
-You've used 4 entries,
+You've used 5 entries,
             4087 wiz_defined-function locations,
-            888 strings with 8420 characters,
-and the built_in function-call counts, 1535 in all, are:
-= -- 109
-> -- 16
+            895 strings with 8522 characters,
+and the built_in function-call counts, 1904 in all, are:
+= -- 138
+> -- 20
 < -- 0
-+ -- 8
-- -- 4
-* -- 72
-:= -- 300
-add.period$ -- 8
-call.type$ -- 4
-change.case$ -- 4
++ -- 10
+- -- 5
+* -- 86
+:= -- 370
+add.period$ -- 10
+call.type$ -- 5
+change.case$ -- 5
 chr.to.int$ -- 0
-cite$ -- 7
-duplicate$ -- 119
-empty$ -- 144
-format.name$ -- 4
-if$ -- 311
+cite$ -- 8
+duplicate$ -- 150
+empty$ -- 181
+format.name$ -- 5
+if$ -- 391
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 28
-newline$ -- 43
-num.names$ -- 4
-pop$ -- 90
+int.to.str$ -- 5
+missing$ -- 35
+newline$ -- 48
+num.names$ -- 5
+pop$ -- 111
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 105
+skip$ -- 132
 stack$ -- 0
-substring$ -- 4
-swap$ -- 62
+substring$ -- 5
+swap$ -- 81
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 4
+type$ -- 5
 warning$ -- 3
-while$ -- 4
-width$ -- 5
-write$ -- 61
+while$ -- 5
+width$ -- 6
+write$ -- 71
 (There were 25 warnings)
