@@ -5,8 +5,12 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -85,16 +89,30 @@ public class GameState {
 
         if (mGameMode == MODE_BATTLE) {
             String enemyOutput = "";
+            boolean acceptedAction = false;
+
+            //tokenise and tag
+            List<String> words = Arrays.asList(input.split(" "));
+            List<String> tags = getTags(input);
+
+            assert(words.size() == tags.size());
 
             //check verb and check in look-up table for default action
             if (mMap.isValidAction(input)) {
                 actionOutput =  mMap.get(input).get(0).run(this);
+                acceptedAction = true;
             } else {
                 actionOutput = "I didn't understand that.";
             }
 
+            if (acceptedAction) {
+                //It's the enemy's turn now
+            }
+
             // Output new enemy status
-            enemyOutput = mCurrentEnemy.mName + ": " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
+            enemyOutput += mCurrentEnemy.mName + ": " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
+
+
 
             return actionOutput + "\n\n" + enemyOutput;
 
@@ -102,9 +120,18 @@ public class GameState {
             String overworldOutput = "";
         }
 
-
-
         return "None";
+    }
+
+    public List<String> getTags(String input) {
+        assert(mTagger != null);
+        String taggedWords = mTagger.tagString(input);
+        List<String> tags = new ArrayList<>();
+        Matcher m = Pattern.compile("_[A-Z]+(?=\\s|$)").matcher(taggedWords);
+        while (m.find()) {
+            tags.add(m.group());
+        }
+        return tags;
     }
 
     public String testHypernyms(String input) {
