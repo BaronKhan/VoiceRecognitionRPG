@@ -127,7 +127,7 @@ public class GameState {
         assert(mTagger != null);
         String taggedWords = mTagger.tagString(input);
         List<String> tags = new ArrayList<>();
-        Matcher m = Pattern.compile("_[A-Z]+(?=\\s|$)").matcher(taggedWords);
+        Matcher m = Pattern.compile("(?<=_)[A-Z]+(?=\\s|$)").matcher(taggedWords);
         while (m.find()) {
             tags.add(m.group());
         }
