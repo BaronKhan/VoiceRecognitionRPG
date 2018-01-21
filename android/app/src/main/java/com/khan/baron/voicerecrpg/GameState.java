@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,6 +93,7 @@ public class GameState {
     }
 
     public String updateState(String input) {
+        if (mDict == null) { return "Error: WordNet not loaded."; }
 //        return testHypernyms(input);
 //        return testCustomWordNet();
 
@@ -107,9 +109,17 @@ public class GameState {
 
             assert(words.size() == tags.size());
 
+            //extract verbs and nouns for action
+            List<String> candidateActions = getCandidateActions(words, tags);
+
+
+            String chosenAction = getMostSimilarWord(candidateActions);
+
             //check verb and check in look-up table for default action
-            if (mMap.isValidAction(input)) {
-                actionOutput =  mMap.get(input).get(0).run(this);
+            if (mMap.isValidAction(chosenAction)) {
+                // At this point, try to find item associated with action.
+                // For now, just call default action
+                actionOutput =  mMap.get(chosenAction).get(0).run(this);
                 acceptedAction = true;
             } else {
                 actionOutput = "I didn't understand that.";
@@ -130,6 +140,40 @@ public class GameState {
 
         return "None";
     }
+
+    public String getMostSimilarWord(List<String> words) {
+        double bestScore = 0.6;
+        String bestAction = "<none>";
+        Set<String> keys = mMap.mMap.keySet();
+        String[] actionsList = keys.toArray(new String[keys.size()]);
+        for (String word : words) {
+            for (String action : actionsList) {
+                if (word.equals(action)) { return action; }
+                else {
+                    ILexicalDatabase db = new CustomWordNet(mDict);
+                    WS4JConfiguration.getInstance().setMFS(true);
+                    double score = new WuPalmer(db).calcRelatednessOfWords(action, word);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestAction = action;
+                    }
+                }
+            }
+        }
+        return bestAction;
+    }
+
+    public List<String> getCandidateActions(List<String> words, List<String> tags) {
+        List<String> candidateActions = new ArrayList<>();
+        for (int i=0; i<words.size(); ++i) {
+            String tag = tags.get(i).toLowerCase();
+            if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n') {
+                candidateActions.add(words.get(i));
+            }
+        }
+        return candidateActions;
+    }
+
 
     public List<String> getTags(String input) {
         assert(mTagger != null);

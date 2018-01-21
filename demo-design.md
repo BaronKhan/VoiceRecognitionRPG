@@ -18,7 +18,7 @@ Default items in inventory:
 
 
 - Get basic attack and heal working
-- Add pos tagger to extract verb
+- Add pos tagger to extract verbs and nouns
 - Calculate semantic similarity of verbs (out of all the verbs, which is it most similar to, if any)
 - Get it working with items (add these manually to inventory)
 - Extract item noun
