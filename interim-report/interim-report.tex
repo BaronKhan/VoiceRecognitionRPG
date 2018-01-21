@@ -250,12 +250,12 @@ The third stage is syntactic parsing, where the grammatical structure of the sen
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{syntax-tree.png}
-  \caption{An example of a syntax tree for the sentence. "the old man a ship", from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
+  \caption{An example of a syntax tree for the sentence. "the old man a ship". Diagram taken from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
   \end{center}
 \end{figure}
 \end{center}
 
-In the example above for the sentence, "the old man a ship", the word, "man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
+In the example above for the sentence, "the old man a ship", the word, "man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship, and therefore, "man" is actually a verb here. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
 \\
 \\
 The final two stages are very similar and is difficult to separate them into separate stages. Both stages involve determining the meaning of the utterance. The fourth stage is often concerned with semantic analysis, whereas the last stage is more concerned with discourse analysis \cite{RefWorks:39}.
@@ -300,14 +300,14 @@ Synonyms and hypernyms could be used to determine the semantic similarity betwee
 There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a 'similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
 \\
 \\
-The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUS) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS), that is, the most general hypernym that both words have in common. For example, the WUP score for the semantic similarity between "juice" and "water" is as follows:
+The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUS) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS), that is, the most general hypernym that both words have in common. For example, the WUP score for the semantic similarity between "juice" and "water" is as follows \cite{RefWorks:49}:
 
 \begin{lstlisting}[frame=single]
-T1 = HyperTrees( juice ) = 
+T1 = HypernymTree( juice ) = 
     [Sense #1] *ROOT* < entity < physical_entity < matter
     	< substance < food < foodstuff < juice
     	
-T2 = HyperTrees( water ) = 
+T2 = HypernymTree( water ) = 
     [Sense #3] *ROOT* < entity < physical_entity < matter
     	< substance < water
     	

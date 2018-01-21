@@ -25,18 +25,22 @@ Background (10 pages)
 ---- pos tagging
 ---- synonyms and hypernyms
 ---- hypernym tree
----- WordNet
 ---- semantic similarity
----- Object relations (mention Scribblenauts ObjectNaut)
+-- WordNet
+-- Object relations (mention Scribblenauts ObjectNaut)
 
 Project Plan (1 page)
 - gantt chart
 - get audio i/o working
 - get wordnet working
 - get pos tagger working
-- create game state objects
+- create game environement and state objects
 - simple battle demo (no nlp added)
+- get semantic similairy score algorithsm working
 - add nlp to demo
+- Add more puzzles
+- Add items support
+- more levels and enemies
 
 Evaluation plan (1 page)
 - SHould be more convenient (faster, less exertion required)

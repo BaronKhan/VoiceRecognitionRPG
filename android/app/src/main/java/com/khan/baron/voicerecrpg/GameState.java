@@ -93,50 +93,42 @@ public class GameState {
 
     public String updateState(String input) {
 //        return testHypernyms(input);
+//        return testCustomWordNet();
 
-        String output = "";
-        try {
-            output += testCustomWordNet();
-        } catch (Exception e) {
-            output = e.getMessage();
+        String actionOutput = "";
+
+        if (mGameMode == MODE_BATTLE) {
+            String enemyOutput = "";
+            boolean acceptedAction = false;
+
+            //tokenise and tag
+            List<String> words = Arrays.asList(input.split(" "));
+            List<String> tags = getTags(input);
+
+            assert(words.size() == tags.size());
+
+            //check verb and check in look-up table for default action
+            if (mMap.isValidAction(input)) {
+                actionOutput =  mMap.get(input).get(0).run(this);
+                acceptedAction = true;
+            } else {
+                actionOutput = "I didn't understand that.";
+            }
+
+            if (acceptedAction) {
+                //It's the enemy's turn now
+            }
+
+            // Output new enemy status
+            enemyOutput += mCurrentEnemy.mName + ": " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
+
+            return actionOutput + "\n\n" + enemyOutput;
+
+        } else {    //mGameMode == MODE_OVERWORLD
+            String overworldOutput = "";
         }
-        return output;
 
-
-//        String actionOutput = "";
-//
-//        if (mGameMode == MODE_BATTLE) {
-//            String enemyOutput = "";
-//            boolean acceptedAction = false;
-//
-//            //tokenise and tag
-//            List<String> words = Arrays.asList(input.split(" "));
-//            List<String> tags = getTags(input);
-//
-//            assert(words.size() == tags.size());
-//
-//            //check verb and check in look-up table for default action
-//            if (mMap.isValidAction(input)) {
-//                actionOutput =  mMap.get(input).get(0).run(this);
-//                acceptedAction = true;
-//            } else {
-//                actionOutput = "I didn't understand that.";
-//            }
-//
-//            if (acceptedAction) {
-//                //It's the enemy's turn now
-//            }
-//
-//            // Output new enemy status
-//            enemyOutput += mCurrentEnemy.mName + ": " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
-//
-//            return actionOutput + "\n\n" + enemyOutput;
-//
-//        } else {    //mGameMode == MODE_OVERWORLD
-//            String overworldOutput = "";
-//        }
-//
-//        return "None";
+        return "None";
     }
 
     public List<String> getTags(String input) {
@@ -149,6 +141,10 @@ public class GameState {
         }
         return tags;
     }
+
+    ////////////////////
+    // TEST FUNCTIONS //
+    ////////////////////
 
     public String testHypernyms(String input) {
         try {
@@ -230,7 +226,7 @@ public class GameState {
         }
     }
 
-    double compute(ILexicalDatabase db, String word1, String word2) {
+    double testCompute(ILexicalDatabase db, String word1, String word2) {
         WS4JConfiguration.getInstance().setMFS(true);
         double s = new WuPalmer(db).calcRelatednessOfWords(word1, word2);
         return s;
@@ -248,7 +244,7 @@ public class GameState {
 
         for(int i=0; i<words.length-1; i++){
             for(int j=i+1; j<words.length; j++){
-                double distance = compute(db, words[i], words[j]);
+                double distance = testCompute(db, words[i], words[j]);
                 output += /*words[i] +" -  " +  words[j] + " = " + */distance+"\n";
             }
         }
