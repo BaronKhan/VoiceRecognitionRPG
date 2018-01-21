@@ -65,3 +65,15 @@ Pipeline
 ---------------
 
 input -> get verb -> find noun, if no noun, use default
+
+
+POS tagger
+----------------
+
+VERB = v
+NOUN = n
+ADVERB = r
+ADJECTIVE = a
+CAll getTag function to get this letter
+
+Synset IDs have SID- infront, must remove
