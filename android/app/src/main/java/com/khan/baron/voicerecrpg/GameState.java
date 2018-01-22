@@ -142,7 +142,7 @@ public class GameState {
     }
 
     public String getMostSimilarWord(List<String> words) {
-        double bestScore = 0.6;
+        double bestScore = 0.8;
         String bestAction = "<none>";
         Set<String> keys = mMap.mMap.keySet();
         String[] actionsList = keys.toArray(new String[keys.size()]);
@@ -151,7 +151,7 @@ public class GameState {
                 if (word.equals(action)) { return action; }
                 else {
                     ILexicalDatabase db = new CustomWordNet(mDict);
-                    WS4JConfiguration.getInstance().setMFS(true);
+                    WS4JConfiguration.getInstance().setMFS(false);  //Use all senses, not just most frequent sense (slower but more accurate)
                     double score = new WuPalmer(db).calcRelatednessOfWords(action, word);
                     if (score > bestScore) {
                         bestScore = score;
