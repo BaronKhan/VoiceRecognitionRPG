@@ -328,9 +328,20 @@ Another measure of semantic similarity is Leacock and Chodorow's method, which r
 
 \subsection{WordNet}
 
-Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating a large hyper-tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database.
+Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database.
 
 \subsection{Object Properties and Relations}
+
+One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, "attack the enemy with a sharp object"); we would like to be able to select a item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt object, whether it can be thrown, and so on.
+\\
+\\
+A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as we can infer if two objects would have the same properties instead of hard-coding each one.
+\\
+\\
+By assigning items different properties, we don't have to code the actions the user can perform for each variation of items (e.g. sword, katana, knife, etc.). Instead, we can have general objects which have certain properties, and then customise the actions for each general object. For example, there could be a general object with a 'sharpness' property, that would be able to, for example, cut something, and all swords and knifes would be of this type of general object.
+
+\newpage
+\section{Project Plan}
 
 
 

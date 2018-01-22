@@ -30,6 +30,7 @@ Warning--I didn't find a database entry for "RefWorks:45"
 Warning--I didn't find a database entry for "RefWorks:46"
 Warning--I didn't find a database entry for "RefWorks:49"
 Warning--I didn't find a database entry for "RefWorks:47"
+Warning--I didn't find a database entry for "RefWorks:48"
 Warning--I didn't find a database entry for "RefWorks:42"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
@@ -41,7 +42,7 @@ Warning--there's a month but no year in RefWorks:24
 Done.
 You've used 5 entries,
             4087 wiz_defined-function locations,
-            897 strings with 8544 characters,
+            899 strings with 8566 characters,
 and the built_in function-call counts, 1904 in all, are:
 = -- 138
 > -- 20
@@ -80,4 +81,4 @@ warning$ -- 3
 while$ -- 5
 width$ -- 6
 write$ -- 71
-(There were 26 warnings)
+(There were 27 warnings)
