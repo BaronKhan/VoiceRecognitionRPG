@@ -22,3 +22,13 @@ Default items in inventory:
 - Calculate semantic similarity of verbs (out of all the verbs, which is it most similar to, if any)
 - Get it working with items (add these manually to inventory)
 - Extract item noun
+
+-------------------------------
+
+"Attack the troll"
+"hit the troll with everything you've got"
+"run away"
+"jump out of the way"
+"charge towards the troll"
+"launch an assault"
+"heal yourself"
