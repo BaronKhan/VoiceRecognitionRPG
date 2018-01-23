@@ -86,7 +86,7 @@ If the player has many different items, they may need to spend a lot of time sea
 Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevents them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it's consoles, PC or mobile.
 \\
 \\
-A simple mobile RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments with commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses. The target platform will be Android phones to allow for hand-free voice control input.
+A simple mobile RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments with commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses. The target platform will be Android phones to allow for hands-free voice control input.
 \\
 \\
 Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API.
@@ -326,9 +326,22 @@ The WUP score of 0.8 out of 1.0. indicates that juice and water are semantically
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
+\subsubsection{Generating Sentences from Vector Representations}
+
+One feature from the proposed design of the RPG is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you". One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. We would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the intent inference described above, where the meaning of a sentence/phrase is extracted; we would like to be able to go in the opposite direction.
+\\
+\\
+This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
+\\
+\\
+Another group of researchers proposed a method of sentence generation which involves taking a sum of word embedding vectors and modelling it as a mixed integer programming problem \cite{RefWorks:54}. However, this also requires the original sentence to be de-constructed in the first place.
+\\
+\\
+One possible solution would be to only hard-code the general sentence structure of the description of rooms, and then insert the appropriate adjectives and nouns of the items, which is given as input in the form of a vector of strings.
+
 \subsection{WordNet}
 
-Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database.
+Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
 
 \subsection{Object Properties and Relations}
 
@@ -357,14 +370,27 @@ To access the WordNet lexical database, the JWI (Java WordNet Interface) will be
 Once the general I/O and systems are created, a skeleton for the game state will be written, where the NLP and gameplay systems will be written. the battle system will be developed first with a simple demo consisting a battle with a single enemy. Simple commands will be implemented (such as "attack" and "heal") without involving items. These actions will be hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) are added to the system, so more phrases can be used with different verbs but similar meanings to the hard-coded strings.
 \\
 \\
-Initally, only the Wu and Palmer method for semantic similarity scoring will be used (this measure calculates the ratio of the depth of the Lowest Common Subsumer to the sum of the depths of the two words). Once this works, the other semantic similarity measures (such as the Jiang and Conrath, or the Leacock and Chodorow measures) will be added, and they will all be used to calculate an average score from all the measures, to avoid any bias from using a particular measures (though, only a few will be used to reduce the amount of processing).
+Initially, only the Wu and Palmer method for semantic similarity scoring will be used (this measure calculates the ratio of the depth of the Lowest Common Subsumer to the sum of the depths of the two words). Once this works, the other semantic similarity measures (such as the Jiang and Conrath, or the Leacock and Chodorow measures \cite{RefWorks:46}) will be added, and they will all be used to calculate an average score from all the measures, to avoid any bias from using a particular measures (though, only a few will be used to reduce the amount of processing).
 \\
 \\
 The voice recognition flexibility will be tested throughout the project. Eventually, items will be added to the game, and the exploration gameplay will be developed. The game will alternate between battles and exploration.
 \\
 \\
-There are several extensions to this project that aim to make the NLP system more robust. The first one is to add the ability to infer which item the user is referring to based on a given description, as described previously. The second extension is to create a learning mechanism for the system. For example, the user may be trying to say a phrase that is not being detected by the proposed NLP system. In this case, there should a a 'training' mode which allows the user to define new 'helper' phrases. For instance, if the player says "I want to regenerate" but this is not mapped to a healing intent (as "heal" and "regenerate" not very similar semantically), the player should be able to train the system to be able to accept this input, e.g. by saying, "regenerate means heal", and this will map the verb, "regenerate" to the "heal" intent.
+There are several challenges to this project that aim to make the NLP system more robust. The first one is to add the ability to infer which item the user is referring to based on a given description, as described previously. This would be achieved by giving items properties, such as sharpness or flammability, and applying the semantic similarity process to these adjectives as well.
+\\
+\\
+The second challenge would be to convey to the user the current situation they are in, in order to allow them to play the game and issue commands. For example, if the player is in a room filled with items that they can interact with, the user should be given a description of what's in the room. This text output cannot be hard-coded as it would be very time-consuming. Instead, the sentence could be generated from a vector of sparse information, as described above. This vector could simply contain the items in the room and their relative positions, and a sentence is generated based on the vector information.
+\\
+\\
+As an extension, it may be possible to create a learning mechanism for the system. For example, the user may be trying to say a phrase that is not being detected by the proposed NLP system. In this case, there should a a 'training' mode which allows the user to define new 'helper' phrases. For instance, if the player says "I want to regenerate" but this is not mapped to a healing intent (as "heal" and "regenerate" not very similar semantically), the player should be able to train the system to be able to accept this input, e.g. by saying, "regenerate means heal", and this will map the verb "regenerate" to the "heal" intent.
+\\
+\\
+Another possible extension is to be able to allow a developer to easily design levels for the game. For instance, if the developer would like to create a room with objects, they could type a string description of the objects in the room, and then using POS-tagging and inference, a room full of the given items can be generated effortlessly.
 
+\newpage
+\section{Evaluation Plan}
+
+The success of this project will be measured by the improvements to the user experience and the game development process that this new NLP system will provide. Users should be able to 
 
 \newpage
 \section{Appendix}
@@ -375,7 +401,7 @@ Below is a list of all 200 commands that can be used in video game, The Elder Sc
 \includegraphics[scale=0.235]{skyrim-2.jpg}
 \newpage
 \includegraphics[scale=0.237]{skyrim-3.jpg}
- \includegraphics[scale=0.237]{skyrim-4.jpg}
+\includegraphics[scale=0.237]{skyrim-4.jpg}
 \newpage
 \subsection{Penn Treebank Tagset}
 

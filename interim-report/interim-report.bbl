@@ -53,4 +53,9 @@ P.~University, ``About wordnet,'' 2013, January 9 2013. [Online]. Available:
   \url{http://wordnet.princeton.edu}
 \BIBentrySTDinterwordspacing
 
+\bibitem{RefWorks:19}
+M.~A. Finlayson, ``Java libraries for accessing the princeton wordnet:
+  Comparison and evaluation,'' in \emph{Proceedings of the 7th International
+  Global WordNet Conference}, 2014, pp. 78--85.
+
 \end{thebibliography}

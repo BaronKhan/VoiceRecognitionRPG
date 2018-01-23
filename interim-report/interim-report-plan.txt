@@ -26,6 +26,7 @@ Background (10 pages)
 ---- synonyms and hypernyms
 ---- hypernym tree
 ---- semantic similarity
+---- Generating Sentences
 -- WordNet
 -- Object relations (mention Scribblenauts ObjectNaut)
 
@@ -49,3 +50,6 @@ Project Plan (1 page)
 
 Evaluation plan (1 page)
 - SHould be more convenient (faster, less exertion required)
+- success can be judged from the rate of successful commands issued by user as they play (quantitative)
+- satisfaction of player (qualitititve, do survey)
+- add table of example survey
