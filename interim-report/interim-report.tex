@@ -22,19 +22,19 @@
 \captionsetup{justification=centering}
 
 
-\definecolor{grey}{rgb}{0.9,0.9,0.9} % Color of the box surrounding the title - these values can be changed to give the box a different color	
+\definecolor{grey}{rgb}{0.9,0.9,0.9} % Color of the box surrounding the title - these values can be changed to give the box a different color
 
 \thispagestyle{empty}
 
 \date{16 March 2017}
- 
+
 \begin{document}
 \vspace*{6cm}
 \colorbox{white}{
 	\parbox[t]{1.0\linewidth}{
 		\centering \fontsize{50pt}{80pt}\selectfont % The first argument for fontsize is the font size of the text and the second is the line spacing - you may need to play with these for your particular title
 		\vspace*{0.7cm} % Space between the start of the title and the top of the grey box
-		
+
 		{401I - Final Year Project} \break
 		\vspace*{0.7cm}
 		Interim Report
@@ -303,17 +303,17 @@ There are many ways of calculating the semantic similarity between two words or 
 The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUS) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS), that is, the most general hypernym that both words have in common. For example, the WUP score for the semantic similarity between "juice" and "water" is as follows \cite{RefWorks:49}:
 
 \begin{lstlisting}[frame=single]
-T1 = HypernymTree( juice ) = 
+T1 = HypernymTree( juice ) =
     [Sense #1] *ROOT* < entity < physical_entity < matter
     	< substance < food < foodstuff < juice
-    	
-T2 = HypernymTree( water ) = 
+
+T2 = HypernymTree( water ) =
     [Sense #3] *ROOT* < entity < physical_entity < matter
-    	< substance < water
-    	
+    	< substance < food < water
+
 Lowest Common Subsumer(s) = argmax(depth(subsumer(T1,T2)))
     = { subsumer(T1[1], T2[3]) } = { food }
-    
+
 DepthLCS = depth( food ) = 6
 Depth1 = min(depth( {tree in T1 | tree contains LCS } )) = 8
 Depth2 = min(depth( {tree in T2 | tree contains LCS } )) = 7
@@ -351,7 +351,19 @@ Below is a Gantt Chart showing the expected timeline of the project as of 26th J
 The first step was to research do research on games using voice recognition, as well as develop a better understanding of natural language processing. While researching, general development commenced to get the I/O and libraries working correctly. For the speech-to-text engine, Google's open-source API is being used as it is easy to use for Android development \cite{RefWorks:50}.
 \\
 \\
-To access the WordNet lexical database, the JWI (Java WordNet Interface) will be used because, according the the author Mark Finlayson, it is the "highest-performance, widest-coverage, easiest-to-use library available" \cite{RefWorks:19}. For the POS tagger, 
+To access the WordNet lexical database, the JWI (Java WordNet Interface) will be used because, according the the author Mark Finlayson, it is the "highest-performance, widest-coverage, easiest-to-use library available" \cite{RefWorks:19}. For the POS tagger, the Stanford Log-Linear Part-of-Speech Tagger will be used \cite{RefWorks:51}, as it includes a Java API.
+\\
+\\
+Once the general I/O and systems are created, a skeleton for the game state will be written, where the NLP and gameplay systems will be written. the battle system will be developed first with a simple demo consisting a battle with a single enemy. Simple commands will be implemented (such as "attack" and "heal") without involving items. These actions will be hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) are added to the system, so more phrases can be used with different verbs but similar meanings to the hard-coded strings.
+\\
+\\
+Initally, only the Wu and Palmer method for semantic similarity scoring will be used (this measure calculates the ratio of the depth of the Lowest Common Subsumer to the sum of the depths of the two words). Once this works, the other semantic similarity measures (such as the Jiang and Conrath, or the Leacock and Chodorow measures) will be added, and they will all be used to calculate an average score from all the measures, to avoid any bias from using a particular measures (though, only a few will be used to reduce the amount of processing).
+\\
+\\
+The voice recognition flexibility will be tested throughout the project. Eventually, items will be added to the game, and the exploration gameplay will be developed. The game will alternate between battles and exploration.
+\\
+\\
+There are several extensions to this project that aim to make the NLP system more robust. The first one is to add the ability to infer which item the user is referring to based on a given description, as described previously. The second extension is to create a learning mechanism for the system. For example, the user may be trying to say a phrase that is not being detected by the proposed NLP system. In this case, there should a a 'training' mode which allows the user to define new 'helper' phrases. For instance, if the player says "I want to regenerate" but this is not mapped to a healing intent (as "heal" and "regenerate" not very similar semantically), the player should be able to train the system to be able to accept this input, e.g. by saying, "regenerate means heal", and this will map the verb, "regenerate" to the "heal" intent.
 
 
 \newpage

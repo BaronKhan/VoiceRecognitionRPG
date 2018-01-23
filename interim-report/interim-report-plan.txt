@@ -45,6 +45,7 @@ Project Plan (1 page)
 - Add more puzzle
 - Add items support
 - more levels and enemies
+- add learning mechanism
 
 Evaluation plan (1 page)
 - SHould be more convenient (faster, less exertion required)
