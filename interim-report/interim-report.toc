@@ -26,4 +26,5 @@
 \contentsline {section}{\numberline {5}Appendix}{20}
 \contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{20}
 \contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{22}
-\contentsline {section}{References}{23}
+\contentsline {subsection}{\numberline {5.3}Prototype Screenshots}{23}
+\contentsline {section}{References}{25}

@@ -374,7 +374,7 @@ The first step was to research games using voice recognition and different libra
 To access the WordNet lexical database, the JWI (Java WordNet Interface) is being used because, according the the author Mark Finlayson, it is the "highest-performance, widest-coverage, easiest-to-use library available" \cite{RefWorks:19}. For the POS tagger, the Stanford Log-Linear Part-of-Speech Tagger was chosen \cite{RefWorks:51}, as it includes a simple-to-use Java API.
 \\
 \\
-Once the general I/O and systems were created, a skeleton for the game state was written, where the NLP and gameplay systems were written. The battle system was developed first with a simple demo consisting of a battle with a single enemy. Simple commands were implemented (such as "attack" and "heal") without involving items. These actions were hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) were added. With these systems now in place, more phrases can be used with different verbs but similar meanings to the hard-coded strings.
+Once the general I/O and systems were created, a skeleton for the game state was written, where the NLP and gameplay systems were written. The battle system was developed first with a simple demo consisting of a battle with a single enemy. Simple commands were implemented (such as "attack" and "heal") without involving items. These actions were hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) were added. With these systems now in place, more phrases can be used with different verbs but similar meanings to the hard-coded strings. See the Appendix for screenshots of the prototype developed.
 
 \subsection{Future Work}
 
@@ -447,6 +447,20 @@ $$
 	NN & Noun,\ singular\ or\ mass & WRB & Wh-adverb \\ \hline
 \end{tabular}
 $$
+
+\newpage
+\subsection{Prototype Screenshots}
+
+Below are a few screenshots from the current prototype of the game. It involves the player battling a troll, with the "attack" and "heal" intents available to the player (note that items are currently not supported yet). The first two screenshots demonstrate how the player can issue an attack in several ways (despite only the intent, "attack" being hard-coded in the source code):
+
+\includegraphics[scale=0.2]{Screenshot_20180124-163540.png}
+\includegraphics[scale=0.2]{Screenshot_20180124-163553.png}
+\newpage
+The next screenshot demonstrates how input is ignored if it does not match any existing intent while the last screenshot demonstrates the heal intent.
+\break
+\break
+\includegraphics[scale=0.2]{Screenshot_20180124-163621.png}
+\includegraphics[scale=0.2]{Screenshot_20180124-163634.png}
 
 \newpage
 \addcontentsline{toc}{section}{References}
