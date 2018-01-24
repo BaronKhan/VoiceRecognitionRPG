@@ -5,9 +5,13 @@ digraph hypernym_tree{
     "miltary operation" [shape=box, constrained=false];
   }
   subgraph attack{
+  	rank=same;
     "attack\nonslaught\nonset\nonrush" [shape=box, constrained=false];
+    "attack\nround\nlash\nassault" [shape=box, constrained=false];
   }
   edge[dir=back];
   "operation" -> "attack\nonslaught\nonset\nonrush";
   "miltary operation" -> "attack\nonslaught\nonset\nonrush";
+  edge[dir=none];
+  "attack\nonslaught\nonset\nonrush" -> "attack\nround\nlash\nassault";
 }

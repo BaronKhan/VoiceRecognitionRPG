@@ -56,13 +56,10 @@
 \newpage
 \setcounter{page}{1}
 \section{Introduction}
-In recent years, video games have explored various forms of input that diverge from the traditional control schemes of a keyboard and mouse, or an analogue stick and buttons on a controller. Touch-screen controls and motion controls have had varying degrees of success over the years, and provide new forms of interactions with games. A recent form of input used in video games has been voice controls; a user speaks a sentence or phrase and this would execute an action or intent within the game.
+In recent years, video games have explored various forms of input that diverge from the traditional control schemes of a keyboard and mouse, or an analogue stick and buttons on a controller. Touch-screen controls and motion controls have had varying degrees of success over the years, and provide new forms of interactions with games. A recent form of input used in video games has been voice controls; a user utters a sentence or phrase and this would execute an action or intent within the game.
 \\
 \\
-Voice recognition and control schemes have been used in various ways in the medium, whether in tandem with traditional control schemes, or as the only form of input. The hardware running the game requires a microphone that always listens to the user (or detects a 'hot-word' phrase in order to begin accepting voice input), whether this is built into the hardware architecture, or external hardware connected to the main system. The audio input requires some pre-processing (e.g. noise-filtering, de-reverberation, echo cancellation, etc.) before it can be intelligible and used in the game.
-\\
-\\
-Most games which feature a voice control scheme are typically programmed to work with a specific set of keywords or phrases, hard-coded by the developer. The is usually the case with games where the voice control interface is entirely optional to use, as it requires little to no input from the programmer; if the speech processing is handled by a separate library, the developer just has to map a text string (e.g. "open the door") to the function that executes the intent (e.g. the function that opens a nearby door in the game).
+Voice recognition and control schemes have been used in various ways in the medium, whether in tandem with traditional control schemes, or as the only form of input. Most games which feature a voice control scheme are typically programmed to work with a specific set of keywords or phrases, hard-coded by the developer. This is usually the case with games where the voice control interface is entirely optional to user, as it requires little to no input from the programmer; if the speech processing is handled by a separate library, the developer just has to map a text string (e.g. "open the door") to the function that executes the intent (e.g. the function that opens a nearby door in the game).
 \\
 \\
 It becomes increasingly difficult for the developer to add more phrases that can be accepted in the game and map to the same intent (e.g. "push the door open") as they would have to hard-code each possible input that the user could possibly say: having too few phrases would mean that the user could become frustrated when their preferred way of stating an intent is not accepted by the game, while adding too many acceptable phrases would increase development time.
@@ -71,25 +68,33 @@ It becomes increasingly difficult for the developer to add more phrases that can
 Natural Language Processing (NLP, also referred to as Natural Language Understanding) has been used to improve inference of what users were trying to say, and to extract meaning from the user's phrases and sentences. For instance, if the user says, "push the door open", NLP can be used to infer that the user's intent is to open a door. Using NLP, several user phrases can be mapped to the same intent without having to hard-code each possible phrase.
 \\
 \\
-NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}.
+NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}. Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition to games.
 \\
 \\
 The goal of this project is to apply NLP to a voice control scheme used within a role-playing game (RPG), in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
 \\
 \\
-Role-playing games are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities as the game progresses. These include turn-based games such as Pokemon and Final Fantasy, or more action-based games such as Dark Souls or Skyrim. In these games, the player possesses several items that they acquire during the game, and accesses them by navigating menus.
+Role-playing games are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities or items as the game progresses. These include turn-based games such as Pokemon and Final Fantasy, or more action-based games such as Dark Souls or Skyrim. In these games, the player possesses several items that they acquire during the game, and accesses them by navigating menus.
 \\
 \\
-If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the "Attack" button over and over again with no variation in the attack used. Using voice recognition and NLP, a player could just simply say a phrase such as, "use a potion" or, "attack with axe", and the corresponding item will be used without having the player navigate several menu screens.
+If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the "Attack" button over and over again with no variation in the attack used. Using voice recognition and NLP, a player could just simply say a phrase such as, "use a potion" or, "attack with axe", and the item will be used without having the player navigate several menu screens.
 \\
 \\
-Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevents them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it's consoles, PC or mobile.
+Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevent them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it is consoles, PC or mobile.
 \\
 \\
-A simple mobile RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments with commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses. The target platform will be Android phones to allow for hands-free voice control input.
+A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses. The target platform will be Android to allow for hands-free voice control input.
 \\
 \\
-Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API.
+Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of voice control schemes.
+\\
+\\
+The proposed design for the RPG aims to achieve the following innovations related to voice-recognition game design:
+\begin{itemize}
+\item Allow a developer to add voice recognition to their game with little effort.
+\item Create a simple natural language processing system that can work offline.
+\item Explore NLP usages in RPGs (for text generation, item descriptions, etc).
+\end{itemize}
 
 \newpage
 \section{Background}
@@ -111,38 +116,38 @@ Another limitation is that the user is still required to use a keyboard and mous
 This voice recognition interface could be improved by allowing the player to perform any action within the game using their voice, as well as allowing for more variation in what the user can say for each action.
 
 \subsubsection{Skyrim Kinect}
-The Elders Scrolls V: Skyrim is first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
+The Elders Scrolls V: Skyrim is first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
 \\
 \\
-There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, "quick items" to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as "potions", "books", etc. However, it doesn't seem to be possible to actually use any of the items selected with only voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, "assign health potion" once you have highlighted a potion item), and then saying "equip health potion" during the game. See the Appendix for a full list of of available voice commands.
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, "quick items" to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as "potions", "books", etc. However, it doesn't seem to be possible to actually use any of the items selected with only a voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, "assign health potion" once you have highlighted a potion item), and then saying "equip health potion" during the game. See the Appendix for a full list of available voice commands.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{skyrim-item-commands.png}
   \caption{Voice commands that are available within the items menu in Skyrim.}
 \end{figure}
 \end{center}
-This system, despite being optional to the player, helps to reduce the time spent searching through the menu screens. However, this system also hard-codes the phrases that can be said by the player with no flexibility.
+This system, despite being optional to the player, helps to reduce the time spent searching through the menu screens. However, it appears that this system also hard-codes the phrases that can be said by the player with no flexibility.
 
 \subsubsection{Star Trek Bridge Crew}
 
 Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a "new level of sense of presence" \cite{RefWorks:26}. IBM's Watson API is described in more detail later in this section.
 \\
 \\
-The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; not only does it require a constant internet connection, but users are also charged for each API call that they make.
+The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; so the game requires a constant internet connection to play.
 
 \subsubsection{Classic Zork on Alexa}
 
-Zork is a trilogy of classic text-based role-playing games that supports a free-form style of input. The player is provided with an input scenario (e.g. "You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here."), and then types commands that they want to execute (e.g. "open mailbox" or "attack troll with sword") \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
+Zork is a trilogy of classic text-based role-playing games that support a free-form style of input. The player is provided with an input scenario (e.g. "You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here."), and then types commands that they want to execute (e.g. "open mailbox" or "attack troll with sword") \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
 \\
 \\
-These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:37}. This allows the player to deliver commadns using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input (described in the next section).
+These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:37}. This allows the player to deliver commands using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input.
 
 \subsection{Limitations of Zork}
 
-The exploration mechanics of the proposed design of this report will be based on Zork's general gameplay of interacting with objects in the environment to solve puzzles, and the limitations of Zork's free-form input are discussed here.
+The exploration mechanics of the proposed design in this report will be based on Zork's general gameplay of interacting with objects in the environment to solve puzzles, and the limitations of Zork's free-form input are discussed here.
 \\
 \\
-Zork supports a number of text commands, which usually take the form of a verb-noun structure, such as "use $<$noun$>$" or "take $<$noun$>$", but it also supports some more sophisticated comamnds with complex structures, such as "give all but the pencil to the nymph" or "drop all except the dart gun" \cite{RefWorks:36}.
+Zork supports a number of text commands, which usually take the form of a verb-noun structure, such as "use $<$noun$>$" or "take $<$noun$>$", but it also supports some more sophisticated commands with complex structures, such as "give all but the pencil to the nymph" or "drop all except the dart gun" \cite{RefWorks:36}.
 \\
 \\
 Zork's free-form input still has some limitations. For example, it still cannot accept all variations of specific intents. For instance, below is a list of accepted and rejected commands if the user wishes to open a mailbox in front of them:
@@ -184,7 +189,7 @@ Houndify is a paid cloud service developed by SoundHound that allows developers 
 As well as having built-in voice commands already for specific domains (such as all weather commands or sports update commands), Houndify also supports the creation of custom voice commands by the developer. To create a custom command, the expression to be said by the user is specified using a syntax similar to regular expressions, but instead specifies the general phrase structure (and with very different syntax), and is mapped to an intent \cite{RefWorks:33}.
 \\
 \\
-Below is an example of a possible expression for attack a troll enemy:
+Below is an example of a possible expression for attacking a troll:
 \begin{center}
 "attack" . "troll"
 \end{center}
@@ -206,11 +211,11 @@ While this API would be useful for building a personal assistant similar to Appl
 IBM's Watson API features a Conversation service that allows developers to build voice recognition interfaces that understand natural language input \cite{RefWorks:27}. The developer defines the training data to be used by the API (in order to train a natural language classifier) using 'intents' and 'entities' \cite{RefWorks:31}.
 \\
 \\
-'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances for the intent in the form of text strings, such as "turn on the wipers", "switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
+'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as "turn on the wipers", "switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{intent-return.png}
-  \caption{An example of an intent to return something, along with examples of phrases for tehe intent \cite{RefWorks:34}.}
+  \caption{An example of an intent to return something, along with examples of phrases for the intent. Image re-used from an IBM blog post \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
 'Entities' are classes of objects that help to provide context to intents. For example, in the above example, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
@@ -220,10 +225,10 @@ IBM's Watson API features a Conversation service that allows developers to build
   \caption{An example of entities for items that can be returned. Entities that have been grouped together (usually synonyms) are placed on the same row \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
-Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples have the same meaning as those. For example, is the user says, "activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above \cite{RefWorks:32}.
+Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, "activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above. A demo is available to test this \cite{RefWorks:32}.
 \\
 \\
-This API is very flexible and matches the requirements of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to the cloud server) uses to many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
+This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
 
 \subsection{Natural Language Processing}
 
@@ -241,7 +246,7 @@ Natural Language Processing (NLP) forms a major component of this project. This 
 NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenisation, where a raw text string is broken down into words (usually separated by spaces).
 \\
 \\
-The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. "what're" would tokenise to "what" and "are",. while "we're" would break down to "we" and are); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
+The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. "what're" would tokenise to "what" and "are",. while "we're" would break down to "we" and "are"); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
 \\
 \\
 The third stage is syntactic parsing, where the grammatical structure of the sentence is determined. This is usually achieved by generating a syntax tree of each sentence, where each word is broken down into a terminal from a given grammar (e.g. verbs, nouns, adjectives, determiners, etc.) \cite{RefWorks:40}.
@@ -258,27 +263,27 @@ The third stage is syntactic parsing, where the grammatical structure of the sen
 In the example above for the sentence, "the old man a ship", the word, "man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship, and therefore, "man" is actually a verb here. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
 \\
 \\
-The final two stages are very similar and is difficult to separate them into separate stages. Both stages involve determining the meaning of the utterance. The fourth stage is often concerned with semantic analysis, whereas the last stage is more concerned with discourse analysis \cite{RefWorks:39}.
+The final two stages are very similar and is difficult to separate them into separate stages. Both stages involve determining the meaning of the sentence. The fourth stage is often concerned with semantic analysis, whereas the last stage is more concerned with discourse analysis \cite{RefWorks:39}.
 
 \subsubsection{Part-of-Speech Tagging}
 
-A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset contain POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See the Appendix for the full Penn Treebank tagset.
+A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset containing POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See the Appendix for the full Penn Treebank tagset.
 \\
 \\
-There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous, that is, it can be assigned a number of possible POS tags depending on its context. For instance, the word, "can" can either be a verb ("I can..."), and noun ("a can of tuna"), or another different verb ("can that noise!") \cite{RefWorks:43}. The many meanings that can be attributes to a word is known as its word sense.
+There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, "can" can either be a verb ("I can..."), a noun ("a can of tuna"), or another verb with a completely different meaning to the previous ("can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its word senses.
 \\
 \\
-The second challenge is words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
+The second challenge are words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
 \\
 \\
 The proposed design for this project will use an open-source POS tagger in order to identify specific words in the player's input, namely verbs and nouns.
 
 \subsubsection{Synonyms and Hypernyms}
 
-Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word "dog" has seven word senses (different meanings), and for one of the word senses meaning a member of the genus Canis, the synonyms would be, "domestic dog" and "Canis familiris" \cite{RefWorks:45}.
+Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word "dog" has seven word senses (different meanings), and for one of the word senses with a meaning of, "a member of the genus Canis", the synonyms would be, "domestic dog" and "Canis familiris" \cite{RefWorks:45}.
 \\
 \\
-A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, "instrument" is a hypernym of "guitar", because a guitar is a type of instrument. Similarly, the word "animal" is a hypernym of "cat" (or, at least, the sense which refers to the domestic animal, as "cat" can have several meanings).
+A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, "instrument" is a hypernym of "guitar", because a guitar is a type of instrument. Similarly, the word "animal" is a hypernym of "cat" (or, at least, the sense which refers to the domestic animal, as "cat" can have several usages).
 \\
 \\
 The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense. Note that a hyponym is the inverse relationship between a word and its hypernyms.
@@ -287,7 +292,7 @@ The synonyms and hypernyms of words and phrases can be represented as a hyper-tr
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{hypernym-tree.png}
-  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the sense of the noun, "attack". Note that "attack" can also be a verb.}
+  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the senses of the noun, "attack". The "attack" verb sense (right) is a sibling node.}
   \end{center}
 \end{figure}
 \end{center}
@@ -300,7 +305,7 @@ Synonyms and hypernyms could be used to determine the semantic similarity betwee
 There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a 'similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
 \\
 \\
-The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUS) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS), that is, the most general hypernym that both words have in common. For example, the WUP score for the semantic similarity between "juice" and "water" is as follows \cite{RefWorks:49}:
+The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUP) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS) (that is, the most general hypernym that both words have in common) and compares it with the sum of the depths of each word. For example, the WUP score for the semantic similarity between "juice" and "water" is calculated as follows \cite{RefWorks:49}:
 
 \begin{lstlisting}[frame=single]
 T1 = HypernymTree( juice ) =
@@ -321,20 +326,20 @@ Score = 2 * DepthLCS / ( Depth1 + Depth2 ) = 2 * 6 / (8 + 7)
 Score = 0.8
 \end{lstlisting}
 
-The WUP score of 0.8 out of 1.0. indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words "breathing" and "fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
+The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words "breathing" and "fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
 \\
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
 \subsubsection{Generating Sentences}
 
-One feature from the proposed design of the RPG is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. We would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the intent inference described above, where the meaning of a sentence/phrase is extracted; we would like to be able to go in the opposite direction.
+One feature for the proposed design of the RPG is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. We would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the intent inference described above, where the meaning of a sentence/phrase is extracted; we would like to be able to go in the opposite direction.
 \\
 \\
-This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
+This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) are used to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
 \\
 \\
-Another group of researchers proposed a method of sentence generation which involves taking a sum of word embedding vectors and modelling it as a mixed integer programming problem \cite{RefWorks:54}. However, this also requires the original sentence to be de-constructed in the first place.
+Another group of researchers proposed a method of sentence generation which involves taking a sum of word embedding vectors and modelling it as a mixed integer programming problem \cite{RefWorks:54}. However, this also requires the original sentence to be de-constructed in the first place in order to know what the vector should contain.
 \\
 \\
 One possible solution would be to only hard-code the general sentence structure of the description of rooms, and then insert the appropriate adjectives and nouns of the items, which is given as input in the form of a vector of strings.
@@ -343,9 +348,9 @@ One possible solution would be to only hard-code the general sentence structure 
 
 Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
 
-\subsection{Object Properties and Relations}
+\subsection{Object Properties}
 
-One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, "attack the enemy with a sharp object"); we would like to be able to select a item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt object, whether it can be thrown, and so on.
+One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, "attack the enemy with a sharp object"); we would like to be able to select a item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt, whether it can be thrown, and so on.
 \\
 \\
 A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as we can infer if two objects would have the same properties instead of hard-coding each one.
@@ -356,21 +361,24 @@ By assigning items different properties, we don't have to code the actions the u
 \newpage
 \section{Project Plan}
 \subsection{Project Timeline}
-
 Below is a Gantt Chart showing the expected timeline of the project as of 26th January 2018:
 \begin{center}
 \includegraphics[width=\textwidth, angle=0]{gantt-chart.pdf}
 \end{center}
-The first step was to research do research on games using voice recognition, as well as develop a better understanding of natural language processing. While researching, general development commenced to get the I/O and libraries working correctly. For the speech-to-text engine, Google's open-source API is being used as it is easy to use for Android development \cite{RefWorks:50}.
+
+\subsection{Preliminary Work}
+
+The first step was to research games using voice recognition and different libraries and papers, as well as develop a better understanding of natural language processing. While researching, general development commenced to get the I/O and libraries working correctly. For the speech-to-text engine, Google's open-source API is being used as it is easy to use for Android development \cite{RefWorks:50}.
 \\
 \\
 To access the WordNet lexical database, the JWI (Java WordNet Interface) is being used because, according the the author Mark Finlayson, it is the "highest-performance, widest-coverage, easiest-to-use library available" \cite{RefWorks:19}. For the POS tagger, the Stanford Log-Linear Part-of-Speech Tagger was chosen \cite{RefWorks:51}, as it includes a simple-to-use Java API.
 \\
 \\
-Once the general I/O and systems are created, a skeleton for the game state was written, where the NLP and gameplay systems will be written. The battle system was developed first with a simple demo consisting a battle with a single enemy. Simple commands were implemented (such as "attack" and "heal") without involving items. These actions were hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) were added, so more phrases can be used with different verbs but similar meanings to the hard-coded strings.
-\\
-\\
-Initially, only the Wu and Palmer method for semantic similarity scoring will be used (this measure calculates the ratio of the depth of the Lowest Common Subsumer to the sum of the depths of the two words). Once this works, the other semantic similarity measures (such as the Jiang and Conrath, or the Leacock and Chodorow measures \cite{RefWorks:46}) will be added, and they will all be used to calculate an average score from all the measures, to avoid any bias from using a particular measures (though, only a few will be used to reduce the amount of processing).
+Once the general I/O and systems were created, a skeleton for the game state was written, where the NLP and gameplay systems were written. The battle system was developed first with a simple demo consisting of a battle with a single enemy. Simple commands were implemented (such as "attack" and "heal") without involving items. These actions were hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) were added. With these systems now in place, more phrases can be used with different verbs but similar meanings to the hard-coded strings.
+
+\subsection{Future Work}
+
+Initially, only the Wu and Palmer method for semantic similarity scoring will be used (this measure calculates the ratio of the depth of the Lowest Common Subsumer to the sum of the depths of the two words). Once this works, the other semantic similarity measures (such as the Jiang and Conrath, or the Leacock and Chodorow measures \cite{RefWorks:46}) will be added, and they will all be used to calculate an average score from all the measures, to avoid any bias from using a particular measure (though, only a few will be used to reduce the amount of processing).
 \\
 \\
 The voice recognition flexibility will be tested throughout the project. Eventually, items will be added to the game, and the exploration gameplay will be developed. The game will alternate between battles and exploration.
@@ -379,10 +387,10 @@ The voice recognition flexibility will be tested throughout the project. Eventua
 There are several challenges to this project that aim to make the NLP system more robust. The first one is to add the ability to infer which item the user is referring to based on a given description, as described previously. This would be achieved by giving items properties, such as sharpness or flammability, and applying the semantic similarity process to these adjectives as well.
 \\
 \\
-The second challenge would be to convey to the user the current situation they are in, in order to allow them to play the game and issue commands. For example, if the player is in a room filled with items that they can interact with, the user should be given a description of what's in the room. This text output cannot be hard-coded as it would be very time-consuming. Instead, the sentence could be generated from a vector of sparse information, as described above. This vector could simply contain the items in the room and their relative positions, and a sentence is generated based on the vector information.
+The second challenge would be to convey to the user the current situation they are in using a natural language output, in order to allow them to play the game and issue commands. For example, if the player is in a room filled with items that they can interact with, the user should be given a description of what's in the room. This text output cannot be hard-coded as it would be very time-consuming. Instead, the sentence could be generated from a vector of sparse information, as described above. This vector could simply contain the items in the room and their relative positions, and a sentence is generated based on the vector information.
 \\
 \\
-As an extension, it may be possible to create a learning mechanism for the system. For example, the user may be trying to say a phrase that is not being detected by the proposed NLP system. In this case, there should a a 'training' mode which allows the user to define new 'helper' phrases. For instance, if the player says "I want to regenerate" but this is not mapped to a healing intent (as "heal" and "regenerate" not very similar semantically), the player should be able to train the system to be able to accept this input, e.g. by saying, "regenerate means heal", and this will map the verb "regenerate" to the "heal" intent.
+As an extension, it may be possible to create a learning mechanism for the system. For example, the user may be trying to say a phrase that is not being detected by the proposed NLP system. In this case, there should be a 'training' mode which allows the user to define new 'helper' phrases. For instance, if the player says "I want to regenerate" but this is not mapped to a healing intent (as "heal" and "regenerate" are not very similar semantically), the player should be able to train the system to be able to accept this input, e.g. by saying, "regenerate means heal", and this will map the verb "regenerate" to the "heal" intent.
 \\
 \\
 Another possible extension is to be able to allow a developer to easily design levels for the game. For instance, if the developer would like to create a room with objects, they could type a string description of the objects in the room, and then using POS-tagging and inference, a room full of the given items can be generated effortlessly.
@@ -399,7 +407,7 @@ For the player experience evaluation, a quantitative approach would be to calcul
 A qualitative approach would be to perform surveys on players to measure their satisfaction from the voice recognition system. Questions would be of the form, "Was it easy to issue voice commands?", "Did you understand what actions were available to you in each scenario?", and, "Did the use of a voice recognition scheme improve your enjoyment of the game?". Each question would be answered with a score out of five or ten.
 \\
 \\
-In terms of evaluating the ease of development and integration of the voice commands in games, this could be evaluated by measuring game development time to implement two versions of the same RPG, one using the proposed design, and one without. Unfortunately, it does not seem feasible to measure this within the time frame of this project.
+In terms of evaluating the ease of development and integration of the voice commands in games for the developer, this could be evaluated by measuring game development time to implement two versions of the same RPG, one using the proposed design, and one without. Unfortunately, it does not seem feasible to measure this within the time frame of this project, though simple examination of the size of the source code of the game could be performed; the smaller the amount of code required to implement a system, the better.
 
 \newpage
 \section{Appendix}
