@@ -135,7 +135,7 @@ The voice recognition design used in this game is similar to the proposed design
 Zork is a trilogy of classic text-based role-playing games that supports a free-form style of input. The player is provided with an input scenario (e.g. "You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here."), and then types commands that they want to execute (e.g. "open mailbox" or "attack troll with sword") \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
 \\
 \\
-These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:35}. This allows the player to deliver commadns using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input (described in the next section).
+These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:37}. This allows the player to deliver commadns using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input (described in the next section).
 
 \subsection{Limitations of Zork}
 
@@ -326,9 +326,9 @@ The WUP score of 0.8 out of 1.0. indicates that juice and water are semantically
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
-\subsubsection{Generating Sentences from Vector Representations}
+\subsubsection{Generating Sentences}
 
-One feature from the proposed design of the RPG is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you". One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. We would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the intent inference described above, where the meaning of a sentence/phrase is extracted; we would like to be able to go in the opposite direction.
+One feature from the proposed design of the RPG is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. We would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the intent inference described above, where the meaning of a sentence/phrase is extracted; we would like to be able to go in the opposite direction.
 \\
 \\
 This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
@@ -364,10 +364,10 @@ Below is a Gantt Chart showing the expected timeline of the project as of 26th J
 The first step was to research do research on games using voice recognition, as well as develop a better understanding of natural language processing. While researching, general development commenced to get the I/O and libraries working correctly. For the speech-to-text engine, Google's open-source API is being used as it is easy to use for Android development \cite{RefWorks:50}.
 \\
 \\
-To access the WordNet lexical database, the JWI (Java WordNet Interface) will be used because, according the the author Mark Finlayson, it is the "highest-performance, widest-coverage, easiest-to-use library available" \cite{RefWorks:19}. For the POS tagger, the Stanford Log-Linear Part-of-Speech Tagger will be used \cite{RefWorks:51}, as it includes a Java API.
+To access the WordNet lexical database, the JWI (Java WordNet Interface) is being used because, according the the author Mark Finlayson, it is the "highest-performance, widest-coverage, easiest-to-use library available" \cite{RefWorks:19}. For the POS tagger, the Stanford Log-Linear Part-of-Speech Tagger was chosen \cite{RefWorks:51}, as it includes a simple-to-use Java API.
 \\
 \\
-Once the general I/O and systems are created, a skeleton for the game state will be written, where the NLP and gameplay systems will be written. the battle system will be developed first with a simple demo consisting a battle with a single enemy. Simple commands will be implemented (such as "attack" and "heal") without involving items. These actions will be hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) are added to the system, so more phrases can be used with different verbs but similar meanings to the hard-coded strings.
+Once the general I/O and systems are created, a skeleton for the game state was written, where the NLP and gameplay systems will be written. The battle system was developed first with a simple demo consisting a battle with a single enemy. Simple commands were implemented (such as "attack" and "heal") without involving items. These actions were hard-coded initially into a hash map before the NLP systems (the POS tagger, WordNet systems, etc.) were added, so more phrases can be used with different verbs but similar meanings to the hard-coded strings.
 \\
 \\
 Initially, only the Wu and Palmer method for semantic similarity scoring will be used (this measure calculates the ratio of the depth of the Lowest Common Subsumer to the sum of the depths of the two words). Once this works, the other semantic similarity measures (such as the Jiang and Conrath, or the Leacock and Chodorow measures \cite{RefWorks:46}) will be added, and they will all be used to calculate an average score from all the measures, to avoid any bias from using a particular measures (though, only a few will be used to reduce the amount of processing).
@@ -390,7 +390,16 @@ Another possible extension is to be able to allow a developer to easily design l
 \newpage
 \section{Evaluation Plan}
 
-The success of this project will be measured by the improvements to the user experience and the game development process that this new NLP system will provide. Users should be able to 
+The success of this project will be measured by the improvements to the user experience and the game development process that this new NLP system will provide. Users should be able to execute intents in a flexible manner with little to no frustration, while developers should be able to easily implement new voice intents with little effort while still being able to cover a wide range of acceptable phrases.
+\\
+\\
+For the player experience evaluation, a quantitative approach would be to calculate the proportion of successful inputs given by the user to the total number of inputs given as they progress through the game. We want this to be as high as possible, and to avoid the user becoming frustrated if their command in not accepted. We would like the player to explore as many different acceptable phrases as possible to ensure the system can work in many different circumstances.
+\\
+\\
+A qualitative approach would be to perform surveys on players to measure their satisfaction from the voice recognition system. Questions would be of the form, "Was it easy to issue voice commands?", "Did you understand what actions were available to you in each scenario?", and, "Did the use of a voice recognition scheme improve your enjoyment of the game?". Each question would be answered with a score out of five or ten.
+\\
+\\
+In terms of evaluating the ease of development and integration of the voice commands in games, this could be evaluated by measuring game development time to implement two versions of the same RPG, one using the proposed design, and one without. Unfortunately, it does not seem feasible to measure this within the time frame of this project.
 
 \newpage
 \section{Appendix}
@@ -432,7 +441,6 @@ $$
 $$
 
 \newpage
-TODO: add brackets around title and author in bib file.
 \addcontentsline{toc}{section}{References}
 \bibliography{references}
 \end{document}

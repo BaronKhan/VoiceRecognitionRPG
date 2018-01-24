@@ -15,7 +15,7 @@
 \contentsline {subsubsection}{\numberline {2.4.2}Part-of-Speech Tagging}{11}
 \contentsline {subsubsection}{\numberline {2.4.3}Synonyms and Hypernyms}{11}
 \contentsline {subsubsection}{\numberline {2.4.4}Semantic Similarity}{12}
-\contentsline {subsubsection}{\numberline {2.4.5}Generating Sentences from Vector Representations}{13}
+\contentsline {subsubsection}{\numberline {2.4.5}Generating Sentences}{13}
 \contentsline {subsection}{\numberline {2.5}WordNet}{14}
 \contentsline {subsection}{\numberline {2.6}Object Properties and Relations}{14}
 \contentsline {section}{\numberline {3}Project Plan}{16}
