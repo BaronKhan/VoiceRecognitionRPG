@@ -1,0 +1,9 @@
+Title
+Abstract
+Introduction
+Background
+The details
+Evaluation/Discussion
+Conclusions and further work
+Bibliography
+(Appendices)
