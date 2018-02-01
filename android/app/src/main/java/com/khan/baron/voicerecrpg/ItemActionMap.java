@@ -15,9 +15,9 @@ public class ItemActionMap {
     public Map<String,List<Action>> mMap = new HashMap<>();
     public ItemActionMap(GameState gameState) {
         mGameState = gameState;
-        //  action                                              default, ...
-        mMap.put("attack", new ArrayList<Action>(Arrays.asList( new AttackDefault() )));
-        mMap.put("heal", new ArrayList<Action>(Arrays.asList(   new HealDefault() )));
+        //  action                                              default, WeaponSharp
+        mMap.put("attack", new ArrayList<Action>(Arrays.asList( new AttackDefault(), new AttackWeaponSharp() )));
+        mMap.put("heal", new ArrayList<Action>(Arrays.asList(   new HealDefault(), null )));
     }
 
     public List<Action> get(String key) {

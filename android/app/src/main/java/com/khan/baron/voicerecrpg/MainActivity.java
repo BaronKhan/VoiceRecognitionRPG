@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
             URL url = new URL("file", null, dictFile.getPath());
             mGameState.mDict = new Dictionary(url);
             mGameState.mDict.open();
+            mGameState.mDb = new CustomWordNet(mGameState.mDict);
         }
     }
 

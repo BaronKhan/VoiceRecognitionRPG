@@ -7,23 +7,17 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.lexical_db.NictWordNet;
-import edu.cmu.lti.lexical_db.data.Concept;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ILexFile;
-import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.IWord;
@@ -51,7 +45,12 @@ public class GameState {
     public Enemy mCurrentEnemy;
     public Room mCurrentRoom;
 
+    public Item mActionContext;
+
     public int mHealth = 100;
+
+    //Semantic Similarity Engine
+    ILexicalDatabase mDb = null;
 
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
@@ -62,6 +61,9 @@ public class GameState {
 
         mInventory = new Inventory();
         mMap = new ItemActionMap(this);
+
+        //Don't use Most frequent sense
+        WS4JConfiguration.getInstance().setMFS(false);  //Use all senses, not just most frequent sense (slower but more accurate)
 
         try {
             // Load model
@@ -79,6 +81,8 @@ public class GameState {
     public void initState() {
         // for demo
         initBattleState(new Troll(100));
+        mInventory.add(new WeaponSharp("sword"));
+        mInventory.add(new WeaponSharp("knife"));
     }
 
     public void initBattleState(Enemy currentEnemy) {
@@ -110,7 +114,7 @@ public class GameState {
             assert(words.size() == tags.size());
 
             //extract verbs and nouns for action
-            List<String> candidateActions = getCandidateActions(words, tags);
+            List<String> candidateActions = getCandidateActions(words, tags);   //Now: candidate actions same as context
 
 
             String chosenAction = getMostSimilarWord(candidateActions);
@@ -119,7 +123,12 @@ public class GameState {
             if (mMap.isValidAction(chosenAction)) {
                 // At this point, try to find item associated with action.
                 // For now, just call default action
-                actionOutput =  mMap.get(chosenAction).get(0).run(this);
+                int actionIndex = getActionContext(candidateActions);
+                if (mMap.get(chosenAction).get(actionIndex) == null) {
+                    actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
+                    actionIndex = 0;
+                }
+                actionOutput += mMap.get(chosenAction).get(actionIndex).run(this);
                 acceptedAction = true;
             } else {
                 actionOutput = "I didn't understand that.";
@@ -127,6 +136,7 @@ public class GameState {
 
             if (acceptedAction) {
                 //It's the enemy's turn now
+
             }
 
             // Output new enemy status
@@ -141,6 +151,16 @@ public class GameState {
         return "None";
     }
 
+    public int getActionContext(List<String> candidateContext) {
+        //Go through Inverntory and objects near to player in the room.
+        //Use one with the highest context to one of the words.
+        double bestScore = 0.8;
+        int bestContext = 0; //default
+        for (Item item : mInventory.mItems) {
+
+        }
+    }
+
     public String getMostSimilarWord(List<String> words) {
         double bestScore = 0.8;
         String bestAction = "<none>";
@@ -150,9 +170,7 @@ public class GameState {
             for (String action : actionsList) {
                 if (word.equals(action)) { return action; }
                 else {
-                    ILexicalDatabase db = new CustomWordNet(mDict);
-                    WS4JConfiguration.getInstance().setMFS(false);  //Use all senses, not just most frequent sense (slower but more accurate)
-                    double score = new WuPalmer(db).calcRelatednessOfWords(action, word);
+                    double score = calculateScore(action, word);
                     if (score > bestScore) {
                         bestScore = score;
                         bestAction = action;
@@ -161,6 +179,14 @@ public class GameState {
             }
         }
         return bestAction;
+    }
+
+    public double calculateScore(String word1, String word2) {
+        if (mDb == null) {
+            Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded", Toast.LENGTH_LONG).show();
+            return 0.0;
+        }
+        return new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
     }
 
     public List<String> getCandidateActions(List<String> words, List<String> tags) {

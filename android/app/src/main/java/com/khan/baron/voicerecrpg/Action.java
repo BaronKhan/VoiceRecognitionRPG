@@ -11,6 +11,7 @@ public abstract class Action {
     protected ItemActionMap mMap = null;
     protected Room mCurrentRoom = null;
     protected int mHealth = 0;
+    protected Item mActionContext = null;
 
     abstract String run(GameState state);
 
@@ -22,5 +23,6 @@ public abstract class Action {
         mMap = state.mMap;
         mCurrentRoom = state.mCurrentRoom;
         mHealth = state.mHealth;
+        mActionContext = state.mActionContext;
     }
 }
