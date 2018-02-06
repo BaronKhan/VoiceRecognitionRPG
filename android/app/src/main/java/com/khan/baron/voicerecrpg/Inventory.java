@@ -33,4 +33,26 @@ public class Inventory {
         }
         return count;
     }
+
+    public boolean hasItem(String name) { return (getCount(name) > 0); }
+
+
+    public boolean hasItem(Item.ItemType type) { return (getCount(type) > 0); }
+
+    public int getItemPos(String name) {
+        for (int i=0; i< mItems.size(); ++i) {
+            if (mItems.get(i).getName().equals(name)) { return i; }
+        }
+        return -1;
+    }
+
+    public void remove(String itemName) {
+        for (Item item : mItems) {
+            if (item.getName().equals(itemName)) {
+                mItems.remove(getItemPos(itemName));
+                return;
+            }
+        }
+    }
+
 }

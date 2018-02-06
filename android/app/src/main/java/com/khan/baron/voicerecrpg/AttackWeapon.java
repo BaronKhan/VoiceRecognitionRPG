@@ -1,16 +1,16 @@
 package com.khan.baron.voicerecrpg;
 
 /**
- * Created by Baron on 31/01/2018.
+ * Created by Baron on 06/02/2018.
  */
 
-public class AttackWeaponSharp extends Action {
+public class AttackWeapon extends Action {
     public String run(GameState state) {
         getState(state);
         if (mGameMode == GameState.Mode.MODE_BATTLE) {
             if (mCurrentEnemy != null) {
-                mCurrentEnemy.mHealth = Math.max(0, mCurrentEnemy.mHealth - 17);
-                return "You attacked the " + mCurrentEnemy.mName + " with a sharp " + mActionContext.getName() + ".";
+                mCurrentEnemy.mHealth = Math.max(0, mCurrentEnemy.mHealth - 5);
+                return "You attacked the " + mCurrentEnemy.mName + " with " + mActionContext.getName() + ".";
             } else {
                 return "There is no " + mCurrentEnemy.mName + " to attack.";
             }

@@ -83,6 +83,9 @@ public class GameState {
         initBattleState(new Troll(100));
         mInventory.add(new WeaponSharp("sword"));
         mInventory.add(new WeaponSharp("knife"));
+        mInventory.add(new Potion("potion"));
+        mInventory.add(new Potion("potion"));
+        mInventory.add(new Potion("elixer"));
     }
 
     public void initBattleState(Enemy currentEnemy) {
@@ -124,6 +127,7 @@ public class GameState {
                 // At this point, try to find item associated with action.
                 // For now, just call default action
                 int actionIndex = getActionContext(candidateActions);
+
                 if (mMap.get(chosenAction).get(actionIndex) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
                     actionIndex = 0;
@@ -152,13 +156,50 @@ public class GameState {
     }
 
     public int getActionContext(List<String> candidateContext) {
-        //Go through Inverntory and objects near to player in the room.
+        //First look for "with" or using preceding the context
+        //Go through Inventory and objects near to player in the room.
         //Use one with the highest context to one of the words.
+        //Then match with indices based on type of object, semantics, etc.
         double bestScore = 0.8;
-        int bestContext = 0; //default
-        for (Item item : mInventory.mItems) {
-
+        int bestContext;
+        Item bestItem = null;
+        boolean foundWithUsing = false;
+        //Find best word
+        for (String contextWord : candidateContext) {
+            for (Item item : mInventory.mItems) {
+                String itemName = item.getName();
+                if (contextWord.equals(itemName)) {
+                    bestScore = 1.0;
+                    bestItem = item;
+                } else {
+                    double score = calculateScore(contextWord, itemName);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestItem = item;
+                    }
+                }
+            }
         }
+        //Determine type of word (index)
+        if (bestItem == null) { return 0; }
+        mActionContext = bestItem;
+        String bestItemName = bestItem.getName();
+        switch(bestItem.getType()) {
+            case ITEM_WEAPON:
+                if (calculateScore(bestItemName, "sharp") > 0.6) {
+                    bestContext = 2;    //AttackWeaponSharp
+                } else if (calculateScore(bestItemName, "blunt") > 0.6) {
+                    bestContext = 3;    //AttackWeaponBlunt
+                } else { bestContext = 1; } //AttackWeapon
+                    break;
+            case ITEM_HEALING:
+                bestContext = 4;    //HealItem
+                break;
+            default:
+                bestContext = 0;    //default
+                break;
+        }
+        return bestContext;
     }
 
     public String getMostSimilarWord(List<String> words) {
@@ -186,7 +227,14 @@ public class GameState {
             Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded", Toast.LENGTH_LONG).show();
             return 0.0;
         }
-        return new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
+        double score;
+        try {
+            score = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
+        } catch (Exception e) {
+            Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs", Toast.LENGTH_LONG).show();
+            score = 0.0;
+        }
+        return score;
     }
 
     public List<String> getCandidateActions(List<String> words, List<String> tags) {
