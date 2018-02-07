@@ -10,7 +10,7 @@ public class AttackWeapon extends Action {
         if (mGameMode == GameState.Mode.MODE_BATTLE) {
             if (mCurrentEnemy != null) {
                 mCurrentEnemy.mHealth = Math.max(0, mCurrentEnemy.mHealth - 5);
-                return "You attacked the " + mCurrentEnemy.mName + " with " + mActionContext.getName() + ".";
+                return "You attacked the " + mCurrentEnemy.mName + " with " + mActionContext + ".";
             } else {
                 return "There is no " + mCurrentEnemy.mName + " to attack.";
             }

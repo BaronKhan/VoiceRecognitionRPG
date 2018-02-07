@@ -10,7 +10,7 @@ public class AttackWeaponSharp extends Action {
         if (mGameMode == GameState.Mode.MODE_BATTLE) {
             if (mCurrentEnemy != null) {
                 mCurrentEnemy.mHealth = Math.max(0, mCurrentEnemy.mHealth - 17);
-                return "You attacked the " + mCurrentEnemy.mName + " with a sharp " + mActionContext.getName() + ".";
+                return "You attacked the " + mCurrentEnemy.mName + " with a sharp " + mActionContext + ".";
             } else {
                 return "There is no " + mCurrentEnemy.mName + " to attack.";
             }

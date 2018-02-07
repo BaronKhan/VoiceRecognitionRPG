@@ -1,7 +1,9 @@
 package com.khan.baron.voicerecrpg;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Baron on 12/01/2018.
@@ -10,12 +12,16 @@ import java.util.List;
 public class Inventory {
     public List<Item> mItems;
 
+    public Set<String> mPastItems;
+
     public Inventory() {
         mItems = new ArrayList<>();
+        mPastItems = new HashSet<>();
     }
 
     public void add(Item item) {
         mItems.add(item);
+        mPastItems.add(item.getName());
     }
 
     public int getCount(Item.ItemType type) {

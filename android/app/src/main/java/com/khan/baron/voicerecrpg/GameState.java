@@ -45,7 +45,7 @@ public class GameState {
     public Enemy mCurrentEnemy;
     public Room mCurrentRoom;
 
-    public Item mActionContext;
+    public String mActionContext;
 
     public int mHealth = 100;
 
@@ -182,13 +182,12 @@ public class GameState {
         }
         //Determine type of word (index)
         if (bestItem == null) { return 0; }
-        mActionContext = bestItem;
-        String bestItemName = bestItem.getName();
+        mActionContext = bestItem.getName();
         switch(bestItem.getType()) {
             case ITEM_WEAPON:
-                if (calculateScore(bestItemName, "sharp") > 0.6) {
+                if (calculateScore(mActionContext, "sharp") > 0.6) {
                     bestContext = 2;    //AttackWeaponSharp
-                } else if (calculateScore(bestItemName, "blunt") > 0.6) {
+                } else if (calculateScore(mActionContext, "blunt") > 0.6) {
                     bestContext = 3;    //AttackWeaponBlunt
                 } else { bestContext = 1; } //AttackWeapon
                     break;
