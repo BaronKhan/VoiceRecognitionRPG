@@ -51,7 +51,10 @@ public class GameStateTest {
     }
 
     @Test
-    public void runTest() {
-        gameState.initBattleState(new Troll(100));
+    public void testAttackInput() {
+        gameState.initBattleState(new Troll(9999999));
+        assertEquals(gameState.updateState("attack").contains("attacked"), true);
+        assertEquals(gameState.updateState("use").contains("attacked"), false);
+        assertEquals(gameState.updateState("hit").contains("attacked"), true);
     }
 }
