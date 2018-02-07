@@ -14,6 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
+import edu.cmu.lti.ws4j.impl.HirstStOnge;
+import edu.cmu.lti.ws4j.impl.Lesk;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.IDictionary;
@@ -81,9 +83,9 @@ public class GameState {
     public void initState() {
         // for demo
         initBattleState(new Troll(100));
-        mInventory.add(new Weapon("sword"));
-        mInventory.add(new Weapon("knife"));
-        mInventory.add(new Weapon("hammer"));
+        mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        mInventory.add(new Weapon("knife", "sharp", "short", "metallic"));
+        mInventory.add(new Weapon("hammer", "heavy", "blunt"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
@@ -118,25 +120,30 @@ public class GameState {
             assert(words.size() == tags.size());
 
             //extract verbs and nouns for action
-            List<String> candidateActions = getCandidateActions(words, tags);   //Now: candidate actions same as context
-
-
+            List<String> candidateActions = getCandidateActions(words, tags);
             String chosenAction = getMostSimilarWord(candidateActions);
 
             //check verb and check in look-up table for default action
             if (mMap.isValidAction(chosenAction)) {
                 // At this point, try to find item associated with action.
                 // For now, just call default action
-                int actionIndex = getActionContext(candidateActions);
+                List<String> candidateContext = getCandidateContext(words, tags);
+                int actionIndex = getActionContext(candidateContext);
+
+//                actionOutput += "action: " + chosenAction + ", context: " + actionIndex + "\n";
 
                 if (mMap.get(chosenAction).get(actionIndex) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
                     actionIndex = 0;
                 }
-                actionOutput += mMap.get(chosenAction).get(actionIndex).run(this);
-                acceptedAction = true;
+                if (mMap.get(chosenAction).get(actionIndex) == null) {
+                    actionOutput += "Intent not understood.";
+                } else {
+                    actionOutput += mMap.get(chosenAction).get(actionIndex).run(this);
+                    acceptedAction = true;
+                }
             } else {
-                actionOutput = "I didn't understand that.";
+                actionOutput = "Intent not understood.";
             }
 
             if (acceptedAction) {
@@ -145,7 +152,7 @@ public class GameState {
             }
 
             // Output new enemy status
-            enemyOutput += mCurrentEnemy.mName + ": " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
+            enemyOutput += mCurrentEnemy.mName + "'s health: " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
 
             return actionOutput + "\n\n" + enemyOutput;
 
@@ -161,6 +168,10 @@ public class GameState {
         //Go through Inventory and objects near to player in the room.
         //Use one with the highest context to one of the words.
         //Then match with indices based on type of object, semantics, etc.
+        if (candidateContext.size() <= 1) {
+            mActionContext = null;
+            return 0;
+        }
         double bestScore = 0.8;
         int bestContext;
         Item bestItem = null;
@@ -172,6 +183,7 @@ public class GameState {
                 if (contextWord.equals(itemName)) {
                     bestScore = 1.0;
                     bestItem = item;
+                    break;
                 } else {
                     double score = calculateScore(contextWord, itemName);
                     if (score > bestScore) {
@@ -179,6 +191,22 @@ public class GameState {
                         bestItem = item;
                     }
                 }
+
+//                //check descriptions
+//                if (bestScore < 0.5) {
+//                    for (String descr : item.mDescription) {
+//                        if (contextWord.equals(descr)) {
+//                            bestScore = 1.0;
+//                            bestItem = item;
+//                        } else {
+//                            double score = calculateScore(contextWord, descr);
+//                            if (score > bestScore) {
+//                                bestScore = score;
+//                                bestItem = item;
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
         //Determine type of word (index)
@@ -188,13 +216,13 @@ public class GameState {
             mActionContext = bestItem.getName();
             switch (bestItem.getType()) {
                 case ITEM_WEAPON:
-                    if (calculateScore(mActionContext, "sharp") > 0.6) {
+                    if (bestItem.itemIs("sharp")) {
                         bestContext = 2;    //AttackWeaponSharp
-                    } else if (calculateScore(mActionContext, "blunt") > 0.6) {
+                    } else if (bestItem.itemIs("blunt")) {
                         bestContext = 3;    //AttackWeaponBlunt
                     } else {
-                        bestContext = 1;
-                    } //AttackWeapon
+                        bestContext = 1;    //AttackWeapon
+                    }
                     break;
                 case ITEM_HEALING:
                     bestContext = 4;    //HealItem
@@ -234,6 +262,9 @@ public class GameState {
         }
         double score;
         try {
+//            double scoreWup = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
+//            double scoreLesk = new Lesk(mDb).calcRelatednessOfWords(word1, word2);
+//            score = (scoreWup + (scoreLesk/16.0))/2.0;
             score = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
         } catch (Exception e) {
             Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs", Toast.LENGTH_LONG).show();
@@ -247,6 +278,17 @@ public class GameState {
         for (int i=0; i<words.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
             if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n') {
+                candidateActions.add(words.get(i));
+            }
+        }
+        return candidateActions;
+    }
+
+    public List<String> getCandidateContext(List<String> words, List<String> tags) {
+        List<String> candidateActions = new ArrayList<>();
+        for (int i=0; i<words.size(); ++i) {
+            String tag = tags.get(i).toLowerCase();
+            if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j') {
                 candidateActions.add(words.get(i));
             }
         }

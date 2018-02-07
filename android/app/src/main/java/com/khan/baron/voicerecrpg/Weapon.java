@@ -8,4 +8,8 @@ public class Weapon extends Item {
     public Weapon(String name) {
         super (name, ItemType.ITEM_WEAPON);
     }
+
+    public Weapon(String name, String ... description) {
+        super (name, ItemType.ITEM_WEAPON, description);
+    }
 }
