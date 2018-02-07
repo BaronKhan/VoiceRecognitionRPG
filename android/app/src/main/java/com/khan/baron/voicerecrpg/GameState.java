@@ -181,22 +181,27 @@ public class GameState {
             }
         }
         //Determine type of word (index)
-        if (bestItem == null) { return 0; }
-        mActionContext = bestItem.getName();
-        switch(bestItem.getType()) {
-            case ITEM_WEAPON:
-                if (calculateScore(mActionContext, "sharp") > 0.6) {
-                    bestContext = 2;    //AttackWeaponSharp
-                } else if (calculateScore(mActionContext, "blunt") > 0.6) {
-                    bestContext = 3;    //AttackWeaponBlunt
-                } else { bestContext = 1; } //AttackWeapon
+        if (bestItem == null) {
+            return 0;
+        } else {
+            mActionContext = bestItem.getName();
+            switch (bestItem.getType()) {
+                case ITEM_WEAPON:
+                    if (calculateScore(mActionContext, "sharp") > 0.6) {
+                        bestContext = 2;    //AttackWeaponSharp
+                    } else if (calculateScore(mActionContext, "blunt") > 0.6) {
+                        bestContext = 3;    //AttackWeaponBlunt
+                    } else {
+                        bestContext = 1;
+                    } //AttackWeapon
                     break;
-            case ITEM_HEALING:
-                bestContext = 4;    //HealItem
-                break;
-            default:
-                bestContext = 0;    //default
-                break;
+                case ITEM_HEALING:
+                    bestContext = 4;    //HealItem
+                    break;
+                default:
+                    bestContext = 0;    //default
+                    break;
+            }
         }
         return bestContext;
     }

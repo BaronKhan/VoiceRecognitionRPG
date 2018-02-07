@@ -17,6 +17,7 @@ public class ItemActionMap {
     public ItemActionMap(GameState gameState) {
         mGameState = gameState;
         //  action                                              default,                Weapon,                             WeaponSharp,                WeaponBlunt,                HealItem
+        mMap.put("use", new ArrayList<Action>(Arrays.asList(    null,                   new AttackWeapon(),                 new AttackWeaponSharp(),    new AttackWeaponBlunt(),    new HealItem() )));
         mMap.put("attack", new ArrayList<Action>(Arrays.asList( new AttackDefault(),    new AttackWeapon(),                 new AttackWeaponSharp() ,   new AttackWeaponBlunt(),    null)));
         mMap.put("heal", new ArrayList<Action>(Arrays.asList(   new HealDefault(),      null,                               null,                       null,                       new HealItem() )));
     }
