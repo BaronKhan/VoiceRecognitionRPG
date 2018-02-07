@@ -1,0 +1,57 @@
+package com.khan.baron.voicerecrpg;
+
+import android.content.Context;
+import android.os.Environment;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.io.File;
+import java.net.URL;
+
+import edu.mit.jwi.Dictionary;
+
+import static org.junit.Assert.*;
+
+/**
+ * Instrumentation test, which will execute on an Android device.
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+@RunWith(AndroidJUnit4.class)
+public class GameStateTest {
+    public GameState gameState;
+
+    public GameStateTest() {
+        gameState = new GameState(null);
+        File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
+        if (dictFile.exists()) {
+            System.out.println("Found WordNet database on phone");
+            try {
+                URL url = new URL("file", null, dictFile.getPath());
+                gameState.mDict = new Dictionary(url);
+                gameState.mDict.open();
+                gameState.mDb = new CustomWordNet(gameState.mDict);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Could not find WordNet database on phone");
+        }
+    }
+
+    @Test
+    public void useAppContext() throws Exception {
+        // Context of the app under test.
+        Context appContext = InstrumentationRegistry.getTargetContext();
+
+        assertEquals("com.khan.baron.voicerecrpg", appContext.getPackageName());
+    }
+
+    @Test
+    public void runTest() {
+        gameState.initBattleState(new Troll(100));
+    }
+}
