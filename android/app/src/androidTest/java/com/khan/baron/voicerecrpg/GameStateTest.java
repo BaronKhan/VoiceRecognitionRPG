@@ -56,5 +56,23 @@ public class GameStateTest {
         assertEquals(gameState.updateState("attack").contains("attacked"), true);
         assertEquals(gameState.updateState("use").contains("attacked"), false);
         assertEquals(gameState.updateState("hit").contains("attacked"), true);
+        assertEquals(gameState.updateState("heal").contains("attacked"), false);
+        assertEquals(gameState.updateState("launch an assault").contains("attacked"), true);
+        assertEquals(gameState.updateState("charge at the troll").contains("attacked"), true);
+        assertEquals(gameState.updateState("jump up and down").contains("attacked"), false);
+    }
+
+    @Test
+    public void testHealInput() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Potion("potion"));
+        gameState.mInventory.add(new Potion("potion"));
+        gameState.mInventory.add(new Potion("potion"));
+        gameState.mInventory.add(new Potion("elixer"));
+        gameState.mInventory.add(new Weapon("sword"));
+        assertEquals(gameState.updateState("heal").contains("healed"), true);
+        assertEquals(gameState.updateState("use a potion").contains("healed"), true);
+        assertEquals(gameState.updateState("hit").contains("healed"), false);
+        assertEquals(gameState.updateState("heal with elixer").contains("healed"), true);
     }
 }
