@@ -81,8 +81,9 @@ public class GameState {
     public void initState() {
         // for demo
         initBattleState(new Troll(100));
-        mInventory.add(new WeaponSharp("sword"));
-        mInventory.add(new WeaponSharp("knife"));
+        mInventory.add(new Weapon("sword"));
+        mInventory.add(new Weapon("knife"));
+        mInventory.add(new Weapon("hammer"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
