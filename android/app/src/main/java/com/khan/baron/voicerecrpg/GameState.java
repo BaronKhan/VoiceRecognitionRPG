@@ -243,7 +243,7 @@ public class GameState {
         for (String word : words) {
             for (String action : actionsList) {
                 if (word.equals(action)) { return action; }
-                else {
+                else if (action != "use") {
                     double score = calculateScore(action, word);
                     if (score > bestScore) {
                         bestScore = score;
