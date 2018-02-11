@@ -54,6 +54,7 @@ public class GameStateTest {
     public void testAttackInput() {
         gameState.initBattleState(new Troll(9999999));
         assertEquals(gameState.updateState("attack").contains("You attacked the troll."), true);
+        assertEquals(gameState.updateState("attack with everything you've got").contains("You attacked the troll."), true);
         assertEquals(gameState.updateState("use").contains("attacked"), false);
         assertEquals(gameState.updateState("hit").contains("You attacked the troll."), true);
         assertEquals(gameState.updateState("heal").contains("attacked"), false);
@@ -61,8 +62,10 @@ public class GameStateTest {
         assertEquals(gameState.updateState("charge at the troll").contains("You attacked the troll."), true);
         assertEquals(gameState.updateState("jump up and down").contains("You attacked the troll."), false);
         gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
+        assertEquals(gameState.updateState("attack with the hammer").contains("hammer"), true);
+        assertEquals(gameState.updateState("attack with the sledgehammer").contains("hammer"), true);
         assertEquals(gameState.updateState("attack the troll").contains("You attacked the troll."), true);
-        assertEquals("score = "+gameState.calculateScore("troll", "hit"),gameState.updateState("hit the troll").contains("You attacked the troll."), true);
+        assertEquals(gameState.updateState("hit the troll").contains("You attacked the troll."), true);
     }
 
     @Test
