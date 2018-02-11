@@ -127,7 +127,7 @@ public class GameState {
             if (mMap.isValidAction(chosenAction)) {
                 // At this point, try to find item associated with action.
                 // For now, just call default action
-                List<String> candidateContext = getCandidateContext(words, tags);
+                List<String> candidateContext = getCandidateContext(words, tags, chosenAction.equals("use"));
                 int actionIndex = getActionContext(candidateContext);
 
 //                actionOutput += "action: " + chosenAction + ", context: " + actionIndex + "\n";
@@ -168,7 +168,7 @@ public class GameState {
         //Go through Inventory and objects near to player in the room.
         //Use one with the highest context to one of the words.
         //Then match with indices based on type of object, semantics, etc.
-        if (candidateContext.size() <= 1) {
+        if (candidateContext.size() < 1) {
             mActionContext = null;
             return 0;
         }
@@ -237,21 +237,32 @@ public class GameState {
 
     public String getMostSimilarWord(List<String> words) {
         double bestScore = 0.8;
+        int bestIndex = -1;
         String bestAction = "<none>";
         Set<String> keys = mMap.mMap.keySet();
         String[] actionsList = keys.toArray(new String[keys.size()]);
-        for (String word : words) {
+        for (int i=0; i<words.size(); ++i) {
+            String word = words.get(i);
             for (String action : actionsList) {
-                if (word.equals(action)) { return action; }
+                if (word.equals(action)) {
+                    words.remove(i);
+                    return action;
+                }
                 else if (action != "use") {
                     double score = calculateScore(action, word);
                     if (score > bestScore) {
                         bestScore = score;
+                        bestIndex = i;
                         bestAction = action;
                     }
                 }
             }
         }
+        //Remove chosen word from list input
+        if (bestIndex > -1) {
+            words.remove(bestIndex);
+        }
+
         return bestAction;
     }
 
@@ -285,13 +296,22 @@ public class GameState {
     }
 
     public List<String> getCandidateContext(List<String> words, List<String> tags) {
+        return getCandidateContext(words, tags, false);
+    }
+
+    public List<String> getCandidateContext(List<String> words, List<String> tags, boolean withUseAction) {
         List<String> candidateActions = new ArrayList<>();
+        boolean foundWithUsing = withUseAction;
         for (int i=0; i<words.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
-            if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j') {
+            if (foundWithUsing &&
+                    (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j')) {
                 candidateActions.add(words.get(i));
+            } else if (words.get(i).equals("with") || words.get(i).equals("using")) {
+                foundWithUsing = true;
             }
         }
+        //remove everything before with/using
         return candidateActions;
     }
 
