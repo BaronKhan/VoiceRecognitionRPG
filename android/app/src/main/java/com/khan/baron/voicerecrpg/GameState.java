@@ -137,7 +137,8 @@ public class GameState {
                 actionOutput = "Intent not understood.";
             }
 
-            if (acceptedAction) { //TODO: It's the enemy's turn now
+            if (acceptedAction) { //It's the enemy's turn now
+                enemyOutput += mCurrentEnemy.takeTurn() + "\n";
             }
 
             // Output new enemy status

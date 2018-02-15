@@ -1,5 +1,7 @@
 package com.khan.baron.voicerecrpg.items;
 
+import com.khan.baron.voicerecrpg.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Created by Baron on 12/01/2018.
  */
 
-public abstract class Item {
+public abstract class Item implements Context {
     public enum ItemType {
         ITEM_WEAPON, ITEM_SHIELD, ITEM_HEALING, ITEM_KEY
     }
