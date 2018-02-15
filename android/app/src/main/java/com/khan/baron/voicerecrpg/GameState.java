@@ -14,25 +14,15 @@ import com.khan.baron.voicerecrpg.rooms.Room;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.ws4j.impl.HirstStOnge;
-import edu.cmu.lti.ws4j.impl.Lesk;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ISynset;
-import edu.mit.jwi.item.ISynsetID;
-import edu.mit.jwi.item.IWord;
-import edu.mit.jwi.item.IWordID;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.Pointer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_BATTLE;
@@ -111,8 +101,6 @@ public class GameState {
 
     public String updateState(String input) {
         if (mDict == null) { return "Error: WordNet not loaded."; }
-//        return testHypernyms(input);
-//        return testCustomWordNet();
 
         String actionOutput = "";
 
@@ -133,12 +121,8 @@ public class GameState {
             //check verb and check in look-up table for default action
             if (mMap.isValidAction(chosenAction)) {
                 // At this point, try to find item associated with action.
-                // For now, just call default action
                 List<String> candidateContext = getCandidateContext(words, tags, chosenAction.equals("use"));
                 int actionIndex = getActionContext(candidateContext);
-
-//                actionOutput += "action: " + chosenAction + ", context: " + actionIndex + "\n";
-
                 if (mMap.get(chosenAction).get(actionIndex) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
                     actionIndex = 0;
@@ -153,9 +137,7 @@ public class GameState {
                 actionOutput = "Intent not understood.";
             }
 
-            if (acceptedAction) {
-                //It's the enemy's turn now
-
+            if (acceptedAction) { //TODO: It's the enemy's turn now
             }
 
             // Output new enemy status
@@ -171,10 +153,6 @@ public class GameState {
     }
 
     public int getActionContext(List<String> candidateContext) {
-        //First look for "with" or using preceding the context
-        //Go through Inventory and objects near to player in the room.
-        //Use one with the highest context to one of the words.
-        //Then match with indices based on type of object, semantics, etc.
         if (candidateContext.size() < 1) {
             mActionContext = null;
             return 0;
@@ -198,22 +176,6 @@ public class GameState {
                         bestItem = item;
                     }
                 }
-
-//                //check descriptions
-//                if (bestScore < 0.5) {
-//                    for (String descr : item.mDescription) {
-//                        if (contextWord.equals(descr)) {
-//                            bestScore = 1.0;
-//                            bestItem = item;
-//                        } else {
-//                            double score = calculateScore(contextWord, descr);
-//                            if (score > bestScore) {
-//                                bestScore = score;
-//                                bestItem = item;
-//                            }
-//                        }
-//                    }
-//                }
             }
         }
         //Determine type of word (index)
@@ -265,6 +227,7 @@ public class GameState {
                 }
             }
         }
+
         //Remove chosen word from list input
         if (bestIndex > -1) {
             words.remove(bestIndex);
@@ -280,9 +243,6 @@ public class GameState {
         }
         double score;
         try {
-//            double scoreWup = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
-//            double scoreLesk = new Lesk(mDb).calcRelatednessOfWords(word1, word2);
-//            score = (scoreWup + (scoreLesk/16.0))/2.0;
             score = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
         } catch (Exception e) {
             Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs", Toast.LENGTH_LONG).show();
@@ -332,134 +292,5 @@ public class GameState {
             tags.add(m.group());
         }
         return tags;
-    }
-
-    ////////////////////
-    // TEST FUNCTIONS //
-    ////////////////////
-
-    public String testHypernyms(String input) {
-        try {
-            // extract noun/verb from sentence
-            String tagged = null;
-            if (mTagger != null) {
-                tagged = mTagger.tagString(input);
-            } else {
-                return "Error: unable to load POS tagger model";
-            }
-
-            String taggedList[] = null;
-
-            if (tagged != null) {
-                taggedList = tagged.split(" ");
-            }
-
-            POS tagType = POS.NOUN;
-
-            if (taggedList != null) {
-                for (String i : taggedList) {
-                    if (i.contains("_NN")) {
-                        input = i.replace("_NN", "");
-                        break;
-                    } else if (i.contains("_VB")) {
-                        input = i.replace("_VB", "");
-                        tagType = POS.VERB;
-                        break;
-                    }
-                }
-            }
-
-            // get first verb or noun
-            IIndexWord idxWord = mDict.getIndexWord(input, tagType);
-            IWordID wordID = idxWord.getWordIDs().get(0);
-            IWord word = mDict.getWord(wordID);
-            ISynset synset = word.getSynset();
-
-            // get synonyms
-            String output = tagged + "\n\nsynonyms: \n";
-            for (IWord w : synset.getWords()) {
-                output += w.getLemma() + ", ";
-            }
-
-            // get hypernyms
-            output += "\n\nhypernyms: \n";
-            List<ISynsetID> hypernymsList = synset.getRelatedSynsets(Pointer.HYPERNYM);
-            for (ISynsetID sid : hypernymsList) {
-                List<IWord> words = mDict.getSynset(sid).getWords();
-                output += "{";
-                for (Iterator<IWord> i = words.iterator(); i.hasNext(); ) {
-                    output += i.next().getLemma() + ", ";
-                }
-                output += "}, ";
-            }
-
-
-
-            // print out the first hypernym branch of the word
-            String currentWord = input;
-            output += "\n\nhypernym branch: \n" + currentWord + " --> ";
-            for (int i = 0; i < 5; ++i) {
-                IIndexWord idxWord2 = mDict.getIndexWord(currentWord, tagType);
-                IWordID wordID2 = idxWord2.getWordIDs().get(0);
-                IWord word2 = mDict.getWord(wordID2);
-                ISynset synset2 = word2.getSynset();
-                List<ISynsetID> hypernymsList2 = synset2.getRelatedSynsets(Pointer.HYPERNYM);
-                List<IWord> words = mDict.getSynset(hypernymsList2.get(0)).getWords();
-                if (words.size() > 0) {
-                    currentWord = words.get(0).getLemma();
-                    output += currentWord + " --> ";
-                } else {
-                    break;
-                }
-            }
-            return output;
-        } catch (Exception e) {
-            return "input = " + input + "\n\nError: " + e.getMessage();
-        }
-    }
-
-    double testCompute(ILexicalDatabase db, String word1, String word2) {
-        WS4JConfiguration.getInstance().setMFS(true);
-        double s = new WuPalmer(db).calcRelatednessOfWords(word1, word2);
-        return s;
-    }
-
-    public String testCustomWordNet() {
-        String output = "";
-        ILexicalDatabase db = new CustomWordNet(mDict);
-
-//        String word1 = "create", word2 = "extraterrestrial";
-//        double distance = compute(db, word1, word2);
-//        output += word1+ " - "+ word2 +" = " + distance+"\n";
-
-        String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
-
-        for(int i=0; i<words.length-1; i++){
-            for(int j=i+1; j<words.length; j++){
-                double distance = testCompute(db, words[i], words[j]);
-                output += /*words[i] +" -  " +  words[j] + " = " + */distance+"\n";
-            }
-        }
-
-
-//        Concept c = db.getMostFrequentConcept("dog", "n");	//returns different synsets with id
-//        String cStr = c.toString();
-//        output += "\nmost frequent:\n"+cStr+"\n";
-//
-//        Collection<Concept> cColl = db.getAllConcepts("dog", "n");
-//        Iterator<Concept> iterator = cColl.iterator();
-//        while (iterator.hasNext()) {
-//            output += iterator.next().toString()+"\n";
-//            iterator.next();
-//        }
-//
-//        output += "\nall hypernyms of 02086723-n:";
-//        Collection<String> hypernyms = db.getHypernyms("02086723-n");
-//        Iterator<String> iterator2 = hypernyms.iterator();
-//        while (iterator2.hasNext()) {
-//            output += iterator2.next()+"\n";
-//        }
-
-        return output;
     }
 }

@@ -199,10 +199,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean isDownloadManagerAvailable() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            return true;
-        }
-        return false;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
     }
 
     public void checkDownloadPermission() {
