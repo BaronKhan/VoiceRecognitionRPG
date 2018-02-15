@@ -6,10 +6,26 @@ One room, one enemy
 Room
 ----
 
+Items can either be the object of a sentence or a secondary object (with/using)
+
+### Items
+- potion
+- potion
+- elixer
+- knife
+- key
 
 
+### Objects
+All items are objects.
+- painting
+- table
+- box
+- door
 
+### Puzzle
 
+There is a knife on a table. There is a painting _hanging_ from the wall. Cut the painting down to reveal a box. Open the box to reveal a key. Use the key to open the door.
 
 Old Ideas
 ===
