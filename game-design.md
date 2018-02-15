@@ -1,6 +1,20 @@
 Game Design
 ================
 
+One room, one enemy
+
+Room
+----
+
+
+
+
+
+
+Old Ideas
+===
+
+
 Zork-like game
 ----------------------
 

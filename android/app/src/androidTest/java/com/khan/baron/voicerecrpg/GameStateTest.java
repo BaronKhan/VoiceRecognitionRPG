@@ -5,6 +5,10 @@ import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.khan.baron.voicerecrpg.enemies.Troll;
+import com.khan.baron.voicerecrpg.items.Potion;
+import com.khan.baron.voicerecrpg.items.Weapon;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

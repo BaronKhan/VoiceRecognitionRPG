@@ -1,4 +1,6 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.actions;
+
+import com.khan.baron.voicerecrpg.GameState;
 
 /**
  * Created by Baron on 19/01/2018.

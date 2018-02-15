@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.items;
 
 import java.util.ArrayList;
 import java.util.List;

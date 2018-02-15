@@ -1,5 +1,7 @@
 package com.khan.baron.voicerecrpg;
 
+import com.khan.baron.voicerecrpg.items.Item;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

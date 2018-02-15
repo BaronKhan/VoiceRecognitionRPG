@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.enemies;
 
 /**
  * Created by Baron on 12/01/2018.

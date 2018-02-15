@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.items;
 
 /**
  * Created by Baron on 06/02/2018.

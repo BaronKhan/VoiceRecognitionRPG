@@ -1,4 +1,10 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.actions;
+
+import com.khan.baron.voicerecrpg.GameState;
+import com.khan.baron.voicerecrpg.Inventory;
+import com.khan.baron.voicerecrpg.ItemActionMap;
+import com.khan.baron.voicerecrpg.enemies.Enemy;
+import com.khan.baron.voicerecrpg.rooms.Room;
 
 /**
  * Created by Baron on 11/01/2018.
@@ -13,9 +19,9 @@ public abstract class Action {
     protected int mHealth = 0;
     protected String mActionContext = null;
 
-    abstract String run(GameState state);
+    public abstract String run(GameState state);
 
-    void getState(GameState state) {
+    public void getState(GameState state) {
         //Get the child objects of state for easier access
         mGameMode = state.mGameMode;
         mInventory = state.mInventory;
