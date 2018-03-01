@@ -115,18 +115,17 @@ public class GameState {
             //tokenise and tag
             List<String> words = new ArrayList<>();
             words.addAll(new LinkedList<>(Arrays.asList(input.split(" "))));
+            removeContractions(words);
             List<String> tags = getTags(input);
-            assert(words.size() == tags.size());
-
+            if (words.size()!=tags.size()) {
+                throw new AssertionError("Error: no. of words != no.of tags");
+            }
+            
             String chosenAction = getBestAction(words, tags);
 
-            assert(words.size() == tags.size());
 
             if (mMap.isValidAction(chosenAction)) {
                 String chosenTarget = getBestTarget(words, tags);
-
-                assert(words.size() == tags.size());
-
                 int actionIndex = getBestContext(words, tags, chosenAction.equals("use"));
                 if (mMap.get(chosenAction).get(actionIndex) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
@@ -268,14 +267,13 @@ public class GameState {
     }
 
     public List<Integer> getCandidateTargets(List<String> words, List<String> tags) {
-        assert(words.size() == tags.size());
         List<Integer> candidateTargets = new ArrayList<>();
         boolean foundWithUsing = false;
         for (int i=0; i<tags.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
-//            if (words.get(i).equals("with") || words.get(i).equals("using")) {
-//                foundWithUsing = true;
-//            }
+            if (words.get(i).equals("with") || words.get(i).equals("using")) {
+                foundWithUsing = true;
+            }
             if ((!foundWithUsing) && (tag.charAt(0) == 'n')) {
                 candidateTargets.add(i);
             }
@@ -337,5 +335,13 @@ public class GameState {
             tags.add(m.group());
         }
         return tags;
+    }
+
+    public void removeContractions(List<String> words) {
+        for (int i = 0; i < words.size(); ++i) {
+            if (words.get(i).contains("'")) {
+                words.remove(i);
+            }
+        }
     }
 }

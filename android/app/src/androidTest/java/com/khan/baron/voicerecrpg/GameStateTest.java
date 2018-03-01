@@ -78,7 +78,7 @@ public class GameStateTest {
     public void testAttackInputSuite() {
         gameState.initBattleState(new Troll(9999999));
         testAttackedTroll("attack", true);
-        testAttackedTroll("attack with everything you've got", true);
+        testAttackedTroll("attack with everything you have got", true);
         testAttackedTroll("use", false);
         testAttackedTroll("hit", true);
         assertEquals(gameState.updateState("heal").contains("attacked"), false);
@@ -110,7 +110,7 @@ public class GameStateTest {
         testHealed("use a potion", true);
         testHealed("hit", false);
         testHealed("heal with elixer", true);
-        testHealed("use an elixer right now before it's too late", true);
+        testHealed("use an elixer right now before it is too late", true);
     }
 
     @Test
