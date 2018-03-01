@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
+import edu.cmu.lti.ws4j.impl.Lin;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.IDictionary;
@@ -154,6 +155,73 @@ public class GameState {
         return "None";
     }
 
+    public String getBestAction(List<String> words, List<String> tags) {
+        List<Integer> candidateActions = getCandidateActions(tags);
+        double bestScore = 0.8;
+        int bestIndex = -1;
+        String bestAction = "<none>";
+        Set<String> keys = mMap.mMap.keySet();
+        String[] actionsList = keys.toArray(new String[keys.size()]);
+        for (int i: candidateActions) {
+            String word = words.get(i);
+            for (String action : actionsList) {
+                if (word.equals(action)) {
+                    words.remove(i);
+                    tags.remove(i);
+                    return action;
+                }
+                else if (action != "use") {
+                    double score = calculateScore(action, word);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestIndex = i;
+                        bestAction = action;
+                    }
+                }
+            }
+        }
+
+        //Remove chosen action from list inputs
+        if (bestIndex > -1) {
+            words.remove(bestIndex);
+            tags.remove(bestIndex);
+        }
+
+        return bestAction;
+    }
+
+    public String getBestTarget(List<String> words, List<String> tags) {
+        if (mCurrentEnemy == null) { return null; }
+        List<Integer> candidateTargets = getCandidateTargets(tags);
+        String enemyName = mCurrentEnemy.mName;
+        double bestScore = 0.9;
+        int bestIndex = -1;
+        String bestTarget = null;
+        for (int i : candidateTargets) {
+            String word = words.get(i);
+            if (word.equals(enemyName)) {
+                words.remove(i);
+                tags.remove(i);
+                return enemyName;
+            } else {
+                double score = calculateScore(enemyName, word);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestIndex = i;
+                    bestTarget = enemyName;
+                }
+            }
+        }
+
+        //Remove chosen word from list input
+        if (bestIndex > -1) {
+            words.remove(bestIndex);
+            tags.remove(bestIndex);
+        }
+
+        return bestTarget;
+    }
+
     public int getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
         List<String> candidateContext = getCandidateItems(words, tags, withUseAction);
         if (candidateContext.size() < 1) {
@@ -207,90 +275,6 @@ public class GameState {
         return bestContext;
     }
 
-    public String getBestAction(List<String> words, List<String> tags) {
-        List<Integer> candidateActions = getCandidateActions(tags);
-        double bestScore = 0.8;
-        int bestIndex = -1;
-        String bestAction = "<none>";
-        Set<String> keys = mMap.mMap.keySet();
-        String[] actionsList = keys.toArray(new String[keys.size()]);
-        for (int i: candidateActions) {
-            String word = words.get(i);
-            for (String action : actionsList) {
-                if (word.equals(action)) {
-                    words.remove(i);
-                    tags.remove(i);
-                    return action;
-                }
-                else if (action != "use") {
-                    double score = calculateScore(action, word);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestIndex = i;
-                        bestAction = action;
-                    }
-                }
-            }
-        }
-
-        //Remove chosen action from list inputs
-        if (bestIndex > -1) {
-            words.remove(bestIndex);
-            tags.remove(bestIndex);
-        }
-
-        return bestAction;
-    }
-
-    public String getBestTarget(List<String> words, List<String> tags) {
-        if (mCurrentEnemy == null) { return null; }
-        List<Integer> candidateTargets = getCandidateTargets(tags);
-        String enemyName = mCurrentEnemy.mName;
-        double bestScore = 0.9;
-        int bestIndex = -1;
-        String bestTarget = null;
-        for (int i : candidateTargets) {
-            String word = words.get(i);
-                if (word.equals(enemyName)) {
-                    words.remove(i);
-                    tags.remove(i);
-                    return enemyName;
-                } else {
-                    double score = calculateScore(enemyName, word);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestIndex = i;
-                        bestTarget = enemyName;
-                    }
-                }
-        }
-
-        //Remove chosen word from list input
-        if (bestIndex > -1) {
-            words.remove(bestIndex);
-            tags.remove(bestIndex);
-        }
-
-        return bestTarget;
-    }
-
-    public double calculateScore(String word1, String word2) {
-        if (mDb == null) {
-            Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded",
-                    Toast.LENGTH_LONG).show();
-            return 0.0;
-        }
-        double score;
-        try {
-            score = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
-        } catch (Exception e) {
-            Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs",
-                    Toast.LENGTH_LONG).show();
-            score = 0.0;
-        }
-        return score;
-    }
-
     public List<Integer> getCandidateActions(List<String> tags) {
         List<Integer> candidateActions = new ArrayList<>();
         for (int i=0; i<tags.size(); ++i) {
@@ -331,6 +315,30 @@ public class GameState {
             }
         }
         return candidateItems;
+    }
+
+    public double calculateScore(String word1, String word2) {
+        if (mDb == null) {
+            Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded",
+                    Toast.LENGTH_LONG).show();
+            return 0.0;
+        }
+        double score1, score2, score;
+        try {
+            score1 = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
+            score2 = new Lin(mDb).calcRelatednessOfWords(word1, word2);
+            if (score2 > 0) {
+                score = (score1*0.75) + (score2*0.25);
+            } else {
+                score = score1;
+            }
+//            Toast.makeText(mMainActivity, "wup = "+score1+". lin = "+score2, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs",
+                    Toast.LENGTH_LONG).show();
+            score = 0.0;
+        }
+        return score;
     }
 
 

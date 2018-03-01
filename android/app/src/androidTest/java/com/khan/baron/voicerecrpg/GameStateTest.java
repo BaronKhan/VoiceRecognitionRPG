@@ -94,7 +94,6 @@ public class GameStateTest {
         testAttackedWithHammer("attack with the sledgehammer", true);
         testAttackedWithHammer("attack the troll with the sledgehammer", true);
         testAttackedWithHammer("attack the sledgehammer with a troll", false);
-        testAttackedWithHammer("attack the troll with a sword", false);
     }
 
     void testHealed(String input, boolean correctInput) {
