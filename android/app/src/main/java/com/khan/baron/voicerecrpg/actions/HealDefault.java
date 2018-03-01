@@ -9,7 +9,7 @@ import com.khan.baron.voicerecrpg.GameState;
 public class HealDefault extends Action {
     public String run(GameState state) {
         getState(state);
-        mHealth += Math.max(100, mHealth+100);
+        mPlayerHealth += Math.max(100, mPlayerHealth+100);
         return "You healed";
     }
 }

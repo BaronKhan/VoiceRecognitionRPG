@@ -21,6 +21,7 @@ public class Troll extends Enemy {
                 break;
             case 1:
                 output = "The troll hit you.";
+
                 break;
             case 2:
                 output = "The troll scratched you.";

@@ -48,7 +48,7 @@ public class GameState {
 
     public String mActionContext;
 
-    public int mHealth = 100;
+    public int mPlayerHealth = 100;
 
     //Semantic Similarity Engine
     ILexicalDatabase mDb = null;
@@ -58,6 +58,8 @@ public class GameState {
         mTagger = null;
 
         mGameMode = MODE_OVERWORLD;
+
+        Enemy.sGameState = this;
         mCurrentEnemy = null;
 
         mInventory = new Inventory();
@@ -107,23 +109,24 @@ public class GameState {
 
         if (mGameMode == MODE_BATTLE) {
             String enemyOutput = "";
+            String playerOutput = "";
             boolean acceptedAction = false;
 
             //tokenise and tag
-            List<String> words = new LinkedList<>(Arrays.asList(input.split(" ")));
+            List<String> words = new ArrayList<>();
+            words.addAll(new LinkedList<>(Arrays.asList(input.split(" "))));
             List<String> tags = getTags(input);
+            assert(words.size() == tags.size());
+
+            String chosenAction = getBestAction(words, tags);
 
             assert(words.size() == tags.size());
 
-            //extract verbs and nouns for action
-            String chosenAction = getBestAction(words, tags);
-
-            //check verb and check in look-up table for default action
             if (mMap.isValidAction(chosenAction)) {
-                //Find the target (and remove it from list of words)
-//                String chosenTarget = getBestTarget(words, tags);
+                String chosenTarget = getBestTarget(words, tags);
 
-                // At this point, try to find item associated with action.
+                assert(words.size() == tags.size());
+
                 int actionIndex = getBestContext(words, tags, chosenAction.equals("use"));
                 if (mMap.get(chosenAction).get(actionIndex) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
@@ -135,18 +138,14 @@ public class GameState {
                     actionOutput += mMap.get(chosenAction).get(actionIndex).run(this);
                     acceptedAction = true;
                 }
-            } else {
-                actionOutput = "Intent not understood.";
-            }
+            } else { actionOutput = "Intent not understood."; }
 
-            if (acceptedAction) { //It's the enemy's turn now
-                enemyOutput += mCurrentEnemy.takeTurn() + "\n";
-            }
+            if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn() + "\n"; }
 
-            // Output new enemy status
             enemyOutput += mCurrentEnemy.mName + "'s health: " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
+            playerOutput += "Your health: "+mPlayerHealth + " / " + 100;
 
-            return actionOutput + "\n\n" + enemyOutput;
+            return actionOutput + "\n\n" + enemyOutput + "\n";
 
         } else {    //mGameMode == MODE_OVERWORLD
             String overworldOutput = "";
@@ -192,34 +191,17 @@ public class GameState {
 
     public String getBestTarget(List<String> words, List<String> tags) {
         if (mCurrentEnemy == null) { return null; }
-        List<Integer> candidateTargets = getCandidateTargets(tags);
+        List<Integer> candidateTargets = getCandidateTargets(words, tags);
         String enemyName = mCurrentEnemy.mName;
-        double bestScore = 0.9;
-        int bestIndex = -1;
-        String bestTarget = null;
         for (int i : candidateTargets) {
             String word = words.get(i);
             if (word.equals(enemyName)) {
                 words.remove(i);
                 tags.remove(i);
                 return enemyName;
-            } else {
-                double score = calculateScore(enemyName, word);
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestIndex = i;
-                    bestTarget = enemyName;
-                }
             }
         }
-
-        //Remove chosen word from list input
-        if (bestIndex > -1) {
-            words.remove(bestIndex);
-            tags.remove(bestIndex);
-        }
-
-        return bestTarget;
+        return "<none>";
     }
 
     public int getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
@@ -231,7 +213,6 @@ public class GameState {
         double bestScore = 0.8;
         int bestContext;
         Item bestItem = null;
-        boolean foundWithUsing = false;
         //Find best word
         for (String contextWord : candidateContext) {
             for (Item item : mInventory.mItems) {
@@ -286,11 +267,16 @@ public class GameState {
         return candidateActions;
     }
 
-    public List<Integer> getCandidateTargets(List<String> tags) {
+    public List<Integer> getCandidateTargets(List<String> words, List<String> tags) {
+        assert(words.size() == tags.size());
         List<Integer> candidateTargets = new ArrayList<>();
+        boolean foundWithUsing = false;
         for (int i=0; i<tags.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
-            if (tag.charAt(0) == 'n') {
+//            if (words.get(i).equals("with") || words.get(i).equals("using")) {
+//                foundWithUsing = true;
+//            }
+            if ((!foundWithUsing) && (tag.charAt(0) == 'n')) {
                 candidateTargets.add(i);
             }
         }

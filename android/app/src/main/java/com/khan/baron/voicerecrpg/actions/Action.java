@@ -16,7 +16,7 @@ public abstract class Action {
     protected Enemy mCurrentEnemy = null;
     protected ItemActionMap mMap = null;
     protected Room mCurrentRoom = null;
-    protected int mHealth = 0;
+    protected int mPlayerHealth = 0;
     protected String mActionContext = null;
 
     public abstract String run(GameState state);
@@ -28,7 +28,7 @@ public abstract class Action {
         mCurrentEnemy = state.mCurrentEnemy;
         mMap = state.mMap;
         mCurrentRoom = state.mCurrentRoom;
-        mHealth = state.mHealth;
+        mPlayerHealth = state.mPlayerHealth;
         mActionContext = state.mActionContext;
     }
 }
