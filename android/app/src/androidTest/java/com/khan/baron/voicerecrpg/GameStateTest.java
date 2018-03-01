@@ -66,59 +66,69 @@ public class GameStateTest {
         assertEquals("com.khan.baron.voicerecrpg", appContext.getPackageName());
     }
 
+    void testAttackedTroll(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input).contains("attacked the troll"), correctInput);
+    }
+
+    void testAttackedWithHammer(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input).contains("hammer"), correctInput);
+    }
+
     @Test
-    public void testAttackInput() {
+    public void testAttackInputSuite() {
         gameState.initBattleState(new Troll(9999999));
-        assertEquals(gameState.updateState("attack").contains("You attacked the troll."), true);
-        assertEquals(gameState.updateState("attack with everything you've got").contains("You attacked the troll."), true);
-        assertEquals(gameState.updateState("use").contains("attacked"), false);
-        assertEquals(gameState.updateState("hit").contains("You attacked the troll."), true);
+        testAttackedTroll("attack", true);
+        testAttackedTroll("attack with everything you've got", true);
+        testAttackedTroll("use", false);
+        testAttackedTroll("hit", true);
         assertEquals(gameState.updateState("heal").contains("attacked"), false);
-        assertEquals(gameState.updateState("launch an assault").contains("You attacked the troll."), true);
-        assertEquals(gameState.updateState("charge at the troll").contains("You attacked the troll."), true);
-        assertEquals(gameState.updateState("jump up and down").contains("You attacked the troll."), false);
+        testAttackedTroll("heal", false);
+        testAttackedTroll("launch an assault", true);
+        testAttackedTroll("charge at the troll", true);
+        testAttackedTroll("jump up and down", false);
         gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
-        assertEquals(gameState.updateState("attack with the hammer").contains("hammer"), true);
-        assertEquals(gameState.updateState("attack with the sledgehammer").contains("hammer"), true);
-        assertEquals(gameState.updateState("attack the troll").contains("You attacked the troll."), true);
+        testAttackedTroll("attack the troll", true);
         assertEquals(gameState.updateState("hit the troll").contains("You attacked the troll."), true);
+        testAttackedTroll("attack", true);
+        testAttackedWithHammer("attack with the hammer", true);
+        testAttackedWithHammer("attack with the sledgehammer", true);
+        testAttackedWithHammer("attack the troll with the sledgehammer", true);
+        testAttackedWithHammer("attack the sledgehammer with a troll", false);
+        testAttackedWithHammer("attack the troll with a sword", false);
+    }
+
+    void testHealed(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input).contains("healed"), correctInput);
     }
 
     @Test
     public void testHealInput() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Potion("potion"));
-        gameState.mInventory.add(new Potion("potion"));
-        gameState.mInventory.add(new Potion("potion"));
-        gameState.mInventory.add(new Potion("elixer"));
+        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
+        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("elixer")); }
         gameState.mInventory.add(new Weapon("sword"));
-        assertEquals(gameState.updateState("heal").contains("healed"), true);
-        assertEquals(gameState.updateState("use a potion").contains("healed"), true);
-        assertEquals(gameState.updateState("hit").contains("healed"), false);
-        assertEquals(gameState.updateState("heal with elixer").contains("healed"), true);
+        testHealed("heal", true);
+        testHealed("use a potion", true);
+        testHealed("hit", false);
+        testHealed("heal with elixer", true);
+        testHealed("use an elixer right now before it's too late", true);
     }
 
     @Test
     public void testHypernyms() {
         String input = "dog";
-
         try {
-            // extract noun/verb from sentence
             String tagged = null;
             if (gameState.mTagger != null) {
                 tagged = gameState.mTagger.tagString(input);
             } else {
                 System.out.println("Error: unable to load POS tagger model");
             }
-
             String taggedList[] = null;
-
             if (tagged != null) {
                 taggedList = tagged.split(" ");
             }
-
             POS tagType = POS.NOUN;
-
             if (taggedList != null) {
                 for (String i : taggedList) {
                     if (i.contains("_NN")) {
@@ -191,7 +201,6 @@ public class GameStateTest {
         ILexicalDatabase db = new CustomWordNet(gameState.mDict);
 
         String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
-
         for(int i=0; i<words.length-1; i++){
             for(int j=i+1; j<words.length; j++){
                 double distance = testCompute(db, words[i], words[j]);

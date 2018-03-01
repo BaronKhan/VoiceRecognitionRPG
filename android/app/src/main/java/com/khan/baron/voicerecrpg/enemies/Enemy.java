@@ -17,6 +17,7 @@ public class Enemy implements Context {
         mMaxHealth = health;
     }
 
+
     public String takeTurn() {
         return "The " + mName + "stared at you menacingly";
     }

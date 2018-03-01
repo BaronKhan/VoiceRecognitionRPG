@@ -15,6 +15,10 @@ Always imply 'I' as the subject. Therefore, only concerned with the main verb of
 
 - For verbs, first use the semantic similarity. If > 0.7/1, then probably the same thing. If not, then check if any of the primitive verbs are in the word tree.
 
+- Commands in battle structure: `verb` `target` with `item`
+-- Exceptions: "use"
+- Commands in overworld structure: `verb` `object` with `item`
+
 ### Sentence Deciphering
 
 - As a test, first search for first verb, then search for a verb that works with the noun. Search for "with" or "using" for specific item.
@@ -73,6 +77,15 @@ Pipeline
 
 input -> get verb -> find noun, if no noun, use default
 
+For battle mode:
+- Tag input
+- Assert that both lists are equal
+- Get candidate action indices
+- Find the best action, remove its index from words and tags
+- Get candidate target indices
+- Find best target, remove it from words and tags
+- Get candidate contexts (items)
+- Find best context (no need to remove)
 
 POS tagger
 ----------------

@@ -14,6 +14,7 @@ import com.khan.baron.voicerecrpg.rooms.Room;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -61,7 +62,6 @@ public class GameState {
         mInventory = new Inventory();
         mMap = new ItemActionMap(this);
 
-        //Don't use Most frequent sense
         WS4JConfiguration.getInstance().setMFS(false);  //Use all senses, not just most frequent sense (slower but more accurate)
 
         try {
@@ -109,20 +109,21 @@ public class GameState {
             boolean acceptedAction = false;
 
             //tokenise and tag
-            List<String> words = Arrays.asList(input.split(" "));
+            List<String> words = new LinkedList<>(Arrays.asList(input.split(" ")));
             List<String> tags = getTags(input);
 
             assert(words.size() == tags.size());
 
             //extract verbs and nouns for action
-            List<String> candidateActions = getCandidateActions(words, tags);
-            String chosenAction = getMostSimilarWord(candidateActions);
+            String chosenAction = getBestAction(words, tags);
 
             //check verb and check in look-up table for default action
             if (mMap.isValidAction(chosenAction)) {
+                //Find the target (and remove it from list of words)
+//                String chosenTarget = getBestTarget(words, tags);
+
                 // At this point, try to find item associated with action.
-                List<String> candidateContext = getCandidateContext(words, tags, chosenAction.equals("use"));
-                int actionIndex = getActionContext(candidateContext);
+                int actionIndex = getBestContext(words, tags, chosenAction.equals("use"));
                 if (mMap.get(chosenAction).get(actionIndex) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
                     actionIndex = 0;
@@ -153,7 +154,8 @@ public class GameState {
         return "None";
     }
 
-    public int getActionContext(List<String> candidateContext) {
+    public int getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
+        List<String> candidateContext = getCandidateItems(words, tags, withUseAction);
         if (candidateContext.size() < 1) {
             mActionContext = null;
             return 0;
@@ -170,7 +172,7 @@ public class GameState {
                     bestScore = 1.0;
                     bestItem = item;
                     break;
-                } else {
+                } else if (!contextWord.equals(mCurrentEnemy.mName)) {
                     double score = calculateScore(contextWord, itemName);
                     if (score > bestScore) {
                         bestScore = score;
@@ -205,17 +207,19 @@ public class GameState {
         return bestContext;
     }
 
-    public String getMostSimilarWord(List<String> words) {
+    public String getBestAction(List<String> words, List<String> tags) {
+        List<Integer> candidateActions = getCandidateActions(tags);
         double bestScore = 0.8;
         int bestIndex = -1;
         String bestAction = "<none>";
         Set<String> keys = mMap.mMap.keySet();
         String[] actionsList = keys.toArray(new String[keys.size()]);
-        for (int i=0; i<words.size(); ++i) {
+        for (int i: candidateActions) {
             String word = words.get(i);
             for (String action : actionsList) {
                 if (word.equals(action)) {
                     words.remove(i);
+                    tags.remove(i);
                     return action;
                 }
                 else if (action != "use") {
@@ -229,58 +233,104 @@ public class GameState {
             }
         }
 
-        //Remove chosen word from list input
+        //Remove chosen action from list inputs
         if (bestIndex > -1) {
             words.remove(bestIndex);
+            tags.remove(bestIndex);
         }
 
         return bestAction;
     }
 
+    public String getBestTarget(List<String> words, List<String> tags) {
+        if (mCurrentEnemy == null) { return null; }
+        List<Integer> candidateTargets = getCandidateTargets(tags);
+        String enemyName = mCurrentEnemy.mName;
+        double bestScore = 0.9;
+        int bestIndex = -1;
+        String bestTarget = null;
+        for (int i : candidateTargets) {
+            String word = words.get(i);
+                if (word.equals(enemyName)) {
+                    words.remove(i);
+                    tags.remove(i);
+                    return enemyName;
+                } else {
+                    double score = calculateScore(enemyName, word);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestIndex = i;
+                        bestTarget = enemyName;
+                    }
+                }
+        }
+
+        //Remove chosen word from list input
+        if (bestIndex > -1) {
+            words.remove(bestIndex);
+            tags.remove(bestIndex);
+        }
+
+        return bestTarget;
+    }
+
     public double calculateScore(String word1, String word2) {
         if (mDb == null) {
-            Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded", Toast.LENGTH_LONG).show();
+            Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded",
+                    Toast.LENGTH_LONG).show();
             return 0.0;
         }
         double score;
         try {
             score = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
         } catch (Exception e) {
-            Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs", Toast.LENGTH_LONG).show();
+            Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs",
+                    Toast.LENGTH_LONG).show();
             score = 0.0;
         }
         return score;
     }
 
-    public List<String> getCandidateActions(List<String> words, List<String> tags) {
-        List<String> candidateActions = new ArrayList<>();
-        for (int i=0; i<words.size(); ++i) {
+    public List<Integer> getCandidateActions(List<String> tags) {
+        List<Integer> candidateActions = new ArrayList<>();
+        for (int i=0; i<tags.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
             if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n') {
-                candidateActions.add(words.get(i));
+                candidateActions.add(i);
             }
         }
         return candidateActions;
     }
 
-    public List<String> getCandidateContext(List<String> words, List<String> tags) {
-        return getCandidateContext(words, tags, false);
+    public List<Integer> getCandidateTargets(List<String> tags) {
+        List<Integer> candidateTargets = new ArrayList<>();
+        for (int i=0; i<tags.size(); ++i) {
+            String tag = tags.get(i).toLowerCase();
+            if (tag.charAt(0) == 'n') {
+                candidateTargets.add(i);
+            }
+        }
+        return candidateTargets;
     }
 
-    public List<String> getCandidateContext(List<String> words, List<String> tags, boolean withUseAction) {
-        List<String> candidateActions = new ArrayList<>();
+    public List<String> getCandidateItems(List<String> words, List<String> tags) {
+        return getCandidateItems(words, tags, false);
+    }
+
+    public List<String> getCandidateItems(List<String> words, List<String> tags,
+                                          boolean withUseAction) {
+        List<String> candidateItems = new ArrayList<>();
         boolean foundWithUsing = withUseAction;
         for (int i=0; i<words.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
             if (foundWithUsing &&
                     (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j')) {
-                candidateActions.add(words.get(i));
+                candidateItems.add(words.get(i));
             } else if (words.get(i).equals("with") || words.get(i).equals("using")) {
                 foundWithUsing = true;
             }
         }
-        //remove everything before with/using
-        return candidateActions;
+        return candidateItems;
     }
 
 
