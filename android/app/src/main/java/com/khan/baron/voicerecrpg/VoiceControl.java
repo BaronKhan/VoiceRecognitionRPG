@@ -11,6 +11,8 @@ import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -32,12 +34,15 @@ public class VoiceControl implements RecognitionListener {
 
     public boolean mCanRecord;
 
-    public VoiceControl(AppCompatActivity activity, TextView txtInput, TextView txtOutput, GameState gameState) {
+    public VoiceControl(AppCompatActivity activity, TextView txtInput, TextView txtOutput,
+                        GameState gameState) {
         super();
         mActivity = activity;
         mTxtInput = txtInput;
         mTxtOutput = txtOutput;
         mGameState = gameState;
+
+        mTxtOutput.setMovementMethod(new ScrollingMovementMethod());
 
         mCanRecord = false;
         checkRecordAudioPermission();
@@ -166,7 +171,7 @@ public class VoiceControl implements RecognitionListener {
                 message = "RecognitionService busy";
                 break;
             case SpeechRecognizer.ERROR_SERVER:
-                message = "error from server";
+                message = "Error from server";
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
                 message = "No speech input";
@@ -179,13 +184,29 @@ public class VoiceControl implements RecognitionListener {
     }
 
     private void updateGameState(String input) {
-        mTxtOutput.setText((mGameState.updateState(input)));
-
+        String output = mGameState.updateState(input);
+        String newOutput = "\n\n----------\n\n\"" + mTxtInput.getText()+ "\"\n" + output;
+        appendOutputTextAndScroll(newOutput);
         // TODO: play TTS (should be optional)
     }
 
     public void setOutputText(String output) {
         mTxtOutput.setText(output);
+    }
+
+    // Taken from https://stackoverflow.com/a/9561614/8919086
+    private void appendOutputTextAndScroll(String text)
+    {
+        if(mTxtOutput != null){
+            mTxtOutput.append(text + "\n");
+            final Layout layout = mTxtOutput.getLayout();
+            if(layout != null){
+                int scrollDelta = layout.getLineBottom(mTxtOutput.getLineCount() - 1)
+                        - mTxtOutput.getScrollY() - mTxtOutput.getHeight();
+                if(scrollDelta > 0)
+                    mTxtOutput.scrollBy(0, scrollDelta);
+            }
+        }
     }
 
 }

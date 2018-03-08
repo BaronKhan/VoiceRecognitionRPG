@@ -118,9 +118,9 @@ public class GameState {
             removeContractions(words);
             List<String> tags = getTags(input);
             if (words.size()!=tags.size()) {
-                throw new AssertionError("Error: no. of words != no.of tags");
+                throw new AssertionError("Error: no. of words("+words.size()+") != no.of tags("+tags.size()+")");
             }
-            
+
             String chosenAction = getBestAction(words, tags);
 
 
