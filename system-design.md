@@ -7,7 +7,8 @@ Contributions
 - Allow a developer to add voice recognition to their game with little effort.
 - Create a simple natural language processing system that can work offline.
 - Explore NLP usages in RPGs (for text generation, item descriptions, etc).
-- No deep learning required. User can also easily adapt voice commands.
+- No deep learning required. Only uses WordNet.
+- User can also easily create and adapt new voice commands.
 
 Milestones
 ----------
@@ -93,6 +94,14 @@ For battle mode:
 - Find the best action, remove its index from words and tags
 - Get candidate target indices
 - Find best target, remove it from words and tags
+- Get candidate contexts (items)
+- Find best context (no need to remove)
+
+For exploration mode:
+- Tag input
+- Assert that both lists are equal
+- Get candidate action indices
+- Find the best action, remove its index from words and tags
 - Get candidate contexts (items)
 - Find best context (no need to remove)
 

@@ -184,7 +184,9 @@ public class GameStateTest {
             }
             System.out.println(output);
         } catch (Exception e) {
+            //If exception occurs, fail test
             System.out.println("input = " + input + "\n\nError: " + e.getMessage());
+            assertEquals("Something went wrong when testing hypernyms", true, false);
         }
     }
 
@@ -196,17 +198,21 @@ public class GameStateTest {
 
     @Test
     public void testCustomWordNet() {
-        String output = "";
-        ILexicalDatabase db = new CustomWordNet(gameState.mDict);
+        try {
+            String output = "";
+            ILexicalDatabase db = new CustomWordNet(gameState.mDict);
 
-        String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
-        for(int i=0; i<words.length-1; i++){
-            for(int j=i+1; j<words.length; j++){
-                double distance = testCompute(db, words[i], words[j]);
-                output += words[i] +" -  " +  words[j] + " = " + distance+"\n";
+            String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
+            for (int i = 0; i < words.length - 1; i++) {
+                for (int j = i + 1; j < words.length; j++) {
+                    double distance = testCompute(db, words[i], words[j]);
+                    output += words[i] + " -  " + words[j] + " = " + distance + "\n";
+                }
             }
-        }
 
-        System.out.println(output);
+            System.out.println(output);
+        } catch(Exception e) {
+            assertEquals("Something wrong with CustomWordNet", true, false);
+        }
     }
 }
