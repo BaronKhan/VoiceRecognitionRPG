@@ -105,6 +105,11 @@ For exploration mode:
 - Get candidate contexts (items)
 - Find best context (no need to remove)
 
+ActionItemMap
+---------------
+
+This is an abstract class that the user overloads to specify the mapping of their 
+
 POS tagger
 ----------------
 
