@@ -2,7 +2,7 @@ package com.khan.baron.voicerecrpg.actions;
 
 import com.khan.baron.voicerecrpg.GameState;
 import com.khan.baron.voicerecrpg.Inventory;
-import com.khan.baron.voicerecrpg.ItemActionMap;
+import com.khan.baron.voicerecrpg.ActionItemMap;
 import com.khan.baron.voicerecrpg.enemies.Enemy;
 import com.khan.baron.voicerecrpg.rooms.Room;
 
@@ -14,7 +14,7 @@ public abstract class Action {
     protected GameState.Mode mGameMode;
     protected Inventory mInventory;
     protected Enemy mCurrentEnemy = null;
-    protected ItemActionMap mMap = null;
+    protected ActionItemMap mMap = null;
     protected Room mCurrentRoom = null;
     protected int mPlayerHealth = 0;
     protected String mActionContext = null;

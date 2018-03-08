@@ -40,7 +40,7 @@ public class GameState {
     public enum Mode { MODE_OVERWORLD, MODE_BATTLE }
 
     public Inventory mInventory;
-    public ItemActionMap mMap;
+    public ActionItemMap mMap;
 
     public Mode mGameMode;
     public Enemy mCurrentEnemy;
@@ -63,7 +63,7 @@ public class GameState {
         mCurrentEnemy = null;
 
         mInventory = new Inventory();
-        mMap = new ItemActionMap(this);
+        mMap = new ActionItemMap(this);
 
         WS4JConfiguration.getInstance().setMFS(false);  //Use all senses, not just most frequent sense (slower but more accurate)
 

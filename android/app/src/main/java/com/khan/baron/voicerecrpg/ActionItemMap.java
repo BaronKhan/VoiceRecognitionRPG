@@ -18,11 +18,11 @@ import java.util.Map;
  * Created by Baron on 12/01/2018.
  */
 
-public class ItemActionMap {
+public class ActionItemMap {
     public GameState mGameState = null;
     public Map<String,List<Action>> mMap = new HashMap<>();
 
-    public ItemActionMap(GameState gameState) {
+    public ActionItemMap(GameState gameState) {
         mGameState = gameState;
         //TODO: is there an easier way of generating this table?
         //  action                                              default,                Weapon,                             WeaponSharp,                WeaponBlunt,                HealItem
