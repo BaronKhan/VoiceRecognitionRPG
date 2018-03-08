@@ -3,9 +3,18 @@ System Design
 
 Contributions
 -----
-• Allow a developer to add voice recognition to their game with little effort.
-• Create a simple natural language processing system that can work offline.
-• Explore NLP usages in RPGs (for text generation, item descriptions, etc).
+
+- Allow a developer to add voice recognition to their game with little effort.
+- Create a simple natural language processing system that can work offline.
+- Explore NLP usages in RPGs (for text generation, item descriptions, etc).
+- No deep learning required. User can also easily adapt voice commands.
+
+Milestones
+----------
+
+- Create an RPG with exploration and battle gameplay using the systems.
+- Create a library that wraps around everything.
+- Wrap around a video conferencing app demo.
 
 
 Sentence Structure
