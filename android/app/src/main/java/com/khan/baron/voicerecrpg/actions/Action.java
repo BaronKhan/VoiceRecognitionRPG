@@ -28,7 +28,7 @@ public abstract class Action {
         mGameMode = state.mGameMode;
         mInventory = state.mInventory;
         mCurrentEnemy = state.mCurrentEnemy;
-        mMap = state.mMap;
+        mMap = state.mBattleMap;
         mCurrentRoom = state.mCurrentRoom;
         mPlayerHealth = state.mPlayerHealth;
         mActionContext = state.mActionContext;

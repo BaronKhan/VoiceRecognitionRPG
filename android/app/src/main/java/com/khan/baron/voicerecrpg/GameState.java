@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.khan.baron.voicerecrpg.enemies.Enemy;
 import com.khan.baron.voicerecrpg.enemies.Troll;
-import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
 import com.khan.baron.voicerecrpg.rooms.Room;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +39,7 @@ public class GameState implements GlobalState {
     public enum Mode { MODE_OVERWORLD, MODE_BATTLE }
 
     public Inventory mInventory;
-    public ContextActionMap mMap;
+    public ContextActionMap mBattleMap;
 
     public Mode mGameMode;
     public Enemy mCurrentEnemy;
@@ -63,8 +61,8 @@ public class GameState implements GlobalState {
         Enemy.sGameState = this;
         mCurrentEnemy = null;
 
-        mMap = new ContextActionMap(this);
-        mInventory = new Inventory(mMap);
+        mBattleMap = new ContextActionMap(this);
+        mInventory = new Inventory(mBattleMap);
 
         //Use all senses, not just most frequent sense (slower but more accurate)
         WS4JConfiguration.getInstance().setMFS(false);
@@ -129,20 +127,20 @@ public class GameState implements GlobalState {
             String chosenAction = getBestAction(words, tags);
 
 
-            if (mMap.isValidAction(chosenAction)) {
+            if (mBattleMap.isValidAction(chosenAction)) {
                 //TODO: turn currentTarget into a global (when creating new class for everything).
 //                Context currentTarget = getBestTarget(words, tags);
                 Context currentTarget = mCurrentEnemy;
                 String chosenContext = getBestContext(words, tags, chosenAction.equals("use"));
-                if (mMap.isValidContext(chosenContext)) {
-                    if (mMap.get(chosenContext).get(chosenAction) == null) {
+                if (mBattleMap.isValidContext(chosenContext)) {
+                    if (mBattleMap.get(chosenContext).get(chosenAction) == null) {
                         actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
                         chosenContext = "default";
                     }
-                    if (mMap.get(chosenContext).get(chosenAction) == null) {
+                    if (mBattleMap.get(chosenContext).get(chosenAction) == null) {
                         actionOutput += "Intent not understood.";
                     } else {
-                        actionOutput += mMap.get(chosenContext).get(chosenAction).run(this, currentTarget);
+                        actionOutput += mBattleMap.get(chosenContext).get(chosenAction).run(this, currentTarget);
                         acceptedAction = true;
                     }
                 } else { actionOutput = "Intent not understood."; }
@@ -168,7 +166,7 @@ public class GameState implements GlobalState {
         double bestScore = 0.8;
         int bestIndex = -1;
         String bestAction = "<none>";
-        List<String> actionsList = mMap.getActions();
+        List<String> actionsList = mBattleMap.getActions();
         for (int i: candidateActions) {
             String word = words.get(i);
             for (String action : actionsList) {
@@ -222,7 +220,7 @@ public class GameState implements GlobalState {
 
     public String getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
         List<String> candidateContext = getCandidateItems(words, tags, withUseAction);
-        List<Context> possibleContextList = mMap.getPossibleContexts();
+        List<Context> possibleContextList = mBattleMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
                 candidateContext.size() < 1 || possibleContextList.size() < 1) {
             return "default";
