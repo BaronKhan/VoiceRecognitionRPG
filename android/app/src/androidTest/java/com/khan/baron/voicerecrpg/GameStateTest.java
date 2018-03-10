@@ -74,6 +74,10 @@ public class GameStateTest {
         assertEquals(gameState.updateState(input).contains("hammer"), correctInput);
     }
 
+    void testAttackedWithSword(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input).contains("sword"), correctInput);
+    }
+
     @Test
     public void testAttackInputSuite() {
         gameState.initBattleState(new Troll(9999999));
@@ -117,8 +121,8 @@ public class GameStateTest {
     public void testSentenceStructure() {
         gameState.initBattleState(new Troll(9999999));
         gameState.mInventory.add(new Weapon("sword"));
-        testAttackedTroll("attack the troll with a sword", true);
-        testAttackedTroll("attack the sword with a troll", false);
+        testAttackedWithSword("attack the troll with a sword", true);
+        testAttackedWithSword("attack the sword with a troll", false);
     }
 
     @Test

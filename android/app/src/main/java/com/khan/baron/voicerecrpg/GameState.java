@@ -93,9 +93,14 @@ public class GameState implements GlobalState {
 
     }
 
+    public void setCurrentEnemy(Enemy currentEnemy) {
+        mCurrentEnemy = currentEnemy;
+        mBattleMap.setPossibleTargets(new ArrayList<Context>(Arrays.asList(currentEnemy)));
+    }
+
     public void initBattleState(Enemy currentEnemy) {
         mGameMode = MODE_BATTLE;
-        mCurrentEnemy = currentEnemy;
+        setCurrentEnemy(currentEnemy);
     }
 
     public void initOverworldState(Room room) {
@@ -128,22 +133,22 @@ public class GameState implements GlobalState {
 
 
             if (mBattleMap.isValidAction(chosenAction)) {
-                //TODO: turn currentTarget into a global (when creating new class for everything).
-//                Context currentTarget = getBestTarget(words, tags);
-                Context currentTarget = mCurrentEnemy;
+                Context currentTarget = getBestTarget(words, tags);
                 String chosenContext = getBestContext(words, tags, chosenAction.equals("use"));
+//                Toast.makeText(mMainActivity, "chosenContext = " +chosenContext,
+//                        Toast.LENGTH_LONG).show();
                 if (mBattleMap.isValidContext(chosenContext)) {
                     if (mBattleMap.get(chosenContext).get(chosenAction) == null) {
-                        actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
+                        actionOutput += "You cannot " + chosenAction + " with that. Ignoring...\n";
                         chosenContext = "default";
                     }
-                    if (mBattleMap.get(chosenContext).get(chosenAction) == null) {
-                        actionOutput += "Intent not understood.";
-                    } else {
-                        actionOutput += mBattleMap.get(chosenContext).get(chosenAction).run(this, currentTarget);
-                        acceptedAction = true;
-                    }
-                } else { actionOutput = "Intent not understood."; }
+                } else { chosenContext = "default"; }
+                if (mBattleMap.get(chosenContext).get(chosenAction) == null) {
+                    actionOutput += "Intent not understood.";
+                } else {
+                    actionOutput += mBattleMap.get(chosenContext).get(chosenAction).run(this, currentTarget);
+                    acceptedAction = true;
+                }
             } else { actionOutput = "Intent not understood."; }
 
             if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn() + "\n"; }
