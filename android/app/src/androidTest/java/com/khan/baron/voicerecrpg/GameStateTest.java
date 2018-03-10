@@ -87,8 +87,6 @@ public class GameStateTest {
         testAttackedTroll("charge at the troll", true);
         testAttackedTroll("jump up and down", false);
         gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
-        //TODO: can't afford to do this all the time an item is added.
-        gameState.mMap.setPossibleContexts(gameState.mInventory.getContextList());
         testAttackedTroll("attack the troll", true);
         assertEquals(gameState.updateState("hit the troll").contains("You attacked the troll."), true);
         testAttackedTroll("attack", true);
@@ -108,8 +106,6 @@ public class GameStateTest {
         for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
         for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("elixer")); }
         gameState.mInventory.add(new Weapon("sword"));
-        //TODO: can't afford to do this all the time an item is added.
-        gameState.mMap.setPossibleContexts(gameState.mInventory.getContextList());
         testHealed("heal", true);
         testHealed("use a potion", true);
         testHealed("hit", false);
@@ -121,9 +117,6 @@ public class GameStateTest {
     public void testSentenceStructure() {
         gameState.initBattleState(new Troll(9999999));
         gameState.mInventory.add(new Weapon("sword"));
-        //TODO: can't afford to do this all the time an item is added.
-        gameState.mMap.setPossibleContexts(gameState.mInventory.getContextList());
-        assertEquals(gameState.mInventory.mItems.get(0).getContext(), "weapon");
         testAttackedTroll("attack the troll with a sword", true);
         testAttackedTroll("attack the sword with a troll", false);
     }

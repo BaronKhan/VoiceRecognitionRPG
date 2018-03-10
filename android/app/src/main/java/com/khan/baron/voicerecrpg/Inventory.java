@@ -16,14 +16,18 @@ public class Inventory {
 
     public Set<String> mPastItems;
 
-    public Inventory() {
+    public ContextActionMap mMap;
+
+    public Inventory(ContextActionMap map) {
         mItems = new ArrayList<>();
         mPastItems = new HashSet<>();
+        mMap = map;
     }
 
     public void add(Item item) {
         mItems.add(item);
         mPastItems.add(item.getName());
+        mMap.setPossibleContexts(getContextList());
     }
 
     public int getCount(Item.ItemType type) {

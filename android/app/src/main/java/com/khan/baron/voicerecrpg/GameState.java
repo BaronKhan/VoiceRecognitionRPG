@@ -63,8 +63,8 @@ public class GameState implements GlobalState {
         Enemy.sGameState = this;
         mCurrentEnemy = null;
 
-        mInventory = new Inventory();
         mMap = new ContextActionMap(this);
+        mInventory = new Inventory(mMap);
 
         //Use all senses, not just most frequent sense (slower but more accurate)
         WS4JConfiguration.getInstance().setMFS(false);
@@ -92,8 +92,7 @@ public class GameState implements GlobalState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
-        //TODO: can't afford to do this all the time an item is added.
-        mMap.setPossibleContexts(mInventory.getContextList());
+
     }
 
     public void initBattleState(Enemy currentEnemy) {
