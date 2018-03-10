@@ -203,24 +203,45 @@ public class GameState implements GlobalState {
     }
 
     public Context getBestTarget(List<String> words, List<String> tags) {
-//        if (mCurrentEnemy == null) { return null; }
-//        List<Integer> candidateTargets = getCandidateTargets(words, tags);
-//        String enemyName = mCurrentEnemy.mName;
-//        for (int i : candidateTargets) {
-//            String word = words.get(i);
-//            if (word.equals(enemyName)) {
-//                words.remove(i);
-//                tags.remove(i);
-//                return enemyName;
-//            }
-//        }
-        //TODO: getBestTarget()
-        if (words.contains("troll")) {
-            int index = words.indexOf("troll");
-            words.remove(index);
-            tags.remove(index);
+        List<Integer> candidateTargets = getCandidateTargets(words, tags);
+        List<Context> possibleTargetList = mBattleMap.getPossibleTargets();
+        if (candidateTargets == null || possibleTargetList == null ||
+                candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
+            return mBattleMap.mDefaultTarget;
         }
-        return mCurrentEnemy;
+        double bestScore = 0.9;
+        int bestIndex = -1;
+        Context bestTarget = null;
+        for (int i: candidateTargets) {
+            String word = words.get(i);
+            for (Context target : possibleTargetList) {
+                String targetName = target.getName();
+                if (word.equals(targetName)) {
+                    words.remove(i);
+                    tags.remove(i);
+                    return target;
+                } else {
+                    if (target.contextIs(word)) {
+                        words.remove(i);
+                        tags.remove(i);
+                        return target;
+                    }
+                    double score = calculateScore(word, targetName);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestIndex = i;
+                        bestTarget = target;
+                    }
+                }
+            }
+        }
+        if (bestTarget == null) {
+            words.remove(bestIndex);
+            tags.remove(bestIndex);
+            return mBattleMap.mDefaultTarget;
+        } else {
+            return bestTarget;
+        }
     }
 
     public String getBestContext(List<String> words, List<String> tags, boolean withUseAction) {

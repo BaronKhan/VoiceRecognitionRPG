@@ -21,6 +21,7 @@ import java.util.Map;
 public class ContextActionMap {
     protected GameState mGameState = null;
     protected List<Context> mPossibleTargets = null;
+    protected Context mDefaultTarget = null;
     protected List<Context> mPossibleContexts = null;
     protected List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
@@ -64,8 +65,12 @@ public class ContextActionMap {
     public void addDefaultContextActions(Action ... actions) {
         addContextActions("default", actions);
     }
+
     public boolean isValidContext(String context) {
         return mMap.keySet().contains(context);
     }
+
+    public void setDefaultTargets(Context defaultTarget) { mDefaultTarget = defaultTarget; }
+    public Context getDefaultTarget() { return mDefaultTarget; }
 
 }
