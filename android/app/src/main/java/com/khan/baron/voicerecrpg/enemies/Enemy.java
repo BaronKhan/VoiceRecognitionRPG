@@ -8,16 +8,15 @@ import com.khan.baron.voicerecrpg.GameState;
  */
 
 public class Enemy extends Context {
-    protected final String mName;
     protected int mHealth;
     protected int mMaxHealth;
 
     public static GameState sGameState;
 
     public Enemy(String name, int health) {
+        super(name);
         setContext("enemy");
         assert sGameState != null;
-        mName = name;
         mHealth = health;
         mMaxHealth = health;
     }

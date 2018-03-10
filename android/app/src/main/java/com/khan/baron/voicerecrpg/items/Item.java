@@ -14,30 +14,18 @@ public abstract class Item extends Context {
         ITEM_WEAPON, ITEM_SHIELD, ITEM_HEALING, ITEM_KEY
     }
 
-    protected final String mName;
     protected ItemType mType;
 
-    protected List<String> mDescription = new ArrayList<>();
 
     public Item(String name, ItemType type) {
-        mName = name;
+        super(name);
         mType = type;
     }
 
     public Item(String name, ItemType type, String ... description) {
-        mName = name;
+        super(name, description);
         mType = type;
-        for (String word : description) {
-            mDescription.add(word);
-        }
     }
-
-    public boolean itemIs(String adj) {
-        return mDescription.contains(adj);
-    }
-
-    @Override
-    public String getName() { return mName; }
 
     public ItemType getType() { return mType; }
 }
