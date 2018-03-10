@@ -63,4 +63,12 @@ public class Inventory {
         }
     }
 
+    public List<Context> getContextList() {
+        List<Context> temp = new ArrayList<>();
+        for (Item i : mItems) {
+            temp.add(i);
+        }
+        return temp;
+    }
+
 }

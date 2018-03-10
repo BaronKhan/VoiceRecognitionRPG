@@ -9,12 +9,12 @@ import java.util.List;
  * Created by Baron on 12/01/2018.
  */
 
-public abstract class Item implements Context {
+public abstract class Item extends Context {
     public enum ItemType {
         ITEM_WEAPON, ITEM_SHIELD, ITEM_HEALING, ITEM_KEY
     }
 
-    protected String mName;
+    protected final String mName;
     protected ItemType mType;
 
     protected List<String> mDescription = new ArrayList<>();
@@ -36,6 +36,7 @@ public abstract class Item implements Context {
         return mDescription.contains(adj);
     }
 
+    @Override
     public String getName() { return mName; }
 
     public ItemType getType() { return mType; }

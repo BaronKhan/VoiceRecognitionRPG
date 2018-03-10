@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.khan.baron.voicerecrpg.enemies.Enemy;
@@ -30,7 +31,7 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_BATTLE;
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_OVERWORLD;
 
-public class GameState {
+public class GameState implements GlobalState {
     public Activity mMainActivity;
 
     public IDictionary mDict = null;
@@ -40,13 +41,13 @@ public class GameState {
     public enum Mode { MODE_OVERWORLD, MODE_BATTLE }
 
     public Inventory mInventory;
-    public ActionItemMap mMap;
+    public ContextActionMap mMap;
 
     public Mode mGameMode;
     public Enemy mCurrentEnemy;
     public Room mCurrentRoom;
 
-    public String mActionContext;
+    public String mActionContext; //stores the name of the context
 
     public int mPlayerHealth = 100;
 
@@ -63,9 +64,10 @@ public class GameState {
         mCurrentEnemy = null;
 
         mInventory = new Inventory();
-        mMap = new ActionItemMap(this);
+        mMap = new ContextActionMap(this);
 
-        WS4JConfiguration.getInstance().setMFS(false);  //Use all senses, not just most frequent sense (slower but more accurate)
+        //Use all senses, not just most frequent sense (slower but more accurate)
+        WS4JConfiguration.getInstance().setMFS(false);
 
         try {
             // Load model
@@ -76,7 +78,8 @@ public class GameState {
                 mTagger = new MaxentTagger(modelPath);
             }
         } catch (Exception e) {
-            Toast.makeText(mainActivity, "Error loading model: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mainActivity, "Error loading model: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -89,6 +92,8 @@ public class GameState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
+        //TODO: can't afford to do this all the time an item is added.
+        mMap.setPossibleContexts(mInventory.getContextList());
     }
 
     public void initBattleState(Enemy currentEnemy) {
@@ -118,33 +123,39 @@ public class GameState {
             removeContractions(words);
             List<String> tags = getTags(input);
             if (words.size()!=tags.size()) {
-                throw new AssertionError("Error: no. of words("+words.size()+") != no.of tags("+tags.size()+")");
+                throw new AssertionError("Error: no. of words("+words.size()
+                        +") != no.of tags("+tags.size()+")");
             }
 
             String chosenAction = getBestAction(words, tags);
 
 
             if (mMap.isValidAction(chosenAction)) {
-                String chosenTarget = getBestTarget(words, tags);
-                int actionIndex = getBestContext(words, tags, chosenAction.equals("use"));
-                if (mMap.get(chosenAction).get(actionIndex) == null) {
-                    actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
-                    actionIndex = 0;
-                }
-                if (mMap.get(chosenAction).get(actionIndex) == null) {
-                    actionOutput += "Intent not understood.";
-                } else {
-                    actionOutput += mMap.get(chosenAction).get(actionIndex).run(this);
-                    acceptedAction = true;
-                }
+                //TODO: turn currentTarget into a global (when creating new class for everything).
+//                Context currentTarget = getBestTarget(words, tags);
+                Context currentTarget = mCurrentEnemy;
+                String chosenContext = getBestContext(words, tags, chosenAction.equals("use"));
+                if (mMap.isValidContext(chosenContext)) {
+                    if (mMap.get(chosenContext).get(chosenAction) == null) {
+                        actionOutput += "You cannot " + chosenAction + " with that item. Ignoring...\n";
+                        chosenContext = "default";
+                    }
+                    if (mMap.get(chosenContext).get(chosenAction) == null) {
+                        actionOutput += "Intent not understood.";
+                    } else {
+                        actionOutput += mMap.get(chosenContext).get(chosenAction).run(this, currentTarget);
+                        acceptedAction = true;
+                    }
+                } else { actionOutput = "Intent not understood."; }
             } else { actionOutput = "Intent not understood."; }
 
             if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn() + "\n"; }
 
-            enemyOutput += mCurrentEnemy.mName + "'s health: " + mCurrentEnemy.mHealth + " / " + mCurrentEnemy.mMaxHealth;
-            playerOutput += "Your health: "+mPlayerHealth + " / " + 100;
+            enemyOutput += mCurrentEnemy.getName() + "'s health: " + mCurrentEnemy.getHealth() +
+                    " / " + mCurrentEnemy.getMaxHealth();
+            playerOutput += "Your health: " + mPlayerHealth + " / " + 100;
 
-            return actionOutput + "\n\n" + enemyOutput + "\n";
+            return actionOutput + "\n\n" + enemyOutput + " | " + playerOutput;
 
         } else {    //mGameMode == MODE_OVERWORLD
             String overworldOutput = "";
@@ -158,8 +169,7 @@ public class GameState {
         double bestScore = 0.8;
         int bestIndex = -1;
         String bestAction = "<none>";
-        Set<String> keys = mMap.mMap.keySet();
-        String[] actionsList = keys.toArray(new String[keys.size()]);
+        List<String> actionsList = mMap.getActions();
         for (int i: candidateActions) {
             String word = words.get(i);
             for (String action : actionsList) {
@@ -168,12 +178,14 @@ public class GameState {
                     tags.remove(i);
                     return action;
                 }
-                else if (action != "use") {
-                    double score = calculateScore(action, word);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestIndex = i;
-                        bestAction = action;
+                else {
+                    if (!action.equals("use")) {
+                        double score = calculateScore(action, word);
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestIndex = i;
+                            bestAction = action;
+                        }
                     }
                 }
             }
@@ -188,71 +200,62 @@ public class GameState {
         return bestAction;
     }
 
-    public String getBestTarget(List<String> words, List<String> tags) {
-        if (mCurrentEnemy == null) { return null; }
-        List<Integer> candidateTargets = getCandidateTargets(words, tags);
-        String enemyName = mCurrentEnemy.mName;
-        for (int i : candidateTargets) {
-            String word = words.get(i);
-            if (word.equals(enemyName)) {
-                words.remove(i);
-                tags.remove(i);
-                return enemyName;
-            }
+    public Context getBestTarget(List<String> words, List<String> tags) {
+//        if (mCurrentEnemy == null) { return null; }
+//        List<Integer> candidateTargets = getCandidateTargets(words, tags);
+//        String enemyName = mCurrentEnemy.mName;
+//        for (int i : candidateTargets) {
+//            String word = words.get(i);
+//            if (word.equals(enemyName)) {
+//                words.remove(i);
+//                tags.remove(i);
+//                return enemyName;
+//            }
+//        }
+        //TODO: getBestTarget()
+        if (words.contains("troll")) {
+            int index = words.indexOf("troll");
+            words.remove(index);
+            tags.remove(index);
         }
-        return "<none>";
+        return mCurrentEnemy;
     }
 
-    public int getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
+    public String getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
         List<String> candidateContext = getCandidateItems(words, tags, withUseAction);
-        if (candidateContext.size() < 1) {
-            mActionContext = null;
-            return 0;
+        List<Context> possibleContextList = mMap.getPossibleContexts();
+        if (candidateContext == null || possibleContextList == null ||
+                candidateContext.size() < 1 || possibleContextList.size() < 1) {
+            return "default";
         }
         double bestScore = 0.8;
-        int bestContext;
-        Item bestItem = null;
+        Context bestContext = null;
+        String bestContextWord = "<none>";
         //Find best word
+        Log.d("GameState", "possible contexts: "+possibleContextList.toString());
         for (String contextWord : candidateContext) {
-            for (Item item : mInventory.mItems) {
-                String itemName = item.getName();
-                if (contextWord.equals(itemName)) {
+            for (Context context : possibleContextList) {
+                String contextName = context.getName();
+                if (contextWord.equals(contextName)) {
                     bestScore = 1.0;
-                    bestItem = item;
+                    bestContext = context;
                     break;
-                } else if (!contextWord.equals(mCurrentEnemy.mName)) {
-                    double score = calculateScore(contextWord, itemName);
+                } else if (!contextWord.equals(mCurrentEnemy.getName())) {
+                    double score = calculateScore(contextWord, contextName);
                     if (score > bestScore) {
                         bestScore = score;
-                        bestItem = item;
+                        bestContext = context;
                     }
                 }
             }
         }
-        //Determine type of word (index)
-        if (bestItem == null) {
-            return 0;
-        } else {
-            mActionContext = bestItem.getName();
-            switch (bestItem.getType()) {
-                case ITEM_WEAPON:
-                    if (bestItem.itemIs("sharp")) {
-                        bestContext = 2;    //AttackWeaponSharp
-                    } else if (bestItem.itemIs("blunt")) {
-                        bestContext = 3;    //AttackWeaponBlunt
-                    } else {
-                        bestContext = 1;    //AttackWeapon
-                    }
-                    break;
-                case ITEM_HEALING:
-                    bestContext = 4;    //HealItem
-                    break;
-                default:
-                    bestContext = 0;    //default
-                    break;
-            }
+        //For the Context object, get its context string
+        if (bestContext != null) {
+            bestContextWord = bestContext.getContext();
+            mActionContext = bestContext.getName();
         }
-        return bestContext;
+
+        return bestContextWord;
     }
 
     public List<Integer> getCandidateActions(List<String> tags) {

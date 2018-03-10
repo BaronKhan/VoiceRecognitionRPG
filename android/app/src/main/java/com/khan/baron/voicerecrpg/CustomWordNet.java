@@ -24,7 +24,7 @@ import edu.mit.jwi.item.Synset;
 
 
 // NictWordNet does not work because it uses some sqlite rubbish that doesn't work in Android.
-// This si a custom class that attempts to implement the same thing.
+// This is a custom class that attempts to implement the same thing using MIT's JWI library.
 public class CustomWordNet implements ILexicalDatabase {
     public IDictionary mDict;
     public Map<String, ISynset> synsetMap = new HashMap<>();

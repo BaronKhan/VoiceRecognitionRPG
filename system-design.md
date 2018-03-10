@@ -25,9 +25,9 @@ Always imply 'I' as the subject. Therefore, only concerned with the main verb of
 
 - For verbs, first use the semantic similarity. If > 0.7/1, then probably the same thing. If not, then check if any of the primitive verbs are in the word tree.
 
-- Commands in battle structure: `verb` `target` with `item`
--- Exceptions: "use"
-- Commands in overworld structure: `verb` `object` with `item`
+- Commands in battle structure: `verb` [`target` with `context`]
+-- Exceptions: "use" - use `context` [to `verb` `target`]
+- Commands in overworld structure: `verb` [`target` with `context`]
 
 ### Sentence Deciphering
 
@@ -105,10 +105,22 @@ For exploration mode:
 - Get candidate contexts (items)
 - Find best context (no need to remove)
 
-ActionItemMap
+ContextActionMap
 ---------------
 
-This is an abstract class that the user overloads to specify the mapping of their 
+- This is an abstract class that the user overloads to specify the mapping of contexts to actions.
+- public Map<Integer, Map<String, Action>> mMap = new HashMap<>();
+- But how to know whether an item or enemy matches a context?
+- Contains the current target (also a Context), the actions specify what to do for each target.
+
+### Finding the best context
+
+- Go through candidate context words
+- If word matches object in inventory or environment, select it
+- Each "Context" instance should have a string representing the context that it is
+- Map context string to hash table (indexed by that type of string).
+- Need to have sources (list objects) from where to get the context, pass as parameter
+
 
 POS tagger
 ----------------

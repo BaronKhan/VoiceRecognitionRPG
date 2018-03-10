@@ -31,7 +31,7 @@
         android:background="@drawable/back"
         android:scrollbars="vertical"
         android:text="A troll appears in front of you!\n(100 HP)"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
