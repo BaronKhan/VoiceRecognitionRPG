@@ -90,12 +90,12 @@ public class GameState implements GlobalState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
-
     }
 
     public void setCurrentEnemy(Enemy currentEnemy) {
         mCurrentEnemy = currentEnemy;
         mBattleMap.setPossibleTargets(new ArrayList<Context>(Arrays.asList(currentEnemy)));
+        mBattleMap.setDefaultTarget(currentEnemy);
     }
 
     public void initBattleState(Enemy currentEnemy) {

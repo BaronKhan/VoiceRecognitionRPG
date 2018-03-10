@@ -70,7 +70,7 @@ public class ContextActionMap {
         return mMap.keySet().contains(context);
     }
 
-    public void setDefaultTargets(Context defaultTarget) { mDefaultTarget = defaultTarget; }
+    public void setDefaultTarget(Context defaultTarget) { mDefaultTarget = defaultTarget; }
     public Context getDefaultTarget() { return mDefaultTarget; }
 
 }
