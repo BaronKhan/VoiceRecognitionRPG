@@ -36,7 +36,7 @@ public class Enemy extends Context {
 
     public void decreaseHealth(int dec) { increaseHealth(-dec); }
 
-    public String takeTurn() {
+    public String takeTurn(GameState state) {
         return "The " + mName + "stared at you menacingly";
     }
 }

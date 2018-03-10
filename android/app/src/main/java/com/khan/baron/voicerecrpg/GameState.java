@@ -151,7 +151,7 @@ public class GameState implements GlobalState {
                 }
             } else { actionOutput = "Intent not understood."; }
 
-            if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn() + "\n"; }
+            if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn(this) + "\n"; }
 
             enemyOutput += mCurrentEnemy.getName() + "'s health: " + mCurrentEnemy.getHealth() +
                     " / " + mCurrentEnemy.getMaxHealth();
@@ -235,15 +235,20 @@ public class GameState implements GlobalState {
         String bestContextWord = "<none>";
         //Find best word
         Log.d("GameState", "possible contexts: "+possibleContextList.toString());
-        for (String contextWord : candidateContext) {
+        for (String word : candidateContext) {
             for (Context context : possibleContextList) {
                 String contextName = context.getName();
-                if (contextWord.equals(contextName)) {
+                if (word.equals(contextName)) {
                     bestScore = 1.0;
                     bestContext = context;
                     break;
-                } else if (!contextWord.equals(mCurrentEnemy.getName())) {
-                    double score = calculateScore(contextWord, contextName);
+                } else if (!word.equals(mCurrentEnemy.getName())) {
+                    if (context.contextIs(word)) {
+                        bestScore = 1.0;
+                        bestContext = context;
+                        break;
+                    }
+                    double score = calculateScore(word, contextName);
                     if (score > bestScore) {
                         bestScore = score;
                         bestContext = context;
