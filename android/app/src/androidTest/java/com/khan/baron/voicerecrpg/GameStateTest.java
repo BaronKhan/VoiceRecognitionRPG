@@ -126,6 +126,16 @@ public class GameStateTest {
     }
 
     @Test
+    public void testDescriptions() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        testAttackedWithHammer("attack with something blunt", true);
+        testAttackedWithSword("hit the troll with something pointy please", true);
+        testAttackedWithSword("launch an assault towards the troll using something sharp", true);
+    }
+
+    @Test
     public void testHypernyms() {
         String input = "dog";
         try {
