@@ -19,7 +19,7 @@ public class Inventory extends Context {
     public ContextActionMap mMap;
 
     public Inventory(ContextActionMap map) {
-        super("inventory", "bag", "possessions", "have", "got");
+        super("inventory", "bag", "possessions", "items", "weapons", "potions", "key");
         mItems = new ArrayList<>();
         mPastItems = new HashSet<>();
         mMap = map;

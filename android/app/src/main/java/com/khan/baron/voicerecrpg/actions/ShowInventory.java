@@ -15,7 +15,7 @@ public class ShowInventory extends Action {
             if (currentTarget == mInventory) {
                 String inventoryStr = "{";
                 for (Context item : mInventory.mItems) {
-                    inventoryStr+=item.getName()+",";
+                    inventoryStr+=item.getName()+", ";
                 }
                 inventoryStr+="}";
                 return "This is your inventory:\n"+inventoryStr;
