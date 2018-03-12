@@ -33,7 +33,7 @@ public class Troll extends Enemy {
                 damage  = 5;
                 break;
             case 3:
-                output = "The troll through you straight to the ground.";
+                output = "The troll threw you straight to the ground.";
                 damage = 15;
                 break;
             default:

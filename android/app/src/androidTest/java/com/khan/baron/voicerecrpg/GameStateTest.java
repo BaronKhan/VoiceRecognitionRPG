@@ -104,6 +104,10 @@ public class GameStateTest {
         assertEquals(gameState.updateState(input).contains("healed"), correctInput);
     }
 
+    void testInventoryShown(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input).contains("your inventory"), correctInput);
+    }
+
     @Test
     public void testHealInputSuite() {
         gameState.initBattleState(new Troll(9999999));
@@ -136,6 +140,17 @@ public class GameStateTest {
     }
 
     @Test
+    public void testInventorySuite() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        testInventoryShown("show my inventory", true);
+        testInventoryShown("show my troll", false);
+        testInventoryShown("show my bag", true);
+        testInventoryShown("please show the contents of my possessions that I have", true);
+    }
+
+    @Test
     public void testHypernyms() {
         String input = "dog";
         try {
@@ -143,7 +158,7 @@ public class GameStateTest {
             if (gameState.mTagger != null) {
                 tagged = gameState.mTagger.tagString(input);
             } else {
-                System.out.println("Error: unable to load POS tagger model");
+                assertEquals("Error: unable to load POS tagger model", true, false);
             }
             String taggedList[] = null;
             if (tagged != null) {
@@ -207,8 +222,7 @@ public class GameStateTest {
             System.out.println(output);
         } catch (Exception e) {
             //If exception occurs, fail test
-            System.out.println("input = " + input + "\n\nError: " + e.getMessage());
-            assertEquals("Something went wrong when testing hypernyms", true, false);
+            assertEquals("Something went wrong when testing hypernyms: "+e.getMessage(), true, false);
         }
     }
 

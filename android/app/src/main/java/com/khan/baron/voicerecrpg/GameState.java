@@ -2,7 +2,6 @@ package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.khan.baron.voicerecrpg.enemies.Enemy;
@@ -94,8 +93,8 @@ public class GameState implements GlobalState {
 
     public void setCurrentEnemy(Enemy currentEnemy) {
         mCurrentEnemy = currentEnemy;
-        mBattleMap.setPossibleTargets(new ArrayList<Context>(Arrays.asList(currentEnemy)));
-        mBattleMap.setDefaultTarget(currentEnemy);
+        mBattleMap.setPossibleTargets(new ArrayList<Context>(Arrays.asList(currentEnemy, mInventory)));
+        mBattleMap.setDefaultTarget(mCurrentEnemy);
     }
 
     public void initBattleState(Enemy currentEnemy) {
@@ -126,7 +125,7 @@ public class GameState implements GlobalState {
             List<String> tags = getTags(input);
             if (words.size()!=tags.size()) {
                 throw new AssertionError("Error: no. of words("+words.size()
-                        +") != no.of tags("+tags.size()+")");
+                        +") != no.of tags("+tags.size()+"), input = "+input);
             }
 
             String chosenAction = getBestAction(words, tags);
@@ -134,6 +133,8 @@ public class GameState implements GlobalState {
 
             if (mBattleMap.isValidAction(chosenAction)) {
                 Context currentTarget = getBestTarget(words, tags);
+//                Toast.makeText(mMainActivity, "chosenTarget = " +currentTarget.getName(),
+//                        Toast.LENGTH_LONG).show();
                 String chosenContext = getBestContext(words, tags, chosenAction.equals("use"));
 //                Toast.makeText(mMainActivity, "chosenContext = " +chosenContext,
 //                        Toast.LENGTH_LONG).show();
@@ -168,7 +169,7 @@ public class GameState implements GlobalState {
 
     public String getBestAction(List<String> words, List<String> tags) {
         List<Integer> candidateActions = getCandidateActions(tags);
-        double bestScore = 0.8;
+        double bestScore = 0.7;
         int bestIndex = -1;
         String bestAction = "<none>";
         List<String> actionsList = mBattleMap.getActions();
@@ -209,7 +210,7 @@ public class GameState implements GlobalState {
                 candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
             return mBattleMap.mDefaultTarget;
         }
-        double bestScore = 0.9;
+        double bestScore = 0.8;
         int bestIndex = -1;
         Context bestTarget = null;
         for (int i: candidateTargets) {
@@ -236,16 +237,16 @@ public class GameState implements GlobalState {
             }
         }
         if (bestTarget == null) {
-            words.remove(bestIndex);
-            tags.remove(bestIndex);
             return mBattleMap.mDefaultTarget;
         } else {
+            words.remove(bestIndex);
+            tags.remove(bestIndex);
             return bestTarget;
         }
     }
 
     public String getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
-        List<String> candidateContext = getCandidateItems(words, tags, withUseAction);
+        List<String> candidateContext = getCandidateContext(words, tags, withUseAction);
         List<Context> possibleContextList = mBattleMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
                 candidateContext.size() < 1 || possibleContextList.size() < 1) {
@@ -255,7 +256,6 @@ public class GameState implements GlobalState {
         Context bestContext = null;
         String bestContextWord = "<none>";
         //Find best word
-        Log.d("GameState", "possible contexts: "+possibleContextList.toString());
         for (String word : candidateContext) {
             for (Context context : possibleContextList) {
                 String contextName = context.getName();
@@ -312,12 +312,12 @@ public class GameState implements GlobalState {
         return candidateTargets;
     }
 
-    public List<String> getCandidateItems(List<String> words, List<String> tags) {
-        return getCandidateItems(words, tags, false);
+    public List<String> getCandidateContext(List<String> words, List<String> tags) {
+        return getCandidateContext(words, tags, false);
     }
 
-    public List<String> getCandidateItems(List<String> words, List<String> tags,
-                                          boolean withUseAction) {
+    public List<String> getCandidateContext(List<String> words, List<String> tags,
+                                            boolean withUseAction) {
         List<String> candidateItems = new ArrayList<>();
         boolean foundWithUsing = withUseAction;
         for (int i=0; i<words.size(); ++i) {
@@ -361,7 +361,7 @@ public class GameState implements GlobalState {
         assert(mTagger != null);
         String taggedWords = mTagger.tagString(input);
         List<String> tags = new ArrayList<>();
-        Matcher m = Pattern.compile("(?<=_)[A-Z]+(?=\\s|$)").matcher(taggedWords);
+        Matcher m = Pattern.compile("(?<=_)[A-Z$]+(?=\\s|$)").matcher(taggedWords);
         while (m.find()) {
             tags.add(m.group());
         }

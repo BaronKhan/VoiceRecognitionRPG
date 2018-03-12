@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by Baron on 12/01/2018.
  */
 
-public class Inventory {
+public class Inventory extends Context {
     public List<Item> mItems;
 
     public Set<String> mPastItems;
@@ -19,6 +19,7 @@ public class Inventory {
     public ContextActionMap mMap;
 
     public Inventory(ContextActionMap map) {
+        super("inventory", "bag", "possessions", "have", "got");
         mItems = new ArrayList<>();
         mPastItems = new HashSet<>();
         mMap = map;
