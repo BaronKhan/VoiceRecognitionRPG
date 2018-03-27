@@ -92,12 +92,11 @@ public class GameStateTest {
         testAttackedTroll("jump up and down", false);
         gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
         testAttackedTroll("attack the troll", true);
-        assertEquals(gameState.updateState("hit the troll").contains("You attacked the troll."), true);
+        assertEquals(gameState.updateState("hit the troll").contains("You attacked the troll"), true);
         testAttackedTroll("attack", true);
         testAttackedWithHammer("attack with the hammer", true);
         testAttackedWithHammer("attack with the sledgehammer", true);
         testAttackedWithHammer("attack the troll with the sledgehammer", true);
-        testAttackedWithHammer("attack the sledgehammer with a troll", false);
     }
 
     void testHealed(String input, boolean correctInput) {
@@ -126,7 +125,6 @@ public class GameStateTest {
         gameState.initBattleState(new Troll(9999999));
         gameState.mInventory.add(new Weapon("sword"));
         testAttackedWithSword("attack the troll with a sword", true);
-        testAttackedWithSword("attack the sword with a troll", false);
     }
 
     @Test

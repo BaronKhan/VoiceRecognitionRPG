@@ -19,7 +19,7 @@ public abstract class Action {
     protected ContextActionMap mMap = null;
     protected Room mCurrentRoom = null;
     protected int mPlayerHealth = 0;
-    protected String mActionContext = null;
+    protected Context mActionContext = null;
 
     public abstract Object run(GlobalState state, Context currentTarget);
 

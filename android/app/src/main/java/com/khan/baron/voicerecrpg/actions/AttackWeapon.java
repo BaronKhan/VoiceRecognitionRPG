@@ -15,12 +15,16 @@ public class AttackWeapon extends Action {
             if (mGameMode == GameState.Mode.MODE_BATTLE) {
                 if (mCurrentEnemy != null) {
                     mCurrentEnemy.decreaseHealth(5);
-                    return "You attacked the " + mCurrentEnemy.getName() + " with " + mActionContext + ".";
+                    state.actionSucceeded();
+                    return "You attacked the " + mCurrentEnemy.getName() + " with a "
+                            + mActionContext.getName() + ".";
                 } else {
+                    state.actionFailed();
                     return "There is no " + mCurrentEnemy.getName() + " to attack.";
                 }
             }
         }
+        state.actionFailed();
         return "You can't do that right now.";
     }
 }

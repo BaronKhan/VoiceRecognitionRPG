@@ -10,6 +10,7 @@ import com.khan.baron.voicerecrpg.GlobalState;
 
 public class DoNothing extends Action {
     public String run(GlobalState state, Context currentTarget) {
+        state.actionFailed();
         return "You did nothing.";
     }
 }

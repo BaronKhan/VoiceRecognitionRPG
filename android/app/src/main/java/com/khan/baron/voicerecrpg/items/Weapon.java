@@ -5,13 +5,20 @@ package com.khan.baron.voicerecrpg.items;
  */
 
 public class Weapon extends Item {
+    public double mDamageModifier;
+
     public Weapon(String name) {
         super (name, ItemType.ITEM_WEAPON);
         setContext("weapon");
     }
 
     public Weapon(String name, String ... description) {
+        this(name, 1.0, description);
+    }
+
+    public Weapon(String name, double damageMod, String ... description) {
         super (name, ItemType.ITEM_WEAPON, description);
+        mDamageModifier = damageMod;
         if (mDescription.contains("sharp")) {
             setContext("weaponSharp");
         } else if (mDescription.contains("blunt")) {

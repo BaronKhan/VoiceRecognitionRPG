@@ -15,12 +15,16 @@ public class AttackWeaponBlunt extends Action {
             if (mGameMode == GameState.Mode.MODE_BATTLE) {
                 if (mCurrentEnemy != null) {
                     mCurrentEnemy.decreaseHealth(15);
-                    return "You attacked the " + mCurrentEnemy.getName() + " with a blunt " + mActionContext + ".";
+                    state.actionSucceeded();
+                    return "You attacked the " + mCurrentEnemy.getName() + " with a blunt "
+                            + mActionContext.getName() + ".";
                 } else {
+                    state.actionFailed();
                     return "There is no " + mCurrentEnemy.getName() + " to attack.";
                 }
             }
         }
+        state.actionFailed();
         return "You can't do that right now.";
     }
 }

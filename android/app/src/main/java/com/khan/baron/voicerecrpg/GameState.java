@@ -28,7 +28,7 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_BATTLE;
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_OVERWORLD;
 
-public class GameState implements GlobalState {
+public class GameState extends GlobalState {
     public Activity mMainActivity;
 
     public IDictionary mDict = null;
@@ -44,7 +44,7 @@ public class GameState implements GlobalState {
     public Enemy mCurrentEnemy;
     public Room mCurrentRoom;
 
-    public String mActionContext; //stores the name of the context
+    public Context mActionContext; //stores the name of the context
 
     public int mPlayerHealth = 100;
 
@@ -130,7 +130,6 @@ public class GameState implements GlobalState {
 
             String chosenAction = getBestAction(words, tags);
 
-
             if (mBattleMap.isValidAction(chosenAction)) {
                 Context currentTarget = getBestTarget(words, tags);
 //                Toast.makeText(mMainActivity, "chosenTarget = " +currentTarget.getName(),
@@ -148,7 +147,7 @@ public class GameState implements GlobalState {
                     actionOutput += "Intent not understood.";
                 } else {
                     actionOutput += mBattleMap.get(chosenContext).get(chosenAction).run(this, currentTarget);
-                    acceptedAction = true;
+                    acceptedAction = getActionSucceed();
                 }
             } else { actionOutput = "Intent not understood."; }
 
@@ -169,7 +168,7 @@ public class GameState implements GlobalState {
 
     public String getBestAction(List<String> words, List<String> tags) {
         List<Integer> candidateActions = getCandidateActions(tags);
-        double bestScore = 0.7;
+        double bestScore = 0.8;
         int bestIndex = -1;
         String bestAction = "<none>";
         List<String> actionsList = mBattleMap.getActions();
@@ -280,7 +279,7 @@ public class GameState implements GlobalState {
         //For the Context object, get its context string
         if (bestContext != null) {
             bestContextWord = bestContext.getContext();
-            mActionContext = bestContext.getName();
+            mActionContext = bestContext;
         }
 
         return bestContextWord;

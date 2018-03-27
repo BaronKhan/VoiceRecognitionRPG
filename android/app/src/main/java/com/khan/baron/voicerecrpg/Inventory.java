@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Baron on 12/01/2018.
@@ -49,8 +50,23 @@ public class Inventory extends Context {
 
     public boolean hasItem(String name) { return (getCount(name) > 0); }
 
-
     public boolean hasItem(Item.ItemType type) { return (getCount(type) > 0); }
+
+    public Item getRandomItem(Item.ItemType type) {
+        int itemCount = getCount(type);
+        if (itemCount < 1) { return null; }
+        boolean chosenItem = false;
+        while (!chosenItem) {
+            for (Item item : mItems) {
+                if (item.getType() == type) {
+                    if (ThreadLocalRandom.current().nextInt(0, itemCount) == 0) {
+                        return item;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     public int getItemPos(String name) {
         for (int i=0; i< mItems.size(); ++i) {

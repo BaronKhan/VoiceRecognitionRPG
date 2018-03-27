@@ -12,6 +12,7 @@ public class ShowInventory extends Action {
     public String run(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
             getState((GameState)state);
+            state.actionFailed();   //By default, we don't want the enemy to have a turn
             if (currentTarget == mInventory) {
                 String inventoryStr = "{";
                 for (Context item : mInventory.mItems) {
@@ -21,6 +22,7 @@ public class ShowInventory extends Action {
                 return "This is your inventory:\n"+inventoryStr;
             } else {
 //                return "Intent not understood (current target = "+currentTarget.getName()+")";
+
                 return "Intent not understood";
             }
         }
