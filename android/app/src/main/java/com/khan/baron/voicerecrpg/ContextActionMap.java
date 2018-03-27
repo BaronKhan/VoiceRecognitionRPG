@@ -1,13 +1,13 @@
 package com.khan.baron.voicerecrpg;
 
 import com.khan.baron.voicerecrpg.actions.Action;
-import com.khan.baron.voicerecrpg.actions.AttackDefault;
-import com.khan.baron.voicerecrpg.actions.AttackWeapon;
-import com.khan.baron.voicerecrpg.actions.AttackWeaponBlunt;
-import com.khan.baron.voicerecrpg.actions.AttackWeaponSharp;
-import com.khan.baron.voicerecrpg.actions.HealDefault;
-import com.khan.baron.voicerecrpg.actions.HealItem;
-import com.khan.baron.voicerecrpg.actions.ShowInventory;
+import com.khan.baron.voicerecrpg.actions.battleActions.AttackDefault;
+import com.khan.baron.voicerecrpg.actions.battleActions.AttackWeapon;
+import com.khan.baron.voicerecrpg.actions.battleActions.AttackWeaponBlunt;
+import com.khan.baron.voicerecrpg.actions.battleActions.AttackWeaponSharp;
+import com.khan.baron.voicerecrpg.actions.battleActions.HealDefault;
+import com.khan.baron.voicerecrpg.actions.battleActions.HealItem;
+import com.khan.baron.voicerecrpg.actions.battleActions.ShowInventory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
