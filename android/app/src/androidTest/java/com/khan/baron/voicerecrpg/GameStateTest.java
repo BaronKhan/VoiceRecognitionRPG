@@ -82,6 +82,7 @@ public class GameStateTest {
     public void testAttackInputSuite() {
         gameState.initBattleState(new Troll(9999999));
         testAttackedTroll("attack", true);
+        assertEquals(gameState.updateState("attack").contains("hands"), true);
         testAttackedTroll("attack with everything you have got", true);
         testAttackedTroll("use", false);
         testAttackedTroll("hit", true);
