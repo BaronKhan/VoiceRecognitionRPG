@@ -57,7 +57,6 @@ public class GameState extends GlobalState {
 
         mGameMode = MODE_OVERWORLD;
 
-        Enemy.sGameState = this;
         mCurrentEnemy = null;
 
         mBattleMap = new ContextActionMap(this);

@@ -5,6 +5,7 @@ import com.khan.baron.voicerecrpg.items.Item;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -59,7 +60,7 @@ public class Inventory extends Context {
         while (!chosenItem) {
             for (Item item : mItems) {
                 if (item.getType() == type) {
-                    if (ThreadLocalRandom.current().nextInt(0, itemCount) == 0) {
+                    if ((new Random()).nextInt() % 4 == 0) {
                         return item;
                     }
                 }
