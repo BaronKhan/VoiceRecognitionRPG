@@ -31,6 +31,6 @@ public abstract class Action {
         mMap = state.mBattleMap;
         mCurrentRoom = state.mCurrentRoom;
         mPlayerHealth = state.mPlayerHealth;
-        mActionContext = state.mActionContext;
+        mActionContext = state.mBattleVoiceProcess.getActionContext();
     }
 }

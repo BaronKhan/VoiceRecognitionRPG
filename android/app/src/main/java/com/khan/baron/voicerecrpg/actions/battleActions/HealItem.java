@@ -18,10 +18,10 @@ public class HealItem extends Action {
                 //Remove healing item from inventory
                 mInventory.remove(mActionContext.getName());
                 state.actionSucceeded();
-                return "You healed with " + mActionContext;
+                return "You healed with a " + mActionContext.getName();
             } else {
                 state.actionFailed();
-                return "You don't have a " + mActionContext;
+                return "You don't have a " + mActionContext.getName();
             }
         }
         state.actionSucceeded();

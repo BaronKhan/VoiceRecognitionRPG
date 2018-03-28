@@ -21,6 +21,7 @@ import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.Dictionary;
+import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
@@ -28,6 +29,8 @@ import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
+import edu.stanford.nlp.tagger.common.Tagger;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import static org.junit.Assert.*;
 
@@ -47,9 +50,7 @@ public class GameStateTest {
             System.out.println("Found WordNet database on phone");
             try {
                 URL url = new URL("file", null, dictFile.getPath());
-                gameState.mDict = new Dictionary(url);
-                gameState.mDict.open();
-                gameState.mDb = new CustomWordNet(gameState.mDict);
+                gameState.addDictionary(url);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -59,7 +60,7 @@ public class GameStateTest {
     }
 
     @Test
-    public void useAppContext() throws Exception {
+    public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("com.khan.baron.voicerecrpg", appContext.getPackageName());
@@ -157,9 +158,12 @@ public class GameStateTest {
     public void testHypernyms() {
         String input = "dog";
         try {
+            MaxentTagger tagger = gameState.mBattleVoiceProcess.mTagger;
+            IDictionary dict = gameState.mBattleVoiceProcess.mDict;
+
             String tagged = null;
-            if (gameState.mTagger != null) {
-                tagged = gameState.mTagger.tagString(input);
+            if (tagger != null) {
+                tagged = tagger.tagString(input);
             } else {
                 assertEquals("Error: unable to load POS tagger model", true, false);
             }
@@ -182,9 +186,9 @@ public class GameStateTest {
             }
 
             // get first verb or noun
-            IIndexWord idxWord = gameState.mDict.getIndexWord(input, tagType);
+            IIndexWord idxWord = dict.getIndexWord(input, tagType);
             IWordID wordID = idxWord.getWordIDs().get(0);
-            IWord word = gameState.mDict.getWord(wordID);
+            IWord word = dict.getWord(wordID);
             ISynset synset = word.getSynset();
 
             // get synonyms
@@ -197,7 +201,7 @@ public class GameStateTest {
             output += "\n\nhypernyms: \n";
             List<ISynsetID> hypernymsList = synset.getRelatedSynsets(Pointer.HYPERNYM);
             for (ISynsetID sid : hypernymsList) {
-                List<IWord> words = gameState.mDict.getSynset(sid).getWords();
+                List<IWord> words = dict.getSynset(sid).getWords();
                 output += "{";
                 for (Iterator<IWord> i = words.iterator(); i.hasNext(); ) {
                     output += i.next().getLemma() + ", ";
@@ -209,12 +213,12 @@ public class GameStateTest {
             String currentWord = input;
             output += "\n\nhypernym branch: \n" + currentWord + " --> ";
             for (int i = 0; i < 5; ++i) {
-                IIndexWord idxWord2 = gameState.mDict.getIndexWord(currentWord, tagType);
+                IIndexWord idxWord2 = dict.getIndexWord(currentWord, tagType);
                 IWordID wordID2 = idxWord2.getWordIDs().get(0);
-                IWord word2 = gameState.mDict.getWord(wordID2);
+                IWord word2 = dict.getWord(wordID2);
                 ISynset synset2 = word2.getSynset();
                 List<ISynsetID> hypernymsList2 = synset2.getRelatedSynsets(Pointer.HYPERNYM);
-                List<IWord> words = gameState.mDict.getSynset(hypernymsList2.get(0)).getWords();
+                List<IWord> words = dict.getSynset(hypernymsList2.get(0)).getWords();
                 if (words.size() > 0) {
                     currentWord = words.get(0).getLemma();
                     output += currentWord + " --> ";
@@ -239,7 +243,7 @@ public class GameStateTest {
     public void testCustomWordNet() {
         try {
             String output = "";
-            ILexicalDatabase db = new CustomWordNet(gameState.mDict);
+            ILexicalDatabase db = new CustomWordNet(gameState.mBattleVoiceProcess.mDict);
 
             String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
             for (int i = 0; i < words.length - 1; i++) {

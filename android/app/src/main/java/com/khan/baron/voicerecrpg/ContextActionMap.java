@@ -19,8 +19,8 @@ import java.util.Map;
  * Created by Baron on 12/01/2018.
  */
 
-public class ContextActionMap {
-    protected GameState mGameState = null;
+public abstract class ContextActionMap {
+    protected GlobalState mState = null;
     protected List<Context> mPossibleTargets = null;
     protected Context mDefaultTarget = null;
     protected List<Context> mPossibleContexts = null;
@@ -28,18 +28,7 @@ public class ContextActionMap {
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
 
-    public ContextActionMap(GameState gameState) {
-        mGameState = gameState;
-        mActionList = Arrays.asList("use", "attack", "heal", "show");
-        addDefaultContextActions(null, new AttackDefault(), new HealDefault(), new ShowInventory());
-        addContextActions("weapon", new AttackWeapon(), new AttackWeapon(), null, null);
-        addContextActions("weaponSharp", new AttackWeaponSharp(), new AttackWeaponSharp(), null, null);
-        addContextActions("weaponBlunt", new AttackWeaponBlunt(), new AttackWeaponBlunt(), null, null);
-        addContextActions("healItem", new HealDefault(), null, new HealItem(), null);
-
-        addSynonym("recover","heal");
-        addSynonym("regenerate","heal");
-    }
+    public ContextActionMap(GlobalState state) { mState = state; }
 
     public Map<String, Action> get(String action) { return mMap.get(action); }
 

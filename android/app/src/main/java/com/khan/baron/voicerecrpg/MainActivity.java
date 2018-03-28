@@ -188,9 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (foundWordNetDatabase) {
             URL url = new URL("file", null, dictFile.getPath());
-            mGameState.mDict = new Dictionary(url);
-            mGameState.mDict.open();
-            mGameState.mDb = new CustomWordNet(mGameState.mDict);
+            mGameState.addDictionary(url);
         }
     }
 

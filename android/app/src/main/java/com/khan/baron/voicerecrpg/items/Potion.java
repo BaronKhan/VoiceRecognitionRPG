@@ -6,7 +6,7 @@ package com.khan.baron.voicerecrpg.items;
 
 public class Potion extends Item {
     public Potion(String name) {
-        super (name, ItemType.ITEM_HEALING);
+        super (name, ItemType.ITEM_HEALING, "healing");
         setContext("healItem");
     }
 }

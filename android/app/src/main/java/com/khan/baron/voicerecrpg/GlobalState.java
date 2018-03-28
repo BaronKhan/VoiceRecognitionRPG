@@ -11,8 +11,8 @@ public abstract class GlobalState {
     public void actionSucceeded() { mActionSucceeded = true; }
 
     public void actionFailed() {
-        mActionSucceeded = true;
+        mActionSucceeded = false;
     }
 
-    public boolean getActionSucceed() { return mActionSucceeded; }
+    public boolean getActionSucceeded() { return mActionSucceeded; }
 }
