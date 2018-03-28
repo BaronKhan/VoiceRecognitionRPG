@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.txtInput),
                 (TextView) findViewById(R.id.txtOutput),
                 mGameState);
+        mVoiceControl.setOutputText(mGameState.getInitOutput());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.microphoneButton);
         fab.setOnClickListener(new View.OnClickListener() {

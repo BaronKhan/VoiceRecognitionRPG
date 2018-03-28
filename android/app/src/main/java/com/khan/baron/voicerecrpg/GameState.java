@@ -7,6 +7,7 @@ import com.khan.baron.voicerecrpg.enemies.Troll;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
 import com.khan.baron.voicerecrpg.rooms.Room;
+import com.khan.baron.voicerecrpg.rooms.Room01;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +35,8 @@ public class GameState extends GlobalState {
 
     public int mPlayerHealth = 100;
 
+    protected String mInitStr;
+
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
         mGameMode = MODE_OVERWORLD;
@@ -43,35 +46,42 @@ public class GameState extends GlobalState {
         mBattleVoiceProcess = new VoiceProcess(mainActivity, this, mBattleMap);
     }
 
+    public String getInitOutput() {
+        return mInitStr;
+    }
+
     public void addDictionary(URL url) throws IOException {
         mBattleVoiceProcess.addDictionary(url);
     }
 
     public void initState() {
-        initBattleState(new Troll(100));
         mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
         mInventory.add(new Weapon("knife", "sharp", "short", "metallic"));
         mInventory.add(new Weapon("hammer", "heavy", "blunt"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
+//        initBattleState(new Troll(100));
+        initOverworldState(new Room01());
     }
 
     public void setCurrentEnemy(Enemy currentEnemy) {
         mCurrentEnemy = currentEnemy;
-        mBattleMap.setPossibleTargets(new ArrayList<Context>(Arrays.asList(currentEnemy, mInventory)));
+        mBattleMap.setPossibleTargets(new ArrayList<>(Arrays.asList(currentEnemy, mInventory)));
         mBattleMap.setDefaultTarget(mCurrentEnemy);
     }
 
     public void initBattleState(Enemy currentEnemy) {
         mGameMode = MODE_BATTLE;
         setCurrentEnemy(currentEnemy);
+        mInitStr = "A "+currentEnemy+" appears in front of you!";
     }
 
     public void initOverworldState(Room room) {
         mGameMode = MODE_OVERWORLD;
         mCurrentEnemy = null;
         mCurrentRoom = room;
+        mInitStr = room.getRoomDescription();
     }
 
     public String updateState(String input) {
