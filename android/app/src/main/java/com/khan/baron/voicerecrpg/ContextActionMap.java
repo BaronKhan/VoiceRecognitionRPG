@@ -41,7 +41,7 @@ public class ContextActionMap {
         addSynonym("regenerate","heal");
     }
 
-    public Map<String, Action> get(String action) { return mMap.get(action);}
+    public Map<String, Action> get(String action) { return mMap.get(action); }
 
     public List<String> getActions() { return mActionList; }
 
@@ -78,7 +78,7 @@ public class ContextActionMap {
     public Context getDefaultTarget() { return mDefaultTarget; }
 
     public void addSynonym(String synonym, String action) {
-        mSynonymMap.put("recover","heal");
+        mSynonymMap.put(synonym,action);
     }
 
     public boolean hasSynonym(String synonym) {

@@ -22,7 +22,7 @@ public abstract class Context {
     public String getContext() { return mContext; }
     public void setContext(String context) { mContext = context; }
 
-    public boolean contextIs(String adj) {
+    public boolean descriptionHas(String adj) {
         return mDescription.contains(adj);
     }
 

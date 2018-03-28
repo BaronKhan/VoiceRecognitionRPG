@@ -62,7 +62,6 @@ public class GameStateTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
         assertEquals("com.khan.baron.voicerecrpg", appContext.getPackageName());
     }
 
@@ -99,6 +98,7 @@ public class GameStateTest {
         testAttackedWithHammer("attack with the hammer", true);
         testAttackedWithHammer("attack with the sledgehammer", true);
         testAttackedWithHammer("attack the troll with the sledgehammer", true);
+        testAttackedTroll("use something to attack with", true);
     }
 
     void testHealed(String input, boolean correctInput) {
@@ -121,6 +121,8 @@ public class GameStateTest {
         testHealed("heal with elixer", true);
         testHealed("use an elixer right now before it is too late", true);
         testHealed("recover with an elixer", true);
+        testHealed("Use something to heal with", true);
+        testHealed("Use something to regenerate with", true);
     }
 
     @Test

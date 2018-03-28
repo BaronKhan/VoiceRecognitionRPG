@@ -13,6 +13,7 @@ import com.khan.baron.voicerecrpg.rooms.Room;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -220,7 +221,7 @@ public class GameState extends GlobalState {
                     tags.remove(i);
                     return target;
                 } else {
-                    if (target.contextIs(word)) {
+                    if (target.descriptionHas(word)) {
                         words.remove(i);
                         tags.remove(i);
                         return target;
@@ -262,7 +263,7 @@ public class GameState extends GlobalState {
                     bestContext = context;
                     break;
                 } else if (!word.equals(mCurrentEnemy.getName())) {
-                    if (context.contextIs(word)) {
+                    if (context.descriptionHas(word)) {
                         bestScore = 1.0;
                         bestContext = context;
                         break;
@@ -274,7 +275,36 @@ public class GameState extends GlobalState {
                     }
                 }
             }
+            //If "use", context could be action ("attack"). Find context that is not null for this
+            //e.g. "use an attack", "use something to heal with"
+            if (withUseAction) {
+                List<String> actionList = mBattleMap.getActions();
+                String chosenAction = null;
+                if ((mBattleMap.hasSynonym(word))) {
+                    chosenAction = mBattleMap.getSynonymAction(word);
+                } else if (actionList.contains(word)) {
+                    chosenAction = word;
+                }
+                if (chosenAction != null) {
+                    bestScore = 1.0;
+                    bestContext = null;
+                    bestContextWord = "<none>";
+                    //Set bestContext to a random context that works with action
+                    //https://stackoverflow.com/a/1066607/8919086
+                    for (String key : mBattleMap.mMap.keySet()) {
+                        if (mBattleMap.mMap.get(key).get(chosenAction) != null) {
+                            for (Context context : possibleContextList) {
+                                if (context.getContext().equals(key)) {
+                                    bestContext = context;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
         if (bestContext != null) {
             bestContextWord = bestContext.getContext();
             mActionContext = bestContext;
