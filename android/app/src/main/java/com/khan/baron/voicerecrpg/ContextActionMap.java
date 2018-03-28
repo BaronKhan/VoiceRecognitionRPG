@@ -26,6 +26,7 @@ public class ContextActionMap {
     protected List<Context> mPossibleContexts = null;
     protected List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
+    protected Map<String, String> mSynonymMap = new HashMap<>();
 
     public ContextActionMap(GameState gameState) {
         mGameState = gameState;
@@ -36,6 +37,8 @@ public class ContextActionMap {
         addContextActions("weaponBlunt", new AttackWeaponBlunt(), new AttackWeaponBlunt(), null, null);
         addContextActions("healItem", new HealDefault(), null, new HealItem(), null);
 
+        addSynonym("recover","heal");
+        addSynonym("regenerate","heal");
     }
 
     public Map<String, Action> get(String action) { return mMap.get(action);}
@@ -73,5 +76,17 @@ public class ContextActionMap {
 
     public void setDefaultTarget(Context defaultTarget) { mDefaultTarget = defaultTarget; }
     public Context getDefaultTarget() { return mDefaultTarget; }
+
+    public void addSynonym(String synonym, String action) {
+        mSynonymMap.put("recover","heal");
+    }
+
+    public boolean hasSynonym(String synonym) {
+        return mSynonymMap.keySet().contains(synonym);
+    }
+
+    public String getSynonymAction(String synonym) {
+        return (hasSynonym(synonym)) ? mSynonymMap.get(synonym) : synonym;
+    }
 
 }

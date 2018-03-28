@@ -80,7 +80,6 @@ public class GameState extends GlobalState {
     }
 
     public void initState() {
-        // for demo
         initBattleState(new Troll(100));
         mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
         mInventory.add(new Weapon("knife", "sharp", "short", "metallic"));
@@ -131,11 +130,7 @@ public class GameState extends GlobalState {
 
             if (mBattleMap.isValidAction(chosenAction)) {
                 Context currentTarget = getBestTarget(words, tags);
-//                Toast.makeText(mMainActivity, "chosenTarget = " +currentTarget.getName(),
-//                        Toast.LENGTH_LONG).show();
                 String chosenContext = getBestContext(words, tags, chosenAction.equals("use"));
-//                Toast.makeText(mMainActivity, "chosenContext = " +chosenContext,
-//                        Toast.LENGTH_LONG).show();
                 if (mBattleMap.isValidContext(chosenContext)) {
                     if (mBattleMap.get(chosenContext).get(chosenAction) == null) {
                         actionOutput += "You cannot " + chosenAction + " with that. Ignoring...\n";
@@ -173,6 +168,11 @@ public class GameState extends GlobalState {
         List<String> actionsList = mBattleMap.getActions();
         for (int i: candidateActions) {
             String word = words.get(i);
+            if (mBattleMap.hasSynonym(word)) {
+                words.remove(i);
+                tags.remove(i);
+                return mBattleMap.getSynonymAction(word);
+            }
             for (String action : actionsList) {
                 if (word.equals(action)) {
                     words.remove(i);
@@ -275,7 +275,6 @@ public class GameState extends GlobalState {
                 }
             }
         }
-        //For the Context object, get its context string
         if (bestContext != null) {
             bestContextWord = bestContext.getContext();
             mActionContext = bestContext;
@@ -345,7 +344,6 @@ public class GameState extends GlobalState {
             } else {
                 score = score1;
             }
-//            Toast.makeText(mMainActivity, "wup = "+score1+". lin = "+score2, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs",
                     Toast.LENGTH_LONG).show();
@@ -353,7 +351,6 @@ public class GameState extends GlobalState {
         }
         return score;
     }
-
 
     public List<String> getTags(String input) {
         assert(mTagger != null);

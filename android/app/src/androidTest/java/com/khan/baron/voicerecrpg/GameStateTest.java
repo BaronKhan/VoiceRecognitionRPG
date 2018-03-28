@@ -86,6 +86,7 @@ public class GameStateTest {
         testAttackedTroll("attack with everything you have got", true);
         testAttackedTroll("use", false);
         testAttackedTroll("hit", true);
+        testAttackedTroll("hit the troll", true);
         assertEquals(gameState.updateState("heal").contains("attacked"), false);
         testAttackedTroll("heal", false);
         testAttackedTroll("launch an assault", true);
@@ -119,6 +120,7 @@ public class GameStateTest {
         testHealed("hit", false);
         testHealed("heal with elixer", true);
         testHealed("use an elixer right now before it is too late", true);
+        testHealed("recover with an elixer", true);
     }
 
     @Test
