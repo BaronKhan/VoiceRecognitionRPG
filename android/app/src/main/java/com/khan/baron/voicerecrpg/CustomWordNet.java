@@ -16,7 +16,6 @@ import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
-import edu.mit.jwi.item.Synset;
 
 /**
  * Created by Baron on 20/01/2018.
@@ -30,10 +29,10 @@ public class CustomWordNet implements ILexicalDatabase {
     public Map<String, ISynset> synsetMap = new HashMap<>();
 
     public static POS stringToTag(String posStr) {
-        if (posStr == "n") { return POS.NOUN; }
-        else if (posStr == "v") { return POS.VERB; }
-        else if (posStr == "r") { return POS.ADVERB; }
-        else if (posStr == "a") { return POS.ADJECTIVE; }
+        if (posStr.equals("n")) { return POS.NOUN; }
+        else if (posStr.equals("v")) { return POS.VERB; }
+        else if (posStr.equals("r")) { return POS.ADVERB; }
+        else if (posStr.equals("a")) { return POS.ADJECTIVE; }
         else { return POS.NOUN; }
     }
 
@@ -90,7 +89,5 @@ public class CustomWordNet implements ILexicalDatabase {
         return null;
     }
 
-    public Collection<String> getGloss( Concept synset, String linkString ) {
-        return null;
-    }
+    public Collection<String> getGloss( Concept synset, String linkString ) { return null; }
 }

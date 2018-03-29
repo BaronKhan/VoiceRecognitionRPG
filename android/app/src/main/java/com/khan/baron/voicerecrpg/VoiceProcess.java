@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -15,12 +16,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
+import edu.cmu.lti.ws4j.impl.Lesk;
 import edu.cmu.lti.ws4j.impl.Lin;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.IIndexWord;
+import edu.mit.jwi.item.ISynset;
+import edu.mit.jwi.item.IWord;
+import edu.mit.jwi.item.IWordID;
+import edu.mit.jwi.item.POS;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+
+import static java.lang.Math.min;
 
 public class VoiceProcess {
     protected Activity mMainActivity;
@@ -110,7 +119,7 @@ public class VoiceProcess {
 
     private String getBestAction(List<String> words, List<String> tags) {
         List<Integer> candidateActions = getCandidateActions(tags);
-        double bestScore = 0.8;
+        double bestScore = 0.7;
         int bestIndex = -1;
         String bestAction = "<none>";
         List<String> actionsList = mContextActionMap.getActions();
@@ -309,16 +318,27 @@ public class VoiceProcess {
         return candidateItems;
     }
 
+    //TODO: calculate cosine similarity of definitions
+//    private double calculateDefinitionCosSimilarity(String word1, String word2) {
+//        String gloss1 = mDict.getWord(mDict.getIndexWord(word1, POS.NOUN).getWordIDs().get(0)).getSynset().getGloss();
+//        Log.d(word1, gloss1);
+//        String gloss2 = mDict.getWord(mDict.getIndexWord(word2, POS.NOUN).getWordIDs().get(0)).getSynset().getGloss();
+//        Log.d(word2, gloss2);
+//        // Go through all synsets
+//        return 0.0;
+//    }
+
     private double calculateScore(String word1, String word2) {
         if (mDb == null) {
             Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded",
                     Toast.LENGTH_LONG).show();
             return 0.0;
         }
-        double score1, score2, score;
+        double score1, score2, score3, score;
         try {
             score1 = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
             score2 = new Lin(mDb).calcRelatednessOfWords(word1, word2);
+//            score3 = calculateDefinitionCosSimilarity(word1, word2);
             if (score2 > 0) {
                 score = (score1*0.75) + (score2*0.25);
             } else {
