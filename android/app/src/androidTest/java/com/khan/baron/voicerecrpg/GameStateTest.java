@@ -100,6 +100,8 @@ public class GameStateTest {
         testAttackedWithHammer("attack with the sledgehammer", true);
         testAttackedWithHammer("attack the troll with the sledgehammer", true);
         testAttackedTroll("use something to attack with", true);
+        gameState.mInventory.add(new Weapon("sword", "sharp", "metal"));
+        testAttackedWithSword("use a sword attack", true);
     }
 
     void testHealed(String input, boolean correctInput) {
@@ -141,6 +143,7 @@ public class GameStateTest {
         testAttackedWithHammer("attack with something blunt", true);
         testAttackedWithSword("hit the troll with something pointy please", true);
         testAttackedWithSword("launch an assault towards the troll using something sharp", true);
+        testAttackedWithHammer("use a heavy attack", true);
     }
 
     @Test

@@ -222,6 +222,9 @@ public class VoiceProcess {
                     }
                 }
             }
+
+            if (bestScore >= 1.0) { break; }
+
             //If "use", context could be action ("attack"). Find context that is not null for this
             //e.g. "use an attack", "use something to heal with"
             if (withUseAction) {

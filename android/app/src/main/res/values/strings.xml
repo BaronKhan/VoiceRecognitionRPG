@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">VoiceRecRPG</string>
+    <string name="app_name">Voice Recognition RPG Demo</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
 </resources>

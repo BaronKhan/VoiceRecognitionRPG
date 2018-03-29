@@ -61,8 +61,8 @@ public class GameState extends GlobalState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
-//        initBattleState(new Troll(100));
-        initOverworldState(new Room01());
+        initBattleState(new Troll(100));
+//        initOverworldState(new Room01());
     }
 
     public void setCurrentEnemy(Enemy currentEnemy) {
@@ -74,7 +74,7 @@ public class GameState extends GlobalState {
     public void initBattleState(Enemy currentEnemy) {
         mGameMode = MODE_BATTLE;
         setCurrentEnemy(currentEnemy);
-        mInitStr = "A "+currentEnemy+" appears in front of you!";
+        mInitStr = "A "+currentEnemy.getName()+" appears in front of you!";
     }
 
     public void initOverworldState(Room room) {
