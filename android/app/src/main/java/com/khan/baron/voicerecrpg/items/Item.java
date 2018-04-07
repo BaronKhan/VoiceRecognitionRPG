@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Baron on 12/01/2018.
  */
 
-public abstract class Item extends Context {
+public class Item extends Context {
     public enum ItemType {
         ITEM_WEAPON, ITEM_SHIELD, ITEM_HEALING, ITEM_KEY
     }

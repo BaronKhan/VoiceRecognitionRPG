@@ -12,16 +12,16 @@ import com.khan.baron.voicerecrpg.actions.Action;
 public class AttackWeapon extends Action {
     public String run(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
-            getState((GameState) state);
-            if (mGameMode == GameState.Mode.MODE_BATTLE) {
-                if (mCurrentEnemy != null) {
-                    mCurrentEnemy.decreaseHealth(5);
+            GameState gameState = (GameState)state;
+            if (gameState.getGameMode() == GameState.Mode.MODE_BATTLE) {
+                if (gameState.mCurrentEnemy != null) {
+                    gameState.mCurrentEnemy.decreaseHealth(5);
                     state.actionSucceeded();
-                    return "You attacked the " + mCurrentEnemy.getName() + " with a "
-                            + mActionContext.getName() + ".";
+                    return "You attacked the " + gameState.mCurrentEnemy.getName() + " with a "
+                            + gameState.getBattleActionContext().getName() + ".";
                 } else {
                     state.actionFailed();
-                    return "There is no " + mCurrentEnemy.getName() + " to attack.";
+                    return "There is no " + gameState.mCurrentEnemy.getName() + " to attack.";
                 }
             }
         }

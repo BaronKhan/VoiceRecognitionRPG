@@ -60,9 +60,7 @@ public class VoiceProcess {
             String modelPath = Environment.getExternalStorageDirectory()
                     + "/english-left3words-distsim.tagger";
             File modelFile = new File(modelPath);
-            if (modelFile.exists()) {
-                mTagger = new MaxentTagger(modelPath);
-            }
+            if (modelFile.exists()) { mTagger = new MaxentTagger(modelPath); }
         } catch (Exception e) {
             Toast.makeText(mainActivity, "Error loading model: " + e.getMessage(),
                     Toast.LENGTH_LONG).show();
@@ -291,7 +289,8 @@ public class VoiceProcess {
             if (words.get(i).equals("with") || words.get(i).equals("using")) {
                 foundWithUsing = true;
             }
-            if ((!foundWithUsing) && (tag.charAt(0) == 'n')) {
+            if ((!foundWithUsing) && (tag.charAt(0) == 'n' || tag.charAt(0) == 'v'
+                    || tag.charAt(0) == 'j' || tag.charAt(0) == 'i')) {
                 candidateTargets.add(i);
             }
         }

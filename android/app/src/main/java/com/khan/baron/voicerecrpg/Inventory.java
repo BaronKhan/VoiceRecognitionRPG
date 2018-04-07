@@ -18,19 +18,25 @@ public class Inventory extends Context {
 
     public Set<String> mPastItems;
 
-    public ContextActionMap mMap;
+    public List<ContextActionMap> mMaps = new ArrayList<>();
 
-    public Inventory(ContextActionMap map) {
+    public Inventory(ContextActionMap ... maps) {
         super("inventory", "bag", "possessions", "items", "weapons", "potions", "key");
+        setContext("inventory");
         mItems = new ArrayList<>();
         mPastItems = new HashSet<>();
-        mMap = map;
+        for (ContextActionMap map : maps) {
+            map.addPossibleTarget(this);
+            mMaps.add(map);
+        }
     }
 
     public void add(Item item) {
         mItems.add(item);
         mPastItems.add(item.getName());
-        mMap.setPossibleContexts(getContextList());
+        for (ContextActionMap map : mMaps) {
+            map.setPossibleContexts(getContextList());
+        }
     }
 
     public int getCount(Item.ItemType type) {

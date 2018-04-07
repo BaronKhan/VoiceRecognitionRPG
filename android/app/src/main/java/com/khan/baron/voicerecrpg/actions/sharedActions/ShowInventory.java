@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg.actions.battleActions;
+package com.khan.baron.voicerecrpg.actions.sharedActions;
 
 import com.khan.baron.voicerecrpg.Context;
 import com.khan.baron.voicerecrpg.GameState;
@@ -12,19 +12,17 @@ import com.khan.baron.voicerecrpg.actions.Action;
 public class ShowInventory extends Action {
     public String run(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
-            getState((GameState)state);
+            GameState gameState = (GameState)state;
             state.actionFailed();   //By default, we don't want the enemy to have a turn
-            if (currentTarget == mInventory) {
+            if (currentTarget == gameState.mInventory) {
                 String inventoryStr = "{";
-                for (Context item : mInventory.mItems) {
+                for (Context item : gameState.mInventory.mItems) {
                     inventoryStr+=item.getName()+", ";
                 }
                 inventoryStr+="}";
                 return "This is your inventory:\n"+inventoryStr;
             } else {
-//                return "Intent not understood (current target = "+currentTarget.getName()+")";
-
-                return "Intent not understood";
+                return "Intent not understood.";
             }
         }
         return "You can't do that right now";

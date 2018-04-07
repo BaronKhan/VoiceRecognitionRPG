@@ -1,16 +1,8 @@
 package com.khan.baron.voicerecrpg;
 
 import com.khan.baron.voicerecrpg.actions.Action;
-import com.khan.baron.voicerecrpg.actions.battleActions.AttackDefault;
-import com.khan.baron.voicerecrpg.actions.battleActions.AttackWeapon;
-import com.khan.baron.voicerecrpg.actions.battleActions.AttackWeaponBlunt;
-import com.khan.baron.voicerecrpg.actions.battleActions.AttackWeaponSharp;
-import com.khan.baron.voicerecrpg.actions.battleActions.HealDefault;
-import com.khan.baron.voicerecrpg.actions.battleActions.HealItem;
-import com.khan.baron.voicerecrpg.actions.battleActions.ShowInventory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +13,9 @@ import java.util.Map;
 
 public abstract class ContextActionMap {
     protected GlobalState mState = null;
-    protected List<Context> mPossibleTargets = null;
+    protected List<Context> mPossibleTargets = new ArrayList<>();
     protected Context mDefaultTarget = null;
-    protected List<Context> mPossibleContexts = null;
+    protected List<Context> mPossibleContexts = new ArrayList<>();
     protected List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
@@ -39,9 +31,11 @@ public abstract class ContextActionMap {
     }
 
     public void setPossibleContexts(List<Context> contextList) { mPossibleContexts = contextList; }
+    public void addPossibleContext(Context context) { mPossibleContexts.add(context); }
     public List<Context> getPossibleContexts() { return mPossibleContexts; }
 
     public void setPossibleTargets(List<Context> targetsList) { mPossibleTargets = targetsList; }
+    public void addPossibleTarget(Context target) { mPossibleTargets.add(target); }
     public List<Context> getPossibleTargets() { return mPossibleTargets; }
 
     public void addContextActions(String context, Action ... actions) {

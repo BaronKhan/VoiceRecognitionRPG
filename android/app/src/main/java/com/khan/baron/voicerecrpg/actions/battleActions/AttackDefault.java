@@ -14,26 +14,27 @@ import com.khan.baron.voicerecrpg.items.Weapon;
 public class AttackDefault extends Action {
     public String run(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
-            getState((GameState)state);
-            if (mGameMode == GameState.Mode.MODE_BATTLE) {
-                if (mCurrentEnemy != null) {
-                    if (mInventory.hasItem(Item.ItemType.ITEM_WEAPON)) {
+            GameState gameState = (GameState)state;
+            if (gameState.getGameMode() == GameState.Mode.MODE_BATTLE) {
+                if (gameState.mCurrentEnemy != null) {
+                    if (gameState.mInventory.hasItem(Item.ItemType.ITEM_WEAPON)) {
                         Weapon chosenWeapon =
-                                (Weapon)mInventory.getRandomItem(Item.ItemType.ITEM_WEAPON);
-                        mCurrentEnemy.decreaseHealth(
+                                (Weapon) gameState.mInventory
+                                        .getRandomItem(Item.ItemType.ITEM_WEAPON);
+                        gameState.mCurrentEnemy.decreaseHealth(
                                 (int)Math.floor(chosenWeapon.mDamageModifier*10));
                         state.actionSucceeded();
-                        return "You attacked the " + mCurrentEnemy.getName()
+                        return "You attacked the " + gameState.mCurrentEnemy.getName()
                                 + " with something (" + chosenWeapon.getName() + ").";
                     } else {
-                        mCurrentEnemy.decreaseHealth(1);
+                        gameState. mCurrentEnemy.decreaseHealth(1);
                         state.actionSucceeded();
                         return "You don't have a weapon to attack with. You attacked the "
-                                + mCurrentEnemy.getName() + "+ with your bare hands";
+                                + gameState.mCurrentEnemy.getName() + "+ with your bare hands";
                     }
                 } else {
                     state.actionFailed();
-                    return "There is no " + mCurrentEnemy.getName() + " to attack.";
+                    return "There is no " + gameState.mCurrentEnemy.getName() + " to attack.";
                 }
             }
         }
