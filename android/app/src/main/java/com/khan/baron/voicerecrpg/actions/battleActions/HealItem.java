@@ -10,13 +10,13 @@ import com.khan.baron.voicerecrpg.actions.Action;
  */
 
 public class HealItem extends Action {
-    public String run(GlobalState state, Context currentTarget) {
+    public String execute(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
-            if (gameState.mInventory.hasItem(gameState.getBattleActionContext().getName())) {
-                gameState.mPlayerHealth += Math.max(100, gameState.mPlayerHealth + 100);
+            if (gameState.getInventory().hasItem(gameState.getBattleActionContext().getName())) {
+                gameState.setPlayerHealth(gameState.getPlayerHealth() + Math.max(100, gameState.getPlayerHealth() + 100));
                 //Remove healing item from inventory
-                gameState.mInventory.remove(gameState.getBattleActionContext().getName());
+                gameState.getInventory().remove(gameState.getBattleActionContext().getName());
                 state.actionSucceeded();
                 return "You healed with a " + gameState.getBattleActionContext().getName();
             } else {

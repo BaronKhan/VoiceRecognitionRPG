@@ -2,7 +2,6 @@ package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -16,17 +15,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.ws4j.impl.Lesk;
 import edu.cmu.lti.ws4j.impl.Lin;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ISynset;
-import edu.mit.jwi.item.IWord;
-import edu.mit.jwi.item.IWordID;
-import edu.mit.jwi.item.POS;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import static java.lang.Math.min;
@@ -49,7 +42,6 @@ public class VoiceProcess {
         mMainActivity = mainActivity;
         mState = state;
         mContextActionMap = contextActionMap;
-
         mTagger = null;
 
         //Use all senses, not just most frequent sense (slower but more accurate)
@@ -74,8 +66,7 @@ public class VoiceProcess {
         mState.actionFailed();  // by default, we fail to execute input
 
         //tokenise and tag
-        List<String> words = new ArrayList<>();
-        words.addAll(new LinkedList<>(Arrays.asList(input.split(" "))));
+        List<String> words = new ArrayList<>(new LinkedList<>(Arrays.asList(input.split(" "))));
         removeContractions(words);
         List<String> tags = getTags(input);
         if (words.size()!=tags.size()) {
@@ -99,7 +90,7 @@ public class VoiceProcess {
             } else {
                 actionOutput += mContextActionMap.get(chosenContext)
                         .get(chosenAction)
-                        .run(mState, currentTarget);
+                        .execute(mState, currentTarget);
 
             }
         } else { actionOutput = "Intent not understood."; }

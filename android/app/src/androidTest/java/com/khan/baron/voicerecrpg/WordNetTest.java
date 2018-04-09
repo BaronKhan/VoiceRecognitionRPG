@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class WordNetTest {
-    public GameState gameState;
+    private GameState gameState;
 
     public WordNetTest() {
         gameState = new GameState(null);

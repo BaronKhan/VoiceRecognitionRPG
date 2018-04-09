@@ -12,14 +12,14 @@ import com.khan.baron.voicerecrpg.items.Potion;
  */
 
 public class HealDefault extends Action {
-    public String run(GlobalState state, Context currentTarget) {
+    public String execute(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
-            if (gameState.mInventory.hasItem(Item.ItemType.ITEM_HEALING)) {
+            if (gameState.getInventory().hasItem(Item.ItemType.ITEM_HEALING)) {
                 Potion chosenPotion =
-                        (Potion) gameState.mInventory.getRandomItem(Item.ItemType.ITEM_HEALING);
-                gameState.mInventory.remove(chosenPotion.getName());
-                gameState.mPlayerHealth += Math.max(100, gameState.mPlayerHealth + 100);
+                        (Potion) gameState.getInventory().getRandomItem(Item.ItemType.ITEM_HEALING);
+                gameState.getInventory().remove(chosenPotion.getName());
+                gameState.setPlayerHealth(gameState.getPlayerHealth() + Math.max(100, gameState.getPlayerHealth() + 100));
                 state.actionSucceeded();
                 return "You healed with a " + chosenPotion.getName() + ".";
             } else {

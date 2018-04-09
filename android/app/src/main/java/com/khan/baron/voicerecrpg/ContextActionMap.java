@@ -34,9 +34,21 @@ public abstract class ContextActionMap {
     public void addPossibleContext(Context context) { mPossibleContexts.add(context); }
     public List<Context> getPossibleContexts() { return mPossibleContexts; }
 
+    public void addPossibleContexts(List<Context> contextList) {
+        for (Context context : contextList) {
+            mPossibleContexts.add(context);
+        }
+    }
+
     public void setPossibleTargets(List<Context> targetsList) { mPossibleTargets = targetsList; }
     public void addPossibleTarget(Context target) { mPossibleTargets.add(target); }
     public List<Context> getPossibleTargets() { return mPossibleTargets; }
+
+    public void addPossibleTargets(List<Context> targetsList) {
+        for (Context target : targetsList) {
+            mPossibleTargets.add(target);
+        }
+    }
 
     public void addContextActions(String context, Action ... actions) {
         if (actions.length != mActionList.size()) { return; }

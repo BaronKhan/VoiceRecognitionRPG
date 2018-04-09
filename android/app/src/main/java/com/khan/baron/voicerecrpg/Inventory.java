@@ -62,8 +62,7 @@ public class Inventory extends Context {
     public Item getRandomItem(Item.ItemType type) {
         int itemCount = getCount(type);
         if (itemCount < 1) { return null; }
-        boolean chosenItem = false;
-        while (!chosenItem) {
+        while (true) {
             for (Item item : mItems) {
                 if (item.getType() == type) {
                     if ((new Random()).nextInt() % 4 == 0) {
@@ -72,7 +71,6 @@ public class Inventory extends Context {
                 }
             }
         }
-        return null;
     }
 
     public int getItemPos(String name) {
@@ -89,6 +87,10 @@ public class Inventory extends Context {
                 return;
             }
         }
+    }
+
+    public void remove(Item item) {
+        mItems.remove(item);
     }
 
     public List<Context> getContextList() {

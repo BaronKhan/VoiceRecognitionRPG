@@ -21,21 +21,21 @@ public class GameState extends GlobalState {
     // Environment Settings
     public enum Mode { MODE_OVERWORLD, MODE_BATTLE }
 
-    public Inventory mInventory;
+    protected Inventory mInventory;
 
     private ContextActionMap mBattleMap;
-    public VoiceProcess mBattleVoiceProcess;
+    protected VoiceProcess mBattleVoiceProcess;
 
     private ContextActionMap mOverworldMap;
-    public VoiceProcess mOverworldVoiceProcess;
+    protected VoiceProcess mOverworldVoiceProcess;
 
     protected Mode mGameMode;
-    public Enemy mCurrentEnemy;
-    public Room mCurrentRoom;
+    protected Enemy mCurrentEnemy;
+    protected Room mCurrentRoom;
 
-    public int mPlayerHealth = 100;
+    protected int mPlayerHealth = 100;
 
-    protected String mInitStr;
+    protected String mInitOutput;
 
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
@@ -52,7 +52,7 @@ public class GameState extends GlobalState {
     }
 
     public String getInitOutput() {
-        return mInitStr;
+        return mInitOutput;
     }
 
     public void addDictionary(URL url) throws IOException {
@@ -86,18 +86,19 @@ public class GameState extends GlobalState {
         mCurrentRoom = room;
         mOverworldMap.addPossibleTarget(mCurrentRoom);
         mOverworldMap.setDefaultTarget(mCurrentRoom);
+        mOverworldMap.addPossibleTargets(mCurrentRoom.getRoomObjects());
     }
 
     public void initBattleState(Enemy currentEnemy) {
         mGameMode = MODE_BATTLE;
         setCurrentBattle(currentEnemy);
-        mInitStr = "A "+currentEnemy.getName()+" appears in front of you!";
+        mInitOutput = "A "+currentEnemy.getName()+" appears in front of you!";
     }
 
     public void initOverworldState(Room room) {
         mGameMode = MODE_OVERWORLD;
         setCurrentRoom(room);
-        mInitStr = room.getRoomDescription();
+        mInitOutput = room.getRoomDescription();
     }
 
     public Mode getGameMode() { return mGameMode; }
@@ -124,4 +125,34 @@ public class GameState extends GlobalState {
             return overworldOutput;
         }
     }
+
+    public Inventory getInventory() { return mInventory; }
+
+    public void setInventory(Inventory mInventory) { this.mInventory = mInventory; }
+
+    public VoiceProcess getBattleVoiceProcess() { return mBattleVoiceProcess; }
+
+    public void setBattleVoiceProcess(VoiceProcess mBattleVoiceProcess) {
+        this.mBattleVoiceProcess = mBattleVoiceProcess;
+    }
+
+    public VoiceProcess getOverworldVoiceProcess() { return mOverworldVoiceProcess; }
+
+    public void setOverworldVoiceProcess(VoiceProcess mOverworldVoiceProcess) {
+        this.mOverworldVoiceProcess = mOverworldVoiceProcess;
+    }
+
+    public Enemy getCurrentEnemy() { return mCurrentEnemy; }
+
+    public void setCurrentEnemy(Enemy mCurrentEnemy) { this.mCurrentEnemy = mCurrentEnemy; }
+
+    public Room getCurrentRoom() { return mCurrentRoom; }
+
+    public int getPlayerHealth() { return mPlayerHealth; }
+
+    public void setPlayerHealth(int mPlayerHealth) { this.mPlayerHealth = mPlayerHealth; }
+
+    public String getInitStr() { return mInitOutput; }
+
+    public void setInitStr(String mInitStr) { this.mInitOutput = mInitStr; }
 }

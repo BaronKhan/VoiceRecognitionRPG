@@ -13,5 +13,5 @@ import com.khan.baron.voicerecrpg.rooms.Room;
  */
 
 public abstract class Action {
-    public abstract Object run(GlobalState state, Context currentTarget);
+    public abstract Object execute(GlobalState state, Context currentTarget);
 }

@@ -10,13 +10,13 @@ import com.khan.baron.voicerecrpg.actions.Action;
  */
 
 public class ShowInventory extends Action {
-    public String run(GlobalState state, Context currentTarget) {
+    public String execute(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
             state.actionFailed();   //By default, we don't want the enemy to have a turn
-            if (currentTarget == gameState.mInventory) {
+            if (currentTarget == gameState.getInventory()) {
                 String inventoryStr = "{";
-                for (Context item : gameState.mInventory.mItems) {
+                for (Context item : gameState.getInventory().mItems) {
                     inventoryStr+=item.getName()+", ";
                 }
                 inventoryStr+="}";

@@ -38,12 +38,12 @@ Room-by-room puzzle game that demonstrates the power of the voice recognition sy
 
 ### Room 1
 
-In a dark room, have to turn on the lights (let there be light, lights on)
-Key on table, use key to open door (introduce player to the mechanics)
+Painting on wall with button behind. sharp object on floor (could use as knife). Cut painting down. Press button. Opens door.
 
 ### Room 2
 
-Painting on wall with button behind. sharp object on floor (could use as knife). Cut painting down. Press button. Opens door.
+In a dark room, have to turn on the lights (let there be light, lights on)
+Key on table, use key to open door (introduce player to the mechanics)
 
 
 Turn-based RPG-style game

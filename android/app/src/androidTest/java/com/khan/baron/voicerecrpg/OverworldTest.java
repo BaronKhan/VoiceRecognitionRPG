@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class OverworldTest {
-    public GameState gameState;
+    private GameState gameState;
 
     public OverworldTest() {
         gameState = new GameState(null);
@@ -88,5 +88,16 @@ public class OverworldTest {
         testLookRoom01("look around", true);
         testLookRoom01("look at the surroundings", true);
         testLookRoom01("observe the room", true);
+    }
+
+    @Test
+    public void testPickUpSuite() {
+        gameState.initOverworldState(new Room01()); // Only one knife in the room
+        assertEquals(gameState.updateState("pick up the door")
+                .contains("picked up"), false);
+        assertEquals(gameState.updateState("pick up the knife")
+                .contains("picked up the knife"), true);
+        assertEquals(gameState.updateState("pick up the knife")
+                .contains("picked up the knife"), false);
     }
 }

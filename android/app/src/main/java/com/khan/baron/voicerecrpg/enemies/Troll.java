@@ -40,7 +40,7 @@ public class Troll extends Enemy {
                 output = "The troll stares at you menacingly.";
                 break;
         }
-        state.mPlayerHealth = Math.max(0, state.mPlayerHealth - damage);
+        state.setPlayerHealth(Math.max(0, state.getPlayerHealth() - damage));
         return output;
     }
 }

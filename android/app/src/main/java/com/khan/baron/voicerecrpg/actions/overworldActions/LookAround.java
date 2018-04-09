@@ -7,29 +7,29 @@ import com.khan.baron.voicerecrpg.actions.Action;
 import com.khan.baron.voicerecrpg.actions.sharedActions.ShowInventory;
 
 public class LookAround extends Action {
-    public String run(GlobalState state, Context currentTarget) {
+    public String execute(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
             if (gameState.getGameMode() == GameState.Mode.MODE_OVERWORLD) {
-                if (currentTarget == gameState.mInventory) {
-                    return new ShowInventory().run(state, gameState.mInventory);
-                } else if (currentTarget == gameState.mCurrentRoom) {
-                    if (gameState.mCurrentRoom == null) {
+                if (currentTarget == gameState.getInventory()) {
+                    return new ShowInventory().execute(state, gameState.getInventory());
+                } else if (currentTarget == gameState.getCurrentRoom()) {
+                    if (gameState.getCurrentRoom() == null) {
                         state.actionFailed();
                     } else {
                         state.actionSucceeded();
                     }
-                    return gameState.mCurrentRoom.getRoomDescription();
+                    return gameState.getCurrentRoom().getRoomDescription();
                 } else {
                     return "Intent not understood.";
                 }
             } else if (gameState.getGameMode() == GameState.Mode.MODE_BATTLE){
-                if (gameState.mCurrentEnemy == null) {
+                if (gameState.getCurrentEnemy() == null) {
                     state.actionFailed();
                     return "There is nothing here.";
                 } else {
                     state.actionSucceeded();
-                    return "You are in battle with a " + gameState.mCurrentEnemy.getName() + "!";
+                    return "You are in battle with a " + gameState.getCurrentEnemy().getName() + "!";
                 }
             }
         }
