@@ -101,4 +101,6 @@ public class Inventory extends Context {
         return temp;
     }
 
+    public List<Item> getItems() { return mItems; }
+
 }

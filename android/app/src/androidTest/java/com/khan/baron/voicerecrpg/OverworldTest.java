@@ -100,4 +100,14 @@ public class OverworldTest {
         assertEquals(gameState.updateState("pick up the knife")
                 .contains("picked up the knife"), false);
     }
+
+    @Test
+    public void TestRoom01Cut() {
+        gameState.initOverworldState(new Room01());
+        gameState.updateState("pick up the knife");
+        assertEquals(gameState.updateState("cut the painting using the knife")
+                .contains("cut the painting"), true);
+        assertEquals(gameState.updateState("cut the painting using the knife")
+                .contains("already"), true);
+    }
 }

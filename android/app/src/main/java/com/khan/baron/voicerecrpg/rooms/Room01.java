@@ -19,14 +19,14 @@ public class Room01 extends Room {
         addRoomObject(new Door());
         addRoomObject(new Painting());
         addRoomObject(new GlassTable());
-        addRoomObject(new Weapon("knife", "sharp", "metal"));
+        addRoomObject(new Weapon("knife", "sharp", "short", "metal"));
     }
 
     @Override
     public String getRoomDescription() {
         //TODO: generate room description using NLP
         String roomOutput = "";
-        roomOutput += "You are in a room with a locked door in front of you and a glass table in"
+        roomOutput += "You are in a room with a locked door in front of you and a glass table in "
                 +"the middle of the room.";
         if (getRoomObjectCount("knife") > 0) {
             roomOutput += " There is a knife on the table.";

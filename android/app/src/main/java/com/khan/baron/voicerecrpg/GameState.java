@@ -51,10 +51,6 @@ public class GameState extends GlobalState {
         mInventory = new Inventory(mBattleMap, mOverworldMap);
     }
 
-    public String getInitOutput() {
-        return mInitOutput;
-    }
-
     public void addDictionary(URL url) throws IOException {
         mBattleVoiceProcess.addDictionary(url);
         mOverworldVoiceProcess.addDictionary(url);
@@ -62,7 +58,6 @@ public class GameState extends GlobalState {
 
     public void initState() {
         mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
-        mInventory.add(new Weapon("knife", "sharp", "short", "metallic"));
         mInventory.add(new Weapon("hammer", "heavy", "blunt"));
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("potion"));
@@ -73,6 +68,8 @@ public class GameState extends GlobalState {
     }
 
     public Context getBattleActionContext() { return mBattleVoiceProcess.getActionContext(); }
+
+    public Context getOverworldActionContext() { return mOverworldVoiceProcess.getActionContext(); }
 
     public void setCurrentBattle(Enemy currentEnemy) {
         mCurrentRoom = null;
@@ -152,7 +149,7 @@ public class GameState extends GlobalState {
 
     public void setPlayerHealth(int mPlayerHealth) { this.mPlayerHealth = mPlayerHealth; }
 
-    public String getInitStr() { return mInitOutput; }
+    public String getInitOutput() { return mInitOutput; }
 
-    public void setInitStr(String mInitStr) { this.mInitOutput = mInitStr; }
+    public void setInitOutput(String mInitStr) { this.mInitOutput = mInitStr; }
 }
