@@ -102,12 +102,27 @@ public class OverworldTest {
     }
 
     @Test
-    public void TestRoom01Cut() {
+    public void testRoom01CutSuite() {
         gameState.initOverworldState(new Room01());
         gameState.updateState("pick up the knife");
         assertEquals(gameState.updateState("cut the painting using the knife")
                 .contains("cut the painting"), true);
         assertEquals(gameState.updateState("cut the painting using the knife")
                 .contains("already"), true);
+        assertEquals(gameState.updateState("cut the table using the knife")
+                .contains("scratched"), true);
+        assertEquals(gameState.updateState("slash the door using the knife")
+                .contains("scratched"), true);
+    }
+
+    @Test
+    public void testBreakSuite() {
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("break the table")
+                .contains("broke the table"), true);
+        assertEquals(gameState.updateState("break the table")
+                .contains("broke the table"), false);
+        assertEquals(gameState.updateState("break the door")
+                .contains("cannot break the door"), true);
     }
 }

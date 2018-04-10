@@ -71,6 +71,12 @@ public class GameState extends GlobalState {
 
     public Context getOverworldActionContext() { return mOverworldVoiceProcess.getActionContext(); }
 
+    public Context getContext() {
+        return (mGameMode == Mode.MODE_BATTLE)
+            ? getBattleActionContext()
+            : getOverworldActionContext();
+    }
+
     public void setCurrentBattle(Enemy currentEnemy) {
         mCurrentRoom = null;
         mCurrentEnemy = currentEnemy;
@@ -148,6 +154,14 @@ public class GameState extends GlobalState {
     public int getPlayerHealth() { return mPlayerHealth; }
 
     public void setPlayerHealth(int mPlayerHealth) { this.mPlayerHealth = mPlayerHealth; }
+
+    public void decPlayerHealth(int dec) {
+        this.mPlayerHealth = Math.max(this.mPlayerHealth-dec, 0);
+    }
+
+    public void incPlayerHealth(int inc) {
+        this.mPlayerHealth = Math.min(this.mPlayerHealth+inc, 100);
+    }
 
     public String getInitOutput() { return mInitOutput; }
 

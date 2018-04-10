@@ -19,7 +19,7 @@ public class HealDefault extends Action {
                 Potion chosenPotion =
                         (Potion) gameState.getInventory().getRandomItem(Item.ItemType.ITEM_HEALING);
                 gameState.getInventory().remove(chosenPotion.getName());
-                gameState.setPlayerHealth(gameState.getPlayerHealth() + Math.max(100, gameState.getPlayerHealth() + 100));
+                gameState.incPlayerHealth(100);
                 state.actionSucceeded();
                 return "You healed with a " + chosenPotion.getName() + ".";
             } else {

@@ -4,6 +4,7 @@ import com.khan.baron.voicerecrpg.Context;
 import com.khan.baron.voicerecrpg.GameState;
 import com.khan.baron.voicerecrpg.GlobalState;
 import com.khan.baron.voicerecrpg.actions.Action;
+import com.khan.baron.voicerecrpg.enemies.Enemy;
 
 /**
  * Created by Baron on 06/02/2018.
@@ -14,14 +15,15 @@ public class AttackWeapon extends Action {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
             if (gameState.getGameMode() == GameState.Mode.MODE_BATTLE) {
-                if (gameState.getCurrentEnemy() != null) {
-                    gameState.getCurrentEnemy().decreaseHealth(5);
+                Enemy currentEnemy = gameState.getCurrentEnemy();
+                if (currentEnemy != null) {
+                    currentEnemy.decreaseHealth(5);
                     state.actionSucceeded();
-                    return "You attacked the " + gameState.getCurrentEnemy().getName() + " with a "
+                    return "You attacked the " + currentEnemy.getName() + " with a "
                             + gameState.getBattleActionContext().getName() + ".";
                 } else {
                     state.actionFailed();
-                    return "There is no " + gameState.getCurrentEnemy().getName() + " to attack.";
+                    return "There is no " + currentEnemy.getName() + " to attack.";
                 }
             }
         }

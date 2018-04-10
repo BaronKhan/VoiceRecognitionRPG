@@ -14,7 +14,7 @@ public class HealItem extends Action {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
             if (gameState.getInventory().hasItem(gameState.getBattleActionContext().getName())) {
-                gameState.setPlayerHealth(gameState.getPlayerHealth() + Math.max(100, gameState.getPlayerHealth() + 100));
+                gameState.incPlayerHealth(100);
                 //Remove healing item from inventory
                 gameState.getInventory().remove(gameState.getBattleActionContext().getName());
                 state.actionSucceeded();

@@ -4,6 +4,7 @@ import com.khan.baron.voicerecrpg.Context;
 import com.khan.baron.voicerecrpg.GameState;
 import com.khan.baron.voicerecrpg.GlobalState;
 import com.khan.baron.voicerecrpg.actions.Action;
+import com.khan.baron.voicerecrpg.enemies.Enemy;
 
 /**
  * Created by Baron on 31/01/2018.
@@ -13,15 +14,16 @@ public class AttackWeaponSharp extends Action {
     public String execute(GlobalState state, Context currentTarget) {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;
+            Enemy currentEnemy = gameState.getCurrentEnemy();
             if (gameState.getGameMode() == GameState.Mode.MODE_BATTLE) {
-                if (gameState.getCurrentEnemy() != null) {
-                    gameState.getCurrentEnemy().decreaseHealth(17);
+                if (currentEnemy != null) {
+                    currentEnemy.decreaseHealth(17);
                     state.actionSucceeded();
-                    return "You attacked the " + gameState.getCurrentEnemy().getName() + " with a sharp "
+                    return "You attacked the " + currentEnemy.getName() + " with a sharp "
                             + gameState.getBattleActionContext().getName() + ".";
                 } else {
                     state.actionFailed();
-                    return "There is no " + gameState.getCurrentEnemy().getName() + " to attack.";
+                    return "There is no " + currentEnemy.getName() + " to attack.";
                 }
             }
         }
