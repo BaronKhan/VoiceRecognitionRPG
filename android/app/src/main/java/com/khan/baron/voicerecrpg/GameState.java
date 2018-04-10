@@ -63,7 +63,6 @@ public class GameState extends GlobalState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
         mInventory.add(new Item("letter", Item.ItemType.ITEM_KEY, "paper", "document"));
-//        initBattleState(new Troll(100));
         initOverworldState(new Room01());
     }
 

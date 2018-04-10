@@ -93,8 +93,7 @@ public class OverworldTest {
     @Test
     public void testPickUpSuite() {
         gameState.initOverworldState(new Room01()); // Only one knife in the room
-        assertEquals(gameState.updateState("pick up the door")
-                .contains("picked up"), false);
+        assertEquals(gameState.updateState("pick up the door").contains("picked up"), false);
         assertEquals(gameState.updateState("pick up the knife")
                 .contains("picked up the knife"), true);
         assertEquals(gameState.updateState("pick up the knife")
@@ -118,11 +117,20 @@ public class OverworldTest {
     @Test
     public void testBreakSuite() {
         gameState.initOverworldState(new Room01());
-        assertEquals(gameState.updateState("break the table")
-                .contains("broke the table"), true);
-        assertEquals(gameState.updateState("break the table")
-                .contains("broke the table"), false);
+        assertEquals(gameState.updateState("break the table").contains("broke the table"), true);
+        assertEquals(gameState.updateState("break the table").contains("broke the table"), false);
         assertEquals(gameState.updateState("break the door")
                 .contains("cannot break the door"), true);
+    }
+
+    @Test
+    public void testOpenSuite() {
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("open the table").contains("opened the drawer"), true);
+        assertEquals(gameState.updateState("open the door").contains("locked"), true);
+        gameState.updateState("pick up the knife");
+        gameState.updateState("cut the painting");
+        assertEquals(gameState.updateState("open the door")
+                .contains("opened"), true);
     }
 }

@@ -19,7 +19,7 @@ public class CutWeaponNotSharp extends Action {
                     return "You cannot cut the "+currentTarget.getName()+".";
                 }
             } else {
-                return "There is no "+currentTarget.getName()+" to cut.";
+                return "you cannot cut that.";
             }
         }
         return "You can't do that right now";

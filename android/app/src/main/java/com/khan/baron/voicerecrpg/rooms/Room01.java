@@ -1,5 +1,6 @@
 package com.khan.baron.voicerecrpg.rooms;
 
+import com.khan.baron.voicerecrpg.enemies.Troll;
 import com.khan.baron.voicerecrpg.items.Weapon;
 import com.khan.baron.voicerecrpg.objects.room01.Door;
 import com.khan.baron.voicerecrpg.objects.room01.Painting;
@@ -16,7 +17,7 @@ public class Room01 extends Room {
     public Room01() {
         super();
         setRoomState(StateRoom01.START.ordinal());
-        addRoomObject(new Door());
+        addRoomObject(new Door(new Troll(100)));
         addRoomObject(new Painting());
         addRoomObject(new GlassTable());
         addRoomObject(new Weapon("knife", "sharp", "short", "metal"));

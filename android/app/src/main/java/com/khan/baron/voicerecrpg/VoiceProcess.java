@@ -67,8 +67,8 @@ public class VoiceProcess {
 
         //tokenise and tag
         List<String> words = new ArrayList<>(new LinkedList<>(Arrays.asList(input.split(" "))));
-        removeContractions(words);
         List<String> tags = getTags(input);
+        removeContractions(words, tags);
         if (words.size()!=tags.size()) {
             throw new AssertionError("Error: no. of words("+words.size()
                     +") != no.of tags("+tags.size()+"), input = "+input);
@@ -353,10 +353,12 @@ public class VoiceProcess {
         return tags;
     }
 
-    private void removeContractions(List<String> words) {
+    private void removeContractions(List<String> words, List<String> tags) {
         for (int i = 0; i < words.size(); ++i) {
             if (words.get(i).contains("'")) {
                 words.remove(i);
+                tags.remove(i);
+                tags.remove(i+1);
             }
         }
     }

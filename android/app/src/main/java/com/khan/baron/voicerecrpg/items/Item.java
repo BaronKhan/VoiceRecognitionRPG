@@ -19,11 +19,13 @@ public class Item extends Context {
 
     public Item(String name, ItemType type) {
         super(name);
+        setContext(name);
         mType = type;
     }
 
     public Item(String name, ItemType type, String ... description) {
         super(name, description);
+        setContext(name);
         mType = type;
     }
 
