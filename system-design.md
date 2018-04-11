@@ -23,11 +23,18 @@ Sentence Structure
 
 Always imply 'I' as the subject. Therefore, only concerned with the main verb of the sentence, and the noun.
 
+Using Slot-filling technique.
+
 - For verbs, first use the semantic similarity. If > 0.7/1, then probably the same thing. If not, then check if any of the primitive verbs are in the word tree.
 
-- Commands in battle structure: `verb` [`target` with `context`]
--- Exceptions: "use" - use `context` [to `verb` `target`]
-- Commands in overworld structure: `verb` [`target` with `context`]
+- Commands in battle structure: ... `verb` ... [`target` ... with ... `context`]
+- Commands in overworld structure: ... `verb` ... [`target` ... with ... `context`]
+
+### Starting with "use"/"with"
+
+If the sentence starts with use/with, then the structure will be different
+- First search for action, if best action is after a use/with, then choose that structure
+- ... use/with ... `context` ... `verb` ... `target`
 
 ### Sentence Deciphering
 

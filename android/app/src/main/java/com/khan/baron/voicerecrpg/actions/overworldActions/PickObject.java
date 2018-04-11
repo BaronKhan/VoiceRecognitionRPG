@@ -23,6 +23,8 @@ public class PickObject extends Action {
                 return "You picked up the "+currentTarget.getName()+". Added to inventory.\n"
                         +(new ShowInventory().execute(state, gameState.getInventory()));
             }
+            state.actionFailed();
+            return "You can't pick that up right now.";
         }
         state.actionFailed();
         return "You can't do that right now";

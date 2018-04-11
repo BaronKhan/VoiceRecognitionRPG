@@ -19,7 +19,7 @@ public class BreakDefault extends Action {
                 }
             } else {
                 state.actionFailed();
-                return "There is no "+currentTarget.getName()+" to break.";
+                return "What do you want to break?";
             }
         }
         state.actionFailed();

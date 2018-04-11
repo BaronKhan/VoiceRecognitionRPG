@@ -13,12 +13,12 @@ import java.util.Arrays;
 public class BattleContextActionMap extends ContextActionMap {
     public BattleContextActionMap(GlobalState state) {
         super(state);
-        mActionList = Arrays.asList("use", "attack", "heal", "show");
-        addDefaultContextActions(null, new AttackDefault(), new HealDefault(), new ShowInventory());
-        addContextActions("weapon", new AttackWeapon(), new AttackWeapon(), null, null);
-        addContextActions("weaponSharp", new AttackWeaponSharp(), new AttackWeaponSharp(), null, null);
-        addContextActions("weaponBlunt", new AttackWeaponBlunt(), new AttackWeaponBlunt(), null, null);
-        addContextActions("healItem", new HealDefault(), null, new HealItem(), null);
+        mActionList = Arrays.asList("attack", "heal", "show");
+        addDefaultContextActions(new AttackDefault(), new HealDefault(), new ShowInventory());
+        addContextActions("weapon", new AttackWeapon(), null, null);
+        addContextActions("weaponSharp", new AttackWeaponSharp(), null, null);
+        addContextActions("weaponBlunt", new AttackWeaponBlunt(), null, null);
+        addContextActions("healItem", null, new HealItem(), null);
 
         addSynonym("punch", "attack");
         addSynonym("recover","heal");

@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.khan.baron.voicerecrpg.enemies.Troll;
+import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
 import com.khan.baron.voicerecrpg.rooms.Room01;
@@ -67,6 +68,10 @@ public class OverworldTest {
                 .contains("in a room with a locked door"), correctInput);
     }
 
+    private void testScratched(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input).contains("scratched"), correctInput);
+    }
+
     @Test
     public void testInventorySuite() {
         gameState.initOverworldState(new Room01());
@@ -108,10 +113,8 @@ public class OverworldTest {
                 .contains("cut the painting"), true);
         assertEquals(gameState.updateState("cut the painting using the knife")
                 .contains("already"), true);
-        assertEquals(gameState.updateState("cut the table using the knife")
-                .contains("scratched"), true);
-        assertEquals(gameState.updateState("slash the door using the knife")
-                .contains("scratched"), true);
+        testScratched("cut the table using the knife", true);
+        testScratched("slash the door using the knife", true);
     }
 
     @Test
@@ -131,6 +134,21 @@ public class OverworldTest {
         gameState.updateState("pick up the knife");
         gameState.updateState("cut the painting");
         assertEquals(gameState.updateState("open the door")
+                .contains("opened"), true);
+    }
+
+    @Test
+    public void testUseSuite() {
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("use your hand to pick up the knife")
+                .contains("picked"), true);
+        assertEquals(gameState.updateState("use something sharp")
+                .contains("want to use the knife"), true);
+        testScratched("use the knife to slash the door", true);
+        testScratched("use the knife to cut the glass table", true);
+        assertEquals(gameState.updateState("use the knife to cut the painting")
+                .contains("cut the painting"), true);
+        assertEquals(gameState.updateState("use the key to open the door")
                 .contains("opened"), true);
     }
 }

@@ -89,7 +89,8 @@ public class BattleTest {
         testAttackedTroll("fight the troll", true);
         gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
         testAttackedTroll("attack the troll", true);
-        assertEquals(gameState.updateState("hit the troll").contains("You attacked the troll"), true);
+        assertEquals(gameState.updateState("hit the troll")
+                .contains("You attacked the troll"), true);
         testAttackedTroll("attack", true);
         testAttackedWithHammer("attack with the hammer", true);
         testAttackedWithHammer("attack with the sledgehammer", true);
@@ -114,10 +115,10 @@ public class BattleTest {
         for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("elixer")); }
         gameState.mInventory.add(new Weapon("sword"));
         testHealed("heal", true);
-        testHealed("use a potion", true);
+        testHealed("use a potion to heal", true);
         testHealed("hit", false);
         testHealed("heal with elixer", true);
-        testHealed("use an elixer right now before it is too late", true);
+        testHealed("use an elixer right now before it is too late to heal", true);
         testHealed("recover with an elixer", true);
         testHealed("Use something to heal with", true);
         testHealed("Use something to regenerate with", true);
@@ -150,5 +151,20 @@ public class BattleTest {
         testInventoryShown("show my troll", false);
         testInventoryShown("show my bag", true);
         testInventoryShown("please show the contents of my possessions that I have", true);
+    }
+
+    @Test
+    public void testUseSuite() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.mInventory.add(new Potion("potion"));
+        gameState.mInventory.add(new Potion("potion"));
+        testAttackedWithSword("use the sword to attack", true);
+        testHealed("use a potion to attack", false);
+        testAttackedTroll("use something to attack with", true);
+        assertEquals(gameState.updateState("use a potion")
+                .contains("want to use the potion"), true);
+        assertEquals(gameState.updateState("use something sharp")
+                .contains("want to use the sword"), true);
     }
 }

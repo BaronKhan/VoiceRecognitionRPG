@@ -3,6 +3,7 @@ package com.khan.baron.voicerecrpg;
 import android.app.Activity;
 
 import com.khan.baron.voicerecrpg.enemies.Enemy;
+import com.khan.baron.voicerecrpg.enemies.Troll;
 import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
@@ -63,6 +64,7 @@ public class GameState extends GlobalState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
         mInventory.add(new Item("letter", Item.ItemType.ITEM_KEY, "paper", "document"));
+//        initBattleState(new Troll(100));
         initOverworldState(new Room01());
     }
 

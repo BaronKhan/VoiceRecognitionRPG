@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Pair;
 import android.widget.Toast;
 
 import java.io.File;
@@ -65,7 +66,7 @@ public class VoiceProcess {
 
         mState.actionFailed();  // by default, we fail to execute input
 
-        //tokenise and tag
+        // Tokenize and tag input
         List<String> words = new ArrayList<>(new LinkedList<>(Arrays.asList(input.split(" "))));
         List<String> tags = getTags(input);
         removeContractions(words, tags);
@@ -74,26 +75,53 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
-        String chosenAction = getBestAction(words, tags);
+        Pair<Integer, String> actionPair = getBestAction(words, tags, false);
+        String chosenAction = actionPair.second;
 
         if (mContextActionMap.isValidAction(chosenAction)) {
-            Context currentTarget = getBestTarget(words, tags);
-            String chosenContext = getBestContext(words, tags, chosenAction.equals("use"));
+            Context currentTarget;
+            String chosenContext;
+
+            if (useAltSlotFillingStructure(words, tags, actionPair.first)) {
+                // SFS: with/use CONTEXT ACTION TARGET
+                chosenContext = getBestContext(words, tags, true);
+                actionPair = getBestAction(words, tags);
+                currentTarget = getBestTarget(words, tags, true);
+            } else {
+                // SFS: ACTION TARGET with/using CONTEXT
+                actionPair = getBestAction(words, tags);
+                currentTarget = getBestTarget(words, tags, false);
+                chosenContext = getBestContext(words, tags, false);
+            }
+            chosenAction = actionPair.second;
+
             if (mContextActionMap.isValidContext(chosenContext)) {
                 if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that. Ignoring...\n";
                     chosenContext = "default";
                 }
             } else { chosenContext = "default"; }
+
             if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
                 actionOutput += "Intent not understood.";
             } else {
-                actionOutput += mContextActionMap.get(chosenContext)
+                actionOutput += mContextActionMap
+                        .get(chosenContext)
                         .get(chosenAction)
                         .execute(mState, currentTarget);
-
             }
-        } else { actionOutput = "Intent not understood."; }
+        } else {
+            if (words.contains("use") || words.contains("with") || words.contains("using")) {
+                getBestContext(words, tags, true);  // Sets mActionContext
+                if (mActionContext != null) {
+                    actionOutput = "What do you want to use the "+mActionContext.getName()+" for?";
+                } else {
+                    actionOutput = "Intent not understood.";
+                }
+            } else {
+                actionOutput = "Intent not understood.";
+            }
+        }
 
         return actionOutput;
     }
@@ -106,7 +134,13 @@ public class VoiceProcess {
 
     public Context getActionContext() { return mActionContext; }
 
-    private String getBestAction(List<String> words, List<String> tags) {
+    private Pair<Integer, String> getBestAction(List<String> words, List<String> tags) {
+        return getBestAction(words, tags, true);
+    }
+
+    private Pair<Integer, String> getBestAction(
+            List<String> words, List<String> tags, boolean deleteWord)
+    {
         List<Integer> candidateActions = getCandidateActions(tags);
         double bestScore = 0.7;
         int bestIndex = -1;
@@ -114,19 +148,21 @@ public class VoiceProcess {
         List<String> actionsList = mContextActionMap.getActions();
         for (int i: candidateActions) {
             String word = words.get(i);
-            if (mContextActionMap.hasSynonym(word)) {
-                words.remove(i);
-                tags.remove(i);
-                return mContextActionMap.getSynonymAction(word);
-            }
-            for (String action : actionsList) {
-                if (word.equals(action)) {
-                    words.remove(i);
-                    tags.remove(i);
-                    return action;
+            //ignore with/use words
+            if (!(word.equals("use") || word.equals("with") || word.equals("using"))) {
+                if (mContextActionMap.hasSynonym(word)) {
+                    if (deleteWord) {
+                        removeWordAtIndex(words, tags, i);
+                    }
+                    return new Pair<>(i, mContextActionMap.getSynonymAction(word));
                 }
-                else {
-                    if (!action.equals("use")) {
+                for (String action : actionsList) {
+                    if (word.equals(action)) {
+                        if (deleteWord) {
+                            removeWordAtIndex(words, tags, i);
+                        }
+                        return new Pair<>(i, action);
+                    } else {
                         double score = calculateScore(action, word);
                         if (score > bestScore) {
                             bestScore = score;
@@ -139,16 +175,31 @@ public class VoiceProcess {
         }
 
         //Remove chosen action from list inputs
-        if (bestIndex > -1) {
-            words.remove(bestIndex);
-            tags.remove(bestIndex);
+        if (bestIndex > -1 && deleteWord) {
+            removeWordAtIndex(words, tags, bestIndex);
         }
 
-        return bestAction;
+        return new Pair<>(bestIndex, bestAction);
     }
 
-    private Context getBestTarget(List<String> words, List<String> tags) {
-        List<Integer> candidateTargets = getCandidateTargets(words, tags);
+    private boolean useAltSlotFillingStructure(
+            List<String> words, List<String> tags, int bestActionIndex)
+    {
+        List<String> keywords = Arrays.asList("use", "using", "with");
+        for (String keyword : keywords) {
+            if (words.contains(keyword)) {
+                int keywordIndex = words.indexOf(keyword);
+                if (keywordIndex < bestActionIndex) {
+                    removeWordAtIndex(words, tags, keywordIndex);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private Context getBestTarget(List<String> words, List<String> tags, boolean usingAltSFS) {
+        List<Integer> candidateTargets = getCandidateTargets(words, tags, usingAltSFS);
         List<Context> possibleTargetList = mContextActionMap.getPossibleTargets();
         if (candidateTargets == null || possibleTargetList == null ||
                 candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
@@ -162,13 +213,11 @@ public class VoiceProcess {
             for (Context target : possibleTargetList) {
                 String targetName = target.getName();
                 if (word.equals(targetName)) {
-                    words.remove(i);
-                    tags.remove(i);
+                    removeWordAtIndex(words, tags, i);
                     return target;
                 } else {
                     if (target.descriptionHas(word)) {
-                        words.remove(i);
-                        tags.remove(i);
+                        removeWordAtIndex(words, tags, i);
                         return target;
                     }
                     double score = calculateScore(word, targetName);
@@ -183,14 +232,13 @@ public class VoiceProcess {
         if (bestTarget == null) {
             return mContextActionMap.mDefaultTarget;
         } else {
-            words.remove(bestIndex);
-            tags.remove(bestIndex);
+            removeWordAtIndex(words, tags, bestIndex);
             return bestTarget;
         }
     }
 
-    private String getBestContext(List<String> words, List<String> tags, boolean withUseAction) {
-        List<String> candidateContext = getCandidateContext(words, tags, withUseAction);
+    private String getBestContext(List<String> words, List<String> tags, boolean usingAltSFS) {
+        List<Integer> candidateContext = getCandidateContext(words, tags, usingAltSFS);
         List<Context> possibleContextList = mContextActionMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
                 candidateContext.size() < 1 || possibleContextList.size() < 1) {
@@ -198,64 +246,41 @@ public class VoiceProcess {
         }
         double bestScore = 0.8;
         Context bestContext = null;
+        int bestIndex = -1;
         String bestContextWord = "<none>";
         //Find best word
-        for (String word : candidateContext) {
+        for (int i : candidateContext) {
+            String word = words.get(i);
             for (Context context : possibleContextList) {
                 String contextName = context.getName();
                 if (word.equals(contextName)) {
                     bestScore = 1.0;
                     bestContext = context;
+                    bestIndex = i;
                     break;
                 } else if (!word.equals(mContextActionMap.mDefaultTarget.getName())) {
                     if (context.descriptionHas(word)) {
                         bestScore = 1.0;
                         bestContext = context;
+                        bestIndex = i;
                         break;
                     }
                     double score = calculateScore(word, contextName);
                     if (score > bestScore) {
                         bestScore = score;
                         bestContext = context;
+                        bestIndex = i;
                     }
                 }
             }
 
             if (bestScore >= 1.0) { break; }
-
-            //If "use", context could be action ("attack"). Find context that is not null for this
-            //e.g. "use an attack", "use something to heal with"
-            if (withUseAction) {
-                List<String> actionList = mContextActionMap.getActions();
-                String chosenAction = null;
-                if ((mContextActionMap.hasSynonym(word))) {
-                    chosenAction = mContextActionMap.getSynonymAction(word);
-                } else if (actionList.contains(word)) {
-                    chosenAction = word;
-                }
-                if (chosenAction != null) {
-                    bestScore = 1.0;
-                    bestContext = null;
-                    bestContextWord = "<none>";
-                    //Set bestContext to a random context that works with action
-                    //https://stackoverflow.com/a/1066607/8919086
-                    for (String key : mContextActionMap.mMap.keySet()) {
-                        if (mContextActionMap.mMap.get(key).get(chosenAction) != null) {
-                            for (Context context : possibleContextList) {
-                                if (context.getContext().equals(key)) {
-                                    bestContext = context;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         if (bestContext != null) {
             bestContextWord = bestContext.getContext();
             mActionContext = bestContext;
+            removeWordAtIndex(words, tags, bestIndex);
         }
 
         return bestContextWord;
@@ -272,15 +297,15 @@ public class VoiceProcess {
         return candidateActions;
     }
 
-    private List<Integer> getCandidateTargets(List<String> words, List<String> tags) {
+    private List<Integer> getCandidateTargets(
+            List<String> words, List<String> tags,boolean usingAltSFS)
+    {
         List<Integer> candidateTargets = new ArrayList<>();
-        boolean foundWithUsing = false;
         for (int i=0; i<tags.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
-            if (words.get(i).equals("with") || words.get(i).equals("using")) {
-                foundWithUsing = true;
-            }
-            if ((!foundWithUsing) && (tag.charAt(0) == 'n' || tag.charAt(0) == 'v'
+            if (!usingAltSFS && (words.get(i).equals("with") || words.get(i).equals("using"))) {
+                return candidateTargets;
+            } else if ((tag.charAt(0) == 'n' || tag.charAt(0) == 'v'
                     || tag.charAt(0) == 'j' || tag.charAt(0) == 'i')) {
                 candidateTargets.add(i);
             }
@@ -288,24 +313,21 @@ public class VoiceProcess {
         return candidateTargets;
     }
 
-    private List<String> getCandidateContext(List<String> words, List<String> tags) {
-        return getCandidateContext(words, tags, false);
-    }
-
-    private List<String> getCandidateContext(List<String> words, List<String> tags,
-                                            boolean withUseAction) {
-        List<String> candidateItems = new ArrayList<>();
-        boolean foundWithUsing = withUseAction;
+    private List<Integer> getCandidateContext(
+            List<String> words, List<String> tags, boolean usingAltSFS)
+    {
+        List<Integer> candidateContext = new ArrayList<>();
+        boolean foundWithUsing = usingAltSFS;
         for (int i=0; i<words.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
             if (foundWithUsing &&
                     (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j')) {
-                candidateItems.add(words.get(i));
+                candidateContext.add(i);
             } else if (words.get(i).equals("with") || words.get(i).equals("using")) {
                 foundWithUsing = true;
             }
         }
-        return candidateItems;
+        return candidateContext;
     }
 
     //TODO: calculate cosine similarity of definitions
@@ -362,4 +384,10 @@ public class VoiceProcess {
             }
         }
     }
+
+    private void removeWordAtIndex(List<String> words, List<String> tags, int i) {
+        words.remove(i);
+        tags.remove(i);
+    }
+
 }

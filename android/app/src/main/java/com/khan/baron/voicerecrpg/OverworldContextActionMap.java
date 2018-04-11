@@ -18,9 +18,9 @@ public class OverworldContextActionMap extends ContextActionMap {
         super(state);
         mActionList = Arrays.asList("look", "show", "pick", "open", "cut", "break");
         addDefaultContextActions(new LookAround(), new ShowInventory(), new PickObject(), new OpenObject(), new CutDefault(), new BreakDefault());
-        addContextActions("weapon", null, null, null, new OpenObject(), new CutWeaponNotSharp(), new BreakWeaponNotBlunt());
-        addContextActions("weaponSharp", null, null, null, new OpenObject(), new CutWeaponSharp(), new BreakWeaponNotBlunt());
-        addContextActions("weaponBlunt", null, null, null, new OpenObject(), new CutWeaponNotSharp(), new BreakWeaponBlunt());
+        addContextActions("weapon", null, null, new PickObject(), new OpenObject(), new CutWeaponNotSharp(), new BreakWeaponNotBlunt());
+        addContextActions("weaponSharp", null, null, new PickObject(), new OpenObject(), new CutWeaponSharp(), new BreakWeaponNotBlunt());
+        addContextActions("weaponBlunt", null, null, new PickObject(), new OpenObject(), new CutWeaponNotSharp(), new BreakWeaponBlunt());
 
         addSynonym("observe", "look");
     }
