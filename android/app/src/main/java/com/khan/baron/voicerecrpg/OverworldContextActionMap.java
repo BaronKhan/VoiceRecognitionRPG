@@ -6,7 +6,7 @@ import com.khan.baron.voicerecrpg.actions.overworldActions.BreakWeaponNotBlunt;
 import com.khan.baron.voicerecrpg.actions.overworldActions.CutDefault;
 import com.khan.baron.voicerecrpg.actions.overworldActions.CutWeaponNotSharp;
 import com.khan.baron.voicerecrpg.actions.overworldActions.CutWeaponSharp;
-import com.khan.baron.voicerecrpg.actions.overworldActions.LookAround;
+import com.khan.baron.voicerecrpg.actions.sharedActions.LookAround;
 import com.khan.baron.voicerecrpg.actions.overworldActions.OpenObject;
 import com.khan.baron.voicerecrpg.actions.overworldActions.PickObject;
 import com.khan.baron.voicerecrpg.actions.sharedActions.ShowInventory;

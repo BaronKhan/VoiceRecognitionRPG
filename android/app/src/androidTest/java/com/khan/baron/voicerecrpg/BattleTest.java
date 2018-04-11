@@ -108,6 +108,11 @@ public class BattleTest {
         assertEquals(gameState.updateState(input).contains("your inventory"), correctInput);
     }
 
+    private void testLook(String input, boolean correctInput) {
+        assertEquals(gameState.updateState(input)
+                .contains("in battle"), correctInput);
+    }
+
     @Test
     public void testHealInputSuite() {
         gameState.initBattleState(new Troll(9999999));
@@ -166,5 +171,12 @@ public class BattleTest {
                 .contains("want to use the potion"), true);
         assertEquals(gameState.updateState("use something sharp")
                 .contains("want to use the sword"), true);
+    }
+
+    @Test
+    public void testLookSuite() {
+        gameState.initBattleState(new Troll(9999999));
+        testLook("look around", true);
+        testLook("look at the troll", true);
     }
 }

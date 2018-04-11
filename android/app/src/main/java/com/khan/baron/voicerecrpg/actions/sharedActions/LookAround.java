@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg.actions.overworldActions;
+package com.khan.baron.voicerecrpg.actions.sharedActions;
 
 import com.khan.baron.voicerecrpg.Context;
 import com.khan.baron.voicerecrpg.GameState;
