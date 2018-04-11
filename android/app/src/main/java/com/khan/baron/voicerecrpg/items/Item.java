@@ -1,15 +1,12 @@
 package com.khan.baron.voicerecrpg.items;
 
-import com.khan.baron.voicerecrpg.Context;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.khan.baron.voicerecrpg.Entity;
 
 /**
  * Created by Baron on 12/01/2018.
  */
 
-public class Item extends Context {
+public class Item extends Entity {
     public enum ItemType {
         ITEM_WEAPON, ITEM_SHIELD, ITEM_HEALING, ITEM_KEY
     }

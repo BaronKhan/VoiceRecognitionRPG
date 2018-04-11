@@ -13,9 +13,9 @@ import java.util.Map;
 
 public abstract class ContextActionMap {
     protected GlobalState mState = null;
-    protected List<Context> mPossibleTargets = new ArrayList<>();
-    protected Context mDefaultTarget = null;
-    protected List<Context> mPossibleContexts = new ArrayList<>();
+    protected List<Entity> mPossibleTargets = new ArrayList<>();
+    protected Entity mDefaultTarget = null;
+    protected List<Entity> mPossibleContexts = new ArrayList<>();
     protected List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
@@ -30,22 +30,22 @@ public abstract class ContextActionMap {
         return mActionList.contains(action);
     }
 
-    public void setPossibleContexts(List<Context> contextList) { mPossibleContexts = contextList; }
-    public void addPossibleContext(Context context) { mPossibleContexts.add(context); }
-    public List<Context> getPossibleContexts() { return mPossibleContexts; }
+    public void setPossibleContexts(List<Entity> contextList) { mPossibleContexts = contextList; }
+    public void addPossibleContext(Entity context) { mPossibleContexts.add(context); }
+    public List<Entity> getPossibleContexts() { return mPossibleContexts; }
 
-    public void addPossibleContexts(List<Context> contextList) {
-        for (Context context : contextList) {
+    public void addPossibleContexts(List<Entity> contextList) {
+        for (Entity context : contextList) {
             mPossibleContexts.add(context);
         }
     }
 
-    public void setPossibleTargets(List<Context> targetsList) { mPossibleTargets = targetsList; }
-    public void addPossibleTarget(Context target) { mPossibleTargets.add(target); }
-    public List<Context> getPossibleTargets() { return mPossibleTargets; }
+    public void setPossibleTargets(List<Entity> targetsList) { mPossibleTargets = targetsList; }
+    public void addPossibleTarget(Entity target) { mPossibleTargets.add(target); }
+    public List<Entity> getPossibleTargets() { return mPossibleTargets; }
 
-    public void addPossibleTargets(List<Context> targetsList) {
-        for (Context target : targetsList) {
+    public void addPossibleTargets(List<Entity> targetsList) {
+        for (Entity target : targetsList) {
             mPossibleTargets.add(target);
         }
     }
@@ -69,8 +69,8 @@ public abstract class ContextActionMap {
         return mMap.keySet().contains(context);
     }
 
-    public void setDefaultTarget(Context defaultTarget) { mDefaultTarget = defaultTarget; }
-    public Context getDefaultTarget() { return mDefaultTarget; }
+    public void setDefaultTarget(Entity defaultTarget) { mDefaultTarget = defaultTarget; }
+    public Entity getDefaultTarget() { return mDefaultTarget; }
 
     public void addSynonym(String synonym, String action) {
         mSynonymMap.put(synonym,action);

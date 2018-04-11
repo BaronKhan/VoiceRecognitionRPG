@@ -1,10 +1,10 @@
 package com.khan.baron.voicerecrpg.objects;
 
 
-import com.khan.baron.voicerecrpg.Context;
+import com.khan.baron.voicerecrpg.Entity;
 import com.khan.baron.voicerecrpg.GameState;
 
-public class PhysicalObject extends Context {
+public class PhysicalObject extends Entity {
     //TODO: have chain of properties (e.g. if cuttable, it is also breakable, etc)
     protected boolean mIsBreakable = false;
     protected boolean mIsCuttable = false;
@@ -12,12 +12,12 @@ public class PhysicalObject extends Context {
 
     public PhysicalObject(String name, String ... description) { super(name, description); }
 
-    public String onCut(GameState gameState, Context currentContext) {
+    public String onCut(GameState gameState, Entity currentContext) {
         gameState.actionSucceeded();
         return "You cut the " + getName() + " using your " + currentContext.getName() + ".";
     }
 
-    public String onBroken(GameState gameState, Context currentContext) {
+    public String onBroken(GameState gameState, Entity currentContext) {
         gameState.actionSucceeded();
         gameState.getCurrentRoom().removeRoomObject(this);
         return "You intentionally broke the " + this.getName() + " with your "
@@ -31,7 +31,7 @@ public class PhysicalObject extends Context {
                 + "bare hands and it smashed to pieces. Your hands are now bruised.";
     }
 
-    public String onScratched(GameState gameState, Context currentContext) {
+    public String onScratched(GameState gameState, Entity currentContext) {
         gameState.actionSucceeded();
         return "You scratched the " + this.getName() + " using your "
                 + currentContext.getName() + ", but nothing happened.";

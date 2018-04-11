@@ -7,13 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Baron on 12/01/2018.
  */
 
-public class Inventory extends Context {
+public class Inventory extends Entity {
     public List<Item> mItems;
 
     public Set<String> mPastItems;
@@ -93,8 +92,8 @@ public class Inventory extends Context {
         mItems.remove(item);
     }
 
-    public List<Context> getContextList() {
-        List<Context> temp = new ArrayList<>();
+    public List<Entity> getContextList() {
+        List<Entity> temp = new ArrayList<>();
         for (Item i : mItems) {
             temp.add(i);
         }

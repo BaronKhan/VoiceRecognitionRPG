@@ -3,7 +3,6 @@ package com.khan.baron.voicerecrpg;
 import android.app.Activity;
 
 import com.khan.baron.voicerecrpg.enemies.Enemy;
-import com.khan.baron.voicerecrpg.enemies.Troll;
 import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
@@ -68,11 +67,11 @@ public class GameState extends GlobalState {
         initOverworldState(new Room01());
     }
 
-    public Context getBattleActionContext() { return mBattleVoiceProcess.getActionContext(); }
+    public Entity getBattleActionContext() { return mBattleVoiceProcess.getActionContext(); }
 
-    public Context getOverworldActionContext() { return mOverworldVoiceProcess.getActionContext(); }
+    public Entity getOverworldActionContext() { return mOverworldVoiceProcess.getActionContext(); }
 
-    public Context getContext() {
+    public Entity getContext() {
         return (mGameMode == Mode.MODE_BATTLE)
             ? getBattleActionContext()
             : getOverworldActionContext();

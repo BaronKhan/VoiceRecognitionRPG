@@ -30,7 +30,7 @@ public class VoiceProcess {
     protected GlobalState mState;
     protected ContextActionMap mContextActionMap;
 
-    protected Context mActionContext; //stores the name of the context
+    protected Entity mActionContext; //stores the name of the context
 
     protected IDictionary mDict = null;
     MaxentTagger mTagger;
@@ -79,7 +79,7 @@ public class VoiceProcess {
         String chosenAction = actionPair.second;
 
         if (mContextActionMap.isValidAction(chosenAction)) {
-            Context currentTarget;
+            Entity currentTarget;
             String chosenContext;
 
             if (useAltSlotFillingStructure(words, tags, actionPair.first)) {
@@ -132,7 +132,7 @@ public class VoiceProcess {
         mDb = new CustomWordNet(mDict);
     }
 
-    public Context getActionContext() { return mActionContext; }
+    public Entity getActionContext() { return mActionContext; }
 
     private Pair<Integer, String> getBestAction(List<String> words, List<String> tags) {
         return getBestAction(words, tags, true);
@@ -198,19 +198,19 @@ public class VoiceProcess {
         return false;
     }
 
-    private Context getBestTarget(List<String> words, List<String> tags, boolean usingAltSFS) {
+    private Entity getBestTarget(List<String> words, List<String> tags, boolean usingAltSFS) {
         List<Integer> candidateTargets = getCandidateTargets(words, tags, usingAltSFS);
-        List<Context> possibleTargetList = mContextActionMap.getPossibleTargets();
+        List<Entity> possibleTargetList = mContextActionMap.getPossibleTargets();
         if (candidateTargets == null || possibleTargetList == null ||
                 candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
             return mContextActionMap.mDefaultTarget;
         }
         double bestScore = 0.8;
         int bestIndex = -1;
-        Context bestTarget = null;
+        Entity bestTarget = null;
         for (int i: candidateTargets) {
             String word = words.get(i);
-            for (Context target : possibleTargetList) {
+            for (Entity target : possibleTargetList) {
                 String targetName = target.getName();
                 if (word.equals(targetName)) {
                     removeWordAtIndex(words, tags, i);
@@ -239,19 +239,19 @@ public class VoiceProcess {
 
     private String getBestContext(List<String> words, List<String> tags, boolean usingAltSFS) {
         List<Integer> candidateContext = getCandidateContext(words, tags, usingAltSFS);
-        List<Context> possibleContextList = mContextActionMap.getPossibleContexts();
+        List<Entity> possibleContextList = mContextActionMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
                 candidateContext.size() < 1 || possibleContextList.size() < 1) {
             return "default";
         }
         double bestScore = 0.8;
-        Context bestContext = null;
+        Entity bestContext = null;
         int bestIndex = -1;
         String bestContextWord = "<none>";
         //Find best word
         for (int i : candidateContext) {
             String word = words.get(i);
-            for (Context context : possibleContextList) {
+            for (Entity context : possibleContextList) {
                 String contextName = context.getName();
                 if (word.equals(contextName)) {
                     bestScore = 1.0;

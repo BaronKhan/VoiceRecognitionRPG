@@ -1,6 +1,6 @@
 package com.khan.baron.voicerecrpg.rooms;
 
-import com.khan.baron.voicerecrpg.Context;
+import com.khan.baron.voicerecrpg.Entity;
 import com.khan.baron.voicerecrpg.ContextActionMap;
 import com.khan.baron.voicerecrpg.Inventory;
 import com.khan.baron.voicerecrpg.items.Item;
@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Baron on 14/01/2018.
  */
 
-public abstract class Room extends Context {
+public abstract class Room extends Entity {
 
     private Inventory mInventory;
     private ContextActionMap mMap;
@@ -24,12 +24,12 @@ public abstract class Room extends Context {
     }
 
     public static void transferInventoryItemToRoom(
-            Inventory inventory, Context inventoryItem, Room room) {
+            Inventory inventory, Entity inventoryItem, Room room) {
         inventory.remove(inventoryItem.getName());
         room.addRoomObject(inventoryItem);
     }
 
-    private List<Context> mRoomObjects = new ArrayList<>();
+    private List<Entity> mRoomObjects = new ArrayList<>();
 
     private int mRoomState = -1;
 
@@ -39,11 +39,11 @@ public abstract class Room extends Context {
 
     public String getRoomDescription() { return ""; }
 
-    public List<Context> getRoomObjects() { return mRoomObjects; }
+    public List<Entity> getRoomObjects() { return mRoomObjects; }
 
-    public void addRoomObject(Context obj) { mRoomObjects.add(obj); }
+    public void addRoomObject(Entity obj) { mRoomObjects.add(obj); }
 
-    public void removeRoomObject(Context obj) { mRoomObjects.remove(obj); }
+    public void removeRoomObject(Entity obj) { mRoomObjects.remove(obj); }
 
     public int getRoomObjectPos(String name) {
         for (int i=0; i< mRoomObjects.size(); ++i) {
@@ -54,7 +54,7 @@ public abstract class Room extends Context {
 
     public int getRoomObjectCount(String name) {
         int count = 0;
-        for (Context roomObject : mRoomObjects) {
+        for (Entity roomObject : mRoomObjects) {
             if (roomObject.getName().equals(name)) { ++count; }
         }
         return count;

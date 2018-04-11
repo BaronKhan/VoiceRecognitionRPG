@@ -1,13 +1,13 @@
 package com.khan.baron.voicerecrpg.enemies;
 
-import com.khan.baron.voicerecrpg.Context;
+import com.khan.baron.voicerecrpg.Entity;
 import com.khan.baron.voicerecrpg.GameState;
 
 /**
  * Created by Baron on 12/01/2018.
  */
 
-public class Enemy extends Context {
+public class Enemy extends Entity {
     protected int mHealth;
     protected int mMaxHealth;
 

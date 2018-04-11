@@ -1,6 +1,6 @@
 package com.khan.baron.voicerecrpg.objects.room01;
 
-import com.khan.baron.voicerecrpg.Context;
+import com.khan.baron.voicerecrpg.Entity;
 import com.khan.baron.voicerecrpg.GameState;
 import com.khan.baron.voicerecrpg.actions.sharedActions.ShowInventory;
 import com.khan.baron.voicerecrpg.items.Item;
@@ -15,7 +15,7 @@ public class Painting extends PhysicalObject {
     }
 
     @Override
-    public String onCut(GameState gameState, Context currentContext) {
+    public String onCut(GameState gameState, Entity currentContext) {
         if (gameState.getCurrentRoom().getRoomState() != Room01.StateRoom01.PAINTING_CUT.ordinal()) {
             gameState.actionSucceeded();
             gameState.getInventory().add(new Item("key", Item.ItemType.ITEM_KEY, "access"));

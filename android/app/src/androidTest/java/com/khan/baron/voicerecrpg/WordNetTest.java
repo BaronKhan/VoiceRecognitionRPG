@@ -59,7 +59,7 @@ public class WordNetTest {
 
     @Test
     public void useAppContext() {
-        // Context of the app under test.
+        // Entity of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("com.khan.baron.voicerecrpg", appContext.getPackageName());
     }
