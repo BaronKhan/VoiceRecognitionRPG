@@ -139,3 +139,9 @@ ADJECTIVE = a
 CAll getTag function to get this letter
 
 Synset IDs have SID- infront, must remove
+
+Recursive action calls
+------------------
+
+- Execute several actions in one input
+- Segment phrases with "and" as a delimiter?
