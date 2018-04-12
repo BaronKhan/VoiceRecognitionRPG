@@ -1,14 +1,49 @@
 Title
 Abstract
 Introduction
+Motivation
 Background
-The details
+The details (Implementation)
 Evaluation/Discussion
-Conclusions and further work
+Conclusions and further work (library, conferencing)
 Bibliography
 (Appendices)
 
 ---
 
-The details:
-- 
+Background:
+
+Pocket Sphinx for UE4
+Mention adaptive learning
+
+---
+
+__Implementation details__
+
+Overview:
+- Chose Android
+
+Overall structure:
+
+Show a UML diagram of the following:
+- MainActivity
+- VoiceControl
+- GameState
+- VoiceProcess (actual NLP engine)
+
+Design Patterns:
+
+VoiceProcess:
+  POS Tagger:
+
+  SFS:
+
+  Entity:
+
+  Targets and Contexts:
+
+  ActionContextMap
+
+  Semantic Similarity:
+
+UI:

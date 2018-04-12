@@ -16,7 +16,7 @@ public class CutDefault extends Action {
             Inventory inventory = gameState.getInventory();
             if (gameState.getCurrentRoom().hasRoomObject(currentTarget.getName())) {
                 for (Item item : inventory.getItems()) {
-                   if (item.getContext().equals("weaponSharp")) {
+                   if (item.getContext().equals("weapon-sharp")) {
                        if (currentTarget instanceof PhysicalObject) {
                            if (((PhysicalObject) currentTarget).isCuttable()) {
                                if (gameState.getCurrentRoom() instanceof Room01) {

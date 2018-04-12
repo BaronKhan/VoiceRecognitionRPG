@@ -1,8 +1,6 @@
 package com.khan.baron.voicerecrpg;
 
-import android.content.Context;
 import android.os.Environment;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.khan.baron.voicerecrpg.enemies.Troll;
@@ -14,21 +12,6 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
-
-import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.ws4j.impl.WuPalmer;
-import edu.cmu.lti.ws4j.util.WS4JConfiguration;
-import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ISynset;
-import edu.mit.jwi.item.ISynsetID;
-import edu.mit.jwi.item.IWord;
-import edu.mit.jwi.item.IWordID;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.Pointer;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import static org.junit.Assert.*;
 
@@ -108,7 +91,7 @@ public class BattleTest {
         assertEquals(gameState.updateState(input).contains("your inventory"), correctInput);
     }
 
-    private void testLook(String input, boolean correctInput) {
+    private void testLookAround(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input)
                 .contains("in battle"), correctInput);
     }
@@ -156,6 +139,7 @@ public class BattleTest {
         testInventoryShown("show my troll", false);
         testInventoryShown("show my bag", true);
         testInventoryShown("please show the contents of my possessions that I have", true);
+        testInventoryShown("look at my inventory", true);
     }
 
     @Test
@@ -174,9 +158,18 @@ public class BattleTest {
     }
 
     @Test
-    public void testLookSuite() {
+    public void testLookAroundSuite() {
         gameState.initBattleState(new Troll(9999999));
-        testLook("look around", true);
-        testLook("look at the troll", true);
+        testLookAround("look around", true);
+        testLookAround("look at the troll", true);
+    }
+
+    @Test
+    public void testShowActionsSuite() {
+        gameState.initBattleState(new Troll(9999999));
+        assertEquals(gameState.updateState("show my commands")
+                .contains("following actions"), true);
+        assertEquals(gameState.updateState("look at my actions")
+                .contains("following actions"), true);
     }
 }

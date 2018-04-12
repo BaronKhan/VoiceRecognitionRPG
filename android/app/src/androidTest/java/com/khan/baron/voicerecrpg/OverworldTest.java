@@ -151,4 +151,13 @@ public class OverworldTest {
         assertEquals(gameState.updateState("use the key to open the door")
                 .contains("opened"), true);
     }
+
+    @Test
+    public void testShowActionsSuite() {
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("show my commands")
+                .contains("following actions"), true);
+        assertEquals(gameState.updateState("take a look at my actions")
+                .contains("following actions"), true);
+    }
 }

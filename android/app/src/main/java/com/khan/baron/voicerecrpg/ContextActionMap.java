@@ -3,6 +3,7 @@ package com.khan.baron.voicerecrpg;
 import com.khan.baron.voicerecrpg.actions.Action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created by Baron on 12/01/2018.
  */
 
-public abstract class ContextActionMap {
+public abstract class ContextActionMap extends Entity {
     protected GlobalState mState = null;
     protected List<Entity> mPossibleTargets = new ArrayList<>();
     protected Entity mDefaultTarget = null;
@@ -20,7 +21,12 @@ public abstract class ContextActionMap {
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
 
-    public ContextActionMap(GlobalState state) { mState = state; }
+    public ContextActionMap(GlobalState state) {
+        super("actions", "commands", "options");
+        setContext("actions");
+        mState = state;
+        mPossibleTargets.add(this);
+    }
 
     public Map<String, Action> get(String action) { return mMap.get(action); }
 
