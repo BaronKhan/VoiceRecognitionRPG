@@ -16,9 +16,9 @@ public class ShowInventory extends Action {
             GameState gameState = (GameState)state;
             state.actionFailed();   //By default, we don't want the enemy to have a turn
             if (currentTarget instanceof Inventory) {
-                String inventoryStr = "{";
+                String inventoryStr = "{ | ";
                 for (Entity item : gameState.getInventory().mItems) {
-                    inventoryStr+=item.getName()+", ";
+                    inventoryStr+=item.getName()+" | ";
                 }
                 inventoryStr+="}";
                 return "This is your inventory:\n"+inventoryStr;

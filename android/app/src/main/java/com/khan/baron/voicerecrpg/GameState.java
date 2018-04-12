@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg;
 
 import android.app.Activity;
 
+import com.khan.baron.voicerecrpg.actions.sharedActions.ShowActions;
 import com.khan.baron.voicerecrpg.enemies.Enemy;
 import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
@@ -95,13 +96,15 @@ public class GameState extends GlobalState {
     public void initBattleState(Enemy currentEnemy) {
         mGameMode = MODE_BATTLE;
         setCurrentBattle(currentEnemy);
-        mInitOutput = "A "+currentEnemy.getName()+" appears in front of you!";
+        mInitOutput = "A "+currentEnemy.getName()+" appears in front of you!\n\n"
+                +new ShowActions().execute(this, mBattleMap);
     }
 
     public void initOverworldState(Room room) {
         mGameMode = MODE_OVERWORLD;
         setCurrentRoom(room);
-        mInitOutput = room.getRoomDescription();
+        mInitOutput = room.getRoomDescription()+"\n\n"
+                +new ShowActions().execute(this, mOverworldMap);
     }
 
     public Mode getGameMode() { return mGameMode; }

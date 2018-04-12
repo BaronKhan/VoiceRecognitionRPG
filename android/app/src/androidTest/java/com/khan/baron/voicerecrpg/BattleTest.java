@@ -172,4 +172,12 @@ public class BattleTest {
         assertEquals(gameState.updateState("look at my actions")
                 .contains("following actions"), true);
     }
+
+    @Test
+    public void testLearningSuite() {
+        gameState.initBattleState(new Troll(9999999));
+        assertEquals(gameState.updateState("strike means attack")
+                .contains("synonym"), true);
+        testAttackedTroll("strike the troll", true);
+    }
 }

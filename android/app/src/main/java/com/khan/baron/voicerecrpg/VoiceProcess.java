@@ -75,6 +75,25 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
+        // Check for learning phrase
+        if (words.contains("means")) {
+            String firstWord = getFirstAction(words, tags);
+            removeWordAtIndex(words, tags, words.indexOf("means"));
+            String secondWord = getFirstAction(words, tags);
+            if (firstWord != null && secondWord != null) {
+                if (mContextActionMap.getActions().contains(secondWord)) {
+                    mContextActionMap.addSynonym(firstWord, secondWord);
+                    return "Add synonym: " + firstWord + " --> " + secondWord;
+                } else if (mContextActionMap.getActions().contains(firstWord)) {
+                    mContextActionMap.addSynonym(secondWord, firstWord);
+                    return "Add synonym: " + firstWord + " --> " + secondWord;
+                } else {
+                    return "Sorry. Neither \"" + firstWord + "\" nor \"" + secondWord
+                            + "\" are valid actions.";
+                }
+            } else { return "Intent not understood"; }
+        }
+
         Pair<Integer, String> actionPair = getBestAction(words, tags, false);
         String chosenAction = actionPair.second;
 
@@ -388,6 +407,14 @@ public class VoiceProcess {
     private void removeWordAtIndex(List<String> words, List<String> tags, int i) {
         words.remove(i);
         tags.remove(i);
+    }
+
+    private String getFirstAction(List<String> words, List<String> tags) {
+        List<Integer> candidateActions = getCandidateActions(tags);
+        if (candidateActions == null || candidateActions.size() == 0) { return null; }
+        String action = words.get(candidateActions.get(0));
+        removeWordAtIndex(words, tags, 0);
+        return action;
     }
 
 }
