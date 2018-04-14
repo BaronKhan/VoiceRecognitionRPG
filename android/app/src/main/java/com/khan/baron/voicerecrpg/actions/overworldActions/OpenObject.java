@@ -25,7 +25,7 @@ public class OpenObject extends Action {
                 }
             } else {
                 state.actionFailed();
-                return "What do you want to open?";
+                return "You cannot open the "+currentTarget.getName()+".";
             }
         }
         state.actionFailed();

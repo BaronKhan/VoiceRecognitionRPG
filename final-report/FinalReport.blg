@@ -1,0 +1,84 @@
+This is BibTeX, Version 0.99d (TeX Live 2016/W32TeX)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: FinalReport.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: references.bib
+Warning--I'm ignoring RefWorks:38's extra "edition" field
+--line 116 of file references.bib
+Warning--I'm ignoring RefWorks:40's extra "edition" field
+--line 135 of file references.bib
+Warning--I'm ignoring RefWorks:41's extra "edition" field
+--line 147 of file references.bib
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--there's a month but no year in RefWorks:21
+Warning--there's a month but no year in RefWorks:23
+Warning--there's a month but no year in RefWorks:24
+Warning--there's a month but no year in RefWorks:29
+Warning--there's a month but no year in RefWorks:25
+Warning--there's a month but no year in RefWorks:26
+Warning--there's a month but no year in RefWorks:28
+Warning--there's a month but no year in RefWorks:30
+Warning--there's a month but no year in RefWorks:33
+Warning--there's a month but no year in RefWorks:27
+Warning--there's a month but no year in RefWorks:31
+Warning--there's a month but no year in RefWorks:32
+Warning--edition ordinal word "{2}" may be too high (or improper) for conversion in RefWorks:38
+Warning--edition ordinal word "{2}" may be too high (or improper) for conversion in RefWorks:40
+Warning--edition ordinal word "{2}" may be too high (or improper) for conversion in RefWorks:41
+Warning--there's a month but no year in RefWorks:43
+Warning--there's a month but no year in RefWorks:45
+Warning--there's a month but no year in RefWorks:47
+Warning--empty journal in RefWorks:55
+Warning--there's a month but no year in RefWorks:48
+Warning--there's a month but no year in RefWorks:42
+
+Done.
+You've used 32 entries,
+            4087 wiz_defined-function locations,
+            1005 strings with 11944 characters,
+and the built_in function-call counts, 13413 in all, are:
+= -- 1065
+> -- 154
+< -- 33
++ -- 77
+- -- 31
+* -- 556
+:= -- 2391
+add.period$ -- 64
+call.type$ -- 32
+change.case$ -- 34
+chr.to.int$ -- 87
+cite$ -- 53
+duplicate$ -- 1064
+empty$ -- 1295
+format.name$ -- 31
+if$ -- 2981
+int.to.chr$ -- 0
+int.to.str$ -- 32
+missing$ -- 219
+newline$ -- 173
+num.names$ -- 31
+pop$ -- 672
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 8
+skip$ -- 1018
+stack$ -- 0
+substring$ -- 205
+swap$ -- 635
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 32
+warning$ -- 21
+while$ -- 41
+width$ -- 34
+write$ -- 334
+(There were 24 warnings)
