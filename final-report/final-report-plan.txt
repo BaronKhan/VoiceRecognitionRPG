@@ -13,15 +13,12 @@ Bibliography
 
 Background:
 
-Pocket Sphinx for UE4
-DialogFlow (like IBM's Watson)
-Mention adaptive learning
-Mention sentence similarity
 Cosine similarity of definitions
+Deep parsing in Watson
 
 ---
 
-__Implementation details__
+__Design__
 
 Overview:
 - Chose Android
@@ -47,8 +44,16 @@ VoiceProcess:
 
   ContextActionMap (mention TargetActionMap as an alternative, chose ContextActionMap for game)
 
-
-
   Semantic Similarity:
 
 UI:
+
+__Implemenation__
+
+__Evaluation__
+
+Evaluation of effectiveness of slot-filling
+
+Evaluation of semantic similarity
+
+Evaluation on effectivenesss of learning mechanism

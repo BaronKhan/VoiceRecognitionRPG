@@ -55,6 +55,18 @@
 \tableofcontents
 \newpage
 \setcounter{page}{1}
+\section{Abstract}
+
+\textbf{When adding voice commands to a video game, a developer may find themselves hard-coding text strings for phrases that a player can say, and mapping them to intents within the game. It becomes more work to include varying versions of the same intent as the developer would have to include every permutation of the phrase (for which there could be infinitely many).
+\\
+\\
+This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases.
+\\
+\\
+We explore and evaluate various methods for improving the voice recognition system with the aim of decreasing the developer workload. These include using semantic similarity methods, a user-controlled learning mechanism, and various other NLP techniques.}
+
+\newpage
+
 \section{Introduction}
 In recent years, video games have explored various forms of input that diverge from the traditional control schemes of a keyboard and mouse, or an analogue stick and buttons on a controller. Touch-screen controls and motion controls have had varying degrees of success over the years, and provide new forms of interactions with games. A recent form of input used in video games has been voice controls; a user utters a sentence or phrase and this would execute an action or intent within the game.
 \\
@@ -89,7 +101,7 @@ A text-based RPG will be created that will use a flexible voice control interfac
 Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of voice control schemes.
 \\
 \\
-The proposed design for the RPG aims to achieve the following innovations related to voice-recognition game design:
+The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
 \item Allow a developer to add voice recognition to their game with little effort.
 \item Create a simple natural language processing system that can work offline.
@@ -181,6 +193,13 @@ Tazti is a keyboard mapping tool available to players to be used with any type o
 \\
 While this tool is not directly integrated into games by the developer, it has the advantage of being able to work with almost any PC game that uses a keyboard, such as role-playing games, first-person shooter games, and even platforming games. However, the voice commands are limited to being hard-coded, so there is no way of varying the speech commands slightly, even if the meaning is the same. It is also not freely available and requires a license to be purchased.
 
+\subsubsection{PocketSphinx for Unreal Engine 4}
+
+\textit{Sphinx-UE4} is a speech recognition plugin for the Unreal Engine 4 game engine, based on the PocketSphinx library which provides offline speech-to-text. The plugin allows the developer to specify keywords and the commands that they map to (e.g. "turn right", "enable sprint", "kick the ball", etc).
+\\
+\\
+The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, "<digit> <operation> <digit>". This will accept input such as, "three add five", "six minus four", "two times twelve", and so on.
+
 \subsubsection{Houndify}
 
 Houndify is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, "ATTACK".
@@ -229,10 +248,13 @@ Once the classifier is trained, it will be able to use the examples of intents p
 \\
 \\
 This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
+\\
+\\
+There is a similar API called DialogFlow, which works very similarly to IMB's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
 
 \subsection{Natural Language Processing}
 
-Natural Language Processing (NLP) forms a major component of this project. This will give the developer the ability to take an arbitrary string of text and infer its meaning, and map it to an intent.
+Natural Language Processing (NLP) forms a major component of this project. This will give the developer the ability to take an arbitrary string of text and infer its meaning, and map it to an intent. Below are some explanations on NLP concepts related to this project.
 
 \subsubsection{Stages of Natural Language Processing}
 
@@ -278,6 +300,26 @@ The second challenge are words that are unknown to the tagger and cannot be tagg
 \\
 The proposed design for this project will use an open-source POS tagger in order to identify specific words in the player's input, namely verbs and nouns.
 
+\subsubsection{Slot Filling}
+
+According to the authors of \textit{Speech and Language Processing} , three tasks need to be done to understand a user's utterance to a chatbot. The first is \textit{domain classification}, to determine the topic that the user is talking about (e.g. weather, sport, etc), although this is unnecessary for single-domain applications such as the environment of a video game. The second task is \textit{intent determination} to determine the goal of the user, and finally, the last task is to do \textit{slot filling}.
+\\
+\\
+Slot filling involves determining the specific details of an intent by defining a grammar that the intent must adhere to. An example for arithmetic operations would be, $<DIGIT1>$ $<OPERATION>$ $<DIGIT2>$. The input would be parsed by a context-free grammar parsing algorithm to extract each bit of information in order to fill each slot in the grammar.
+\\
+\\
+A disadvantage to slot-filling using context-free grammar parsing is that not all valid expressions for an intent would match with the slots. A solution to this would be to define multiple grammars for different structures of inputs.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=1]{slot-filling.png}
+  \caption{An example of a slot-filling grammar for flights, using slot names as the internal parse tree nodes. Diagram taken from Chapter 29 of the book, \textit{Speech and Language Processing}.}
+  \end{center}
+\end{figure}
+\end{center}
+
+
 \subsubsection{Synonyms and Hypernyms}
 
 Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word "dog" has seven word senses (different meanings), and for one of the word senses with a meaning of, "a member of the genus Canis", the synonyms would be, "domestic dog" and "Canis familiris" \cite{RefWorks:45}.
@@ -298,7 +340,6 @@ The synonyms and hypernyms of words and phrases can be represented as a hyper-tr
 \end{center}
 
 Synonyms and hypernyms could be used to determine the semantic similarity between words and infer whether they match a certain intent of the user.
-
 
 \subsubsection{Semantic Similarity}
 
