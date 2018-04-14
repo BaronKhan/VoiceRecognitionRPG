@@ -19,6 +19,11 @@ Deep parsing in Watson
 ---
 
 __Design__
+- Platform choice
+- System UML Overview
+- Game Design Overview
+- NLP Techniques used
+
 
 Overview:
 - Chose Android
@@ -46,9 +51,9 @@ VoiceProcess:
 
   Semantic Similarity:
 
-UI:
-
 __Implemenation__
+
+UI:
 
 __Evaluation__
 

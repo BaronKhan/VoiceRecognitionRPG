@@ -195,10 +195,10 @@ While this tool is not directly integrated into games by the developer, it has t
 
 \subsubsection{PocketSphinx for Unreal Engine 4}
 
-\textit{Sphinx-UE4} is a speech recognition plugin for the Unreal Engine 4 game engine, based on the PocketSphinx library which provides offline speech-to-text. The plugin allows the developer to specify keywords and the commands that they map to (e.g. "turn right", "enable sprint", "kick the ball", etc).
+\textit{Sphinx-UE4} is a speech recognition plugin for the Unreal Engine 4 game engine \cite{RefWorks:104}, based on the PocketSphinx library which provides offline speech-to-text \cite{RefWorks:105}. The plugin allows the developer to specify keywords and the commands that they map to (e.g. "turn right", "enable sprint", "kick the ball", etc).
 \\
 \\
-The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, "<digit> <operation> <digit>". This will accept input such as, "three add five", "six minus four", "two times twelve", and so on.
+The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, $<digit> <operation> <digit>$. This will accept input such as, "three add five", "six minus four", "two times twelve", and so on.
 
 \subsubsection{Houndify}
 
@@ -250,7 +250,7 @@ Once the classifier is trained, it will be able to use the examples of intents p
 This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
 \\
 \\
-There is a similar API called DialogFlow, which works very similarly to IMB's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
+There is a similar API called DialogFlow \cite{RefWorks:106}, which works very similarly to IMB's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
 
 \subsection{Natural Language Processing}
 
@@ -302,7 +302,7 @@ The proposed design for this project will use an open-source POS tagger in order
 
 \subsubsection{Slot Filling}
 
-According to the authors of \textit{Speech and Language Processing} , three tasks need to be done to understand a user's utterance to a chatbot. The first is \textit{domain classification}, to determine the topic that the user is talking about (e.g. weather, sport, etc), although this is unnecessary for single-domain applications such as the environment of a video game. The second task is \textit{intent determination} to determine the goal of the user, and finally, the last task is to do \textit{slot filling}.
+According to the authors of \textit{Speech and Language Processing} \cite{RefWorks:107}, three tasks need to be done to understand a user's utterance to a chatbot. The first is \textit{domain classification}, to determine the topic that the user is talking about (e.g. weather, sport, etc), although this is unnecessary for single-domain applications such as the environment of a video game. The second task is \textit{intent determination} to determine the goal of the user, and finally, the last task is to do \textit{slot filling}.
 \\
 \\
 Slot filling involves determining the specific details of an intent by defining a grammar that the intent must adhere to. An example for arithmetic operations would be, $<DIGIT1>$ $<OPERATION>$ $<DIGIT2>$. The input would be parsed by a context-free grammar parsing algorithm to extract each bit of information in order to fill each slot in the grammar.
@@ -314,7 +314,7 @@ A disadvantage to slot-filling using context-free grammar parsing is that not al
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{slot-filling.png}
-  \caption{An example of a slot-filling grammar for flights, using slot names as the internal parse tree nodes. Diagram taken from Chapter 29 of the book, \textit{Speech and Language Processing}.}
+  \caption{An example of a slot-filling grammar for flights, using slot names as the internal parse tree nodes. Diagram taken from Chapter 29 of the book, \textit{Speech and Language Processing} \cite{RefWorks:107}.}
   \end{center}
 \end{figure}
 \end{center}
@@ -394,16 +394,21 @@ Princeton University created a large lexical database for the English language \
 One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, "attack the enemy with a sharp object"); we would like to be able to select a item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt, whether it can be thrown, and so on.
 \\
 \\
-A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as we can infer if two objects would have the same properties instead of hard-coding each one.
+A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as we can infer if two objects would have the same properties instead of hard-coding each one.
 \\
 \\
 By assigning items different properties, we don't have to code the actions the user can perform for each variation of items (e.g. sword, katana, knife, etc.). Instead, we can have general objects which have certain properties, and then customise the actions for each general object. For example, there could be a general object with a 'sharpness' property, that would be able to, for example, cut something, and all swords and knifes would be of this type of general object.
+\newpage
 
+\section{Design}
+\subsection{Platform Choice}
+
+The chosen platform to develop the 
 
 \newpage
 \section{Appendix}
 \subsection{Skyrim Kinect Command List}
-Below is a list of all 200 commands that can be used in video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected.
+Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected.
 
 \includegraphics[scale=0.235]{skyrim-1.jpg}
 \includegraphics[scale=0.235]{skyrim-2.jpg}

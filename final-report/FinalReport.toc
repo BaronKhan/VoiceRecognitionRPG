@@ -21,7 +21,9 @@
 \contentsline {subsubsection}{\numberline {3.4.6}Generating Sentences}{16}
 \contentsline {subsection}{\numberline {3.5}WordNet}{17}
 \contentsline {subsection}{\numberline {3.6}Object Properties}{17}
-\contentsline {section}{\numberline {4}Appendix}{18}
-\contentsline {subsection}{\numberline {4.1}Skyrim Kinect Command List}{18}
-\contentsline {subsection}{\numberline {4.2}Penn Treebank Tagset}{20}
-\contentsline {section}{References}{21}
+\contentsline {section}{\numberline {4}Design}{18}
+\contentsline {subsection}{\numberline {4.1}Platform Choice}{18}
+\contentsline {section}{\numberline {5}Appendix}{19}
+\contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{19}
+\contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{21}
+\contentsline {section}{References}{22}
