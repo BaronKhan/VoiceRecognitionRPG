@@ -401,9 +401,57 @@ By assigning items different properties, we don't have to code the actions the u
 \newpage
 
 \section{Design}
-\subsection{Platform Choice}
+\subsection{Target Platform}
 
-The chosen platform to develop the 
+According to Ovum's Mobile Games Market forecast for 2017-2022, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.
+\\
+\\
+The chosen platform to develop the voice recognition system and game will be Android mobile devices, as the availability of the open-source Google Speech-to-Text API means that less effort is required to get the text input from the user's utterance.
+
+\subsection{Java Programming Language}
+
+The language used to develop the application is Java, which is an object-oriented programming (OOP) language. The use of an OOP language makes it easier to create objects in a video game using the inheritance hierarchy. For example, there would be an abstract class for physical objects called \texttt{PhysicalObject}, and another class such as \texttt{Glass} would be a derived class of a PhysicalObject, and so on.
+\\
+\\
+A disadvantage to using Java is that it does not support multiple inheritance, unlike other languages with OOP constructs such as C++, due to methods such as \texttt{super()} having the same signature for all parent classes. For instance, a Glass class cannot inherit properties from both a PhysicalObject and a BreakableObject (i.e. they are both direct parents of the Glass class). Instead, this must be overcome by making the inheritance a single chain (e.g. Glass inherits from BreakableObject which inherits from Physical Object). While this can be considered a hindrance in some circumstances, it is not a major issue for the proposed design of the game.
+\\
+\\
+While Java applications - and therefore Android - support the invocation of native code such as C++ using the Java Native Interface for improved performance, this will not be used due to time constraints for the project (as performance is not a major objective for this project).
+
+\subsection{System Overview}
+
+Figure \ref{fig:system-overview} shows a simplified UML class diagram focusing on the classes used for the voice recognition system, including the inheritance and associations of the classes. Although the \texttt{GameState} class is related to the game system, it helps to illustrate the overall system design. Only the important member fields and methods are shown for each class.
+\\
+\\
+See the Appendix for the full UML class diagram of the Android application. 
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{system-overview.pdf}
+  \caption{A simplified UML class diagram outlining the design of the voice recognition system. Diagram created using the online LucidChart tool. See the Appendix for the full class diagram for the entire voice recognition system in the Android application.}
+  \label{fig:system-overview}
+  \end{center}
+\end{figure}
+\end{center}
+
+\subsubsection{\texttt{MainActivity} Class}
+
+The \texttt{MainActivity} class is the skeleton class which contains all the systems. It acts as the interface between the I/O and the rest of the application. It contains instances of the \texttt{VoiceControl} class, which handles the I/O, and the \texttt{GameState}, which contains the game environment.
+\\
+\\
+When the application starts up, an instance of \texttt{MainActivity} is created, and searches the public directory of the phone's external storage (not necessarily an external device like an SD card, but whatever the OS has has defined the external storage to be). It searches for a WordNet database that is downloaded beforehand, and if it is not found, it will download/re-download the database again. It will also copy a model used for POS tagging to the external storage from the APK archive.
+
+\subsubsection{\texttt{VoiceControl} Class}
+
+As mentioned, the \texttt{VoiceControl} class is used to handle the input and output of the application, such as the microphone input and the text display. It contains an instance of the SpeechRecognizer class, which is provided by Android and uses Google's Speech-to-Text API, aa well as two instances of the TextView class: one which is used to display the text output of the game, and the other to display the Speech-to-Text result at the top of the screen.
+\\
+\\
+When the \texttt{SpeechRecognizer} instance performs a Speech-to-Text translation, the final result is forwarded to the \texttt{GameState} instance where it is processed by the voice recognition system using NLP, and used to update the state of the current game session (\texttt{GameState}).
+
+\subsubsection{\texttt{VoiceProcess} Class}
+
+
 
 \newpage
 \section{Appendix}
@@ -443,6 +491,13 @@ $$
 	NN & Noun,\ singular\ or\ mass & WRB & Wh-adverb \\ \hline
 \end{tabular}
 $$
+
+\newpage
+\subsection{System UML Class Diagram}
+Below is the UML class diagram for the voice recognition system used in the Android app. This was automatically generated using the third-party \textit{simpleUML} plugin for Android Studio.
+\\
+\\
+\includegraphics[scale=0.33]{system-uml.png}
 
 \newpage
 \addcontentsline{toc}{section}{References}

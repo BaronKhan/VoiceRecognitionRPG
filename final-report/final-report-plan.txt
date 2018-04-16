@@ -35,13 +35,14 @@ Show a UML diagram of the following:
 - VoiceControl
 - GameState
 - VoiceProcess (actual NLP engine)
+Explain each one
 
 Design Patterns:
 
 VoiceProcess:
   POS Tagger:
 
-  SFS:
+  SFS: (plus alternative)
 
   Entity:
 
@@ -49,13 +50,23 @@ VoiceProcess:
 
   ContextActionMap (mention TargetActionMap as an alternative, chose ContextActionMap for game)
 
-  Semantic Similarity:
+  Learning
+
+Semantic Similarity:
+
+Game Design Overview:
+- Battle, Overworld, Zork-like
+- Show UML class diagram
 
 __Implemenation__
 
 UI:
 
+CustomWordNet
+
 __Evaluation__
+
+Mock testing
 
 Evaluation of effectiveness of slot-filling
 
