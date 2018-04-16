@@ -33,9 +33,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-import edu.mit.jwi.Dictionary;
-import edu.mit.jwi.IDictionary;
-
 public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 10;
     private final int PERMISSIONS_REQUEST_DOWNLOAD = 20;
@@ -82,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {
-            mVoiceControl.mCanRecord = (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            mVoiceControl.setCanRecord((grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED));
         } else if (requestCode == PERMISSIONS_REQUEST_DOWNLOAD) {
             try {
                 if (!mCanDownload) {

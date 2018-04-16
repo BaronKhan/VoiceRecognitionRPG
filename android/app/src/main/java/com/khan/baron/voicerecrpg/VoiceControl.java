@@ -32,7 +32,7 @@ public class VoiceControl implements RecognitionListener {
 
     private GameState mGameState;
 
-    public boolean mCanRecord;
+    private boolean mCanRecord;
 
     public VoiceControl(AppCompatActivity activity, TextView txtInput, TextView txtOutput,
                         GameState gameState) {
@@ -209,4 +209,11 @@ public class VoiceControl implements RecognitionListener {
         }
     }
 
+    public boolean canRecord() {
+        return mCanRecord;
+    }
+
+    public void setCanRecord(boolean mCanRecord) {
+        this.mCanRecord = mCanRecord;
+    }
 }
