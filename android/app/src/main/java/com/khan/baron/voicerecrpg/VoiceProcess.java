@@ -33,7 +33,7 @@ public class VoiceProcess {
     protected Entity mActionContext; //stores the name of the context
 
     protected IDictionary mDict = null;
-    MaxentTagger mTagger;
+    static MaxentTagger sTagger = null;
 
     //Semantic Similarity Engine
     protected ILexicalDatabase mDb = null;
@@ -43,20 +43,23 @@ public class VoiceProcess {
         mMainActivity = mainActivity;
         mState = state;
         mContextActionMap = contextActionMap;
-        mTagger = null;
 
         //Use all senses, not just most frequent sense (slower but more accurate)
         WS4JConfiguration.getInstance().setMFS(false);
 
-        try {
-            // Load model
-            String modelPath = Environment.getExternalStorageDirectory()
-                    + "/english-left3words-distsim.tagger";
-            File modelFile = new File(modelPath);
-            if (modelFile.exists()) { mTagger = new MaxentTagger(modelPath); }
-        } catch (Exception e) {
-            Toast.makeText(mainActivity, "Error loading model: " + e.getMessage(),
-                    Toast.LENGTH_LONG).show();
+        if (sTagger == null) {
+            try {
+                // Load model
+                String modelPath = Environment.getExternalStorageDirectory()
+                        + "/english-left3words-distsim.tagger";
+                File modelFile = new File(modelPath);
+                if (modelFile.exists()) {
+                    sTagger = new MaxentTagger(modelPath);
+                }
+            } catch (Exception e) {
+                Toast.makeText(mainActivity, "Error loading model: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -384,8 +387,8 @@ public class VoiceProcess {
     }
 
     private List<String> getTags(String input) {
-        assert(mTagger != null);
-        String taggedWords = mTagger.tagString(input);
+        assert(sTagger != null);
+        String taggedWords = sTagger.tagString(input);
         List<String> tags = new ArrayList<>();
         Matcher m = Pattern.compile("(?<=_)[A-Z$]+(?=\\s|$)").matcher(taggedWords);
         while (m.find()) {

@@ -32,6 +32,7 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['src/main/java', 'src/main/java/com.khan.baron.voicerecrpg', 'src/main/java/com.khan.baron.voicerecrpg/actions']
+            res.srcDirs = ['src/main/res', 'src/main/res/menu_main']
         }
     }
 }
