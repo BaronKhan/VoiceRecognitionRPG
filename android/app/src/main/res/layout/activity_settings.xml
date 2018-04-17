@@ -8,7 +8,7 @@
 
     <RadioGroup
         android:id="@+id/radioGroupMethod"
-        android:layout_width="333dp"
+        android:layout_width="355dp"
         android:layout_height="287dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
