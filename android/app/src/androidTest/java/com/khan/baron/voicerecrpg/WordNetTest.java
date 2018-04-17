@@ -68,7 +68,7 @@ public class WordNetTest {
     public void testHypernyms() {
         String input = "dog";
         try {
-            MaxentTagger tagger = gameState.mBattleVoiceProcess.mTagger;
+            MaxentTagger tagger = VoiceProcess.sTagger;
             IDictionary dict = gameState.mBattleVoiceProcess.mDict;
 
             String tagged = null;
@@ -143,22 +143,19 @@ public class WordNetTest {
         }
     }
 
-    double testCompute(ILexicalDatabase db, String word1, String word2) {
-        WS4JConfiguration.getInstance().setMFS(true);
-        double s = new WuPalmer(db).calcRelatednessOfWords(word1, word2);
-        return s;
-    }
-
     @Test
     public void testCustomWordNet() {
         try {
             String output = "";
             ILexicalDatabase db = new CustomWordNet(gameState.mBattleVoiceProcess.mDict);
+            SemanticSimilarity.getInstance().init(db);
 
             String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
             for (int i = 0; i < words.length - 1; i++) {
                 for (int j = i + 1; j < words.length; j++) {
-                    double distance = testCompute(db, words[i], words[j]);
+                    double distance = SemanticSimilarity
+                            .getInstance()
+                            .calculateScore(words[i], words[j]);
                     output += words[i] + " -  " + words[j] + " = " + distance + "\n";
                 }
             }

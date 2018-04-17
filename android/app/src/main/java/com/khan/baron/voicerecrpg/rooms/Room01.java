@@ -27,21 +27,21 @@ public class Room01 extends Room {
     public String getRoomDescription() {
         //TODO: generate room description using NLP (the impossible task)
         String roomOutput = "";
-        roomOutput += "You are in a room with a locked door in front of you.";
+        roomOutput += " - You are in a room with a locked door in front of you.\n";
         if (getRoomObjectCount("table") > 0) {
-            roomOutput +=  "There is a glass table in the middle of the room.";
+            roomOutput +=  " - There is a glass table in the middle of the room.\n";
         }
         if (getRoomObjectCount("knife") > 0) {
             if (getRoomObjectCount("table") > 0) {
-                roomOutput += " There is a knife on the table.";
+                roomOutput += " - There is a knife on the table.\n";
             } else {
-                roomOutput += " A knife lays on the floor with the broken table.";
+                roomOutput += " - A knife lays on the floor with the broken table.\n";
             }
         }
         if (getRoomState() == StateRoom01.START.ordinal()) {
-            roomOutput += " A painting of a tree hangs by a string on the wall to your left.";
+            roomOutput += " - A painting of a tree hangs by a string on the left wall.\n";
         } else {
-            roomOutput += " The painting that was on the wall lies on the floor.";
+            roomOutput += " - The painting that was on the wall lies on the floor.";
         }
         return roomOutput;
     }

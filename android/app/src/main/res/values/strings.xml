@@ -2,4 +2,8 @@
     <string name="app_name">Voice Recognition RPG</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="action_settings">Settings</string>
+    <string name="method_wuplin">Combined (WUP + LIN)</string>
+    <string name="method_wup">WUP</string>
+    <string name="method_lin">LIN</string>
+    <string name="switch_battle">Initialize with Battle</string>
 </resources>

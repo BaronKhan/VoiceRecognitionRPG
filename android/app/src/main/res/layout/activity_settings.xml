@@ -7,6 +7,7 @@
     tools:context=".SettingsActivity">
 
     <RadioGroup
+        android:id="@+id/radioGroupMethod"
         android:layout_width="358dp"
         android:layout_height="287dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,33 +16,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.071">
 
-        <RadioButton
-            android:id="@+id/radioButton"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RadioButton" />
+            android:text="Semantic Similarity Method" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioButtonWUPLIN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RadioButton" />
+            android:text="@string/method_wuplin" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/radioButtonWUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RadioButton" />
+            android:text="@string/method_wup" />
+
+        <RadioButton
+            android:id="@+id/radioButtonLIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/method_lin" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/switchOverworld"
             android:layout_width="355dp"
             android:layout_height="130dp"
             android:layout_weight="1"
-            android:text="Switch"
+            android:text="@string/switch_battle"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="303dp" />
     </RadioGroup>

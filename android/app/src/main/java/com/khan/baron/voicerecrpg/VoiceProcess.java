@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.ws4j.impl.Lin;
-import edu.cmu.lti.ws4j.impl.WuPalmer;
-import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
@@ -30,22 +26,18 @@ public class VoiceProcess {
     protected GlobalState mState;
     protected ContextActionMap mContextActionMap;
 
-    protected Entity mActionContext; //stores the name of the context
+    protected Entity mActionContext; //Stores the name of the context
 
     protected IDictionary mDict = null;
-    static MaxentTagger sTagger = null;
 
-    //Semantic Similarity Engine
-    protected ILexicalDatabase mDb = null;
+    //Made static to avoid out-of-space GC allocation errors
+    protected static MaxentTagger sTagger = null;
 
     public VoiceProcess(
             Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
         mMainActivity = mainActivity;
         mState = state;
         mContextActionMap = contextActionMap;
-
-        //Use all senses, not just most frequent sense (slower but more accurate)
-        WS4JConfiguration.getInstance().setMFS(false);
 
         if (sTagger == null) {
             try {
@@ -151,7 +143,8 @@ public class VoiceProcess {
     public void addDictionary(URL url) throws IOException {
         mDict = new Dictionary(url);
         mDict.open();
-        mDb = new CustomWordNet(mDict);
+        //Semantic Similarity Engine
+        SemanticSimilarity.getInstance().init(new CustomWordNet(mDict));
     }
 
     public Entity getActionContext() { return mActionContext; }
@@ -185,7 +178,7 @@ public class VoiceProcess {
                         }
                         return new Pair<>(i, action);
                     } else {
-                        double score = calculateScore(action, word);
+                        double score = SemanticSimilarity.getInstance().calculateScore(action, word);
                         if (score > bestScore) {
                             bestScore = score;
                             bestIndex = i;
@@ -242,7 +235,7 @@ public class VoiceProcess {
                         removeWordAtIndex(words, tags, i);
                         return target;
                     }
-                    double score = calculateScore(word, targetName);
+                    double score = SemanticSimilarity.getInstance().calculateScore(word, targetName);
                     if (score > bestScore) {
                         bestScore = score;
                         bestIndex = i;
@@ -287,7 +280,7 @@ public class VoiceProcess {
                         bestIndex = i;
                         break;
                     }
-                    double score = calculateScore(word, contextName);
+                    double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
                     if (score > bestScore) {
                         bestScore = score;
                         bestContext = context;
@@ -350,40 +343,6 @@ public class VoiceProcess {
             }
         }
         return candidateContext;
-    }
-
-    //TODO: calculate cosine similarity of definitions
-//    private double calculateDefinitionCosSimilarity(String word1, String word2) {
-//        String gloss1 = mDict.getWord(mDict.getIndexWord(word1, POS.NOUN).getWordIDs().get(0)).getSynset().getGloss();
-//        Log.d(word1, gloss1);
-//        String gloss2 = mDict.getWord(mDict.getIndexWord(word2, POS.NOUN).getWordIDs().get(0)).getSynset().getGloss();
-//        Log.d(word2, gloss2);
-//        // Go through all synsets
-//        return 0.0;
-//    }
-
-    private double calculateScore(String word1, String word2) {
-        if (mDb == null) {
-            Toast.makeText(mMainActivity, "Error while parsing: ILexicalDatabase not loaded",
-                    Toast.LENGTH_LONG).show();
-            return 0.0;
-        }
-        double score1, score2, score3, score;
-        try {
-            score1 = new WuPalmer(mDb).calcRelatednessOfWords(word1, word2);
-            score2 = new Lin(mDb).calcRelatednessOfWords(word1, word2);
-//            score3 = calculateDefinitionCosSimilarity(word1, word2);
-            if (score2 > 0) {
-                score = (score1*0.75) + (score2*0.25);
-            } else {
-                score = score1;
-            }
-        } catch (Exception e) {
-            Toast.makeText(mMainActivity, "Error while parsing: Unsupported POS Pairs",
-                    Toast.LENGTH_LONG).show();
-            score = 0.0;
-        }
-        return score;
     }
 
     private List<String> getTags(String input) {

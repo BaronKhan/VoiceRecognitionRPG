@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.khan.baron.voicerecrpg.actions.sharedActions.ShowActions;
 import com.khan.baron.voicerecrpg.enemies.Enemy;
+import com.khan.baron.voicerecrpg.enemies.Troll;
 import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
@@ -38,6 +39,8 @@ public class GameState extends GlobalState {
 
     protected String mInitOutput;
 
+    private static boolean sStartOverworld = true;
+
     public GameState(Activity mainActivity) {
         mMainActivity = mainActivity;
         mGameMode = MODE_OVERWORLD;
@@ -64,8 +67,8 @@ public class GameState extends GlobalState {
         mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
         mInventory.add(new Item("letter", Item.ItemType.ITEM_KEY, "paper", "document"));
-//        initBattleState(new Troll(100));
-        initOverworldState(new Room01());
+        if (sStartOverworld) { initOverworldState(new Room01()); }
+        else { initBattleState(new Troll(100)); }
     }
 
     public Entity getBattleActionContext() { return mBattleVoiceProcess.getActionContext(); }
@@ -169,4 +172,12 @@ public class GameState extends GlobalState {
     public String getInitOutput() { return mInitOutput; }
 
     public void setInitOutput(String mInitStr) { this.mInitOutput = mInitStr; }
+
+    public static boolean getStartOverworld() {
+        return sStartOverworld;
+    }
+
+    public static void setStartOverworld(boolean sStartOverworld) {
+        GameState.sStartOverworld = sStartOverworld;
+    }
 }
