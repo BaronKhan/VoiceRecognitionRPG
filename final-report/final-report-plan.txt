@@ -71,5 +71,10 @@ Mock testing
 Evaluation of effectiveness of slot-filling
 
 Evaluation of semantic similarity
+(pick action maps to knife instead of grab!)
 
-Evaluation on effectivenesss of learning mechanism
+Evaluation of effectivenesss of learning mechanism
+
+Appendix:
+Screeenshots of app
+Include github statistics

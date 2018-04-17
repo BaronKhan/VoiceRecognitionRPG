@@ -13,8 +13,12 @@ public class CutWeaponNotSharp extends Action {
             GameState gameState = (GameState) state;
             if (gameState.getCurrentRoom().hasRoomObject(currentTarget.getName())) {
                 if (currentTarget instanceof PhysicalObject && ((PhysicalObject) currentTarget).isCuttable()) {
-                    return "The "+gameState.getOverworldActionContext().getName()+" is not sharp"
-                            +" enough to cut the "+currentTarget.getName();
+                    String output = "The "+gameState.getOverworldActionContext().getName()+" is not sharp"
+                            +" enough to cut the "+currentTarget.getName()+".";
+                    if (gameState.getCurrentRoom().hasRoomObjectWithDescription("sharp")) {
+                        output += "\nThere may be a sharper object you can pick up in the room.";
+                    }
+                    return output;
                 } else {
                     return "You cannot cut the "+currentTarget.getName()+".";
                 }

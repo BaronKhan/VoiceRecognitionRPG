@@ -60,8 +60,20 @@ public abstract class Room extends Entity {
         return count;
     }
 
+    public int getRoomObjectCountWithDescription(String description) {
+        int count = 0;
+        for (Entity roomObject : mRoomObjects) {
+            if (roomObject.descriptionHas(description)) { ++count; }
+        }
+        return count;
+    }
+
     public boolean hasRoomObject(String name) {
         return (getRoomObjectCount(name) > 0);
+    }
+
+    public boolean hasRoomObjectWithDescription(String description) {
+        return (getRoomObjectCountWithDescription(description) > 0);
     }
 
     public int getRoomState() {

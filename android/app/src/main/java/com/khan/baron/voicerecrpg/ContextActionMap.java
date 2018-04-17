@@ -20,6 +20,7 @@ public abstract class ContextActionMap extends Entity {
     protected List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
+    protected Map<String, String> mIgnoreMap = new HashMap<>();
 
     public ContextActionMap(GlobalState state) {
         super("actions", "commands", "options");
@@ -84,6 +85,14 @@ public abstract class ContextActionMap extends Entity {
 
     public boolean hasSynonym(String synonym) {
         return mSynonymMap.keySet().contains(synonym);
+    }
+
+    public void addMatchIgnore(String ignore, String action) {
+        mIgnoreMap.put(ignore,action);
+    }
+
+    public boolean wordIsIgnored(String ignore, String word) {
+        return mIgnoreMap.containsKey(ignore) && mIgnoreMap.get(ignore).equals(word);
     }
 
     public String getSynonymAction(String synonym) {

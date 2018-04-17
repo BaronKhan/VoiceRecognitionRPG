@@ -24,5 +24,8 @@ public class OverworldContextActionMap extends ContextActionMap {
         addContextActions("weapon-blunt",   null,               null,               new PickObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponBlunt());
 
         addSynonym("observe", "look");
+        addSynonym("grab", "pick");
+        addSynonym("obtain", "pick");
+        addMatchIgnore("knife", "pick");
     }
 }

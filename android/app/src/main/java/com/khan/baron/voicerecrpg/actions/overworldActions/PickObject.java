@@ -27,6 +27,6 @@ public class PickObject extends Action {
             return "You can't pick that up right now.";
         }
         state.actionFailed();
-        return "You can't do that right now";
+        return "You can't do that right now.";
     }
 }

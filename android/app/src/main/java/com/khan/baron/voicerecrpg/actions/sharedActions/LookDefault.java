@@ -6,6 +6,7 @@ import com.khan.baron.voicerecrpg.GameState;
 import com.khan.baron.voicerecrpg.GlobalState;
 import com.khan.baron.voicerecrpg.Inventory;
 import com.khan.baron.voicerecrpg.actions.Action;
+import com.khan.baron.voicerecrpg.objects.PhysicalObject;
 import com.khan.baron.voicerecrpg.rooms.Room;
 
 public class LookDefault extends Action {
@@ -17,6 +18,8 @@ public class LookDefault extends Action {
                 return new ShowInventory().execute(state, currentTarget);
             } else if (currentTarget instanceof ContextActionMap) {
                 return new ShowActions().execute(state, currentTarget);
+            } else if (currentTarget instanceof PhysicalObject) {
+                return "It looks like an ordinary "+currentTarget.getName()+".";
             } else {
                 if (gameState.getGameMode() == GameState.Mode.MODE_OVERWORLD) {
                     if (currentTarget instanceof Room) {

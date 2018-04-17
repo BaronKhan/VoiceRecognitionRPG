@@ -172,6 +172,7 @@ public class VoiceProcess {
                     return new Pair<>(i, mContextActionMap.getSynonymAction(word));
                 }
                 for (String action : actionsList) {
+                    if (mContextActionMap.wordIsIgnored(word, action)) { continue; }
                     if (word.equals(action)) {
                         if (deleteWord) {
                             removeWordAtIndex(words, tags, i);
@@ -227,6 +228,7 @@ public class VoiceProcess {
             String word = words.get(i);
             for (Entity target : possibleTargetList) {
                 String targetName = target.getName();
+                if (mContextActionMap.wordIsIgnored(word, targetName)) { continue; }
                 if (word.equals(targetName)) {
                     removeWordAtIndex(words, tags, i);
                     return target;
@@ -268,6 +270,7 @@ public class VoiceProcess {
             String word = words.get(i);
             for (Entity context : possibleContextList) {
                 String contextName = context.getName();
+                if (mContextActionMap.wordIsIgnored(word, contextName)) { continue; }
                 if (word.equals(contextName)) {
                     bestScore = 1.0;
                     bestContext = context;

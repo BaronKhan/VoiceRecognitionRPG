@@ -8,20 +8,21 @@
 
     <RadioGroup
         android:id="@+id/radioGroupMethod"
-        android:layout_width="358dp"
+        android:layout_width="333dp"
         android:layout_height="287dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.071">
+        app:layout_constraintVertical_bias="0.133">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Semantic Similarity Method" />
+            android:text="@string/semantic_similarity_method" />
 
         <RadioButton
             android:id="@+id/radioButtonWUPLIN"
