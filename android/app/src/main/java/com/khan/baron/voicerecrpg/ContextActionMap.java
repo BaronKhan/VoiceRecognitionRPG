@@ -1,5 +1,7 @@
 package com.khan.baron.voicerecrpg;
 
+import android.content.Context;
+
 import com.khan.baron.voicerecrpg.actions.Action;
 
 import java.util.ArrayList;
@@ -97,6 +99,20 @@ public abstract class ContextActionMap extends Entity {
 
     public String getSynonymAction(String synonym) {
         return (hasSynonym(synonym)) ? mSynonymMap.get(synonym) : synonym;
+    }
+
+    public boolean hasPossibleTarget(String name) {
+        for (Entity target : mPossibleTargets) {
+            if (target.getName().equals(name)) { return true; }
+        }
+        return false;
+    }
+
+    public boolean hasPossibleContext(String name) {
+        for (Entity context : mPossibleContexts) {
+            if (context.getName().equals(name)) { return true; }
+        }
+        return false;
     }
 
 }

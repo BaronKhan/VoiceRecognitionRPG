@@ -164,7 +164,9 @@ public class VoiceProcess {
         for (int i: candidateActions) {
             String word = words.get(i);
             //ignore with/use words
-            if (!(word.equals("use") || word.equals("with") || word.equals("using"))) {
+            if (!(word.equals("use") || word.equals("with") || word.equals("using")
+                    || mContextActionMap.hasPossibleTarget(word)
+                    || mContextActionMap.hasPossibleContext(word))) {
                 if (mContextActionMap.hasSynonym(word)) {
                     if (deleteWord) {
                         removeWordAtIndex(words, tags, i);

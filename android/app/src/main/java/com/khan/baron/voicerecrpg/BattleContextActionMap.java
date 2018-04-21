@@ -24,7 +24,6 @@ public class BattleContextActionMap extends ContextActionMap {
 
         addSynonym("punch", "attack");
         addSynonym("recover","heal");
-        addSynonym("regenerate","heal");
         addSynonym("observe","look");
     }
 }
