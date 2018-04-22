@@ -416,9 +416,28 @@ The language used to develop the application is Java, which is an object-oriente
 A disadvantage to using Java is that it does not support multiple inheritance, unlike other languages with OOP constructs such as C++, due to methods such as \texttt{super()} having the same signature for all parent classes. For instance, a Glass class cannot inherit properties from both a PhysicalObject and a BreakableObject (i.e. they are both direct parents of the Glass class). Instead, this must be overcome by making the inheritance a single chain (e.g. Glass inherits from BreakableObject which inherits from Physical Object). While this can be considered a hindrance in some circumstances, it is not a major issue for the proposed design of the game.
 \\
 \\
-While Java applications - and therefore Android - support the invocation of native code such as C++ using the Java Native Interface for improved performance, this will not be used due to time constraints for the project (as performance is not a major objective for this project).
+While Java applications - and therefore Android - support the invocation of native code such as C++ using the Java Native Interface (JNI) for improved performance, this will not be used due to time constraints for the project (as performance is not a major objective for this project).
 
 \subsection{System Overview}
+
+The following is a brief description of the voice recognition system, including the main components and the general flow of data.
+\\
+\\
+The voice recognition system takes as input the raw microphone input containing the player's utterance, and outputs the execution of a developer-defined action based on the player's utterance. Figure \ref{fig:flow-chart} shows a simple flow chart outlining the main stages of the voice recognition system form input to output.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{flow-chart.png}
+  \caption{A flow chart showing the general stages of the voice recognition system. Graph generated using Graphviz.}
+  \label{fig:flow-chart}
+  \end{center}
+\end{figure}
+\end{center}
+
+The audio from the microphone input is processed into a text string using a Speech-to-Text (STT) engine.
+
+\subsection{System UML Class Diagram}
 
 Figure \ref{fig:system-overview} shows a simplified UML class diagram focusing on the classes used for the voice recognition system, including the inheritance and associations of the classes. Although the \texttt{GameState} class is related to the game system, it helps to illustrate the overall system design. Only the important member fields and methods are shown for each class.
 \\
@@ -454,6 +473,14 @@ When the \texttt{SpeechRecognizer} instance performs a Speech-to-Text translatio
 The \texttt{VoiceProcess} class is responsible for processing the string input containing the player's utterance that is received from teh \texttt{VoiceControl} class. It contains the bulk of the NLP processing described later.
 
 \subsubsection{\texttt{GlobalState} Class}
+
+The \texttt{GlobalState} class is a generic abstract class that can be derived from in order to pass around environment objects between method calls easily. For example, if a method wishes to access an instance of an \texttt{Inventory} class (to access the game's items), then a reference to the inventory can be held in a class derived from \texttt{GlobalState} (e.g. \texttt{GameState}).
+
+\subsubsection{\texttt{ContextActionMap} Class}
+
+The \texttt{ContextActionMap} class contains the mapping of contexts to actions. It is an abstract class that is overloaded by the developer to add mappings of different ways of performing actions based on the given context (e.g. "attack with a sword" versus "attack with a knife").
+
+\subsubsection{\texttt{Semantic Similarity} Class}
 
 \newpage
 \section{Appendix}
@@ -499,7 +526,7 @@ $$
 Below is the UML class diagram for the voice recognition system used in the Android app. This was automatically generated using the third-party \textit{simpleUML} plugin for Android Studio.
 \\
 \\
-\includegraphics[scale=0.33]{system-uml.png}
+\includegraphics[scale=0.37]{system-uml.png}
 
 \newpage
 \addcontentsline{toc}{section}{References}

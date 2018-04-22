@@ -28,13 +28,16 @@ __Design__
 Overview:
 - Chose Android
 
-Overall structure:
+System Overview:
+Explain slot filling approach
+NLP techniques (semanitc similarity)
 
 Show a UML diagram of the following:
 - MainActivity
 - VoiceControl
 - GameState
 - VoiceProcess (actual NLP engine)
+- SemanticSimilarity (singleton, mention Android activity states)
 Explain each one
 
 Design Patterns:
@@ -63,6 +66,8 @@ __Implemenation__
 UI:
 
 CustomWordNet
+
+Android profiler for performance
 
 __Evaluation__
 
