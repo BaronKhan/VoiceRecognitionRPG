@@ -62,7 +62,6 @@ public class BattleTest {
         testAttackedTroll("hit", true);
         testAttackedTroll("hit the troll", true);
         testAttackedTroll("punch the troll", true);
-        testAttackedTroll("kick the troll", true);
         assertEquals(gameState.updateState("heal").contains("attacked"), false);
         testAttackedTroll("heal", false);
         testAttackedTroll("launch an assault", true);
@@ -109,7 +108,6 @@ public class BattleTest {
         testHealed("use an elixer right now before it is too late to heal", true);
         testHealed("recover with an elixer", true);
         testHealed("Use something to heal with", true);
-        testHealed("Use something to regenerate with", true);
     }
 
     @Test
@@ -179,5 +177,24 @@ public class BattleTest {
         assertEquals(gameState.updateState("strike means attack")
                 .contains("synonym"), true);
         testAttackedTroll("strike the troll", true);
+    }
+
+    @Test
+    public void testConfirmation() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.mInventory.add(new Potion("potion"));
+        assertEquals(gameState.updateState("obliterate the troll with the sword")
+                .contains("you mean, \"attack"), true);
+        testAttackedWithSword("yeah", true);
+        assertEquals(gameState.updateState("kick the troll")
+                .contains("you mean, \"attack"), true);
+        testAttackedWithSword("yeah", true);
+        assertEquals(gameState.updateState("regenerate using a potion")
+                .contains("you mean, \"heal"), true);
+        testHealed("yes", true);
+//        assertEquals(gameState.updateState("Use something to regenerate with")
+//                .contains("you mean, \"heal"), true);
+//        testHealed("yes", true);
     }
 }

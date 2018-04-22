@@ -79,6 +79,7 @@ public class OverworldTest {
         gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
         testInventoryShown("show my inventory", true);
         testInventoryShown("show my troll", false);
+        gameState.updateState("no");   //previous intent was misunderstood
         testInventoryShown("show my bag", true);
         testInventoryShown("please show the contents of my possessions that I have", true);
     }

@@ -5,6 +5,8 @@ import android.os.Environment;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.khan.baron.voicerecrpg.actions.Action;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +35,14 @@ public class VoiceProcess {
     //Made static to avoid out-of-space GC allocation errors
     protected static MaxentTagger sTagger = null;
 
+    //Confirmation state
+    private boolean mAmbiguousAction = false;
+    private boolean mAmbiguousTarget = false;
+    private boolean mAmbiguousContext = false;
+    private boolean mExpectingReply = false;
+    private Action mPendingAction = null;
+    private Entity mPendingCurrentTarget = null;
+
     public VoiceProcess(
             Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
         mMainActivity = mainActivity;
@@ -59,7 +69,21 @@ public class VoiceProcess {
         String actionOutput = "";
         if (mDict == null) { return "Error: WordNet not loaded."; }
 
+        if (mExpectingReply) {
+            mExpectingReply = false;
+            if (input.contains("yes") || input.contains("yeah") || input.contains("yup")) {
+                if (mPendingAction != null && mPendingCurrentTarget != null) {
+                    return mPendingAction.execute(mState, mPendingCurrentTarget);
+                }
+            } else {
+                return "Intent ignored.";
+            }
+        }
+
         mState.actionFailed();  // by default, we fail to execute input
+        mAmbiguousAction = false;
+        mAmbiguousTarget = false;
+        mAmbiguousContext = false;
 
         // Tokenize and tag input
         List<String> words = new ArrayList<>(new LinkedList<>(Arrays.asList(input.split(" "))));
@@ -96,7 +120,9 @@ public class VoiceProcess {
             Entity currentTarget;
             String chosenContext;
 
-            if (useAltSlotFillingStructure(words, tags, actionPair.first)) {
+            boolean usingAltSFS = useAltSlotFillingStructure(words, tags, actionPair.first);
+
+            if (usingAltSFS) {
                 // SFS: with/use CONTEXT ACTION TARGET
                 chosenContext = getBestContext(words, tags, true);
                 actionPair = getBestAction(words, tags);
@@ -114,15 +140,27 @@ public class VoiceProcess {
                     actionOutput += "You cannot " + chosenAction + " with that. Ignoring...\n";
                     chosenContext = "default";
                 }
-            } else { chosenContext = "default"; }
+            } else {
+                chosenContext = "default";
+            }
 
             if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
                 actionOutput += "Intent not understood.";
             } else {
-                actionOutput += mContextActionMap
-                        .get(chosenContext)
-                        .get(chosenAction)
-                        .execute(mState, currentTarget);
+                Action action = mContextActionMap.get(chosenContext).get(chosenAction);
+                //Check for ambiguous intent
+                if (mAmbiguousAction || mAmbiguousTarget || mAmbiguousContext) {
+                    mExpectingReply = true;
+                    mPendingAction = action;
+                    mPendingCurrentTarget = currentTarget;
+                    String pendingIntent =
+                            buildIntent(chosenAction, currentTarget,
+                                    mActionContext, usingAltSFS);
+                    actionOutput += "Intent not understood.\nDid you mean, \""+pendingIntent+"\"? "
+                            +"(yes/no)";
+                } else {
+                    actionOutput += action.execute(mState, currentTarget);
+                }
             }
         } else {
             if (words.contains("use") || words.contains("with") || words.contains("using")) {
@@ -138,6 +176,23 @@ public class VoiceProcess {
         }
 
         return actionOutput;
+    }
+
+    private String buildIntent(String action, Entity target, Entity context, boolean usingAltSFS) {
+        Entity defaultTarget = mContextActionMap.getDefaultTarget();
+        if (usingAltSFS) {
+            return (context == null || context.getName().equals("default")
+                        ? ""
+                        : "use "+context.getName()+" to ")
+                    +action
+                    +((target != defaultTarget) ? " the "+target.getName() : "");
+        } else {
+            return action
+                    +((target != defaultTarget) ? " the "+target.getName() : "")
+                    +(context == null || context.getName().equals("default")
+                        ? ""
+                        : " with "+context.getName());
+        }
     }
 
     public void addDictionary(URL url) throws IOException {
@@ -157,7 +212,7 @@ public class VoiceProcess {
             List<String> words, List<String> tags, boolean deleteWord)
     {
         List<Integer> candidateActions = getCandidateActions(tags);
-        double bestScore = 0.7;
+        double bestScore = 0.5; //0.7
         int bestIndex = -1;
         String bestAction = "<none>";
         List<String> actionsList = mContextActionMap.getActions();
@@ -197,6 +252,8 @@ public class VoiceProcess {
             removeWordAtIndex(words, tags, bestIndex);
         }
 
+        if (bestScore > 0.5 && bestScore < 0.8) { mAmbiguousAction = true; }
+
         return new Pair<>(bestIndex, bestAction);
     }
 
@@ -223,7 +280,7 @@ public class VoiceProcess {
                 candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
             return mContextActionMap.mDefaultTarget;
         }
-        double bestScore = 0.8;
+        double bestScore = 0.7; //0.8
         int bestIndex = -1;
         Entity bestTarget = null;
         for (int i: candidateTargets) {
@@ -252,6 +309,7 @@ public class VoiceProcess {
             return mContextActionMap.mDefaultTarget;
         } else {
             removeWordAtIndex(words, tags, bestIndex);
+            if (bestScore > 0.7 && bestScore < 0.8) { mAmbiguousTarget = true; }
             return bestTarget;
         }
     }
@@ -263,7 +321,7 @@ public class VoiceProcess {
                 candidateContext.size() < 1 || possibleContextList.size() < 1) {
             return "default";
         }
-        double bestScore = 0.8;
+        double bestScore = 0.6; //0.8
         Entity bestContext = null;
         int bestIndex = -1;
         String bestContextWord = "<none>";
@@ -272,7 +330,8 @@ public class VoiceProcess {
             String word = words.get(i);
             for (Entity context : possibleContextList) {
                 String contextName = context.getName();
-                if (mContextActionMap.wordIsIgnored(word, contextName)) { continue; }
+                if (mContextActionMap.wordIsIgnored(word, contextName)
+                        || mContextActionMap.getActions().contains(word)) { continue; }
                 if (word.equals(contextName)) {
                     bestScore = 1.0;
                     bestContext = context;
@@ -301,6 +360,7 @@ public class VoiceProcess {
             bestContextWord = bestContext.getContext();
             mActionContext = bestContext;
             removeWordAtIndex(words, tags, bestIndex);
+            if (bestScore > 0.6 && bestScore < 0.8) { mAmbiguousContext = true; }
         }
 
         return bestContextWord;

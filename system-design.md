@@ -132,16 +132,27 @@ ContextActionMap
 POS tagger
 ----------------
 
-VERB = v
-NOUN = n
-ADVERB = r
-ADJECTIVE = a
-CAll getTag function to get this letter
+- VERB = v
+- NOUN = n
+- ADVERB = r
+- ADJECTIVE = a
+- CAll getTag function to get this letter
 
 Synset IDs have SID- infront, must remove
+
 
 Recursive action calls
 ------------------
 
 - Execute several actions in one input
 - Segment phrases with "and" as a delimiter?
+
+
+Confirmation
+------------------
+
+Problem: Semantic similarity messes up sometimes
+"smash the table with a hammer"
+"regenerate with a potion"
+- Did you mean? If so, then create synonym mapping
+- either action, target or context ambiguous
