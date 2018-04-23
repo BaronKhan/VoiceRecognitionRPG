@@ -78,6 +78,9 @@ public class VoiceProcess {
             } else {
                 return "Intent ignored.";
             }
+        } else {
+            mPendingAction = null;
+            mPendingCurrentTarget = null;
         }
 
         mState.actionFailed();  // by default, we fail to execute input
@@ -86,7 +89,8 @@ public class VoiceProcess {
         mAmbiguousContext = false;
 
         // Tokenize and tag input
-        List<String> words = new ArrayList<>(new LinkedList<>(Arrays.asList(input.split(" "))));
+        List<String> words =
+                new ArrayList<>(new LinkedList<>(Arrays.asList(input.toLowerCase().split(" "))));
         List<String> tags = getTags(input);
         removeContractions(words, tags);
         if (words.size()!=tags.size()) {
@@ -102,10 +106,10 @@ public class VoiceProcess {
             if (firstWord != null && secondWord != null) {
                 if (mContextActionMap.getActions().contains(secondWord)) {
                     mContextActionMap.addSynonym(firstWord, secondWord);
-                    return "Add synonym: " + firstWord + " --> " + secondWord;
+                    return "Added synonym: " + firstWord + " --> " + secondWord;
                 } else if (mContextActionMap.getActions().contains(firstWord)) {
                     mContextActionMap.addSynonym(secondWord, firstWord);
-                    return "Add synonym: " + firstWord + " --> " + secondWord;
+                    return "Added synonym: " + firstWord + " --> " + secondWord;
                 } else {
                     return "Sorry. Neither \"" + firstWord + "\" nor \"" + secondWord
                             + "\" are valid actions.";

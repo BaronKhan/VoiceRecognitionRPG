@@ -182,8 +182,8 @@ public class BattleTest {
     @Test
     public void testConfirmation() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
-        gameState.mInventory.add(new Potion("potion"));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
         assertEquals(gameState.updateState("obliterate the troll with the sword")
                 .contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
@@ -193,8 +193,8 @@ public class BattleTest {
         assertEquals(gameState.updateState("regenerate using a potion")
                 .contains("you mean, \"heal"), true);
         testHealed("yes", true);
-//        assertEquals(gameState.updateState("Use something to regenerate with")
-//                .contains("you mean, \"heal"), true);
-//        testHealed("yes", true);
+        assertEquals(gameState.updateState("use something to regenerate with")
+                .contains("you mean, \"use"), true);
+        testHealed("yes", true);
     }
 }
