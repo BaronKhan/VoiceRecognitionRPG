@@ -156,3 +156,4 @@ Problem: Semantic similarity messes up sometimes
 "regenerate with a potion"
 - Did you mean? If so, then create synonym mapping
 - either action, target or context ambiguous
+- Note: only update if user says same ambiguous phrase twice

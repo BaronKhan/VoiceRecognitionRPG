@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +44,7 @@ public class VoiceProcess {
     private Pair<String, String> mAmbiguousActionMap = null;    //mapping: synonym first
     private Pair<String, String> mAmbiguousTargetMap = null;
     private Pair<String, String> mAmbiguousContextMap = null;
+    private Map<String, Integer> mAmbiguousMap = new HashMap<>();   //TODO: add count of ambiguous, only change if greater than 1
 
     private boolean mExpectingReply = false;
     private Action mPendingAction = null;
@@ -106,8 +109,8 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
-        // Check for learning phrase
-        if (words.contains("means")) {
+        // Check for learning phrase ("___ means ___")
+        if (words.size() == 3 && words.contains("means")) {
             String firstWord = getFirstAction(words, tags);
             removeWordAtIndex(words, tags, words.indexOf("means"));
             String secondWord = getFirstAction(words, tags);
