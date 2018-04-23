@@ -36,9 +36,13 @@ public class VoiceProcess {
     protected static MaxentTagger sTagger = null;
 
     //Confirmation state
-    private boolean mAmbiguousAction = false;
-    private boolean mAmbiguousTarget = false;
-    private boolean mAmbiguousContext = false;
+    private boolean mIsAmbiguousAction = false;
+    private boolean mIsAmbiguousTarget = false;
+    private boolean mIsAmbiguousContext = false;
+    private Pair<String, String> mAmbiguousActionMap = null;    //mapping: synonym first
+    private Pair<String, String> mAmbiguousTargetMap = null;
+    private Pair<String, String> mAmbiguousContextMap = null;
+
     private boolean mExpectingReply = false;
     private Action mPendingAction = null;
     private Entity mPendingCurrentTarget = null;
@@ -73,7 +77,8 @@ public class VoiceProcess {
             mExpectingReply = false;
             if (input.contains("yes") || input.contains("yeah") || input.contains("yup")) {
                 if (mPendingAction != null && mPendingCurrentTarget != null) {
-                    return mPendingAction.execute(mState, mPendingCurrentTarget);
+                    return addAmbiguousSynonyms() + "\n"
+                            + mPendingAction.execute(mState, mPendingCurrentTarget);
                 }
             } else {
                 return "Intent ignored.";
@@ -84,9 +89,12 @@ public class VoiceProcess {
         }
 
         mState.actionFailed();  // by default, we fail to execute input
-        mAmbiguousAction = false;
-        mAmbiguousTarget = false;
-        mAmbiguousContext = false;
+        mIsAmbiguousAction = false;
+        mIsAmbiguousTarget = false;
+        mIsAmbiguousContext = false;
+        mAmbiguousActionMap = null;
+        mAmbiguousTargetMap = null;
+        mAmbiguousContextMap = null;
 
         // Tokenize and tag input
         List<String> words =
@@ -105,11 +113,9 @@ public class VoiceProcess {
             String secondWord = getFirstAction(words, tags);
             if (firstWord != null && secondWord != null) {
                 if (mContextActionMap.getActions().contains(secondWord)) {
-                    mContextActionMap.addSynonym(firstWord, secondWord);
-                    return "Added synonym: " + firstWord + " --> " + secondWord;
+                    return addSynonym(firstWord, secondWord);
                 } else if (mContextActionMap.getActions().contains(firstWord)) {
-                    mContextActionMap.addSynonym(secondWord, firstWord);
-                    return "Added synonym: " + firstWord + " --> " + secondWord;
+                    return addSynonym(secondWord, firstWord);
                 } else {
                     return "Sorry. Neither \"" + firstWord + "\" nor \"" + secondWord
                             + "\" are valid actions.";
@@ -153,7 +159,7 @@ public class VoiceProcess {
             } else {
                 Action action = mContextActionMap.get(chosenContext).get(chosenAction);
                 //Check for ambiguous intent
-                if (mAmbiguousAction || mAmbiguousTarget || mAmbiguousContext) {
+                if (mIsAmbiguousAction || mIsAmbiguousTarget || mIsAmbiguousContext) {
                     mExpectingReply = true;
                     mPendingAction = action;
                     mPendingCurrentTarget = currentTarget;
@@ -197,6 +203,25 @@ public class VoiceProcess {
                         ? ""
                         : " with "+context.getName());
         }
+    }
+
+    private String addSynonym(String synonym, String word) {
+        mContextActionMap.addSynonym(synonym, word);
+        return "Added synonym: " + synonym + " --> " + word + "\n";
+    }
+
+    private String addAmbiguousSynonyms() {
+        String output = "";
+        if (mAmbiguousActionMap != null) {
+            output += addSynonym(mAmbiguousActionMap.first, mAmbiguousActionMap.second);
+        }
+        if (mAmbiguousTargetMap != null) {
+            output += addSynonym(mAmbiguousTargetMap.first, mAmbiguousTargetMap.second);
+        }
+        if (mAmbiguousContextMap != null) {
+            output += addSynonym(mAmbiguousContextMap.first, mAmbiguousContextMap.second);
+        }
+        return output;
     }
 
     public void addDictionary(URL url) throws IOException {
@@ -251,12 +276,15 @@ public class VoiceProcess {
             }
         }
 
-        //Remove chosen action from list inputs
-        if (bestIndex > -1 && deleteWord) {
-            removeWordAtIndex(words, tags, bestIndex);
-        }
+        if (bestIndex > -1) {
+            if (bestScore > 0.5 && bestScore < 0.8) {
+                mIsAmbiguousAction = true;
+                mAmbiguousActionMap = new Pair<>(words.get(bestIndex), bestAction);
+            }
 
-        if (bestScore > 0.5 && bestScore < 0.8) { mAmbiguousAction = true; }
+            //Remove chosen action from list inputs
+            if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
+        }
 
         return new Pair<>(bestIndex, bestAction);
     }
@@ -312,8 +340,12 @@ public class VoiceProcess {
         if (bestTarget == null) {
             return mContextActionMap.mDefaultTarget;
         } else {
+            if (bestScore > 0.7 && bestScore < 0.8) {
+                mIsAmbiguousTarget = true;
+                mAmbiguousTargetMap = new Pair<>(words.get(bestIndex), bestTarget.getName());
+            }
             removeWordAtIndex(words, tags, bestIndex);
-            if (bestScore > 0.7 && bestScore < 0.8) { mAmbiguousTarget = true; }
+
             return bestTarget;
         }
     }
@@ -328,7 +360,7 @@ public class VoiceProcess {
         double bestScore = 0.6; //0.8
         Entity bestContext = null;
         int bestIndex = -1;
-        String bestContextWord = "<none>";
+        String bestContextType = "<none>";
         //Find best word
         for (int i : candidateContext) {
             String word = words.get(i);
@@ -361,13 +393,16 @@ public class VoiceProcess {
         }
 
         if (bestContext != null) {
-            bestContextWord = bestContext.getContext();
+            bestContextType = bestContext.getContext();
             mActionContext = bestContext;
+            if (bestScore > 0.6 && bestScore < 0.8) {
+                mIsAmbiguousContext = true;
+                mAmbiguousContextMap = new Pair<>(words.get(bestIndex), bestContext.getName());
+            }
             removeWordAtIndex(words, tags, bestIndex);
-            if (bestScore > 0.6 && bestScore < 0.8) { mAmbiguousContext = true; }
         }
 
-        return bestContextWord;
+        return bestContextType;
     }
 
     private List<Integer> getCandidateActions(List<String> tags) {

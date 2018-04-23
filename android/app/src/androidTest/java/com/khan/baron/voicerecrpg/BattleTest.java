@@ -40,15 +40,15 @@ public class BattleTest {
         }
     }
 
-    void testAttackedTroll(String input, boolean correctInput) {
+    private void testAttackedTroll(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input).contains("attacked the troll"), correctInput);
     }
 
-    void testAttackedWithHammer(String input, boolean correctInput) {
+    private void testAttackedWithHammer(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input).contains("hammer"), correctInput);
     }
 
-    void testAttackedWithSword(String input, boolean correctInput) {
+    private void testAttackedWithSword(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input).contains("sword"), correctInput);
     }
 
@@ -82,17 +82,16 @@ public class BattleTest {
         testAttackedWithSword("use a sword attack", true);
     }
 
-    void testHealed(String input, boolean correctInput) {
+    private void testHealed(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input).contains("healed"), correctInput);
     }
 
-    void testInventoryShown(String input, boolean correctInput) {
+    private void testInventoryShown(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input).contains("your inventory"), correctInput);
     }
 
     private void testLookAround(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input)
-                .contains("in battle"), correctInput);
+        assertEquals(gameState.updateState(input).contains("in battle"), correctInput);
     }
 
     @Test
@@ -165,8 +164,7 @@ public class BattleTest {
     @Test
     public void testShowActionsSuite() {
         gameState.initBattleState(new Troll(9999999));
-        assertEquals(gameState.updateState("show my commands")
-                .contains("following actions"), true);
+        assertEquals(gameState.updateState("show my commands").contains("following actions"), true);
         assertEquals(gameState.updateState("look at my actions")
                 .contains("following actions"), true);
     }
@@ -174,8 +172,7 @@ public class BattleTest {
     @Test
     public void testLearningSuite() {
         gameState.initBattleState(new Troll(9999999));
-        assertEquals(gameState.updateState("strike means attack")
-                .contains("synonym"), true);
+        assertEquals(gameState.updateState("strike means attack").contains("synonym"), true);
         testAttackedTroll("strike the troll", true);
     }
 
@@ -187,14 +184,15 @@ public class BattleTest {
         assertEquals(gameState.updateState("obliterate the troll with the sword")
                 .contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
-        assertEquals(gameState.updateState("kick the troll")
-                .contains("you mean, \"attack"), true);
+        assertEquals(gameState.updateState("kick the troll").contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
+        testAttackedWithSword("kick the troll", true);
         assertEquals(gameState.updateState("regenerate using a potion")
                 .contains("you mean, \"heal"), true);
-        testHealed("yes", true);
+        testHealed("no", false);
         assertEquals(gameState.updateState("use something to regenerate with")
                 .contains("you mean, \"use"), true);
         testHealed("yes", true);
+        testHealed("regenerate using a potion", true);
     }
 }
