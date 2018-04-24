@@ -20,7 +20,7 @@ public class Inventory extends Entity {
     public List<ContextActionMap> mMaps = new ArrayList<>();
 
     public Inventory(ContextActionMap ... maps) {
-        super("inventory", "bag", "possessions", "items", "weapons", "potions", "key");
+        super("inventory", "bag", "possessions", "items", "weapons", "potions");
         setContext("inventory");
         mItems = new ArrayList<>();
         mPastItems = new HashSet<>();
@@ -32,9 +32,8 @@ public class Inventory extends Entity {
 
     public void add(Item item) {
         mItems.add(item);
-        mPastItems.add(item.getName());
         for (ContextActionMap map : mMaps) {
-            map.setPossibleContexts(getContextList());
+            map.addPossibleContext(item);
         }
     }
 
@@ -83,6 +82,8 @@ public class Inventory extends Entity {
         for (Item item : mItems) {
             if (item.getName().equals(itemName)) {
                 mItems.remove(getItemPos(itemName));
+                mPastItems.add(item.getName());
+                for (ContextActionMap map : mMaps) { map.removePossibleContext(item); }
                 return;
             }
         }
@@ -90,9 +91,11 @@ public class Inventory extends Entity {
 
     public void remove(Item item) {
         mItems.remove(item);
+        mPastItems.add(item.getName());
+        for (ContextActionMap map : mMaps) { map.removePossibleContext(item); }
     }
 
-    public List<Entity> getContextList() {
+    public List<Entity> generateContextList() {
         List<Entity> temp = new ArrayList<>();
         for (Item i : mItems) {
             temp.add(i);

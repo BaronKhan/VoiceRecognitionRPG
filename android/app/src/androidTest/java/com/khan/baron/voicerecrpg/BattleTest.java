@@ -186,13 +186,17 @@ public class BattleTest {
         testAttackedWithSword("yeah", true);
         assertEquals(gameState.updateState("kick the troll").contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
+        assertEquals(gameState.updateState("kick").contains("you mean, \"attack"), true);
+        testAttackedWithSword("yeah", true);
+        // kick added as synonym
         testAttackedWithSword("kick the troll", true);
         assertEquals(gameState.updateState("regenerate using a potion")
                 .contains("you mean, \"heal"), true);
-        testHealed("no", false);
+        testHealed("yes", true);
         assertEquals(gameState.updateState("use something to regenerate with")
                 .contains("you mean, \"use"), true);
         testHealed("yes", true);
-        testHealed("regenerate using a potion", true);
+        //regenerate added as synonym
+        testHealed("regenerate", true);
     }
 }

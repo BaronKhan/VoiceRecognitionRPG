@@ -41,6 +41,7 @@ public abstract class ContextActionMap extends Entity {
 
     public void setPossibleContexts(List<Entity> contextList) { mPossibleContexts = contextList; }
     public void addPossibleContext(Entity context) { mPossibleContexts.add(context); }
+    public void removePossibleContext(Entity context) { mPossibleContexts.remove(context); }
     public List<Entity> getPossibleContexts() { return mPossibleContexts; }
 
     public void addPossibleContexts(List<Entity> contextList) {
@@ -51,6 +52,7 @@ public abstract class ContextActionMap extends Entity {
 
     public void setPossibleTargets(List<Entity> targetsList) { mPossibleTargets = targetsList; }
     public void addPossibleTarget(Entity target) { mPossibleTargets.add(target); }
+    public void removePossibleTarget(Entity target) { mPossibleTargets.remove(target); }
     public List<Entity> getPossibleTargets() { return mPossibleTargets; }
 
     public void addPossibleTargets(List<Entity> targetsList) {

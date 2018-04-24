@@ -44,7 +44,7 @@ public class VoiceProcess {
     private Pair<String, String> mAmbiguousActionMap = null;    //mapping: synonym first
     private Pair<String, String> mAmbiguousTargetMap = null;
     private Pair<String, String> mAmbiguousContextMap = null;
-    private Map<String, Integer> mAmbiguousMap = new HashMap<>();   //TODO: add count of ambiguous, only change if greater than 1
+    private Map<Pair<String, String>, Integer> mAmbiguousCount = new HashMap<>();
 
     private boolean mExpectingReply = false;
     private Action mPendingAction = null;
@@ -216,13 +216,25 @@ public class VoiceProcess {
     private String addAmbiguousSynonyms() {
         String output = "";
         if (mAmbiguousActionMap != null) {
-            output += addSynonym(mAmbiguousActionMap.first, mAmbiguousActionMap.second);
+            if (mAmbiguousCount.containsKey(mAmbiguousActionMap)) {
+                output += addSynonym(mAmbiguousActionMap.first, mAmbiguousActionMap.second);
+            } else {
+                mAmbiguousCount.put(mAmbiguousActionMap, 1);
+            }
         }
         if (mAmbiguousTargetMap != null) {
-            output += addSynonym(mAmbiguousTargetMap.first, mAmbiguousTargetMap.second);
+            if (mAmbiguousCount.containsKey(mAmbiguousTargetMap)) {
+                output += addSynonym(mAmbiguousTargetMap.first, mAmbiguousTargetMap.second);
+            } else {
+                mAmbiguousCount.put(mAmbiguousTargetMap, 1);
+            }
         }
         if (mAmbiguousContextMap != null) {
-            output += addSynonym(mAmbiguousContextMap.first, mAmbiguousContextMap.second);
+            if (mAmbiguousCount.containsKey(mAmbiguousContextMap)) {
+                output += addSynonym(mAmbiguousContextMap.first, mAmbiguousContextMap.second);
+            } else {
+                mAmbiguousCount.put(mAmbiguousContextMap, 1);
+            }
         }
         return output;
     }
