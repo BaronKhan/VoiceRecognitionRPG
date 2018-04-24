@@ -403,17 +403,17 @@ By assigning items different properties, we don't have to code the actions the u
 \section{Design}
 \subsection{Target Platform}
 
-According to Ovum's Mobile Games Market forecast for 2017-2022, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.
+According to Ovum's Mobile Games Market forecast for 2017-2022 RRR, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.
 \\
 \\
 The chosen platform to develop the voice recognition system and game will be Android mobile devices, as the availability of the open-source Google Speech-to-Text API means that less effort is required to get the text input from the user's utterance.
 
 \subsection{Java Programming Language}
 
-The language used to develop the application is Java, which is an object-oriented programming (OOP) language. The use of an OOP language makes it easier to create objects in a video game using the inheritance hierarchy. For example, there would be an abstract class for physical objects called \texttt{PhysicalObject}, and another class such as \texttt{Glass} would be a derived class of a PhysicalObject, and so on.
+The language used to develop the application is Java, which is an object-oriented programming (OOP) language. The use of an OOP language makes it easier to create objects in a video game using the inheritance hierarchy. For example, there would be an abstract class for physical objects called \texttt{PhysicalObject}, and another class such as \texttt{Glass} would be a derived class of a \texttt{PhysicalObject}, and so on.
 \\
 \\
-A disadvantage to using Java is that it does not support multiple inheritance, unlike other languages with OOP constructs such as C++, due to methods such as \texttt{super()} having the same signature for all parent classes. For instance, a Glass class cannot inherit properties from both a PhysicalObject and a BreakableObject (i.e. they are both direct parents of the Glass class). Instead, this must be overcome by making the inheritance a single chain (e.g. Glass inherits from BreakableObject which inherits from Physical Object). While this can be considered a hindrance in some circumstances, it is not a major issue for the proposed design of the game.
+A disadvantage to using Java is that it does not support multiple inheritance, unlike other languages with OOP constructs such as C++, due to methods such as \texttt{super()} having the same signature for all parent classes. For instance, a \texttt{Glass} class cannot inherit properties from both a \texttt{PhysicalObject} and a \texttt{BreakableObject} (i.e. they are both direct parents of the \texttt{Glass} class). Instead, this must be overcome by making the inheritance a single chain (e.g. \texttt{Glass} inherits from \texttt{BreakableObject} which inherits from \texttt{PhysicalObject}). While this can be considered a hindrance in some circumstances, it is not a major issue for the proposed design of the game.
 \\
 \\
 While Java applications - and therefore Android - support the invocation of native code such as C++ using the Java Native Interface (JNI) for improved performance, this will not be used due to time constraints for the project (as performance is not a major objective for this project).
@@ -435,7 +435,30 @@ The voice recognition system takes as input the raw microphone input containing 
 \end{figure}
 \end{center}
 
-The audio from the microphone input is processed into a text string using a Speech-to-Text (STT) engine.
+The steps are briefly described here and explained in more detail later on.
+
+\begin{itemize}
+\item The audio from the microphone input is processed into a text string using a Speech-to-Text (STT) engine. This string is then split up into a list of words.
+
+\item The list of words is then used to generate a list of Part-of-Speech (POS) tags. Each word in the list is passed to the POS tagger and added to the tag list.
+
+\item The word list is parsed using a slot-filling grammar, e.g. "\texttt{<ACTION> <TARGET> [with] <CONTEXT>}", or "\texttt{[use] <CONTEXT> [to] <ACTION> <TARGET>}".
+
+\item When performing the matching, the current word being parsed is sent to a semantic similarity engine, and a similarity score is calculated.
+
+\item If the player has specified an action to be done under a certain context, then the context-action mapping is consulted to find the correct method to execute. Otherwise, the default action method is chosen.
+
+\item Finally, the in-game function is executed, and the text output is returned, with the game state updated.
+\end{itemize}
+
+\subsubsection{Speech-to-Text}
+
+Android features a built-in speech recognition service, via its \texttt{SpeechRecognizer} class RRR, and this is used for the speech-to-text engine. While the API's primary method of speech recognition is via remote server communication, there is an option with the Android OS settings to perform offline speech recognition instead, by downloading the language data RRR.
+\\
+\\
+Using this API, the player's utterance is transformed into a text string, which is then processed by the rest of the voice recognition system. Using an existing speech-to-text API means that less time is spent trying to get the player's utterance from the microphone input.
+
+\subsubsection{POS Tagging}
 
 \subsection{System UML Class Diagram}
 
@@ -480,7 +503,9 @@ The \texttt{GlobalState} class is a generic abstract class that can be derived f
 
 The \texttt{ContextActionMap} class contains the mapping of contexts to actions. It is an abstract class that is overloaded by the developer to add mappings of different ways of performing actions based on the given context (e.g. "attack with a sword" versus "attack with a knife").
 
-\subsubsection{\texttt{Semantic Similarity} Class}
+\subsubsection{\texttt{SemanticSimilarity} Class}
+
+This class contains the semantic similarity engine used for calculating the semantic similarity of two words as a confidence value between 0.0 and 1.0, based on information in the WordNet database. It uses a singleton design pattern so we don't have to instantiate the class every time we want to perform a calculation in a different method, nor do we have to pass a reference to an instance around. It also allows us to use the same static instance across different Android Activity contexts (and therefore allowing the engine's parameters to be changed in a \textit{Settings} activity.)
 
 \newpage
 \section{Appendix}

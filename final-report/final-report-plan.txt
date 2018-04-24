@@ -40,6 +40,8 @@ Show a UML diagram of the following:
 - SemanticSimilarity (singleton, mention Android activity states)
 Explain each one
 
+Explain each step in the flow chart in more detail.
+
 Design Patterns:
 
 VoiceProcess:
@@ -83,3 +85,5 @@ Evaluation of effectivenesss of learning mechanism
 Appendix:
 Screeenshots of app
 Include github statistics
+
+Note: RRR is a reference location
