@@ -158,3 +158,15 @@ Problem: Semantic similarity messes up sometimes
 - Did you mean? If so, then create synonym mapping
 - either action, target or context ambiguous
 - Note: only update if user says same ambiguous phrase twice
+
+
+Performance Issues
+------------------
+
+Problem: command, "break the table" was taking too long, this is due to 
+"break" being the last action checked, so all the previous actions are
+using semantic similarity.
+
+
+Solution: use concurrency? ALso separate for loop into two separate for loops,
+ if a direct match is found then don't have to run semantic similarity

@@ -273,19 +273,22 @@ public class VoiceProcess {
                     return new Pair<>(i, mContextActionMap.getSynonymAction(word));
                 }
                 for (String action : actionsList) {
-                    if (mContextActionMap.wordIsIgnored(word, action)) { continue; }
+                    if (mContextActionMap.wordIsIgnored(word, action)) {
+                        continue;
+                    }
                     if (word.equals(action)) {
                         if (deleteWord) {
                             removeWordAtIndex(words, tags, i);
                         }
                         return new Pair<>(i, action);
-                    } else {
-                        double score = SemanticSimilarity.getInstance().calculateScore(action, word);
-                        if (score > bestScore) {
-                            bestScore = score;
-                            bestIndex = i;
-                            bestAction = action;
-                        }
+                    }
+                }
+                for (String action : actionsList) {
+                    double score = SemanticSimilarity.getInstance().calculateScore(action, word);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestIndex = i;
+                        bestAction = action;
                     }
                 }
             }
