@@ -147,6 +147,9 @@ Recursive action calls
 - Execute several actions in one input
 - Segment phrases with "and" as a delimiter?
 - Separate input across "and", "then"
+- Without and or let: use leftovers?
+- If intent is ambiguous? Have a partial queue and look for confirmation
+- Feed in yes or no each time until partial queue finished
 
 
 Confirmation

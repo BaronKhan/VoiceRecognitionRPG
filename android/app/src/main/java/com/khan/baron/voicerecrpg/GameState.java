@@ -131,7 +131,7 @@ public class GameState extends GlobalState {
             return totalOutput;
         } else {    //mGameMode == MODE_OVERWORLD
             String overworldOutput = "";
-            Queue<String> commandQueue = mBattleVoiceProcess.splitInput(input);
+            Queue<String> commandQueue = mOverworldVoiceProcess.splitInput(input);
             while (!commandQueue.isEmpty()) {
                 overworldOutput += mOverworldVoiceProcess.executeCommand(commandQueue)
                         + ((commandQueue.isEmpty()) ? "" : "\n\n---\n\n");

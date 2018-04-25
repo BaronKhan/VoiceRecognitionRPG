@@ -96,6 +96,7 @@ public class VoiceProcess {
         mAmbiguousActionMap = null;
         mAmbiguousTargetMap = null;
         mAmbiguousContextMap = null;
+        mActionContext = null;
 
         // Tokenize and tag input
         List<String> words =
@@ -501,4 +502,9 @@ public class VoiceProcess {
         return action;
     }
 
+    public boolean isExpectingReply() { return mExpectingReply; }
+
+    public void setExpectingReply(boolean mExpectingReply) {
+        this.mExpectingReply = mExpectingReply;
+    }
 }

@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.khan.baron.voicerecrpg.enemies.Troll;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
+import com.khan.baron.voicerecrpg.rooms.Room01;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -194,9 +195,20 @@ public class BattleTest {
                 .contains("you mean, \"heal"), true);
         testHealed("yes", true);
         assertEquals(gameState.updateState("use something to regenerate with")
-                .contains("you mean, \"use"), true);
+                .contains("you mean, \"heal"), true);
         testHealed("yes", true);
         //regenerate added as synonym
         testHealed("regenerate", true);
+    }
+
+    @Test
+    public void testMultipleCommandsSuite() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
+        assertEquals(gameState.updateState("obliterate the troll with the sword and then " +
+                "regenerate using a potion").contains("you mean, \"attack"), true);
+        testAttackedWithSword("yes", true);
+        testHealed("yeah", true);
     }
 }

@@ -12,6 +12,7 @@ import edu.mit.jwi.IDictionary;
 
 public class MultipleCommandProcess {
     private VoiceProcess mVoiceProcess;
+    private Queue<String> mPartialQueue;    //Used for ambiguous chain of commands
 
     public MultipleCommandProcess(VoiceProcess voiceProcess) { mVoiceProcess = voiceProcess; }
 
@@ -29,8 +30,28 @@ public class MultipleCommandProcess {
 
         String command = queue.peek();
         if (command != null) {
-            queue.remove();
-            return mVoiceProcess.processInput(command);
+            if (mVoiceProcess.isExpectingReply()) {
+                queue.clear();  //ignore the rest of the input
+                String result = "";
+                result += mVoiceProcess.processInput(command);    //process confirmation
+                String nextCommand = mPartialQueue.peek();
+                if (nextCommand != null) {
+                    mPartialQueue.remove();
+                    result += "\n\n---\n\n" + "Found command: \"" + nextCommand + "\"\n"
+                            + mVoiceProcess.processInput(nextCommand);
+                }
+                return result;
+            }
+            else {
+                queue.remove();
+                Object result = "Found command: \"" + command + "\"\n"
+                        + mVoiceProcess.processInput(command);
+                if (mVoiceProcess.isExpectingReply()) {
+                    mPartialQueue = new LinkedList<>(queue);
+                    queue.clear();
+                }
+                return result;
+            }
         } else { return null; }
     }
 
