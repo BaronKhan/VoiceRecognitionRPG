@@ -1,13 +1,8 @@
 package com.khan.baron.voicerecrpg;
 
-import android.content.Context;
 import android.os.Environment;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.khan.baron.voicerecrpg.enemies.Troll;
-import com.khan.baron.voicerecrpg.items.Item;
-import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
 import com.khan.baron.voicerecrpg.rooms.Room01;
 
@@ -16,21 +11,6 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
-
-import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.ws4j.impl.WuPalmer;
-import edu.cmu.lti.ws4j.util.WS4JConfiguration;
-import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ISynset;
-import edu.mit.jwi.item.ISynsetID;
-import edu.mit.jwi.item.IWord;
-import edu.mit.jwi.item.IWordID;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.Pointer;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import static org.junit.Assert.*;
 
@@ -160,5 +140,13 @@ public class OverworldTest {
                 .contains("following actions"), true);
         assertEquals(gameState.updateState("take a look at my actions")
                 .contains("following actions"), true);
+    }
+
+    @Test
+    public void testMultipleCommandsSuite() {
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState
+                .updateState("grab the knife and cut the painting then unlock the door")
+                .contains("opened"), true);
     }
 }

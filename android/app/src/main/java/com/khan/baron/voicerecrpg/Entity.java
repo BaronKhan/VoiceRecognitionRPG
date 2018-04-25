@@ -1,6 +1,7 @@
 package com.khan.baron.voicerecrpg;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,9 +15,7 @@ public abstract class Entity {
 
     public Entity(String name, String ... description) {
         mName = name;
-        for (String word : description) {
-            mDescription.add(word);
-        }
+        Collections.addAll(mDescription, description);
     }
 
     public String getContext() { return mContext; }

@@ -5,10 +5,6 @@ import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.khan.baron.voicerecrpg.enemies.Troll;
-import com.khan.baron.voicerecrpg.items.Potion;
-import com.khan.baron.voicerecrpg.items.Weapon;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,8 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.ws4j.impl.WuPalmer;
-import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.ISynset;
@@ -69,7 +63,7 @@ public class WordNetTest {
         String input = "dog";
         try {
             MaxentTagger tagger = VoiceProcess.sTagger;
-            IDictionary dict = gameState.mBattleVoiceProcess.mDict;
+            IDictionary dict = gameState.mBattleVoiceProcess.getDictionary();
 
             String tagged = null;
             if (tagger != null) {
@@ -102,26 +96,26 @@ public class WordNetTest {
             ISynset synset = word.getSynset();
 
             // get synonyms
-            String output = tagged + "\n\nsynonyms: \n";
+            StringBuilder output = new StringBuilder(tagged + "\n\nsynonyms: \n");
             for (IWord w : synset.getWords()) {
-                output += w.getLemma() + ", ";
+                output.append(w.getLemma()).append(", ");
             }
 
             // get hypernyms
-            output += "\n\nhypernyms: \n";
+            output.append("\n\nhypernyms: \n");
             List<ISynsetID> hypernymsList = synset.getRelatedSynsets(Pointer.HYPERNYM);
             for (ISynsetID sid : hypernymsList) {
                 List<IWord> words = dict.getSynset(sid).getWords();
-                output += "{";
-                for (Iterator<IWord> i = words.iterator(); i.hasNext(); ) {
-                    output += i.next().getLemma() + ", ";
+                output.append("{");
+                for (IWord word1 : words) {
+                    output.append(word1.getLemma()).append(", ");
                 }
-                output += "}, ";
+                output.append("}, ");
             }
 
             // print out the first hypernym branch of the word
             String currentWord = input;
-            output += "\n\nhypernym branch: \n" + currentWord + " --> ";
+            output.append("\n\nhypernym branch: \n").append(currentWord).append(" --> ");
             for (int i = 0; i < 5; ++i) {
                 IIndexWord idxWord2 = dict.getIndexWord(currentWord, tagType);
                 IWordID wordID2 = idxWord2.getWordIDs().get(0);
@@ -131,7 +125,7 @@ public class WordNetTest {
                 List<IWord> words = dict.getSynset(hypernymsList2.get(0)).getWords();
                 if (words.size() > 0) {
                     currentWord = words.get(0).getLemma();
-                    output += currentWord + " --> ";
+                    output.append(currentWord).append(" --> ");
                 } else {
                     break;
                 }
@@ -146,8 +140,8 @@ public class WordNetTest {
     @Test
     public void testCustomWordNet() {
         try {
-            String output = "";
-            ILexicalDatabase db = new CustomWordNet(gameState.mBattleVoiceProcess.mDict);
+            StringBuilder output = new StringBuilder();
+            ILexicalDatabase db = new CustomWordNet(gameState.mBattleVoiceProcess.getDictionary());
             SemanticSimilarity.getInstance().init(db);
 
             String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
@@ -156,7 +150,7 @@ public class WordNetTest {
                     double distance = SemanticSimilarity
                             .getInstance()
                             .calculateScore(words[i], words[j]);
-                    output += words[i] + " -  " + words[j] + " = " + distance + "\n";
+                    output.append(words[i]).append(" -  ").append(words[j]).append(" = ").append(distance).append("\n");
                 }
             }
 

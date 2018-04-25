@@ -23,16 +23,14 @@ import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
-import static java.lang.Math.min;
-
 public class VoiceProcess {
-    protected Activity mMainActivity;
-    protected GlobalState mState;
-    protected ContextActionMap mContextActionMap;
+    private Activity mMainActivity;
+    private GlobalState mState;
+    private ContextActionMap mContextActionMap;
 
-    protected Entity mActionContext; //Stores the name of the context
+    private Entity mActionContext; //Stores the name of the context
 
-    protected IDictionary mDict = null;
+    private IDictionary mDict = null;
 
     //Made static to avoid out-of-space GC allocation errors
     protected static MaxentTagger sTagger = null;
@@ -245,6 +243,8 @@ public class VoiceProcess {
         //Semantic Similarity Engine
         SemanticSimilarity.getInstance().init(new CustomWordNet(mDict));
     }
+
+    public IDictionary getDictionary() { return mDict; }
 
     public Entity getActionContext() { return mActionContext; }
 

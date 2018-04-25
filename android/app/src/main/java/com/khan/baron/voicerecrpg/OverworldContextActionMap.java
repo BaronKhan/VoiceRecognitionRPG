@@ -10,7 +10,6 @@ import com.khan.baron.voicerecrpg.actions.sharedActions.LookDefault;
 import com.khan.baron.voicerecrpg.actions.overworldActions.OpenObject;
 import com.khan.baron.voicerecrpg.actions.overworldActions.PickObject;
 import com.khan.baron.voicerecrpg.actions.sharedActions.ShowDefault;
-import com.khan.baron.voicerecrpg.actions.sharedActions.ShowInventory;
 
 import java.util.Arrays;
 

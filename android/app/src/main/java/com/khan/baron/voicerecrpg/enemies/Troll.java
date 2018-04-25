@@ -4,8 +4,6 @@ import com.khan.baron.voicerecrpg.GameState;
 
 import java.util.Random;
 
-import static java.lang.Math.min;
-
 /**
  * Created by Baron on 12/01/2018.
  */

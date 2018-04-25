@@ -97,9 +97,7 @@ public class Inventory extends Entity {
 
     public List<Entity> generateContextList() {
         List<Entity> temp = new ArrayList<>();
-        for (Item i : mItems) {
-            temp.add(i);
-        }
+        temp.addAll(mItems);
         return temp;
     }
 

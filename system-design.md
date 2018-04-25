@@ -146,6 +146,7 @@ Recursive action calls
 
 - Execute several actions in one input
 - Segment phrases with "and" as a delimiter?
+- Separate input across "and", "then"
 
 
 Confirmation

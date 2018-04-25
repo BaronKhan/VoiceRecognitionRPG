@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.khan.baron.voicerecrpg.actions.sharedActions.ShowActions;
 import com.khan.baron.voicerecrpg.enemies.Enemy;
 import com.khan.baron.voicerecrpg.enemies.Troll;
-import com.khan.baron.voicerecrpg.items.Item;
 import com.khan.baron.voicerecrpg.items.Potion;
 import com.khan.baron.voicerecrpg.items.Weapon;
 import com.khan.baron.voicerecrpg.rooms.Room;
@@ -13,6 +12,7 @@ import com.khan.baron.voicerecrpg.rooms.Room01;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Queue;
 
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_BATTLE;
 import static com.khan.baron.voicerecrpg.GameState.Mode.MODE_OVERWORLD;
@@ -26,10 +26,10 @@ public class GameState extends GlobalState {
     protected Inventory mInventory;
 
     private ContextActionMap mBattleMap;
-    protected VoiceProcess mBattleVoiceProcess;
+    protected MultipleCommandProcess mBattleVoiceProcess;
 
     private ContextActionMap mOverworldMap;
-    protected VoiceProcess mOverworldVoiceProcess;
+    protected MultipleCommandProcess mOverworldVoiceProcess;
 
     protected Mode mGameMode;
     protected Enemy mCurrentEnemy;
@@ -47,10 +47,10 @@ public class GameState extends GlobalState {
         mCurrentEnemy = null;
 
         mBattleMap = new BattleContextActionMap(this);
-        mBattleVoiceProcess = new VoiceProcess(mainActivity, this, mBattleMap);
+        mBattleVoiceProcess = new MultipleCommandProcess(mainActivity, this, mBattleMap);
 
         mOverworldMap = new OverworldContextActionMap(this);
-        mOverworldVoiceProcess = new VoiceProcess(mainActivity, this, mOverworldMap);
+        mOverworldVoiceProcess = new MultipleCommandProcess(mainActivity, this, mOverworldMap);
 
         mInventory = new Inventory(mBattleMap, mOverworldMap);
     }
@@ -112,24 +112,30 @@ public class GameState extends GlobalState {
     public Mode getGameMode() { return mGameMode; }
 
     public String updateState(String input) {
-        String actionOutput = "";
-
         if (mGameMode == MODE_BATTLE) {
-            String enemyOutput = "";
-            String playerOutput = "";
-
-            actionOutput += mBattleVoiceProcess.processInput(input);
-            boolean acceptedAction = getActionSucceeded();
-            if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn(this) + "\n"; }
-
-            enemyOutput += mCurrentEnemy.getName() + "'s health: " + mCurrentEnemy.getHealth() +
-                    " / " + mCurrentEnemy.getMaxHealth();
-            playerOutput += "Your health: " + mPlayerHealth + " / " + 100;
-
-            return actionOutput + "\n\n" + enemyOutput + " | " + playerOutput;
+            Queue<String> commandQueue = mBattleVoiceProcess.splitInput(input);
+            String totalOutput = "";
+            while (!commandQueue.isEmpty()) {
+                String actionOutput = "";
+                String enemyOutput = "";
+                String playerOutput = "";
+                actionOutput += mBattleVoiceProcess.executeCommand(commandQueue);
+                boolean acceptedAction = getActionSucceeded();
+                if (acceptedAction) { enemyOutput += mCurrentEnemy.takeTurn(this) + "\n"; }
+                enemyOutput += mCurrentEnemy.getName() + "'s health: " + mCurrentEnemy.getHealth() +
+                        " / " + mCurrentEnemy.getMaxHealth();
+                playerOutput += "Your health: " + mPlayerHealth + " / " + 100;
+                totalOutput += actionOutput + "\n\n" + enemyOutput + " | " + playerOutput
+                        + ((commandQueue.isEmpty()) ? "" : "\n\n---\n\n");
+            }
+            return totalOutput;
         } else {    //mGameMode == MODE_OVERWORLD
             String overworldOutput = "";
-            overworldOutput += mOverworldVoiceProcess.processInput(input);
+            Queue<String> commandQueue = mBattleVoiceProcess.splitInput(input);
+            while (!commandQueue.isEmpty()) {
+                overworldOutput += mOverworldVoiceProcess.executeCommand(commandQueue)
+                        + ((commandQueue.isEmpty()) ? "" : "\n\n---\n\n");
+            }
             return overworldOutput;
         }
     }
@@ -138,15 +144,15 @@ public class GameState extends GlobalState {
 
     public void setInventory(Inventory mInventory) { this.mInventory = mInventory; }
 
-    public VoiceProcess getBattleVoiceProcess() { return mBattleVoiceProcess; }
+    public MultipleCommandProcess getBattleVoiceProcess() { return mBattleVoiceProcess; }
 
-    public void setBattleVoiceProcess(VoiceProcess mBattleVoiceProcess) {
+    public void setBattleVoiceProcess(MultipleCommandProcess mBattleVoiceProcess) {
         this.mBattleVoiceProcess = mBattleVoiceProcess;
     }
 
-    public VoiceProcess getOverworldVoiceProcess() { return mOverworldVoiceProcess; }
+    public MultipleCommandProcess getOverworldVoiceProcess() { return mOverworldVoiceProcess; }
 
-    public void setOverworldVoiceProcess(VoiceProcess mOverworldVoiceProcess) {
+    public void setOverworldVoiceProcess(MultipleCommandProcess mOverworldVoiceProcess) {
         this.mOverworldVoiceProcess = mOverworldVoiceProcess;
     }
 

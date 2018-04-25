@@ -1,11 +1,8 @@
 package com.khan.baron.voicerecrpg;
 
-import android.content.Context;
-
 import com.khan.baron.voicerecrpg.actions.Action;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +42,7 @@ public abstract class ContextActionMap extends Entity {
     public List<Entity> getPossibleContexts() { return mPossibleContexts; }
 
     public void addPossibleContexts(List<Entity> contextList) {
-        for (Entity context : contextList) {
-            mPossibleContexts.add(context);
-        }
+        mPossibleContexts.addAll(contextList);
     }
 
     public void setPossibleTargets(List<Entity> targetsList) { mPossibleTargets = targetsList; }
@@ -56,9 +51,7 @@ public abstract class ContextActionMap extends Entity {
     public List<Entity> getPossibleTargets() { return mPossibleTargets; }
 
     public void addPossibleTargets(List<Entity> targetsList) {
-        for (Entity target : targetsList) {
-            mPossibleTargets.add(target);
-        }
+        mPossibleTargets.addAll(targetsList);
     }
 
     public void addContextActions(String context, Action ... actions) {

@@ -36,8 +36,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 public class MainActivity extends AppCompatActivity {
     private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 10;
     private final int PERMISSIONS_REQUEST_DOWNLOAD = 20;
@@ -205,9 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkDownloadPermission() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ActivityCompat.requestPermissions(this,
@@ -244,16 +240,13 @@ public class MainActivity extends AppCompatActivity {
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
-        while((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
+        while((read = in.read(buffer)) != -1) { out.write(buffer, 0, read); }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
