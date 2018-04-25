@@ -250,6 +250,9 @@ Once the classifier is trained, it will be able to use the examples of intents p
 This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
 \\
 \\
+According to a research paper by McCord, Murdok and Boguraev on \textit{Deep Parsing in Watson} RRR, the engine consists of to deep parsing components: an English Slot Grammar (ESG) parser and a a predicate-argument structure (PAS) builder. These allow Watson to produce parse trees of a sentence and extract pattern-based relations from it, such as question decomposition, hypothesis generation, and evidence scoring.
+\\
+\\
 There is a similar API called DialogFlow \cite{RefWorks:106}, which works very similarly to IMB's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
 
 \subsection{Natural Language Processing}
@@ -457,8 +460,32 @@ Android features a built-in speech recognition service, via its \texttt{SpeechRe
 \\
 \\
 Using this API, the player's utterance is transformed into a text string, which is then processed by the rest of the voice recognition system. Using an existing speech-to-text API means that less time is spent trying to get the player's utterance from the microphone input.
+\\
+\\
+In terms of user interface, the application features an on-screen button containing the image of microphone. When the user presses this button, a voice request is initiated and lasts until the user finishes uttering their input. If the user doesn't say anything, then the response times out and is cancelled.
 
 \subsubsection{POS Tagging}
+
+For the Part-Of-Speech (POS) tagging of the input, the open-source Log-linear Part-Of-Speech Tagger provided by The Stanford Natural Language Processing Group will be used RRR. It is a Java archive file so can easily be imported and used in an Android Java project. It is a flexible API that handles all the POS tagging so no time needs to be spent implementing a POS tagging system. 
+\\
+\\
+The software comes with two trained models. According to the software's \texttt{README} file, the first model uses a bidirectional architecture and includes training data using word shapes and distributional similarities. The second model uses a \textit{left3words} architecture, includes words shapes, and uses the Penn Treebank tagset. According to the developers, the bidirectional model is "slightly more accurate" with a correctness score of 97.28\%, but is much slower to tag with than the \textit{left3words} model. Therefore, the \textit{left3words} model was chosen to be used in the application. (It still features a performance correctness score of 96.97\% which is not that different to the bidirectional model's performance.)
+\\
+\\
+With the input string broken down into an array list of its words, each word is used as input to the POS tagger, and the word's tag (e.g. \textit{VB}, \textit{NN}, etc.) is added to a new list. Both lists will be used simultaneously in other processes.
+
+\subsubsection{Slot-filling Matching}
+
+The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). We assume that the subject of the command (that is, the entity about whom the statement is made RRR) is always the player.
+\\
+\\
+Generally, commands will have an imperative verb (e.g. "attack", "grab", "look"), optionally followed by the target entity for which the imperative verb should be applied towards, as well as an optional context entity for which the imperative verb should be applied with.
+\\
+\\
+As an example, take the command, "hit the rock with a spoon". Here, the word 'hit' is the imperative action and it is applied to the 'rock'. The 'hit' action is applied using the 'spoon' as the context. The target and context help to provide a clearer intent; we could have just said, "hit" without mentioning the target or context, and while the action to be performed is clear, it is ambiguous as to what should be hit and with what.
+\\
+\\
+For this stage, we use slot-filling structures (SFS) to describe the grammar of the voice commands. The SFS 
 
 \subsection{System UML Class Diagram}
 
@@ -486,14 +513,14 @@ When the application starts up, an instance of \texttt{MainActivity} is created,
 
 \subsubsection{\texttt{VoiceControl} Class}
 
-As mentioned, the \texttt{VoiceControl} class is used to handle the input and output of the application, such as the microphone input and the text display. It contains an instance of the SpeechRecognizer class, which is provided by Android and uses Google's Speech-to-Text API, aa well as two instances of the TextView class: one which is used to display the text output of the game, and the other to display the Speech-to-Text result at the top of the screen.
+As mentioned, the \texttt{VoiceControl} class is used to handle the input and output of the application, such as the microphone input and the text display. It contains an instance of the SpeechRecognizer class, which is provided by Android and uses Google's Speech-to-Text API, as well as two instances of the TextView class: one which is used to display the text output of the game, and the other to display the Speech-to-Text result at the top of the screen.
 \\
 \\
 When the \texttt{SpeechRecognizer} instance performs a Speech-to-Text translation, the final result is forwarded to the \texttt{GameState} instance where it is processed by the voice recognition system using NLP, and used to update the state of the current game session (\texttt{GameState}).
 
 \subsubsection{\texttt{VoiceProcess} Class}
 
-The \texttt{VoiceProcess} class is responsible for processing the string input containing the player's utterance that is received from teh \texttt{VoiceControl} class. It contains the bulk of the NLP processing described later.
+The \texttt{VoiceProcess} class is responsible for processing the string input containing the player's utterance that is received from the \texttt{VoiceControl} class. It contains the bulk of the NLP processing described later.
 
 \subsubsection{\texttt{GlobalState} Class}
 

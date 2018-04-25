@@ -32,6 +32,8 @@ System Overview:
 Explain slot filling approach
 NLP techniques (semanitc similarity)
 
+Explain each step in the flow chart in more detail.
+
 Show a UML diagram of the following:
 - MainActivity
 - VoiceControl
@@ -40,7 +42,6 @@ Show a UML diagram of the following:
 - SemanticSimilarity (singleton, mention Android activity states)
 Explain each one
 
-Explain each step in the flow chart in more detail.
 
 Design Patterns:
 
@@ -81,6 +82,8 @@ Evaluation of semantic similarity
 (pick action maps to knife instead of grab!)
 
 Evaluation of effectivenesss of learning mechanism
+
+__Conclusion and Future Work__
 
 Appendix:
 Screeenshots of app
