@@ -90,3 +90,5 @@ Screeenshots of app
 Include github statistics
 
 Note: RRR is a reference location
+
+Fix double quotes

@@ -476,7 +476,7 @@ With the input string broken down into an array list of its words, each word is 
 
 \subsubsection{Slot-filling Matching}
 
-The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). We assume that the subject of the command (that is, the entity about whom the statement is made RRR) is always the player.
+The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). We assume that the subject of the command (that is, the entity about whom the statement is made about RRR) is always the player (or the character that the player is controlling).
 \\
 \\
 Generally, commands will have an imperative verb (e.g. "attack", "grab", "look"), optionally followed by the target entity for which the imperative verb should be applied towards, as well as an optional context entity for which the imperative verb should be applied with.
@@ -485,7 +485,53 @@ Generally, commands will have an imperative verb (e.g. "attack", "grab", "look")
 As an example, take the command, "hit the rock with a spoon". Here, the word 'hit' is the imperative action and it is applied to the 'rock'. The 'hit' action is applied using the 'spoon' as the context. The target and context help to provide a clearer intent; we could have just said, "hit" without mentioning the target or context, and while the action to be performed is clear, it is ambiguous as to what should be hit and with what.
 \\
 \\
-For this stage, we use slot-filling structures (SFS) to describe the grammar of the voice commands. The SFS 
+For this stage, we use slot-filling structures (SFS) to describe the grammar of the voice commands. The SFS grammar chosen is as follows:
+
+\begin{center}
+\texttt{ACTION TARGET WITH CONTEXT}
+\end{center}
+
+Here, parts of the input will be mapped to a \textit{block} in the grammar. The \texttt{WITH} block represents words and phrases that signify using the context to perform the action (e.g. "with...", "using...", "with the power of the...", and so on). Figure \ref{fig:sfs-1} shows how parts of an example command are matched to the grammar.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{sfs-1.pdf}
+  \caption{The slot-filling structure, \texttt{\{ACTION TARGET WITH CONTEXT\}} being applied to an example sentence, "attack the goblin using a sword". Generated using Graphviz.}
+  \label{fig:sfs-1}
+  \end{center}
+\end{figure}
+\end{center}
+
+Not all the slots have to be filled; the \texttt{WITH} and \texttt{CONTEXT} blocks are completely optional to fill, but they provide more information about the user's intent. Should this information be left out, the system will fall back on the defaults for each one.
+\\
+\\
+While this covers a large variety of commands that the user can give, such as, "attack the troll with a sword", "pick up the knife", or "look around the room using binoculars", it does not cover commands that have a completely different structure. For example, the phrases, "use a potion to heal" and "with a key open the door" are perfectly valid commands that a user can give, but the matching blocks are in completely different order (i.e. the \texttt{CONTEXT} comes before the \texttt{ACTION}), so would not be matched with the above SFS.
+\\
+\\
+An alternative SFS is applied when appropriate. The grammar is as follows:
+
+\begin{center}
+\texttt{WITH CONTEXT ACTION TARGET}
+\end{center}
+
+Using this slot-filling grammar, the aforementioned example commands ("use a potion to heal" and "with a key open the door") would be accepted. Figure \ref{fig:sfs-2} shows an example of the matching.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{sfs-2.pdf}
+  \caption{The slot-filling structure, \texttt{\{WITH CONTEXT ACTION TARGET\}} being applied to an example sentence, "use a key to open the door".}
+  \label{fig:sfs-2}
+  \end{center}
+\end{figure}
+\end{center}
+
+During the processing, the correct SFS will be chosen based on the structure of the phrase (i.e. by determining the relative positions of each piece of information).
+
+\subsubsection{Semantic Similarity}
+
+wsj4
 
 \subsection{System UML Class Diagram}
 

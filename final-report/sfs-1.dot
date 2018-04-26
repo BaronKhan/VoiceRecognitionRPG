@@ -1,0 +1,24 @@
+digraph g {
+  node [height=.1, shape="none"];
+  node0[label = "S"];
+  node1[label = "ACTION"];
+  node4[label = "attack"];
+  node5[label = "TARGET"];
+  node7[label = "the"];
+  node8[label = "goblin"];
+  node9[label = "WITH"];
+  node10[label = "using"];
+  node11[label = "CONTEXT"];
+  node12[label = "a"];
+  node13[label = "sword"];
+  "node0" -> "node5";
+  "node0" -> "node1";
+  "node1" -> "node4";
+  "node0" -> "node11";
+  "node0" -> "node9";
+  "node5" -> "node7" [style=invis];
+  "node5" -> "node8";
+  "node9" -> "node10";
+  "node11" -> "node12" [style=invis];
+  "node11" -> "node13";
+}
