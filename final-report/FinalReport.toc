@@ -21,23 +21,25 @@
 \contentsline {subsubsection}{\numberline {3.4.6}Generating Sentences}{16}
 \contentsline {subsection}{\numberline {3.5}WordNet}{17}
 \contentsline {subsection}{\numberline {3.6}Object Properties}{17}
-\contentsline {section}{\numberline {4}Design}{18}
-\contentsline {subsection}{\numberline {4.1}Target Platform}{18}
-\contentsline {subsection}{\numberline {4.2}Java Programming Language}{18}
-\contentsline {subsection}{\numberline {4.3}System Overview}{18}
-\contentsline {subsubsection}{\numberline {4.3.1}Speech-to-Text}{19}
-\contentsline {subsubsection}{\numberline {4.3.2}POS Tagging}{20}
-\contentsline {subsubsection}{\numberline {4.3.3}Slot-filling Matching}{20}
-\contentsline {subsubsection}{\numberline {4.3.4}Semantic Similarity}{22}
-\contentsline {subsection}{\numberline {4.4}System UML Class Diagram}{22}
-\contentsline {subsubsection}{\numberline {4.4.1}\texttt {MainActivity} Class}{23}
-\contentsline {subsubsection}{\numberline {4.4.2}\texttt {VoiceControl} Class}{24}
-\contentsline {subsubsection}{\numberline {4.4.3}\texttt {VoiceProcess} Class}{24}
-\contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{24}
-\contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{24}
-\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{25}
-\contentsline {section}{\numberline {5}Appendix}{26}
-\contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{26}
-\contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{28}
-\contentsline {subsection}{\numberline {5.3}System UML Class Diagram}{29}
-\contentsline {section}{References}{30}
+\contentsline {section}{\numberline {4}Design}{19}
+\contentsline {subsection}{\numberline {4.1}Target Platform}{19}
+\contentsline {subsection}{\numberline {4.2}Java Programming Language}{19}
+\contentsline {subsection}{\numberline {4.3}System Overview}{19}
+\contentsline {subsubsection}{\numberline {4.3.1}Speech-to-Text}{20}
+\contentsline {subsubsection}{\numberline {4.3.2}POS Tagging}{21}
+\contentsline {subsubsection}{\numberline {4.3.3}Slot-filling Matching}{21}
+\contentsline {subsubsection}{\numberline {4.3.4}Semantic Similarity}{23}
+\contentsline {subsubsection}{\numberline {4.3.5}Context-Action Mapping}{24}
+\contentsline {subsubsection}{\numberline {4.3.6}Intent Execution}{25}
+\contentsline {subsection}{\numberline {4.4}System UML Class Diagram}{25}
+\contentsline {subsubsection}{\numberline {4.4.1}\texttt {MainActivity} Class}{26}
+\contentsline {subsubsection}{\numberline {4.4.2}\texttt {VoiceControl} Class}{27}
+\contentsline {subsubsection}{\numberline {4.4.3}\texttt {VoiceProcess} Class}{27}
+\contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{27}
+\contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{27}
+\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{28}
+\contentsline {section}{\numberline {5}Appendix}{29}
+\contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{29}
+\contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{31}
+\contentsline {subsection}{\numberline {5.3}System UML Class Diagram}{32}
+\contentsline {section}{References}{33}

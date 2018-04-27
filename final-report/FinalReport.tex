@@ -349,7 +349,11 @@ Synonyms and hypernyms could be used to determine the semantic similarity betwee
 There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a 'similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
 \\
 \\
-The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUP) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS) (that is, the most general hypernym that both words have in common) and compares it with the sum of the depths of each word. For example, the WUP score for the semantic similarity between "juice" and "water" is calculated as follows \cite{RefWorks:49}:
+The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUP) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS) (that is, the most general hypernym that both words have in common) and compares it with the sum of the depths of each word. The formula for the similarity of words $w_1$ and $w_2$ is as follows:
+
+$$sim_{wup} = \frac{2*depth(LCS(w_1,w_2))}{depth(w_1)+depth(w_2)}$$
+
+For example, the WUP score for the semantic similarity between "juice" and "water" is calculated as follows \cite{RefWorks:49}:
 
 \begin{lstlisting}[frame=single]
 T1 = HypernymTree( juice ) =
@@ -528,10 +532,54 @@ Using this slot-filling grammar, the aforementioned example commands ("use a pot
 \end{center}
 
 During the processing, the correct SFS will be chosen based on the structure of the phrase (i.e. by determining the relative positions of each piece of information).
+\\
+\\
+List of possible actions, targets and contexts are created by the developer (specified as strings), and the slot-filling matching will compare the words to the possible list of words to find a match.
 
 \subsubsection{Semantic Similarity}
 
-wsj4
+During the slot-filling  matching stage, if a word does not match any of the possible list of actions/targets/contexts character-by-character, then semantic similarity methods are used to determine the whether the two words are similar. For example, if the possible list of actions are, 'attack', 'heal' or 'run', and the input is 'hit', then 'hit' is more similar to the 'attack' action, so the 'attack' action would be chosen.
+\\
+\\
+As mentioned before, there are many similarity methods that have been proposed. The first method to be used is the \textit{Wu and Palmer} method (WUP) described previously. Another method that is used is the \textit{Lin} method (LIN), that calculates the similarity of two words based on the information content of their lowest common subsumer (that is, their first common parent word in the WordNet hypernym tree) \cite{RefWorks:46}. Information content (IC) is defined as the negative log of the probability of a concept. The probability of a concept is based on the sense frequency of its synset.
+\\
+\\
+Lin used IC to define a similarity measure similar to the Wu and Palmer method, but uses IC instead of the depths of the words in the word tree instead. The formula for the similarity of words $w_1$ and $w_2$ is as follows:
+
+$$sim_{lin} = \frac{2*IC(LCS(w_1,w_2))}{IC(w_1)+IC(w_2)}$$
+
+Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions RRR. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, we can deduce that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information RRR.
+\\
+\\
+All semantic similarity calculations are performed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database RRR. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
+
+Implementations of the WUP and LIN methods are provided by another open-srouce Java library, \textit{WS4J} RRR. The Lesk method is implemented manually in the Android code.
+
+\subsubsection{Context-Action Mapping}
+
+Once matches have been found from the slot-filling, they are mapped to the methods that should execute on that intent. If the player only specifies and action (and target) with no context, then a default action should be executed (the context itself defaults to a "default" context). If the player specifies a context (e.g. "...with a sword"), then a mapping is consulted to find the correct method that should be called. The different targets are handled within the method itself.
+\\
+\\
+Table \ref{action-context-ex-table} shows an example of what an Context-Action map would look like. Note the \textit{null} entries that indicate that the context is not compatible with the corresponding action (for example, it does not make sense from a player to "attack with a potion"), and the intent is therefore ignored.
+
+\begin{table}[H]
+\centering
+\caption{An example of an developer-specified Action-Context Mapping}
+\label{action-context-ex-table}
+\begin{tabular}{l|l|l|l|}
+\cline{2-4}
+\multicolumn{1}{c|}{\textbf{}}         & \multicolumn{3}{l|}{\textbf{actions}}                  \\ \hline
+\multicolumn{1}{|l|}{\textbf{context}} & \textit{attack}    & \textit{heal}  & \textit{open}    \\ \hline
+\multicolumn{1}{|l|}{\textit{default}} & AttackDefault()    & HealDefault()  & OpenDefault()    \\ \hline
+\multicolumn{1}{|l|}{\textit{weapon}}  & AttackWithWeapon() & null           & OpenWithWeapon() \\ \hline
+\multicolumn{1}{|l|}{\textit{potion}}  & null               & HealWithPotion & null             \\ \hline
+\multicolumn{1}{|l|}{\textit{key}}     & AttackWithKey()    & null           & OpenWithKey()   \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Intent Execution}
+
+Each non-null field in the Context-Action map contains a class that extends from an abstract class, \texttt{Action}. This abstract class contains an method called \texttt{run()}, which executes the in-game intent. This method is overridden by the derived classed (such as \texttt{AttackDefault} and \texttt{HealWithPotion}). These \texttt{run()} functions act as wrappers from the actual methods that would execute in the game (or to execute some other actions unrelated to the game, such as displaying the available commands, etc.)
 
 \subsection{System UML Class Diagram}
 
