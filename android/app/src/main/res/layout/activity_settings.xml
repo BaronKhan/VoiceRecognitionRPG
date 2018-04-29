@@ -45,6 +45,13 @@
             android:layout_weight="1"
             android:text="@string/method_lin" />
 
+        <RadioButton
+            android:id="@+id/radioButtonLESK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/method_lesk" />
+
         <Switch
             android:id="@+id/switchOverworld"
             android:layout_width="355dp"

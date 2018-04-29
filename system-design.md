@@ -21,24 +21,29 @@ Milestones
 Sentence Structure
 ---------------------
 
-Always imply 'I' as the subject. Therefore, only concerned with the main verb of the sentence, and the noun.
+Always imply 'I' as the subject. Therefore, only concerned with the main verb of
+ the sentence, and the noun.
 
 Using Slot-filling technique.
 
-- For verbs, first use the semantic similarity. If > 0.7/1, then probably the same thing. If not, then check if any of the primitive verbs are in the word tree.
+- For verbs, first use the semantic similarity. If > 0.7/1, then probably the
+same thing. If not, then check if any of the primitive verbs are in the word tree.
 
 - Commands in battle structure: ... `verb` ... [`target` ... with ... `context`]
-- Commands in overworld structure: ... `verb` ... [`target` ... with ... `context`]
+- Commands in overworld structure: ... `verb` ... [`target` ... with ...
+`context`]
 
 ### Starting with "use"/"with"
 
 If the sentence starts with use/with, then the structure will be different
-- First search for action, if best action is after a use/with, then choose that structure
+- First search for action, if best action is after a use/with, then choose that
+structure
 - ... use/with ... `context` ... `verb` ... `target`
 
 ### Sentence Deciphering
 
-- As a test, first search for first verb, then search for a verb that works with the noun. Search for "with" or "using" for specific item.
+- As a test, first search for first verb, then search for a verb that works with
+ the noun. Search for "with" or "using" for specific item.
 
 Battle Systems
 ---------------------
@@ -51,7 +56,8 @@ Battle Systems
 - Defend ("prevent") (Add later)
 - Heal ("better")
 
-- Actions should be assigned default action if no other information is specified (e.g. attack with random move, heal with best item, etc.)
+- Actions should be assigned default action if no other information is specified
+ (e.g. attack with random move, heal with best item, etc.)
 
 Items
 ---------
@@ -115,18 +121,22 @@ For exploration mode:
 ContextActionMap
 ---------------
 
-- This is an abstract class that the user overloads to specify the mapping of contexts to actions.
+- This is an abstract class that the user overloads to specify the mapping of
+contexts to actions.
 - public Map<Integer, Map<String, Action>> mMap = new HashMap<>();
 - But how to know whether an item or enemy matches a context?
-- Contains the current target (also a Context), the actions specify what to do for each target.
+- Contains the current target (also a Context), the actions specify what to do
+for each target.
 
 ### Finding the best context
 
 - Go through candidate context words
 - If word matches object in inventory or environment, select it
-- Each "Context" instance should have a string representing the context that it is
+- Each "Context" instance should have a string representing the context that it
+is
 - Map context string to hash table (indexed by that type of string).
-- Need to have sources (list objects) from where to get the context, pass as parameter
+- Need to have sources (list objects) from where to get the context, pass as
+parameter
 
 
 POS tagger
@@ -138,7 +148,7 @@ POS tagger
 - ADJECTIVE = a
 - CAll getTag function to get this letter
 
-Synset IDs have SID- infront, must remove
+Synset IDs have SID- infront, must remove (and set tag to lowercase)
 
 
 Recursive action calls
@@ -166,10 +176,26 @@ Problem: Semantic similarity messes up sometimes
 Performance Issues
 ------------------
 
-Problem: command, "break the table" was taking too long, this is due to 
+Problem: command, "break the table" was taking too long, this is due to
 "break" being the last action checked, so all the previous actions are
 using semantic similarity.
 
 
-Solution: use concurrency? ALso separate for loop into two separate for loops,
- if a direct match is found then don't have to run semantic similarity
+Solution: use concurrency? Also separate for loop into two separate for loops,
+if a direct match is found then don't have to run semantic similarity.
+
+
+Generate room based on description
+-----------------
+
+- Developer gives string input and then game generates room.
+- Use methods which take as input the string text
+- Have conditional methods for whether the to display one text or another (e.g.
+  if knife in room)
+- addDescription(), addDescription(..., cond), etc.
+-
+
+CustomWordNet
+----------------
+
+- Create a Github gist of CustomWordNet

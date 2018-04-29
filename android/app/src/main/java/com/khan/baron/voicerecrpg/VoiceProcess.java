@@ -242,7 +242,7 @@ public class VoiceProcess {
         mDict = new Dictionary(url);
         mDict.open();
         //Semantic Similarity Engine
-        SemanticSimilarity.getInstance().init(new CustomWordNet(mDict));
+        SemanticSimilarity.getInstance().init(new CustomLexicalDatabase(mDict));
     }
 
     public IDictionary getDictionary() { return mDict; }

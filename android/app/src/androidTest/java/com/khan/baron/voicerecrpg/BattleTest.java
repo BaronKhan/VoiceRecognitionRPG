@@ -195,7 +195,7 @@ public class BattleTest {
                 .contains("you mean, \"heal"), true);
         testHealed("yes", true);
         assertEquals(gameState.updateState("use something to regenerate with")
-                .contains("you mean, \"heal"), true);
+                .contains("you mean"), true);
         testHealed("yes", true);
         //regenerate added as synonym
         testHealed("regenerate", true);

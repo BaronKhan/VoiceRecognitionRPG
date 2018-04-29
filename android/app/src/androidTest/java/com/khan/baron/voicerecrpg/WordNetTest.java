@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
@@ -138,10 +137,10 @@ public class WordNetTest {
     }
 
     @Test
-    public void testCustomWordNet() {
+    public void testCustomLexicalDatabase() {
         try {
             StringBuilder output = new StringBuilder();
-            ILexicalDatabase db = new CustomWordNet(gameState.mBattleVoiceProcess.getDictionary());
+            ILexicalDatabase db = new CustomLexicalDatabase(gameState.mBattleVoiceProcess.getDictionary());
             SemanticSimilarity.getInstance().init(db);
 
             String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};
@@ -156,7 +155,7 @@ public class WordNetTest {
 
             System.out.println(output);
         } catch(Exception e) {
-            assertEquals("Something wrong with CustomWordNet", true, false);
+            assertEquals("Something wrong with CustomLexicalDatabase", true, false);
         }
     }
 }

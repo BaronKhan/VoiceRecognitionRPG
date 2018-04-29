@@ -2,9 +2,13 @@
     <string name="app_name">Voice Recognition RPG Demo</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="action_settings">Settings</string>
+    <string name="listening">Listening…</string>
+    <string name="processing">Processing…</string>
+    <string name="permissions_enable">Please enable permissions</string>
     <string name="semantic_similarity_method">Semantic Similarity Method</string>
     <string name="method_wuplin">Combined (WUP + LIN)</string>
     <string name="method_wup">WUP</string>
     <string name="method_lin">LIN</string>
+    <string name="method_lesk">LESK</string>
     <string name="switch_battle">Initialize with Battle</string>
 </resources>

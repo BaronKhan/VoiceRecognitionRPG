@@ -14,6 +14,7 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonWUPLIN;
     private RadioButton mRadioButtonWUP;
     private RadioButton mRadioButtonLIN;
+    private RadioButton mRadioButtonLESK;
 
     private Switch mOverworldSwitch;
 
@@ -31,6 +32,8 @@ public class SettingsActivity extends AppCompatActivity {
                     SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_WUP);
                 } else if (checkedId == mRadioButtonLIN.getId()) {
                     SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_LIN);
+                } else if (checkedId == mRadioButtonLESK.getId()) {
+                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_LESK);
                 }
             }
         });
@@ -38,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         mRadioButtonWUPLIN = (RadioButton) findViewById(R.id.radioButtonWUPLIN);
         mRadioButtonWUP = (RadioButton) findViewById(R.id.radioButtonWUP);
         mRadioButtonLIN = (RadioButton) findViewById(R.id.radioButtonLIN);
+        mRadioButtonLESK = (RadioButton) findViewById(R.id.radioButtonLESK);
         setMethodRadioButton();
 
         mOverworldSwitch = (Switch) findViewById(R.id.switchOverworld);
@@ -69,6 +73,9 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             case METHOD_LIN:
                 mMethodRadioGroup.check(mRadioButtonLIN.getId());
+                break;
+            case METHOD_LESK:
+                mMethodRadioGroup.check(mRadioButtonLESK.getId());
                 break;
             default:
                 mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());

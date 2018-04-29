@@ -33,6 +33,8 @@ public abstract class Room extends Entity {
 
     private int mRoomState = -1;
 
+    private String mDescription = "";
+
     public Room() {
         super("room", "environment", "surrounding");
     }
@@ -83,4 +85,20 @@ public abstract class Room extends Entity {
     public void setRoomState(int mRoomState) {
         this.mRoomState = mRoomState;
     }
+
+    //TODO: better room generation
+    private void addDescription(String text) {
+        addDescription(text, true);
+    }
+
+    private void addDescription(String text, boolean cond) {
+        if (cond) { mDescription += " - " + text + "\n"; }
+    }
+
+    private void addDescription(String textTrue, String textFalse, boolean cond) {
+        if (cond) { mDescription += " - " + textTrue + "\n"; }
+        else { mDescription += " - " + textFalse + "\n"; }
+    }
+
+    private void generateObjectsFromDescription() {}
 }

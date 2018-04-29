@@ -62,7 +62,7 @@ public class VoiceControl implements RecognitionListener {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
                     Manifest.permission.RECORD_AUDIO)) {
-                mTxtInput.setText("Please enable permissions");
+                mTxtInput.setText(mActivity.getText(R.string.permissions_enable));
 
             } else {
                 ActivityCompat.requestPermissions(mActivity,
@@ -77,7 +77,7 @@ public class VoiceControl implements RecognitionListener {
         if (!mCanRecord) {
             checkRecordAudioPermission();
         }
-        mTxtInput.setText("Listening...");
+        mTxtInput.setText(mActivity.getText(R.string.listening));
         mSpeech.startListening(mRecognizerIntent);
     }
 
@@ -183,8 +183,9 @@ public class VoiceControl implements RecognitionListener {
     }
 
     private void updateGameState(String input) {
+        String newOutput = "\n\n----------\n\n\"" + mTxtInput.getText()+ "\"\n";
         String output = mGameState.updateState(input);
-        String newOutput = "\n\n----------\n\n\"" + mTxtInput.getText()+ "\"\n" + output;
+        newOutput += output;
         appendOutputTextAndScroll(newOutput);
         // TODO: play TTS (should be optional)
     }
@@ -194,8 +195,7 @@ public class VoiceControl implements RecognitionListener {
     }
 
     // Taken from https://stackoverflow.com/a/9561614/8919086
-    private void appendOutputTextAndScroll(String text)
-    {
+    private void appendOutputTextAndScroll(String text) {
         if(mTxtOutput != null){
             mTxtOutput.append(text + "\n");
             final Layout layout = mTxtOutput.getLayout();

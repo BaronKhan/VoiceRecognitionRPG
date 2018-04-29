@@ -5,9 +5,12 @@ import android.util.Log;
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.ws4j.RelatednessCalculator;
 import edu.cmu.lti.ws4j.impl.JiangConrath;
+import edu.cmu.lti.ws4j.impl.Lesk;
 import edu.cmu.lti.ws4j.impl.Lin;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
+
+import static java.lang.Math.max;
 
 public class SemanticSimilarity {
     public enum SimilarityMethod {
@@ -15,7 +18,7 @@ public class SemanticSimilarity {
         METHOD_WUP,
         METHOD_LIN,
         METHOD_JCN,
-        METHOD_COS
+        METHOD_LESK
     }
 
     private static final SemanticSimilarity sInstance = new SemanticSimilarity();
@@ -62,6 +65,9 @@ public class SemanticSimilarity {
             case METHOD_JCN:
                 mMethod1 = new JiangConrath(mDb);
                 break;
+            case METHOD_LESK:
+                mMethod1 = new Lesk(mDb);
+                break;
             default:
                 mMethod1 = new WuPalmer(mDb);
                 mMethod2 = new Lin(mDb);
@@ -83,10 +89,16 @@ public class SemanticSimilarity {
             if (sCurrentMethod == SimilarityMethod.METHOD_WUP_LIN && score2 > 0)  {
                 score = (score1*0.75) + (score2*0.25);
             } else { score = score1; }
+            Log.d("SemanticSimilarity", "score("+word1+", "+word2+") = "+score);
+
+            //Normalise score
+            if (sCurrentMethod == SimilarityMethod.METHOD_LESK) {
+                score = max(score / 80.0, 1.0);
+            }
 
             return score;
         } catch (Exception e) {
-            Log.e("SemanticSimilarity", "Error while parsing: Unsupported POS Pairs",
+            Log.e("SemanticSimilarity", "Error while parsing: "+e.getMessage(),
                     new AssertionError());
             return 0.0;
         }
