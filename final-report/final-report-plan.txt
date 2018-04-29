@@ -83,6 +83,10 @@ Evaluation of semantic similarity
 
 Evaluation of effectivenesss of learning mechanism
 
+Contributions
+
+- Created GitHub gist (even if I can't get the Gloss working)
+
 __Conclusion and Future Work__
 
 Appendix:

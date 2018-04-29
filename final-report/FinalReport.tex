@@ -394,7 +394,7 @@ One possible solution would be to only hard-code the general sentence structure 
 
 \subsection{WordNet}
 
-Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
+Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets, or \textit{synonym sets}), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
 
 \subsection{Object Properties}
 
@@ -551,9 +551,13 @@ $$sim_{lin} = \frac{2*IC(LCS(w_1,w_2))}{IC(w_1)+IC(w_2)}$$
 Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions RRR. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, we can deduce that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information RRR.
 \\
 \\
-All semantic similarity calculations are performed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database RRR. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
-
-Implementations of the WUP and LIN methods are provided by another open-srouce Java library, \textit{WS4J} RRR. The Lesk method is implemented manually in the Android code.
+Finally, an experimental similarity measure will be implemented which uses the cosine similarity of the definitions.\\
+\\
+\\
+The WordNet database is accessed and traversed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database RRR. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
+\\
+\\
+Implementations for most of the similarity methods are provided by another open-source Java library, \textit{WS4J} RRR. While this library provides the methods for doing the calculations (such as the WUP, LIN and LESK formulas), the methods for the actual navigation and analysis of the WordNet database (e.g. getting hypernyms, synsets, glosses, etc.) must be implemented from scratch (see Implementation for details). The cosine similarity method is implemented manually in the Android code.
 
 \subsubsection{Context-Action Mapping}
 
