@@ -37,7 +37,7 @@ public class VoiceProcess {
 
     private boolean mUsingAltSFS;
 
-    private static boolean sGiveMultipleSuggestions = true;
+    private static boolean sGiveMultipleSuggestions = false;
 
     //Confirmation checking state
     private boolean mIsAmbiguous = false;

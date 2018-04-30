@@ -17,6 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonLESK;
 
     private Switch mOverworldSwitch;
+    private Switch mMultSuggestSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,14 @@ public class SettingsActivity extends AppCompatActivity {
         mOverworldSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 GameState.setStartOverworld(!isChecked);
+            }
+        });
+
+        mMultSuggestSwitch = (Switch) findViewById(R.id.switchMultSuggestions);
+        mMultSuggestSwitch.setChecked(VoiceProcess.isGivingMultipleSuggestions());
+        mMultSuggestSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                VoiceProcess.setGiveMultipleSuggestions(isChecked);
             }
         });
     }

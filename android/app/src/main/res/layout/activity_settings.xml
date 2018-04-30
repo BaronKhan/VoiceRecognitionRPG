@@ -55,9 +55,17 @@
         <Switch
             android:id="@+id/switchOverworld"
             android:layout_width="355dp"
-            android:layout_height="130dp"
+            android:layout_height="65dp"
             android:layout_weight="1"
             android:text="@string/switch_battle"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="303dp" />
+        <Switch
+            android:id="@+id/switchMultSuggestions"
+            android:layout_width="355dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:text="@string/switch_mult_suggest"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="303dp" />
     </RadioGroup>

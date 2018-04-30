@@ -161,7 +161,7 @@ public class OverworldTest {
             assertEquals(gameState.updateState("no")
                     .contains("you mean, \"grab"), true);   // the knife
             assertEquals(gameState.updateState("yes")
-                    .contains("picked up the knife"), false);
+                    .contains("picked up the knife"), true);
         }
     }
 }
