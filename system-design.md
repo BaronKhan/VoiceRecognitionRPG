@@ -171,6 +171,9 @@ Problem: Semantic similarity messes up sometimes
 - Did you mean? If so, then create synonym mapping
 - either action, target or context ambiguous
 - Note: only update if user says same ambiguous phrase twice
+- Have list of suggestions and go through them
+- "show my troll", "obliterate the troll" are ambiguous
+- "grab the utensil"
 
 
 Performance Issues
@@ -199,3 +202,8 @@ CustomWordNet
 ----------------
 
 - Create a Github gist of CustomWordNet
+
+Good examples
+-----------------
+
+- "pick up the cutlery" --> grab the knife
