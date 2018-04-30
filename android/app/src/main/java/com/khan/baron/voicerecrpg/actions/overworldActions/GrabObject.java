@@ -10,7 +10,7 @@ import com.khan.baron.voicerecrpg.rooms.Room;
 
 import java.util.List;
 
-public class PickObject extends Action {
+public class GrabObject extends Action {
     public String execute(GlobalState state, Entity currentTarget) {
         if (state instanceof GameState) {
             GameState gameState = (GameState)state;

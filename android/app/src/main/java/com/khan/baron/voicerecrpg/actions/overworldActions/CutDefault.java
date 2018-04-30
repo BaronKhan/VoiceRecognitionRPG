@@ -40,7 +40,7 @@ public class CutDefault extends Action {
                 return "You don't have anything to cut the "+currentTarget.getName()+" with.";
             }
             state.actionFailed();
-            return "What do you want to pick up?";
+            return "What do you want to cut?";
         }
         state.actionFailed();
         return "You can't do that right now";
