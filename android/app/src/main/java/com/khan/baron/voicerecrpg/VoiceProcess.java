@@ -35,18 +35,23 @@ public class VoiceProcess {
     //Made static to avoid out-of-space GC allocation errors
     protected static MaxentTagger sTagger = null;
 
-    //Confirmation state
-    private boolean mIsAmbiguousAction = false;
-    private boolean mIsAmbiguousTarget = false;
-    private boolean mIsAmbiguousContext = false;
-    private Pair<String, String> mAmbiguousActionMap = null;    //mapping: synonym first
-    private Pair<String, String> mAmbiguousTargetMap = null;
-    private Pair<String, String> mAmbiguousContextMap = null;
+    private boolean mUsingAltSFS;
+
+    private static boolean sGiveMultipleSuggestions = true;
+
+    //Confirmation checking state
+    private boolean mIsAmbiguous = false;
+    private List<Pair<String, String>> mAmbiguousActionCandidates = null;   //mapping: synonym first
+    private List<Pair<String, Entity>> mAmbiguousTargetCandidates = null;
+    private List<Pair<String, Entity>> mAmbiguousContextCandidates = null;
     private Map<Pair<String, String>, Integer> mAmbiguousCount = new HashMap<>();
 
+    //Confirmation execution state
     private boolean mExpectingReply = false;
-    private Action mPendingAction = null;
-    private Entity mPendingCurrentTarget = null;
+    private Pair<String, String> mAmbiguousPair = null;
+    private String mPendingAction = null;
+    private Entity mPendingTarget = null;
+    private String mPendingContext = null;
 
     public VoiceProcess(
             Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
@@ -70,33 +75,46 @@ public class VoiceProcess {
         }
     }
 
+    public static boolean isGivingMultipleSuggestions() {
+        return sGiveMultipleSuggestions;
+    }
+
+    public static void setGiveMultipleSuggestions(boolean giveMultipleSuggestions) {
+        sGiveMultipleSuggestions = giveMultipleSuggestions;
+    }
+
     public Object processInput(String input) {
         String actionOutput = "";
         if (mDict == null) { return "Error: WordNet not loaded."; }
 
         if (mExpectingReply) {
-            mExpectingReply = false;
             if (input.contains("yes") || input.contains("yeah") || input.contains("yup")) {
-                if (mPendingAction != null && mPendingCurrentTarget != null) {
-                    return addAmbiguousSynonyms() + "\n"
-                            + mPendingAction.execute(mState, mPendingCurrentTarget);
+                if (mPendingAction != null && mPendingTarget != null) {
+                    if (mContextActionMap.get(mPendingContext).get(mPendingAction) != null) {
+                        mExpectingReply = false;
+                        Action action =
+                                mContextActionMap.get(mPendingContext).get(mPendingAction);
+                        return addAmbiguousSynonyms(mAmbiguousPair) + "\n"
+                                + action.execute(mState, mPendingTarget);
+                    }
                 }
+                return "Intent not understood.";
+            } else if (sGiveMultipleSuggestions && (input.contains("no") || input.contains("na")
+                    || input.contains("nope") || input.contains("negative"))){
+                // Try another suggestion until all suggestions are done
+                return generateSuggestion();
             } else {
+                mExpectingReply = false;
                 return "Intent ignored.";
             }
-        } else {
-            mPendingAction = null;
-            mPendingCurrentTarget = null;
         }
 
-        mState.actionFailed();  // by default, we fail to execute input
-        mIsAmbiguousAction = false;
-        mIsAmbiguousTarget = false;
-        mIsAmbiguousContext = false;
-        mAmbiguousActionMap = null;
-        mAmbiguousTargetMap = null;
-        mAmbiguousContextMap = null;
+        mState.actionFailed();  // By default, we fail to execute input
         mActionContext = null;
+
+        mIsAmbiguous = false;
+        mPendingAction = null;
+        mPendingTarget = null;
 
         // Tokenize and tag input
         List<String> words =
@@ -132,9 +150,9 @@ public class VoiceProcess {
             Entity currentTarget;
             String chosenContext;
 
-            boolean usingAltSFS = useAltSlotFillingStructure(words, tags, actionPair.first);
+            mUsingAltSFS = useAltSlotFillingStructure(words, tags, actionPair.first);
 
-            if (usingAltSFS) {
+            if (mUsingAltSFS) {
                 // SFS: with/use CONTEXT ACTION TARGET
                 chosenContext = getBestContext(words, tags, true);
                 actionPair = getBestAction(words, tags);
@@ -161,15 +179,13 @@ public class VoiceProcess {
             } else {
                 Action action = mContextActionMap.get(chosenContext).get(chosenAction);
                 //Check for ambiguous intent
-                if (mIsAmbiguousAction || mIsAmbiguousTarget || mIsAmbiguousContext) {
+                if (mIsAmbiguous) {
                     mExpectingReply = true;
-                    mPendingAction = action;
-                    mPendingCurrentTarget = currentTarget;
-                    String pendingIntent =
-                            buildIntent(chosenAction, currentTarget,
-                                    mActionContext, usingAltSFS);
-                    actionOutput += "Intent not understood.\nDid you mean, \""+pendingIntent+"\"? "
-                            +"(yes/no)";
+                    mPendingAction = chosenAction;
+                    mPendingTarget = currentTarget;
+                    mPendingContext = chosenContext;
+                    //TODO: get all permutations of candidates
+                    actionOutput += "Intent not understood.\n" + generateSuggestion();
                 } else {
                     actionOutput += action.execute(mState, currentTarget);
                 }
@@ -207,32 +223,54 @@ public class VoiceProcess {
         }
     }
 
+    private String generateSuggestion() {
+        if (mAmbiguousActionCandidates.size() > 0 || mAmbiguousTargetCandidates.size() > 0
+                || mAmbiguousContextCandidates.size() > 0) {
+            if (mAmbiguousActionCandidates.size() > 0) {
+                mAmbiguousPair = mAmbiguousActionCandidates.get(0);
+                mPendingAction = mAmbiguousPair.second;
+                mAmbiguousActionCandidates.remove(0);
+            } else if (mAmbiguousTargetCandidates.size() > 0) {
+                String synonym = mAmbiguousTargetCandidates.get(0).first;
+                Entity target = mAmbiguousTargetCandidates.get(0).second;
+                mAmbiguousPair = new Pair<>(synonym, target.getName());
+                mPendingTarget = target;
+                mAmbiguousTargetCandidates.remove(0);
+            } else {
+                String synonym = mAmbiguousContextCandidates.get(0).first;
+                Entity context = mAmbiguousContextCandidates.get(0).second;
+                mAmbiguousPair = new Pair<>(synonym, context.getName());
+                mActionContext = context;
+                if (mContextActionMap.isValidContext(context.getContext())) {
+                    if (mContextActionMap.get(context.getContext()).get(mPendingAction) == null) {
+                        mPendingContext = "default";
+                    } else { mPendingContext = "default"; }
+                } else {
+                    mPendingContext = "default";
+                }
+                mAmbiguousContextCandidates.remove(0);
+            }
+            String pendingIntent =
+                    buildIntent(mPendingAction, mPendingTarget, mActionContext, mUsingAltSFS);
+            return "Did you mean, \"" + pendingIntent + "\"? (yes/no)";
+        } else {
+            mExpectingReply = false;
+            return "No more suggestions. Intent ignored.";
+        }
+    }
+
     private String addSynonym(String synonym, String word) {
         mContextActionMap.addSynonym(synonym, word);
         return "Added synonym: " + synonym + " --> " + word + "\n";
     }
 
-    private String addAmbiguousSynonyms() {
+    private String addAmbiguousSynonyms(Pair<String, String> ambiguousPair) {
         String output = "";
-        if (mAmbiguousActionMap != null) {
-            if (mAmbiguousCount.containsKey(mAmbiguousActionMap)) {
-                output += addSynonym(mAmbiguousActionMap.first, mAmbiguousActionMap.second);
+        if (ambiguousPair != null) {
+            if (mAmbiguousCount.containsKey(ambiguousPair)) {
+                output += addSynonym(ambiguousPair.first, ambiguousPair.second);
             } else {
-                mAmbiguousCount.put(mAmbiguousActionMap, 1);
-            }
-        }
-        if (mAmbiguousTargetMap != null) {
-            if (mAmbiguousCount.containsKey(mAmbiguousTargetMap)) {
-                output += addSynonym(mAmbiguousTargetMap.first, mAmbiguousTargetMap.second);
-            } else {
-                mAmbiguousCount.put(mAmbiguousTargetMap, 1);
-            }
-        }
-        if (mAmbiguousContextMap != null) {
-            if (mAmbiguousCount.containsKey(mAmbiguousContextMap)) {
-                output += addSynonym(mAmbiguousContextMap.first, mAmbiguousContextMap.second);
-            } else {
-                mAmbiguousCount.put(mAmbiguousContextMap, 1);
+                mAmbiguousCount.put(ambiguousPair, 1);
             }
         }
         return output;
@@ -261,6 +299,7 @@ public class VoiceProcess {
         int bestIndex = -1;
         String bestAction = "<none>";
         List<String> actionsList = mContextActionMap.getActions();
+        mAmbiguousActionCandidates = new ArrayList<>();
         for (int i: candidateActions) {
             String word = words.get(i);
             //ignore with/use words
@@ -278,14 +317,19 @@ public class VoiceProcess {
                         continue;
                     }
                     if (word.equals(action)) {
-                        if (deleteWord) {
-                            removeWordAtIndex(words, tags, i);
-                        }
+                        if (deleteWord) { removeWordAtIndex(words, tags, i); }
                         return new Pair<>(i, action);
                     }
                 }
                 for (String action : actionsList) {
                     double score = SemanticSimilarity.getInstance().calculateScore(action, word);
+                    if (score > 0.5 && score < 0.8) {
+                        if (score > bestScore) {
+                            mAmbiguousActionCandidates.add(0, new Pair<>(words.get(i), action));
+                        } else {
+                            mAmbiguousActionCandidates.add(new Pair<>(words.get(i), action));
+                        }
+                    }
                     if (score > bestScore) {
                         bestScore = score;
                         bestIndex = i;
@@ -296,11 +340,7 @@ public class VoiceProcess {
         }
 
         if (bestIndex > -1) {
-            if (bestScore > 0.5 && bestScore < 0.8) {
-                mIsAmbiguousAction = true;
-                mAmbiguousActionMap = new Pair<>(words.get(bestIndex), bestAction);
-            }
-
+            if (bestScore > 0.5 && bestScore < 0.8) { mIsAmbiguous = true; }
             //Remove chosen action from list inputs
             if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
         }
@@ -325,6 +365,7 @@ public class VoiceProcess {
     }
 
     private Entity getBestTarget(List<String> words, List<String> tags, boolean usingAltSFS) {
+        mAmbiguousTargetCandidates = new ArrayList<>();
         List<Integer> candidateTargets = getCandidateTargets(words, tags, usingAltSFS);
         List<Entity> possibleTargetList = mContextActionMap.getPossibleTargets();
         if (candidateTargets == null || possibleTargetList == null ||
@@ -348,6 +389,14 @@ public class VoiceProcess {
                         return target;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, targetName);
+                    //TODO: sort ambiguous candidates in descending order
+                    if (score > 0.7 && score < 0.8) {
+                        if (score > bestScore) {
+                            mAmbiguousTargetCandidates.add(0, new Pair<>(words.get(i), target));
+                        } else {
+                            mAmbiguousTargetCandidates.add(new Pair<>(words.get(i), target));
+                        }
+                    }
                     if (score > bestScore) {
                         bestScore = score;
                         bestIndex = i;
@@ -359,17 +408,14 @@ public class VoiceProcess {
         if (bestTarget == null) {
             return mContextActionMap.mDefaultTarget;
         } else {
-            if (bestScore > 0.7 && bestScore < 0.8) {
-                mIsAmbiguousTarget = true;
-                mAmbiguousTargetMap = new Pair<>(words.get(bestIndex), bestTarget.getName());
-            }
+            if (bestScore > 0.7 && bestScore < 0.8) { mIsAmbiguous = true; }
             removeWordAtIndex(words, tags, bestIndex);
-
             return bestTarget;
         }
     }
 
     private String getBestContext(List<String> words, List<String> tags, boolean usingAltSFS) {
+        mAmbiguousContextCandidates = new ArrayList<>();
         List<Integer> candidateContext = getCandidateContext(words, tags, usingAltSFS);
         List<Entity> possibleContextList = mContextActionMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
@@ -400,6 +446,13 @@ public class VoiceProcess {
                         break;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
+                    if (score > 0.6 && score < 0.8) {
+                        if (score > bestScore) {
+                            mAmbiguousContextCandidates.add(0, new Pair<>(words.get(i), context));
+                        } else {
+                            mAmbiguousContextCandidates.add(new Pair<>(words.get(i), context));
+                        }
+                    }
                     if (score > bestScore) {
                         bestScore = score;
                         bestContext = context;
@@ -414,10 +467,7 @@ public class VoiceProcess {
         if (bestContext != null) {
             bestContextType = bestContext.getContext();
             mActionContext = bestContext;
-            if (bestScore > 0.6 && bestScore < 0.8) {
-                mIsAmbiguousContext = true;
-                mAmbiguousContextMap = new Pair<>(words.get(bestIndex), bestContext.getName());
-            }
+            if (bestScore > 0.6 && bestScore < 0.8) { mIsAmbiguous = true; }
             removeWordAtIndex(words, tags, bestIndex);
         }
 
