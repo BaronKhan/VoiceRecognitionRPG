@@ -551,7 +551,7 @@ $$sim_{lin} = \frac{2*IC(LCS(w_1,w_2))}{IC(w_1)+IC(w_2)}$$
 Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions RRR. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, we can deduce that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information RRR.
 \\
 \\
-Finally, an experimental similarity measure will be implemented which uses the cosine similarity of the definitions.\\
+Finally, an experimental similarity measure will be implemented which uses the cosine similarity of the definitions.
 \\
 \\
 The WordNet database is accessed and traversed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database RRR. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
@@ -583,7 +583,7 @@ Table \ref{action-context-ex-table} shows an example of what an Context-Action m
 
 \subsubsection{Intent Execution}
 
-Each non-null field in the Context-Action map contains a class that extends from an abstract class, \texttt{Action}. This abstract class contains an method called \texttt{run()}, which executes the in-game intent. This method is overridden by the derived classed (such as \texttt{AttackDefault} and \texttt{HealWithPotion}). These \texttt{run()} functions act as wrappers from the actual methods that would execute in the game (or to execute some other actions unrelated to the game, such as displaying the available commands, etc.)
+Each non-null field in the Context-Action map contains a class that extends from an abstract class, \texttt{Action}. This abstract class contains an method called \texttt{run()}, which executes the in-game intent. This method is overridden by the derived classed (such as \texttt{AttackDefault} and \texttt{HealWithPotion}). These \texttt{run()} methods act as wrappers for the actual methods that would execute in the game (or to execute some other actions unrelated to the game, such as displaying the available commands, etc.)
 
 \subsection{System UML Class Diagram}
 
@@ -630,7 +630,21 @@ The \texttt{ContextActionMap} class contains the mapping of contexts to actions.
 
 \subsubsection{\texttt{SemanticSimilarity} Class}
 
-This class contains the semantic similarity engine used for calculating the semantic similarity of two words as a confidence value between 0.0 and 1.0, based on information in the WordNet database. It uses a singleton design pattern so we don't have to instantiate the class every time we want to perform a calculation in a different method, nor do we have to pass a reference to an instance around. It also allows us to use the same static instance across different Android Activity contexts (and therefore allowing the engine's parameters to be changed in a \textit{Settings} activity.)
+This class contains the semantic similarity engine used for calculating the semantic similarity of two words as a confidence value between 0.0 and 1.0, based on information in the WordNet database. It uses a singleton design pattern so we don't have to instantiate the class every time we want to perform a calculation in a different method, nor do we have to pass a reference to an instance around. It also allows us to use the same static instance across different Android Activity contexts (and therefore allowing the engine's parameters to be changed in a \textit{Settings} activity).
+
+\subsection{Game Design Overview}
+
+The voice recognition system will be applied to a text-based role-playing game that has several different modes of play, in order to demonstrate the flexibility of the system. The first mode is similar to the Zork-style text-adventure gameplay, mentioned previously. This involves the player interacting with objects in the environment to solve puzzles while collecting items, in order to progress. This mode is named the \textit{Overworld} mode
+\\
+\\
+The second mode of gameplay is similar to classic turn-based RPGs such as Pokemon or Final Fantasy, where the player character battles an enemy, and the opposing sides alternate between taking turns to either attack, defend, heal, or perform some other action. This mode is called the \textit{Battle} mode.
+
+\subsubsection{Game Flow}
+
+The focus of the project is not on the game itself, but rather on the power and flexibility of the voice recognition system to add voice commands to the game itself. Therefore, only a very simple game will be created with only two rooms, with each room focusing on a different game mode (\textit{Overworld} or \textit{Battle}).
+\\
+\\
+For the first room, the 
 
 \newpage
 \section{Appendix}

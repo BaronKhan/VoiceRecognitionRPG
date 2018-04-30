@@ -64,13 +64,15 @@ Game Design Overview:
 - Battle, Overworld, Zork-like
 - Show UML class diagram
 
-__Implemenation__
+__Implementation__
 
 UI:
 
 CustomWordNet
 
 Android profiler for performance
+
+CustomWordNet: mention meronyms, holonyms, etc.
 
 __Evaluation__
 
