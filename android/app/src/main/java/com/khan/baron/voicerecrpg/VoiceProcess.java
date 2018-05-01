@@ -44,9 +44,6 @@ public class VoiceProcess {
     private List<Pair<String, String>> mAmbiguousActionCandidates = null;   //mapping: synonym first
     private List<Pair<String, Entity>> mAmbiguousTargetCandidates = null;
     private List<Pair<String, Entity>> mAmbiguousContextCandidates = null;
-    private List<Double> mAmbiguousActionScores = null;
-    private List<Double> mAmbiguousTargetScores = null;
-    private List<Double> mAmbiguousContextScores = null;
     private Map<Pair<String, String>, Integer> mAmbiguousCount = new HashMap<>();
 
     //Confirmation execution state
@@ -298,7 +295,7 @@ public class VoiceProcess {
             List<String> words, List<String> tags, boolean deleteWord)
     {
         mAmbiguousActionCandidates = new ArrayList<>();
-        mAmbiguousActionScores = new ArrayList<>();
+        List<Double> ambiguousActionScores = new ArrayList<>();
         List<Integer> candidateActions = getCandidateActions(tags);
         double bestScore = 0.5; //0.7
         int bestIndex = -1;
@@ -328,7 +325,7 @@ public class VoiceProcess {
                 for (String action : actionsList) {
                     double score = SemanticSimilarity.getInstance().calculateScore(action, word);
                     if (score > 0.5 && score < 0.8) {
-                        addAmbiguousCandidate(mAmbiguousActionCandidates, mAmbiguousActionScores,
+                        addAmbiguousCandidate(mAmbiguousActionCandidates, ambiguousActionScores,
                                 new Pair<>(words.get(i), action), score, bestScore);
                     }
                     if (score > bestScore) {
@@ -367,7 +364,7 @@ public class VoiceProcess {
 
     private Entity getBestTarget(List<String> words, List<String> tags, boolean usingAltSFS) {
         mAmbiguousTargetCandidates = new ArrayList<>();
-        mAmbiguousTargetScores = new ArrayList<>();
+        List<Double> ambiguousTargetScores = new ArrayList<>();
         List<Integer> candidateTargets = getCandidateTargets(words, tags, usingAltSFS);
         List<Entity> possibleTargetList = mContextActionMap.getPossibleTargets();
         if (candidateTargets == null || possibleTargetList == null ||
@@ -391,9 +388,8 @@ public class VoiceProcess {
                         return target;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, targetName);
-                    //TODO: sort ambiguous candidates in descending order
                     if (score > 0.7 && score < 0.8) {
-                        addAmbiguousCandidate(mAmbiguousTargetCandidates, mAmbiguousTargetScores,
+                        addAmbiguousCandidate(mAmbiguousTargetCandidates, ambiguousTargetScores,
                                 new Pair<>(words.get(i), target), score, bestScore);
                     }
                     if (score > bestScore) {
@@ -415,7 +411,7 @@ public class VoiceProcess {
 
     private String getBestContext(List<String> words, List<String> tags, boolean usingAltSFS) {
         mAmbiguousContextCandidates = new ArrayList<>();
-        mAmbiguousContextScores = new ArrayList<>();
+        List<Double> ambiguousContextScores = new ArrayList<>();
         List<Integer> candidateContext = getCandidateContext(words, tags, usingAltSFS);
         List<Entity> possibleContextList = mContextActionMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
@@ -447,7 +443,7 @@ public class VoiceProcess {
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
                     if (score > 0.6 && score < 0.8) {
-                        addAmbiguousCandidate(mAmbiguousContextCandidates, mAmbiguousContextScores,
+                        addAmbiguousCandidate(mAmbiguousContextCandidates, ambiguousContextScores,
                                 new Pair<>(words.get(i), context), score, bestScore);
                     }
                     if (score > bestScore) {
