@@ -231,15 +231,16 @@ public class VoiceProcess {
 
     private String generateSuggestion() {
         if (mAmbiguousActionCandidates.size() > 0 || mAmbiguousTargetCandidates.size() > 0
-                || mAmbiguousContextCandidates.size() > 0) {
+                || mAmbiguousContextCandidates.size() > 0)
+        {
             if (mAmbiguousActionCandidates.size() > 0) {
-                getAmbiguousAction(0);
+                getAmbiguousAction(mAmbiguousActionCandidates.get(0));
                 mAmbiguousActionCandidates.remove(0);
             } else if (mAmbiguousTargetCandidates.size() > 0) {
-                getAmbiguousTarget(0);
+                getAmbiguousTarget(mAmbiguousTargetCandidates.get(0));
                 mAmbiguousTargetCandidates.remove(0);
             } else {
-                getAmbiguousContext(0);
+                getAmbiguousContext(mAmbiguousContextCandidates.get(0));
                 mAmbiguousContextCandidates.remove(0);
             }
             String pendingIntent =
@@ -251,9 +252,9 @@ public class VoiceProcess {
         }
     }
 
-    private void getAmbiguousContext(int i) {
-        String synonym = mAmbiguousContextCandidates.get(i).first;
-        Entity context = mAmbiguousContextCandidates.get(i).second;
+    private void getAmbiguousContext(Triple<String, Entity, Double> candidate) {
+        String synonym = candidate.first;
+        Entity context = candidate.second;
         mAmbiguousPair = new Pair<>(synonym, context.getName());
         mActionContext = context;
         if (mContextActionMap.isValidContext(context.getContext())) {
@@ -265,16 +266,16 @@ public class VoiceProcess {
         }
     }
 
-    private void getAmbiguousTarget(int i) {
-        String synonym = mAmbiguousTargetCandidates.get(i).first;
-        Entity target = mAmbiguousTargetCandidates.get(i).second;
+    private void getAmbiguousTarget(Triple<String, Entity, Double> candidate) {
+        String synonym = candidate.first;
+        Entity target = candidate.second;
         mAmbiguousPair = new Pair<>(synonym, target.getName());
         mPendingTarget = target;
     }
 
-    private void getAmbiguousAction(int i) {
-        String synonym = mAmbiguousActionCandidates.get(i).first;
-        String action = mAmbiguousActionCandidates.get(i).second;
+    private void getAmbiguousAction(Triple<String, String, Double> candidate) {
+        String synonym = candidate.first;
+        String action = candidate.second;
         mAmbiguousPair = new Pair<>(synonym, action);
         mPendingAction = mAmbiguousPair.second;
     }
@@ -315,7 +316,6 @@ public class VoiceProcess {
             List<String> words, List<String> tags, boolean deleteWord)
     {
         mAmbiguousActionCandidates = new ArrayList<>();
-        List<Double> ambiguousActionScores = new ArrayList<>();
         List<Integer> candidateActions = getCandidateActions(tags);
         double bestScore = 0.5; //0.7
         int bestIndex = -1;
@@ -386,7 +386,6 @@ public class VoiceProcess {
 
     private Entity getBestTarget(List<String> words, List<String> tags, boolean usingAltSFS) {
         mAmbiguousTargetCandidates = new ArrayList<>();
-        List<Double> ambiguousTargetScores = new ArrayList<>();
         List<Integer> candidateTargets = getCandidateTargets(words, tags, usingAltSFS);
         List<Entity> possibleTargetList = mContextActionMap.getPossibleTargets();
         if (candidateTargets == null || possibleTargetList == null ||
@@ -433,7 +432,6 @@ public class VoiceProcess {
 
     private String getBestContext(List<String> words, List<String> tags, boolean usingAltSFS) {
         mAmbiguousContextCandidates = new ArrayList<>();
-        List<Double> ambiguousContextScores = new ArrayList<>();
         List<Integer> candidateContext = getCandidateContext(words, tags, usingAltSFS);
         List<Entity> possibleContextList = mContextActionMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
