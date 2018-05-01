@@ -152,16 +152,13 @@ public class OverworldTest {
 
     @Test
     public void testMultipleSuggestionsSuite() {
-        if (VoiceProcess.isGivingMultipleSuggestions()) {
-            gameState.initOverworldState(new Room01());
-            assertEquals(gameState.updateState("grab the utensil")
-                    .contains("you mean, \"grab"), true);   // the table
-            assertEquals(gameState.updateState("no")
-                    .contains("you mean, \"grab"), true);   // the door
-            assertEquals(gameState.updateState("no")
-                    .contains("you mean, \"grab"), true);   // the knife
-            assertEquals(gameState.updateState("yes")
-                    .contains("picked up the knife"), true);
-        }
+        VoiceProcess.setGiveMultipleSuggestions(true);
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("grab the utensil")
+                .contains("you mean, \"grab"), true);   // the table
+        assertEquals(gameState.updateState("no")
+                .contains("you mean, \"grab"), true);   // must be the knife next
+        assertEquals(gameState.updateState("yes")
+                .contains("picked up the knife"), true);
     }
 }
