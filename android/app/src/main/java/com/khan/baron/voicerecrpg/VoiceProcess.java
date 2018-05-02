@@ -66,23 +66,7 @@ public class VoiceProcess {
         if (mDict == null) { return "Error: WordNet not loaded."; }
 
         if (mAmbiguousHandler.isExpectingReply()) {
-            if (input.contains("yes") || input.contains("yeah") || input.contains("yup")) {
-                if (mAmbiguousHandler.canExecutePending(mContextActionMap)) {
-                    mAmbiguousHandler.setExpectingReply(false);
-                    Action action = mContextActionMap.get(mAmbiguousHandler.getPendingContext())
-                            .get(mAmbiguousHandler.getPendingAction());
-                    return mAmbiguousHandler.addAmbiguousSynonyms() + "\n"
-                            + action.execute(mState, mAmbiguousHandler.getPendingTarget());
-                }
-                return "Intent not understood.";
-            } else if (AmbiguousHandler.isGivingMultipleSuggestions() && (input.contains("no") ||
-                input.contains("na") || input.contains("nope") || input.contains("negative"))){
-                // Try another suggestion until all suggestions are done
-                return mAmbiguousHandler.generateSuggestion();
-            } else {
-                mAmbiguousHandler.setExpectingReply(false);
-                return "Intent ignored.";
-            }
+            return mAmbiguousHandler.processPendingIntent(input, mState, mContextActionMap);
         }
 
         mState.actionFailed();  // By default, we fail to execute input

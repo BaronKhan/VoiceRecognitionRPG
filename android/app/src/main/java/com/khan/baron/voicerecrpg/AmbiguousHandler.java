@@ -3,6 +3,8 @@ package com.khan.baron.voicerecrpg;
 import android.util.Log;
 import android.util.Pair;
 
+import com.khan.baron.voicerecrpg.actions.Action;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +50,27 @@ public class AmbiguousHandler {
         mIsAmbiguous = false;
         mPendingAction = null;
         mPendingTarget = null;
+    }
+
+    public String processPendingIntent(String input, GlobalState state,
+                                       ContextActionMap contextActionMap) {
+        if (input.contains("yes") || input.contains("yeah") || input.contains("yup")) {
+            if (canExecutePending(contextActionMap)) {
+                mExpectingReply = false;
+                Action action = contextActionMap.get(mPendingContext)
+                        .get(mPendingAction);
+                return addAmbiguousSynonyms() + "\n"
+                        + action.execute(state, mPendingTarget);
+            }
+            return "Intent not understood.";
+        } else if (AmbiguousHandler.isGivingMultipleSuggestions() && (input.contains("no") ||
+                input.contains("na") || input.contains("nope") || input.contains("negative"))){
+            // Try another suggestion until all suggestions are done
+            return generateSuggestion();
+        } else {
+            mExpectingReply = false;
+            return "Intent ignored.";
+        }
     }
 
     public boolean canExecutePending(ContextActionMap map) {
