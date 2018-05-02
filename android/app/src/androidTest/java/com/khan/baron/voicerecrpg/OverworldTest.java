@@ -161,4 +161,16 @@ public class OverworldTest {
         assertEquals(gameState.updateState("yes")
                 .contains("picked up the knife"), true);
     }
+
+    @Test
+    public void testMultipleCommandsAndMultipleSuggestionsSuite() {
+        AmbiguousHandler.setGiveMultipleSuggestions(true);
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("grab the utensil and then cut the painting with the knife")
+                .contains("you mean, \"grab"), true);   // the table
+        assertEquals(gameState.updateState("no")
+                .contains("you mean, \"grab"), true);   // must be the knife next
+        assertEquals(gameState.updateState("yes")
+                .contains("cut the painting"), true);
+    }
 }

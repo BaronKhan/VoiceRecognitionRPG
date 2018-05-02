@@ -34,11 +34,13 @@ public class MultipleCommandProcess {
                 queue.clear();  //ignore the rest of the input
                 String result = "";
                 result += mVoiceProcess.processInput(command);    //process confirmation
-                String nextCommand = mPartialQueue.peek();
-                if (nextCommand != null) {
-                    mPartialQueue.remove();
-                    result += "\n\n---\n\n" + "Found command: \"" + nextCommand + "\"\n"
-                            + mVoiceProcess.processInput(nextCommand);
+                if (!mVoiceProcess.isExpectingReply()) {
+                    String nextCommand = mPartialQueue.peek();
+                    if (nextCommand != null) {
+                        mPartialQueue.remove();
+                        result += "\n\n---\n\n" + "Found command: \"" + nextCommand + "\"\n"
+                                + mVoiceProcess.processInput(nextCommand);
+                    }
                 }
                 return result;
             }
