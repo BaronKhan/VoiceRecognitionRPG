@@ -29,15 +29,15 @@ public class GameState extends GlobalState {
     protected MultipleCommandProcess mBattleVoiceProcess;
 
     private ContextActionMap mOverworldMap;
-    protected MultipleCommandProcess mOverworldVoiceProcess;
+    private MultipleCommandProcess mOverworldVoiceProcess;
 
-    protected Mode mGameMode;
-    protected Enemy mCurrentEnemy;
-    protected Room mCurrentRoom;
+    private Mode mGameMode;
+    private Enemy mCurrentEnemy;
+    private Room mCurrentRoom;
 
-    protected int mPlayerHealth = 100;
+    private int mPlayerHealth = 100;
 
-    protected String mInitOutput;
+    private String mInitOutput;
 
     private static boolean sStartOverworld = true;
 

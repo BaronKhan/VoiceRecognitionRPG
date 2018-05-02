@@ -57,10 +57,8 @@ public class AmbiguousHandler {
         if (input.contains("yes") || input.contains("yeah") || input.contains("yup")) {
             if (canExecutePending(contextActionMap)) {
                 mExpectingReply = false;
-                Action action = contextActionMap.get(mPendingContext)
-                        .get(mPendingAction);
-                return addAmbiguousSynonyms() + "\n"
-                        + action.execute(state, mPendingTarget);
+                Action action = contextActionMap.get(mPendingContext).get(mPendingAction);
+                return addAmbiguousSynonyms() + "\n" + action.execute(state, mPendingTarget);
             }
             return "Intent not understood.";
         } else if (AmbiguousHandler.isGivingMultipleSuggestions() && (input.contains("no") ||
@@ -73,7 +71,7 @@ public class AmbiguousHandler {
         }
     }
 
-    public boolean canExecutePending(ContextActionMap map) {
+    private boolean canExecutePending(ContextActionMap map) {
         return (mPendingAction != null &&
                 mPendingTarget != null &&
                 map.get(mPendingContext).get(mPendingAction) != null);
@@ -108,8 +106,7 @@ public class AmbiguousHandler {
         }
     }
 
-    //TODO: FIX THIS MONSTROSITY
-    //TODO: fix type-checking
+    @SuppressWarnings("unchecked")
     private List<Triple<Triple, Triple, Triple>> generateAmbiguousPermutations() {
         List<Triple<Triple, Triple, Triple>> perms = new ArrayList<>();
         List<Double> scores = new ArrayList<>();   //Separating the score so no need to pass around
@@ -187,6 +184,7 @@ public class AmbiguousHandler {
         return perms;
     }
 
+    @SuppressWarnings("unchecked")
     private void addAmbiguousPermutation(List<Triple<Triple, Triple, Triple>> perms,
                                          List<Double> scores, double score, Triple triple) {
         for (int i = 1; i < scores.size(); ++i) {
@@ -201,7 +199,8 @@ public class AmbiguousHandler {
         perms.add(triple);
     }
 
-    public String generateSuggestion() {
+    @SuppressWarnings("unchecked")
+    private String generateSuggestion() {
         if (mAmbiguousPermutations.size() > 0) {
             Triple<Triple, Triple, Triple> phraseCandidate = mAmbiguousPermutations.get(0);
             mAmbiguousPermutations.remove(0);
@@ -216,26 +215,6 @@ public class AmbiguousHandler {
             mExpectingReply = false;
             return "No more suggestions. Intent ignored.";
         }
-//        if (mAmbiguousActionCandidates.size() > 0 || mAmbiguousTargetCandidates.size() > 0
-//                || mAmbiguousContextCandidates.size() > 0)
-//        {
-//            if (mAmbiguousActionCandidates.size() > 0) {
-//                getAmbiguousAction(mAmbiguousActionCandidates.get(0));
-//                mAmbiguousActionCandidates.remove(0);
-//            } else if (mAmbiguousTargetCandidates.size() > 0) {
-//                getAmbiguousTarget(mAmbiguousTargetCandidates.get(0));
-//                mAmbiguousTargetCandidates.remove(0);
-//            } else {
-//                getAmbiguousContext(mAmbiguousContextCandidates.get(0));
-//                mAmbiguousContextCandidates.remove(0);
-//            }
-//            String pendingIntent =
-//                    buildIntent(mPendingAction, mPendingTarget, mActionContext, mUsingAltSFS);
-//            return "Did you mean, \"" + pendingIntent + "\"? (yes/no)";
-//        } else {
-//            mExpectingReply = false;
-//            return "No more suggestions. Intent ignored.";
-//        }
     }
 
     private void getAmbiguousContext(Triple<String, Entity, Double> candidate) {
@@ -268,7 +247,7 @@ public class AmbiguousHandler {
         mPendingAction = mAmbiguousPair.second;
     }
 
-    public String addAmbiguousSynonyms() {
+    private String addAmbiguousSynonyms() {
         String output = "";
         if (mAmbiguousPair != null) {
             if (mAmbiguousCount.containsKey(mAmbiguousPair)) {
@@ -280,6 +259,7 @@ public class AmbiguousHandler {
         return output;
     }
 
+    @SuppressWarnings("unchecked")
     private void addAmbiguousCandidate(
             List candidates, Triple triple, double bestScore) {
         if ((Double)(triple.third) > bestScore) {
