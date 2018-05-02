@@ -152,7 +152,7 @@ public class OverworldTest {
 
     @Test
     public void testMultipleSuggestionsSuite() {
-        VoiceProcess.setGiveMultipleSuggestions(true);
+        AmbiguousHandler.setGiveMultipleSuggestions(true);
         gameState.initOverworldState(new Room01());
         assertEquals(gameState.updateState("grab the utensil")
                 .contains("you mean, \"grab"), true);   // the table

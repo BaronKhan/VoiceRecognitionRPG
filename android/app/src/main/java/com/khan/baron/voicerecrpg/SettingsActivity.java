@@ -54,10 +54,10 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         mMultSuggestSwitch = (Switch) findViewById(R.id.switchMultSuggestions);
-        mMultSuggestSwitch.setChecked(VoiceProcess.isGivingMultipleSuggestions());
+        mMultSuggestSwitch.setChecked(AmbiguousHandler.isGivingMultipleSuggestions());
         mMultSuggestSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                VoiceProcess.setGiveMultipleSuggestions(isChecked);
+                AmbiguousHandler.setGiveMultipleSuggestions(isChecked);
             }
         });
     }
