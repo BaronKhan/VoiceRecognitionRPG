@@ -174,6 +174,7 @@ Problem: Semantic similarity messes up sometimes
 - Have list of suggestions and go through them
 - "show my troll", "obliterate the troll" are ambiguous
 - "grab the utensil"
+- Add attempts timeout
 
 
 Performance Issues
