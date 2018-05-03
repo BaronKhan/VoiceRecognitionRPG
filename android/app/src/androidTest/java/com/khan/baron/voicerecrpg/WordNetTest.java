@@ -85,6 +85,18 @@ public class WordNetTest {
         input = "fly away and never come back";
         words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
         assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
+
+        input = "attack the troll";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
+
+        input = "grab the utensil";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
+
+        input = "obliterate the enemy";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
     }
 
     @Test
