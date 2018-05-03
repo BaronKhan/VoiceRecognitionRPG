@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
@@ -58,6 +60,34 @@ public class WordNetTest {
     }
 
     @Test
+    public void testSentenceMatchingSuite() {
+        ContextActionMap map = new BattleContextActionMap(null);
+        String input = "what is in my inventory";
+        List<String> words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "inventory");
+
+        input = "what actions can i do";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "actions");
+
+        input = "what are my options";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "actions");
+
+        input = "jump up and down";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
+
+        input = "can you tell me what i can do please";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "actions");
+
+        input = "fly away and never come back";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
+    }
+
+    @Test
     public void testHypernyms() {
         String input = "dog";
         try {
@@ -86,7 +116,7 @@ public class WordNetTest {
                         break;
                     }
                 }
-            }
+            } else { assertEquals("taggedList == null", true, false); }
 
             // get first verb or noun
             IIndexWord idxWord = dict.getIndexWord(input, tagType);

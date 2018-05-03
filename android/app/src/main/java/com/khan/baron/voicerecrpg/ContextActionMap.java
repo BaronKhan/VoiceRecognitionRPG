@@ -12,7 +12,7 @@ import java.util.Map;
  */
 
 public abstract class ContextActionMap extends Entity {
-    protected GlobalState mState = null;
+    protected GlobalState mState;
     protected List<Entity> mPossibleTargets = new ArrayList<>();
     protected Entity mDefaultTarget = null;
     protected List<Entity> mPossibleContexts = new ArrayList<>();
@@ -20,12 +20,14 @@ public abstract class ContextActionMap extends Entity {
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
     protected Map<String, String> mIgnoreMap = new HashMap<>();
+    protected SentenceMapper mSentenceMapper;
 
     public ContextActionMap(GlobalState state) {
         super("actions", "commands", "options");
         setContext("actions");
         mState = state;
         mPossibleTargets.add(this);
+        mSentenceMapper = new SentenceMapper(this);
     }
 
     public Map<String, Action> get(String action) { return mMap.get(action); }
@@ -110,4 +112,15 @@ public abstract class ContextActionMap extends Entity {
         return false;
     }
 
+    public void addSentenceMatch(Action action, String targetName, String ... examples) {
+        mSentenceMapper.addSentenceMatch(action, targetName, examples);
+    }
+
+    public SentenceMapper getSentenceMapper() {
+        return mSentenceMapper;
+    }
+
+    public void setSentenceMapper(SentenceMapper mSentenceMapper) {
+        this.mSentenceMapper = mSentenceMapper;
+    }
 }

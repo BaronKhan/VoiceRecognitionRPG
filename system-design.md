@@ -180,12 +180,12 @@ Problem: Semantic similarity messes up sometimes
 Performance Issues
 ------------------
 
-Problem: command, "break the table" was taking too long, this is due to
+- Problem: command, "break the table" was taking too long, this is due to
 "break" being the last action checked, so all the previous actions are
 using semantic similarity.
 
 
-Solution: use concurrency? Also separate for loop into two separate for loops,
+- Solution: use concurrency? Also separate for loop into two separate for loops,
 if a direct match is found then don't have to run semantic similarity.
 
 
@@ -194,10 +194,26 @@ Generate room based on description
 
 - Developer gives string input and then game generates room.
 - Use methods which take as input the string text
-- Have conditional methods for whether the to display one text or another (e.g.
+- Have conditional methods for whether to display one text or another (e.g.
   if knife in room)
 - addDescription(), addDescription(..., cond), etc.
--
+- This should be considered an extension
+
+Sentence similarity
+-----------------
+
+- Idea: let developer define pre-made phrases that map to intents
+- Calculate semantic similarity of each word pair and give sentence score
+- Have SentenceMapper class
+- Run when intent is not understood and before first suggestion
+- Let developer add example sentences for to map to an Action
+- For each example sentence, specify target and context
+- When executing intent, check if specified target is in possible targets list
+- How to check: check string names of targets
+- Example: "what is in my bag?", "what is inside my inventory",
+"what items do I have?"
+- Use cosine similarity calculation of similarity?
+- Using soft cosine similarity measure ()
 
 CustomWordNet
 ----------------

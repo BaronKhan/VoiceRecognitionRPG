@@ -24,6 +24,21 @@ public class OverworldContextActionMap extends ContextActionMap {
 
         addSynonym("observe", "look");
         addSynonym("reveal", "show");
+
         addMatchIgnore("jump", "look");
+
+        addSentenceMatch(new ShowDefault(), "inventory",
+                "what is in my inventory",
+                "what are the contents of my bag",
+                "what items do i have"
+        );
+
+        addSentenceMatch(new ShowDefault(), "actions",
+                "what can i do",
+                "what are my actions",
+                "what are the commands",
+                "what action can i do",
+                "what are my options"
+        );
     }
 }

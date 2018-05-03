@@ -75,14 +75,17 @@ public class VoiceProcess {
         mAmbiguousHandler.resetState();
 
         // Tokenize and tag input
-        List<String> words =
-                new ArrayList<>(new LinkedList<>(Arrays.asList(input.toLowerCase().split(" "))));
+        List<String> words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
         List<String> tags = getTags(input);
         removeContractions(words, tags);
         if (words.size()!=tags.size()) {
             throw new AssertionError("Error: no. of words("+words.size()
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
+
+        //Copy words and tags list
+        List<String> wordsCopy = new ArrayList<>(words);
+        List<String> tagsCopy = new ArrayList<>(tags);
 
         // Check for learning phrase ("___ means ___")
         if (words.size() == 3 && words.contains("means")) {
