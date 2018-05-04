@@ -105,6 +105,13 @@ public abstract class ContextActionMap extends Entity {
         return false;
     }
 
+    public Entity getPossibleTarget(String name) {
+        for (Entity target : mPossibleTargets) {
+            if (target.getName().equals(name)) { return target; }
+        }
+        return null;
+    }
+
     public boolean hasPossibleContext(String name) {
         for (Entity context : mPossibleContexts) {
             if (context.getName().equals(name)) { return true; }

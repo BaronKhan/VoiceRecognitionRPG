@@ -67,8 +67,7 @@ public class BattleTest {
         testAttackedTroll("heal", false);
         testAttackedTroll("launch an assault", true);
         testAttackedTroll("charge at the troll", true);
-        //TODO: jump detected, use cosine similarity to ignore
-//        testAttackedTroll("jump up and down", false);
+        testAttackedTroll("jump up and down", false);
         testAttackedTroll("fight the troll", true);
         gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
         testAttackedTroll("attack the troll", true);
@@ -210,5 +209,17 @@ public class BattleTest {
                 "regenerate using a potion").contains("you mean, \"attack"), true);
         testAttackedWithSword("yes", true);
         testHealed("yeah", true);
+    }
+
+    @Test
+    public void testSentenceMatching() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        assertEquals(gameState.updateState("what are my actions")
+                .contains("following actions"), true);
+        assertEquals(gameState.updateState("what actions can i do")
+                .contains("following actions"), true);
+        testInventoryShown("what is in my bag", true);
+        testInventoryShown("hello world", false);
     }
 }

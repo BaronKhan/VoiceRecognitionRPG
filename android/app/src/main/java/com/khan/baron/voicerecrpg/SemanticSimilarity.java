@@ -103,7 +103,4 @@ public class SemanticSimilarity {
             return 0.0;
         }
     }
-
-    //TODO: calculate cosine similarity of definitions
-    private double calculateDefinitionCosSimilarity(String word1, String word2) { return 0.0; }
 }

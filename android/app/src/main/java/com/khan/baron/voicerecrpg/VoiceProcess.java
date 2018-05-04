@@ -83,9 +83,19 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
-        //Copy words and tags list
-        List<String> wordsCopy = new ArrayList<>(words);
-        List<String> tagsCopy = new ArrayList<>(tags);
+        //Perform sentence matching first
+        //TODO: move this to after an intent is not understood (too slow here)
+        SentenceMapper sentenceMapper = mContextActionMap.getSentenceMapper();
+        Triple<Action, String, List<String>> match = sentenceMapper.checkSentenceMatch(words);
+        if (match != null) {
+            //Check if target is available
+            String targetName = match.second;
+            if (mContextActionMap.hasPossibleTarget(targetName)) {
+                Entity target = mContextActionMap.getPossibleTarget(targetName);
+                Action action = match.first;
+                return action.execute(mState, target);
+            }
+        }
 
         // Check for learning phrase ("___ means ___")
         if (words.size() == 3 && words.contains("means")) {
