@@ -83,19 +83,7 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
-        //Perform sentence matching first
-        //TODO: move this to after an intent is not understood (too slow here)
-        SentenceMapper sentenceMapper = mContextActionMap.getSentenceMapper();
-        Triple<Action, String, List<String>> match = sentenceMapper.checkSentenceMatch(words);
-        if (match != null) {
-            //Check if target is available
-            String targetName = match.second;
-            if (mContextActionMap.hasPossibleTarget(targetName)) {
-                Entity target = mContextActionMap.getPossibleTarget(targetName);
-                Action action = match.first;
-                return action.execute(mState, target);
-            }
-        }
+        List<String> wordsCopy = new ArrayList<>(words);
 
         // Check for learning phrase ("___ means ___")
         if (words.size() == 3 && words.contains("means")) {
@@ -111,7 +99,11 @@ public class VoiceProcess {
                     return "Sorry. Neither \"" + firstWord + "\" nor \"" + secondWord
                             + "\" are valid actions.";
                 }
-            } else { return "Intent not understood"; }
+            } else {
+                Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                if (sentenceMatchResult != null) { return sentenceMatchResult; }
+                return "Intent not understood";
+            }
         }
 
         Pair<Integer, String> actionPair = getBestAction(words, tags, false);
@@ -146,11 +138,16 @@ public class VoiceProcess {
             }
 
             if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
+                Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                if (sentenceMatchResult != null) { return sentenceMatchResult; }
                 actionOutput += "Intent not understood.";
             } else {
                 Action action = mContextActionMap.get(chosenContext).get(chosenAction);
                 //Check for ambiguous intent
                 if (mAmbiguousHandler.isAmbiguous()) {
+                    Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                    if (sentenceMatchResult != null) { return sentenceMatchResult; }
+
                     actionOutput += mAmbiguousHandler.initSuggestion(
                             chosenAction, currentTarget, chosenContext);
                 } else {
@@ -165,14 +162,33 @@ public class VoiceProcess {
                 if (mActionContext != null) {
                     actionOutput = "What do you want to use the "+mActionContext.getName()+" for?";
                 } else {
+                    Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                    if (sentenceMatchResult != null) { return sentenceMatchResult; }
                     actionOutput = "Intent not understood.";
                 }
             } else {
+                Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                if (sentenceMatchResult != null) { return sentenceMatchResult; }
                 actionOutput = "Intent not understood.";
             }
         }
 
         return actionOutput;
+    }
+
+    private Object checkMatchingSentence(List<String> words) {
+        SentenceMapper sentenceMapper = mContextActionMap.getSentenceMapper();
+        Triple<Action, String, List<String>> match = sentenceMapper.checkSentenceMatch(words);
+        if (match != null) {
+            //Check if target is available
+            String targetName = match.second;
+            if (mContextActionMap.hasPossibleTarget(targetName)) {
+                Entity target = mContextActionMap.getPossibleTarget(targetName);
+                Action action = match.first;
+                return action.execute(mState, target);
+            }
+        }
+        return null;
     }
 
     public String addSynonym(String synonym, String word) {
@@ -219,15 +235,14 @@ public class VoiceProcess {
                     return new Pair<>(i, mContextActionMap.getSynonymAction(word));
                 }
                 for (String action : actionsList) {
-                    if (mContextActionMap.wordIsIgnored(word, action)) {
-                        continue;
-                    }
+                    if (mContextActionMap.wordIsIgnored(word, action)) { continue; }
                     if (word.equals(action)) {
                         if (deleteWord) { removeWordAtIndex(words, tags, i); }
                         return new Pair<>(i, action);
                     }
                 }
                 for (String action : actionsList) {
+                    if (mContextActionMap.wordIsIgnored(word, action)) { continue; }
                     double score = SemanticSimilarity.getInstance().calculateScore(action, word);
                     if (score > 0.5 && score < 0.8) {
                         mAmbiguousHandler.addAmbiguousActionCandidate(

@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -172,5 +172,17 @@ public class OverworldTest {
                 .contains("you mean, \"grab"), true);   // must be the knife next
         assertEquals(gameState.updateState("yes")
                 .contains("cut the painting"), true);
+    }
+
+    @Test
+    public void testSentenceMatching() {
+        gameState.initOverworldState(new Room01());
+        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        assertEquals(gameState.updateState("what are my actions")
+                .contains("following actions"), true);
+        assertEquals(gameState.updateState("what actions can i do")
+                .contains("following actions"), true);
+        testInventoryShown("what is in my bag", true);
+        testInventoryShown("hello world", false);
     }
 }

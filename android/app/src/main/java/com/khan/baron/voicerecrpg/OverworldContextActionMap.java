@@ -26,6 +26,7 @@ public class OverworldContextActionMap extends ContextActionMap {
         addSynonym("reveal", "show");
 
         addMatchIgnore("jump", "look");
+        addMatchIgnore("do", "cut");
 
         addSentenceMatch(new ShowDefault(), "inventory",
                 "what is in my inventory",

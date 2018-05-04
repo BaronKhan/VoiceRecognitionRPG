@@ -27,6 +27,8 @@ public class BattleContextActionMap extends ContextActionMap {
         addSynonym("blade", "knife");
 
         addMatchIgnore("jump", "look");
+        addMatchIgnore("jump", "attack");
+        addMatchIgnore("bag", "attack");
 
         addSentenceMatch(new ShowDefault(), "inventory",
                 "what is in my inventory",
