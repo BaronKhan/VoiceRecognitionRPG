@@ -63,7 +63,7 @@
 This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases.
 \\
 \\
-We explore and evaluate various methods for improving the voice recognition system with the aim of decreasing the developer workload. These include using semantic similarity methods, a user-controlled learning mechanism, and various other NLP techniques.}
+We explore and evaluate various methods for improving the voice recognition system with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques.}
 
 \newpage
 
@@ -644,7 +644,45 @@ The second mode of gameplay is similar to classic turn-based RPGs such as Pokemo
 The focus of the project is not on the game itself, but rather on the power and flexibility of the voice recognition system to add voice commands to the game itself. Therefore, only a very simple game will be created with only two rooms, with each room focusing on a different game mode (\textit{Overworld} or \textit{Battle}).
 \\
 \\
-For the first room, the 
+For the first room, the player is placed in a room where they are presented with a puzzle as part of the \textit{Overworld} mode. The room features the following description:
+
+\begin{itemize}
+\item "You are in a room with a locked door in front of you.
+
+\item "There is a glass table in the middle of the room."
+
+\item "There is a knife on the table."
+
+\item "A painting of a tree hangs by a string on the left wall."
+\end{itemize}
+
+The player must obtain a key hidden behind the painting by cutting it down using the knife (or any other sharp item they may possess such as a sword), and then use the key to open the door.
+\\
+\\
+During the overworld gameplay, the user is capable of performing the following actions:
+
+\begin{center}
+[look, show, grab, open, cut, break]
+\end{center}
+
+Example commands include, "show my inventory", "look around the room", "grab the knife", "cut the painting", and so on.
+\\
+\\
+Each room in the game that features the overworld gameplay is represented by a finite state automaton. When the player performs certain actions (e.g. cutting the painting down), the state of the room will progress until the player has performed the correct  actions in the correct order and is able to progress to the next room. Figure \ref{fig:room1-fsa} show the state machine for the first room.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{room1-fsa.pdf}
+  \caption{The state machine for the first room in the game.}
+  \label{fig:room1-fsa}
+  \end{center}
+\end{figure}
+\end{center}
+
+For the second room, the player is presented with a battle with an enemy as part of the \textit{Battle} mode.
+
+\subsection{Game Design UML Class Diagram}
 
 \newpage
 \section{Appendix}

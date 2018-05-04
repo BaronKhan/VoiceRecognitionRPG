@@ -42,21 +42,12 @@ Show a UML diagram of the following:
 - SemanticSimilarity (singleton, mention Android activity states)
 Explain each one
 
-
-Design Patterns:
-
-VoiceProcess:
-  POS Tagger:
-
-  SFS: (plus alternative)
-
-  Entity:
-
-  Targets and Contexts:
-
-  ContextActionMap (mention TargetActionMap as an alternative, chose ContextActionMap for game)
-
-  Learning
+Explain QOL features:
+- synonyms
+- match ignores
+- Confirmation
+- multiple Commands
+- sentence mapping
 
 Semantic Similarity:
 
@@ -90,6 +81,8 @@ Contributions
 - Created GitHub gist (even if I can't get the Gloss working)
 
 __Conclusion and Future Work__
+
+Mention language changes
 
 Appendix:
 Screeenshots of app
