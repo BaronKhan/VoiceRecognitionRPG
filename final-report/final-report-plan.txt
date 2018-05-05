@@ -49,8 +49,6 @@ Explain QOL features:
 - multiple Commands
 - sentence mapping
 
-Semantic Similarity:
-
 Game Design Overview:
 - Battle, Overworld, Zork-like
 - Show UML class diagram
@@ -68,6 +66,14 @@ CustomWordNet: mention meronyms, holonyms, etc.
 __Evaluation__
 
 Mock testing
+
+Number of tests:
+Overworld: 44
+Battle: 67
+Total time for all tests: 3m 59s 113ms
+WordNet test time: 41s 9ms
+Time for other tests: 198104ms = 3m 18s 104ms
+Time for one test: 1785ms = 1s 784ms
 
 Evaluation of effectiveness of slot-filling
 
