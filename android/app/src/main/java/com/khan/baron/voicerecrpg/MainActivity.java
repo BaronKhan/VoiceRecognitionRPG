@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         mVoiceControl = new VoiceControl(this,
                 (TextView) findViewById(R.id.txtInput),
                 (TextView) findViewById(R.id.txtOutput),
+                (TextView) findViewById(R.id.txtTimer),
                 mGameState);
         mVoiceControl.setOutputText(mGameState.getInitOutput());
 

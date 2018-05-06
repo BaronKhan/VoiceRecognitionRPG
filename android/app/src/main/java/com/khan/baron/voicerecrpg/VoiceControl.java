@@ -16,17 +16,20 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class VoiceControl implements RecognitionListener {
     private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 10;
+    private final boolean DEBUG_TIMER = true;
     private final String LOG_TAG = "VoiceControl";
 
     private AppCompatActivity mActivity;
 
     private TextView mTxtInput;
     private TextView mTxtOutput;
+    private TextView mTxtTimer;
 
-    private SpeechRecognizer mSpeech = null;
+    private SpeechRecognizer mSpeech;
     private Intent mRecognizerIntent;
 
     private GameState mGameState;
@@ -34,11 +37,12 @@ public class VoiceControl implements RecognitionListener {
     private boolean mCanRecord;
 
     public VoiceControl(AppCompatActivity activity, TextView txtInput, TextView txtOutput,
-                        GameState gameState) {
+                        TextView txtTimer, GameState gameState) {
         super();
         mActivity = activity;
         mTxtInput = txtInput;
         mTxtOutput = txtOutput;
+        mTxtTimer = txtTimer;
         mGameState = gameState;
 
         mTxtOutput.setMovementMethod(new ScrollingMovementMethod());
@@ -184,7 +188,14 @@ public class VoiceControl implements RecognitionListener {
 
     private void updateGameState(String input) {
         String newOutput = "\n\n----------\n\n\"" + mTxtInput.getText()+ "\"\n";
+        long startTime = System.currentTimeMillis();
         String output = mGameState.updateState(input);
+        long endTime = System.currentTimeMillis();
+        if (DEBUG_TIMER) {
+            mTxtTimer.setText((endTime - startTime) + " ms");
+        } else {
+            mTxtTimer.setText("");
+        }
         newOutput += output;
         appendOutputTextAndScroll(newOutput);
         // TODO: play TTS (should be optional)
