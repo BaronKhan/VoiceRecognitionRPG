@@ -37,7 +37,8 @@ import edu.mit.jwi.item.SynsetID;
 public class CustomLexicalDatabase implements ILexicalDatabase {
     public IDictionary mDict;
     public Map<String, ISynset> synsetMap = new HashMap<>();
-    private static PorterStemmer stemmer;
+    private static PorterStemmer sStemmer;
+    private Map<String, Collection<String>> glossCache = new HashMap<>();
 
     public static POS stringToTag(String posStr) {
         if (posStr.equals("n")) { return POS.NOUN; }
@@ -102,33 +103,30 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
 
     // Note: most of this method is similar to the NictWordNet one, but using JWI instead
     // https://github.com/Sciss/ws4j/blob/master/src/main/java/edu/cmu/lti/lexical_db/NictWordNet.java
-    public Collection<String> getGloss( Concept synset, String linkString ) {
-        Log.d("CustomLexicalDatabase", "entered getGloss()");
+    public Collection<String> getGloss( Concept synset, String linkString, boolean useAll ) {
         String synsetStr = synset.getSynset();
 
         char posTag = '*';
         Pattern p = Pattern.compile("-[a-zA-Z]");
         Matcher m = p.matcher(synsetStr.toLowerCase());
         if (m.find()) { posTag = m.group(0).charAt(1); }
-        Log.d("CustomLexicalDatabase", "synsetStr = "+synsetStr+", posTag = "+posTag);
 
         if (posTag == '*') { return new ArrayList<>(); }
 
         int synsetOffset = Integer.parseInt(synsetStr.replaceAll("-[a-zA-Z]", ""));
         SynsetID synsetID = new SynsetID(synsetOffset, POS.getPartOfSpeech(posTag));
         ISynset synsetJWI = mDict.getSynset(synsetID);
-        Log.d("CustomLexicalDatabase", "synsetJWI = " + synsetJWI);
 
         //Build up pointer to synsets (link = pointer)
         List<ISynsetID> linkedSynsets = new ArrayList<>();
         Link link = null;
         try {
             link = Link.valueOf(linkString);
-            if (link.equals(Link.mero)) {
+            if (link.equals(Link.mero) && useAll) {
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_MEMBER));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_SUBSTANCE));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_PART));
-            } else if (link.equals(Link.holo)) {
+            } else if (link.equals(Link.holo) && useAll) {
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_MEMBER));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_SUBSTANCE));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_PART));
@@ -141,8 +139,6 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
             Log.d("CustomLexicalDatabase", "IllegalArgumentException: "+ e.getMessage());
             linkedSynsets.add(synsetJWI.getID()); }
 
-
-        Log.d("CustomLexicalDatabase", "building glosses...");
         List<String> glosses = new ArrayList<>();
         for (ISynsetID linkedSynsetID : linkedSynsets) {
             String gloss = null;
@@ -165,15 +161,21 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
             gloss = gloss.toLowerCase();
 
             if ( WS4JConfiguration.getInstance().useStem() ) {
-                gloss = stemmer.stemSentence( gloss );
+                gloss = sStemmer.stemSentence( gloss );
             }
 
             glosses.add( gloss );
         }
-        Log.d("CustomLexicalDatabase", "glosses = "+glosses);
-        Log.d("CustomLexicalDatabase", "exiting getGloss()");
         return glosses;
-//        return null;
+    }
+
+    public Collection<String> getGloss( Concept synset, String linkString ) {
+        return getGloss(synset, linkString, true);
+    }
+
+    public Collection<String> getSimpleGloss( Concept synset, String linkString ) {
+        Log.d("CustomLexicalDatabase", "using getSimpleGloss()");
+        return getGloss(synset, linkString, false);
     }
 
     private List<String> clone( List<String> original ) {
