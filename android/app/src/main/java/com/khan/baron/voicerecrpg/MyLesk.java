@@ -18,6 +18,11 @@ import edu.cmu.lti.ws4j.util.OverlapFinder.Overlaps;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RecursiveAction;
+import java.util.stream.IntStream;
 
 //Custom Lesk class (altered from decompiled Lesk bytecode)
 public class MyLesk extends RelatednessCalculator {
@@ -48,19 +53,31 @@ public class MyLesk extends RelatednessCalculator {
     protected Relatedness calcRelatedness(Concept synset1, Concept synset2) {
         if (synset1 != null && synset2 != null) {
             StringBuilder tracer = new StringBuilder();
-            List<SuperGloss> glosses = this.getSuperGlosses(synset1, synset2);
+            final List<SuperGloss> glosses = this.getSuperGlosses(synset1, synset2);
             int score = 0;
 
-            for(int i = 0; i < glosses.size(); ++i) {
-                SuperGloss sg = (SuperGloss)glosses.get(i);
-                double functionsScore = this.calcFromSuperGloss(sg.gloss1, sg.gloss2);
-                functionsScore *= ((SuperGloss)glosses.get(i)).weight;
-                if (enableTrace && functionsScore > 0.0D) {
-                    tracer.append("Functions: " + sg.link1.trim() + " - " + sg.link2.trim() + " : " + functionsScore + "\n");
-                    tracer.append(this.overlapLogMax + "\n\n");
+            final int[] scoreList = new int[glosses.size()];
+            ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            try {
+                for (int i=0; i<glosses.size(); ++i) {
+                    final int ii = i;
+                    exec.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            scoreList[ii] =  0;
+                            SuperGloss sg = (SuperGloss)glosses.get(ii);
+                            double functionsScore = calcFromSuperGloss(sg.gloss1, sg.gloss2);
+                            functionsScore *= ((SuperGloss)glosses.get(ii)).weight;
+                            scoreList[ii] = (int)((double)scoreList[ii] + functionsScore);
+                        }
+                    });
                 }
+            } finally {
+                exec.shutdown();
+            }
 
-                score = (int)((double)score + functionsScore);
+            for (int s : scoreList) {
+                score += s;
             }
 
             return new Relatedness((double)score, tracer.toString(), (String)null);
@@ -134,16 +151,16 @@ public class MyLesk extends RelatednessCalculator {
 
     public List<GlossFinder.SuperGloss> getSuperGlosses(Concept synset1, Concept synset2) {
         List<GlossFinder.SuperGloss> glosses = new ArrayList(pairs.length);
-        String[] arr$ = pairs;
-        int len$ = arr$.length;
+        String[] arr = pairs;
+        int len = arr.length;
 
-        for(int i = 0; i < len$; ++i) {
-            String pair = arr$[i];
+        for(int i = 0; i < len; ++i) {
+            String pair = arr[i];
             String[] links = pair.split(":");
             GlossFinder.SuperGloss sg = new GlossFinder.SuperGloss();
             if (db instanceof CustomLexicalDatabase) {
-                sg.gloss1 = (List) ((CustomLexicalDatabase)this.db).getSimpleGloss(synset1, links[0]);
-                sg.gloss2 = (List) ((CustomLexicalDatabase)this.db).getSimpleGloss(synset2, links[1]);
+                sg.gloss1 = (List) ((CustomLexicalDatabase)this.db).getGlossOptimised(synset1, links[0]);
+                sg.gloss2 = (List) ((CustomLexicalDatabase)this.db).getGlossOptimised(synset2, links[1]);
             } else {
                 //Get normal gloss
                 sg.gloss1 = (List) this.db.getGloss(synset1, links[0]);

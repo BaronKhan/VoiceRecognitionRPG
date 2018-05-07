@@ -225,6 +225,13 @@ Good examples
 
 - "pick up the cutlery" --> grab the knife
 
+Lesk
+-----------------
+
+- Current time: 12min 27s
+- Remove replaceAlls: 3min 4s
+- Single replaceAll: 2min 13s
+
 
 TODO
 -----------------

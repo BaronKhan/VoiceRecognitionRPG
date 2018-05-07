@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,7 +104,7 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
 
     // Note: most of this method is similar to the NictWordNet one, but using JWI instead
     // https://github.com/Sciss/ws4j/blob/master/src/main/java/edu/cmu/lti/lexical_db/NictWordNet.java
-    public Collection<String> getGloss( Concept synset, String linkString, boolean useAll ) {
+    public Collection<String> getGloss( Concept synset, String linkString, boolean useFull ) {
         String synsetStr = synset.getSynset();
 
         char posTag = '*';
@@ -122,11 +123,11 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
         Link link = null;
         try {
             link = Link.valueOf(linkString);
-            if (link.equals(Link.mero) && useAll) {
+            if (link.equals(Link.mero) && useFull) {
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_MEMBER));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_SUBSTANCE));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_PART));
-            } else if (link.equals(Link.holo) && useAll) {
+            } else if (link.equals(Link.holo) && useFull) {
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_MEMBER));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_SUBSTANCE));
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_PART));
@@ -136,10 +137,10 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
                 linkedSynsets.addAll(synsetJWI.getRelatedSynsets());
             }
         } catch (IllegalArgumentException e) {
-            Log.d("CustomLexicalDatabase", "IllegalArgumentException: "+ e.getMessage());
-            linkedSynsets.add(synsetJWI.getID()); }
+            linkedSynsets.add(synsetJWI.getID());
+        }
 
-        List<String> glosses = new ArrayList<>();
+        List<String> glosses = new CopyOnWriteArrayList<>();
         for (ISynsetID linkedSynsetID : linkedSynsets) {
             String gloss = null;
             ISynset linkedSynsetJWI = mDict.getSynset(linkedSynsetID);
@@ -151,13 +152,19 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
 
             if (gloss == null) { continue; }
 
-            gloss = gloss.replaceAll("[.;:,?!(){}\"`$%@<>]", " ");
-            gloss = gloss.replaceAll("&", " and ");
-            gloss = gloss.replaceAll("_", " ");
-            gloss = gloss.replaceAll("[ ]+", " ");
-            gloss = gloss.replaceAll("(?<!\\w)'", " ");
-            gloss = gloss.replaceAll("'(?!\\w)", " ");
-            gloss = gloss.replaceAll("--", " ");
+            if (useFull) {
+                gloss = gloss.replaceAll("[.;:,?!(){}\"`$%@<>]", " ");
+                gloss = gloss.replaceAll("&", " and ");
+                gloss = gloss.replaceAll("_", " ");
+                gloss = gloss.replaceAll("[ ]+", " ");
+                gloss = gloss.replaceAll("(?<!\\w)'", " ");
+                gloss = gloss.replaceAll("'(?!\\w)", " ");
+                gloss = gloss.replaceAll("--", " ");
+            } /*else {
+                gloss = gloss.replaceAll("&", " and ");
+                gloss = gloss.replaceAll("[.;:,?!(){}\"`$%@<>]|_|[ ]+|(?<!\\w)'|'(?!\\w)|--", " ");
+            }*/
+
             gloss = gloss.toLowerCase();
 
             if ( WS4JConfiguration.getInstance().useStem() ) {
@@ -166,6 +173,7 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
 
             glosses.add( gloss );
         }
+        Log.d("CustomLexicalDatabase", "Glosses = "+glosses.toString());
         return glosses;
     }
 
@@ -173,13 +181,13 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
         return getGloss(synset, linkString, true);
     }
 
-    public Collection<String> getSimpleGloss( Concept synset, String linkString ) {
-        Log.d("CustomLexicalDatabase", "using getSimpleGloss()");
+    public Collection<String> getGlossOptimised(Concept synset, String linkString ) {
+        Log.d("CustomLexicalDatabase", "using getGlossOptimised()");
         return getGloss(synset, linkString, false);
     }
 
     private List<String> clone( List<String> original ) {
-        return new ArrayList<String>( original );
+        return new ArrayList<>( original );
     }
 
 }

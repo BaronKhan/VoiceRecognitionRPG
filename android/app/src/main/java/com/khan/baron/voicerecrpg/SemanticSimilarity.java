@@ -18,7 +18,8 @@ public class SemanticSimilarity {
         METHOD_WUP,
         METHOD_LIN,
         METHOD_JCN,
-        METHOD_LESK
+        METHOD_LESK,
+        METHOD_MYLESK
     }
 
     private static final SemanticSimilarity sInstance = new SemanticSimilarity();
@@ -67,6 +68,9 @@ public class SemanticSimilarity {
                 break;
             case METHOD_LESK:
                 mMethod1 = new Lesk(mDb);
+                break;
+            case METHOD_MYLESK:
+                mMethod1 = new MyLesk(mDb);
                 break;
             default:
                 mMethod1 = new WuPalmer(mDb);
