@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,7 +98,7 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
-        List<String> wordsCopy = new ArrayList<>(words);
+        List<String> wordsCopy = new CopyOnWriteArrayList<>(words);
 
         // Check for learning phrase ("___ means ___")
         if (words.size() == 3 && words.contains("means")) {

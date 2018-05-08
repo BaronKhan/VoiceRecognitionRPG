@@ -241,6 +241,8 @@ Library
 
 - Create script to automatically generate JAR from source files
 - Replace com.khan.baron.voicerecrpg with package name in files
+- Voice Control with WordNet (VCW)
+- Add countless voice commands with little effort
 
 TODO
 -----------------

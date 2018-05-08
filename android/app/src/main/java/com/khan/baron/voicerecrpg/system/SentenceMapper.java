@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import edu.stanford.nlp.util.Triple;
 
@@ -28,7 +29,8 @@ public class SentenceMapper {
     public SentenceMapper(ContextActionMap contextActionMap) { mContextActionMap = contextActionMap; }
 
     public void addSentenceMatch(Action action, String targetName, String ... examples) {
-        mSentenceList.add(new Triple<>(action, targetName, Arrays.asList(examples)));
+        mSentenceList.add(new Triple<>(action, targetName,
+                new CopyOnWriteArrayList<>(Arrays.asList(examples))));
     }
 
     public Triple<Action, String, List<String>> checkSentenceMatch(List<String> words) {
@@ -38,6 +40,7 @@ public class SentenceMapper {
             List<String> sentences = triple.third;
             double totalScore = 0.0;
             if (sentences.size() > 0) {
+//                for (String sentence : sentences) { totalScore += calculateCosScore(words, sentence); }
                 totalScore = sentences.parallelStream().mapToDouble((sentence) ->
                         calculateCosScore(words, sentence)).sum();
                 totalScore /= (double) sentences.size();
