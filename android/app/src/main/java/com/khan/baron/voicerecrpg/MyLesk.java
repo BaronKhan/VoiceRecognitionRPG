@@ -24,6 +24,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
 
+import static java.lang.Math.min;
+
 //Custom Lesk class (altered from decompiled Lesk bytecode)
 public class MyLesk extends RelatednessCalculator {
     protected static double min = 0.0D;
@@ -56,28 +58,11 @@ public class MyLesk extends RelatednessCalculator {
             final List<SuperGloss> glosses = this.getSuperGlosses(synset1, synset2);
             int score = 0;
 
-            final int[] scoreList = new int[glosses.size()];
-            ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-            try {
-                for (int i=0; i<glosses.size(); ++i) {
-                    final int ii = i;
-                    exec.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            scoreList[ii] =  0;
-                            SuperGloss sg = (SuperGloss)glosses.get(ii);
-                            double functionsScore = calcFromSuperGloss(sg.gloss1, sg.gloss2);
-                            functionsScore *= ((SuperGloss)glosses.get(ii)).weight;
-                            scoreList[ii] = (int)((double)scoreList[ii] + functionsScore);
-                        }
-                    });
-                }
-            } finally {
-                exec.shutdown();
-            }
-
-            for (int s : scoreList) {
-                score += s;
+            for(int i = 0; i < min(glosses.size(), 1); ++i) {
+                SuperGloss sg = (SuperGloss)glosses.get(i);
+                double functionsScore = this.calcFromSuperGloss(sg.gloss1, sg.gloss2);
+                functionsScore *= ((SuperGloss)glosses.get(i)).weight;
+                score = (int)((double)score + functionsScore);
             }
 
             return new Relatedness((double)score, tracer.toString(), (String)null);
@@ -150,9 +135,9 @@ public class MyLesk extends RelatednessCalculator {
     }
 
     public List<GlossFinder.SuperGloss> getSuperGlosses(Concept synset1, Concept synset2) {
-        List<GlossFinder.SuperGloss> glosses = new ArrayList(pairs.length);
+        List<GlossFinder.SuperGloss> glosses = new ArrayList(min(pairs.length, 1));
         String[] arr = pairs;
-        int len = arr.length;
+        int len = min(arr.length, 1);
 
         for(int i = 0; i < len; ++i) {
             String pair = arr[i];

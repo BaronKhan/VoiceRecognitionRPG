@@ -188,6 +188,10 @@ using semantic similarity.
 - Solution: use concurrency? Also separate for loop into two separate for loops,
 if a direct match is found then don't have to run semantic similarity.
 
+- Con: MT could stall app
+- Java 8 streams
+- current: "crack" = 7s (5s when cached)
+
 
 Generate room based on description
 -----------------

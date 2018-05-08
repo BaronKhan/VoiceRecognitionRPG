@@ -208,8 +208,7 @@ public class VoiceControl implements RecognitionListener {
                 TimeUnit.MILLISECONDS.toMinutes(timeMillis),
                 TimeUnit.MILLISECONDS.toSeconds(timeMillis) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeMillis)),
-                timeMillis - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(timeMillis)) -
-                        TimeUnit.MINUTES.toMillis(TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeMillis)))
+                timeMillis % 1000
         );
     }
 
