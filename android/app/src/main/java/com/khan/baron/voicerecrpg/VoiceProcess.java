@@ -332,7 +332,7 @@ public class VoiceProcess {
                         return target;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, targetName);
-                    if (score > 0.7 && score < 0.8) {
+                    if (score > 0.7 && score < 0.81) {
                         mAmbiguousHandler.addAmbiguousTargetCandidate(
                                 new Triple<>(word, target, score), bestScore);
                     }
@@ -387,7 +387,7 @@ public class VoiceProcess {
                         break;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
-                    if (score > 0.6 && score < 0.8) {
+                    if (score > 0.6 && score < 0.81) {
                         mAmbiguousHandler.addAmbiguousContextCandidate(
                                 new Triple<>(words, context, score), bestScore);
                     }
