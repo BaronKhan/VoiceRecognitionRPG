@@ -107,6 +107,7 @@ public class BattleTest {
         testHealed("use an elixer right now before it is too late to heal", true);
         testHealed("recover with an elixer", true);
         testHealed("Use something to heal with", true);
+        testHealed("heal myself with a potion", true);
     }
 
     @Test

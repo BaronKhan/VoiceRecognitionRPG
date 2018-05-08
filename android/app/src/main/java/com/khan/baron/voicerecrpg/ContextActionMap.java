@@ -27,6 +27,7 @@ public abstract class ContextActionMap extends Entity {
         setContext("actions");
         mState = state;
         mPossibleTargets.add(this);
+        mPossibleTargets.add(new Self());
         mSentenceMapper = new SentenceMapper(this);
     }
 
