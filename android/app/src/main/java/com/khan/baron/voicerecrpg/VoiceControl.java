@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class VoiceControl implements RecognitionListener {
     private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 10;
@@ -192,13 +193,24 @@ public class VoiceControl implements RecognitionListener {
         String output = mGameState.updateState(input);
         long endTime = System.currentTimeMillis();
         if (DEBUG_TIMER) {
-            mTxtTimer.setText((endTime - startTime) + " ms");
+            mTxtTimer.setText(getTimeAsString(endTime - startTime));
         } else {
             mTxtTimer.setText("");
         }
         newOutput += output;
         appendOutputTextAndScroll(newOutput);
         // TODO: play TTS (should be optional)
+    }
+
+    //From: https://stackoverflow.com/a/625624/8919086
+    private String getTimeAsString(long timeMillis) {
+        return String.format("%02d:%02d:%03d",
+                TimeUnit.MILLISECONDS.toMinutes(timeMillis),
+                TimeUnit.MILLISECONDS.toSeconds(timeMillis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeMillis)),
+                timeMillis - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(timeMillis)) -
+                        TimeUnit.MINUTES.toMillis(TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeMillis)))
+        );
     }
 
     public void setOutputText(String output) {
