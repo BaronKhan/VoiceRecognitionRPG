@@ -3,8 +3,10 @@ package com.khan.baron.voicerecrpg;
 import android.os.Environment;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.khan.baron.voicerecrpg.items.Weapon;
-import com.khan.baron.voicerecrpg.rooms.Room01;
+import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.game.items.Weapon;
+import com.khan.baron.voicerecrpg.game.rooms.Room01;
+import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,8 +57,8 @@ public class OverworldTest {
     @Test
     public void testInventorySuite() {
         gameState.initOverworldState(new Room01());
-        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "metal", "pointy"));
         testInventoryShown("show my inventory", true);
         testInventoryShown("show my troll", false);
         gameState.updateState("no");   //previous intent was misunderstood
@@ -67,8 +69,8 @@ public class OverworldTest {
     @Test
     public void testLookSuite() {
         gameState.initOverworldState(new Room01());
-        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "metal", "pointy"));
         testInventoryShown("look at my inventory", true);
         testInventoryShown("look inside the bag", true);
         testLookRoom01("look around", true);
@@ -177,7 +179,7 @@ public class OverworldTest {
     @Test
     public void testSentenceMatching() {
         gameState.initOverworldState(new Room01());
-        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
         assertEquals(gameState.updateState("what are my actions")
                 .contains("following actions"), true);
         assertEquals(gameState.updateState("what actions can i do")

@@ -5,6 +5,13 @@ import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.khan.baron.voicerecrpg.game.BattleContextActionMap;
+import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.system.ContextActionMap;
+import com.khan.baron.voicerecrpg.system.CustomLexicalDatabase;
+import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
+import com.khan.baron.voicerecrpg.system.VoiceProcess;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -103,8 +110,8 @@ public class WordNetTest {
     public void testHypernyms() {
         String input = "dog";
         try {
-            MaxentTagger tagger = VoiceProcess.sTagger;
-            IDictionary dict = gameState.mBattleVoiceProcess.getDictionary();
+            MaxentTagger tagger = VoiceProcess.getTagger();
+            IDictionary dict = gameState.getBattleVoiceProcess().getDictionary();
 
             String tagged = null;
             if (tagger != null) {
@@ -182,7 +189,7 @@ public class WordNetTest {
     public void testCustomLexicalDatabase() {
         try {
             StringBuilder output = new StringBuilder();
-            ILexicalDatabase db = new CustomLexicalDatabase(gameState.mBattleVoiceProcess.getDictionary());
+            ILexicalDatabase db = new CustomLexicalDatabase(gameState.getBattleVoiceProcess().getDictionary());
             SemanticSimilarity.getInstance().init(db);
 
             String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create"};

@@ -53,7 +53,7 @@
             android:text="@string/method_lesk" />
 
         <RadioButton
-            android:id="@+id/radioButtonMYLESK"
+            android:id="@+id/radioButtonFASTLESK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

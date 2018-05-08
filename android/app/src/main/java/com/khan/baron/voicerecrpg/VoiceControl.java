@@ -15,8 +15,10 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.khan.baron.voicerecrpg.R;
+import com.khan.baron.voicerecrpg.game.GameState;
+
 import java.util.ArrayList;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 public class VoiceControl implements RecognitionListener {

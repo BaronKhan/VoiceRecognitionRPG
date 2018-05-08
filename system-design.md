@@ -236,6 +236,11 @@ Lesk
 - Remove replaceAlls: 3min 4s
 - Single replaceAll: 2min 13s
 
+Library
+-----------------
+
+- Create script to automatically generate JAR from source files
+- Replace com.khan.baron.voicerecrpg with package name in files
 
 TODO
 -----------------

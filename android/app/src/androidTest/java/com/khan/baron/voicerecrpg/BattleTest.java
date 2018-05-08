@@ -3,10 +3,10 @@ package com.khan.baron.voicerecrpg;
 import android.os.Environment;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.khan.baron.voicerecrpg.enemies.Troll;
-import com.khan.baron.voicerecrpg.items.Potion;
-import com.khan.baron.voicerecrpg.items.Weapon;
-import com.khan.baron.voicerecrpg.rooms.Room01;
+import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.game.enemies.Troll;
+import com.khan.baron.voicerecrpg.game.items.Potion;
+import com.khan.baron.voicerecrpg.game.items.Weapon;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,7 +69,7 @@ public class BattleTest {
         testAttackedTroll("charge at the troll", true);
         testAttackedTroll("jump up and down", false);
         testAttackedTroll("fight the troll", true);
-        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
         testAttackedTroll("attack the troll", true);
         assertEquals(gameState.updateState("hit the troll")
                 .contains("You attacked the troll"), true);
@@ -78,7 +78,7 @@ public class BattleTest {
         testAttackedWithHammer("attack with the sledgehammer", true);
         testAttackedWithHammer("attack the troll with the sledgehammer", true);
         testAttackedTroll("use something to attack with", true);
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "metal"));
         testAttackedWithSword("use a sword attack", true);
     }
 
@@ -97,9 +97,9 @@ public class BattleTest {
     @Test
     public void testHealInputSuite() {
         gameState.initBattleState(new Troll(9999999));
-        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
-        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("elixer")); }
-        gameState.mInventory.add(new Weapon("sword"));
+        for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
+        for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("elixer")); }
+        gameState.getInventory().add(new Weapon("sword"));
         testHealed("heal", true);
         testHealed("use a potion to heal", true);
         testHealed("hit", false);
@@ -113,15 +113,15 @@ public class BattleTest {
     @Test
     public void testSentenceStructure() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("sword"));
+        gameState.getInventory().add(new Weapon("sword"));
         testAttackedWithSword("attack the troll with a sword", true);
     }
 
     @Test
     public void testDescriptions() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "metal", "pointy"));
         testAttackedWithHammer("attack with something blunt", true);
         testAttackedWithSword("hit the troll with something pointy please", true);
         testAttackedWithSword("launch an assault towards the troll using something sharp", true);
@@ -131,8 +131,8 @@ public class BattleTest {
     @Test
     public void testInventorySuite() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("hammer", "blunt", "heavy"));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "metal", "pointy"));
         testInventoryShown("show my inventory", true);
         testInventoryShown("show my troll", false);
         testInventoryShown("show my bag", true);
@@ -143,9 +143,9 @@ public class BattleTest {
     @Test
     public void testUseSuite() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "metal", "pointy"));
-        gameState.mInventory.add(new Potion("potion"));
-        gameState.mInventory.add(new Potion("potion"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "metal", "pointy"));
+        gameState.getInventory().add(new Potion("potion"));
+        gameState.getInventory().add(new Potion("potion"));
         testAttackedWithSword("use the sword to attack", true);
         testHealed("use a potion to attack", false);
         testAttackedTroll("use something to attack with", true);
@@ -180,8 +180,8 @@ public class BattleTest {
     @Test
     public void testConfirmation() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
-        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
+        gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
+        for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
         assertEquals(gameState.updateState("obliterate the troll with the sword")
                 .contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
@@ -204,8 +204,8 @@ public class BattleTest {
     @Test
     public void testMultipleCommandsSuite() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
-        for (int i = 0; i < 100; ++i) { gameState.mInventory.add(new Potion("potion")); }
+        gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
+        for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
         assertEquals(gameState.updateState("obliterate the troll with the sword and then " +
                 "regenerate using a potion").contains("you mean, \"attack"), true);
         testAttackedWithSword("yes", true);
@@ -215,7 +215,7 @@ public class BattleTest {
     @Test
     public void testSentenceMatching() {
         gameState.initBattleState(new Troll(9999999));
-        gameState.mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
+        gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
         assertEquals(gameState.updateState("what are my actions")
                 .contains("following actions"), true);
         assertEquals(gameState.updateState("what actions can i do")

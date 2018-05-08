@@ -8,6 +8,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
+import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
+import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private RadioGroup mMethodRadioGroup;
@@ -15,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonWUP;
     private RadioButton mRadioButtonLIN;
     private RadioButton mRadioButtonLESK;
-    private RadioButton mRadioButtonMYLESK;
+    private RadioButton mRadioButtonFASTLESK;
 
     private Switch mOverworldSwitch;
     private Switch mMultSuggestSwitch;
@@ -36,8 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
                     SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_LIN);
                 } else if (checkedId == mRadioButtonLESK.getId()) {
                     SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_LESK);
-                } else if (checkedId == mRadioButtonMYLESK.getId()) {
-                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_MYLESK);
+                } else if (checkedId == mRadioButtonFASTLESK.getId()) {
+                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK);
                 }
             }
         });
@@ -46,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         mRadioButtonWUP = (RadioButton) findViewById(R.id.radioButtonWUP);
         mRadioButtonLIN = (RadioButton) findViewById(R.id.radioButtonLIN);
         mRadioButtonLESK = (RadioButton) findViewById(R.id.radioButtonLESK);
-        mRadioButtonLESK = (RadioButton) findViewById(R.id.radioButtonMYLESK);
+        mRadioButtonFASTLESK = (RadioButton) findViewById(R.id.radioButtonFASTLESK);
         setMethodRadioButton();
 
         mOverworldSwitch = (Switch) findViewById(R.id.switchOverworld);
@@ -90,8 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
             case METHOD_LESK:
                 mMethodRadioGroup.check(mRadioButtonLESK.getId());
                 break;
-            case METHOD_MYLESK:
-                mMethodRadioGroup.check(mRadioButtonMYLESK.getId());
+            case METHOD_FASTLESK:
+                mMethodRadioGroup.check(mRadioButtonFASTLESK.getId());
                 break;
             default:
                 mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
