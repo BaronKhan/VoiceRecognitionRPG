@@ -40,9 +40,8 @@ public class SentenceMapper {
             List<String> sentences = triple.third;
             double totalScore = 0.0;
             if (sentences.size() > 0) {
-                for (String sentence : sentences) {
-                    totalScore += calculateCosScore(words, sentence);
-                }
+                totalScore = sentences.parallelStream().mapToDouble((sentence) ->
+                        calculateCosScore(words, sentence)).sum();
                 totalScore /= (double) sentences.size();
             }
             totalScore = min(totalScore, 1.0);
