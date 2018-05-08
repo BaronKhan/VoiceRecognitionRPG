@@ -28,6 +28,8 @@ android {
         }
     }
     compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     sourceSets {
         main {
@@ -49,7 +51,6 @@ dependencies {
     compile files('libs/commons-compress-1.15.jar')
     compile files('libs/edu.mit.jwi_2.4.0.jar')
     implementation files('libs/stanford-postagger.jar')
-    implementation files('libs/ws4j-1.0.1.jar')
     implementation 'com.android.support:support-annotations:27.0.2'
 }
 
