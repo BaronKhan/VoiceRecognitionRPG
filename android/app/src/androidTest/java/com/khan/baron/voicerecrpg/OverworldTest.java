@@ -4,7 +4,9 @@ import android.os.Environment;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.game.items.Potion;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
+import com.khan.baron.voicerecrpg.game.rooms.Room;
 import com.khan.baron.voicerecrpg.game.rooms.Room01;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
 
@@ -86,6 +88,8 @@ public class OverworldTest {
                 .contains("picked up the knife"), true);
         assertEquals(gameState.updateState("pick up the knife")
                 .contains("picked up the knife"), false);
+        assertEquals(gameState.updateState("grab the potion")
+                .contains("picked up the potion"), true);
     }
 
     @Test
@@ -177,7 +181,7 @@ public class OverworldTest {
     }
 
     @Test
-    public void testSentenceMatching() {
+    public void testSentenceMatchingSuite() {
         gameState.initOverworldState(new Room01());
         gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
         assertEquals(gameState.updateState("what are my actions")
@@ -186,5 +190,25 @@ public class OverworldTest {
                 .contains("following actions"), true);
         testInventoryShown("what is in my bag", true);
         testInventoryShown("hello world", false);
+    }
+
+    @Test
+    public void testMultipleTargetsSuite() {
+        Room testRoom = new Room01();
+        gameState.initOverworldState(testRoom);
+        assertEquals(gameState.updateState("pick up the knife and the potion")
+                .contains("picked up the potion"), true);
+        assertEquals(gameState.updateState("break the table and the door")
+                .contains("cannot break the door"), true);
+    }
+
+    @Test
+    public void testMultipleTargetsReversedSuite() {
+        Room testRoom = new Room01();
+        gameState.initOverworldState(testRoom);
+        assertEquals(gameState.updateState("pick up the potion and the knife")
+                .contains("picked up the knife"), true);
+        assertEquals(gameState.updateState("break the door and the table")
+                .contains("broke the table"), true);
     }
 }

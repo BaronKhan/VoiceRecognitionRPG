@@ -206,6 +206,14 @@ Generate room based on description
 - Use Predicate for conditional storing
 - Advantage: don't have to write a bunch of if statements (give example in repo)
 
+Multiple targets
+-----------------
+
+- "pick up the knife and the potion"
+- In the MultipleCommandProcess class
+- Check the next statement if it contains only a possible target
+- In VoiceProcess: if multiple commands and expecting more input toggles
+
 Sentence similarity
 -----------------
 

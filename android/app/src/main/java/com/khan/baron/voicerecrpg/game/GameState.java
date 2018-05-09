@@ -68,7 +68,6 @@ public class GameState extends GlobalState {
         mInventory.add(new Weapon("sword", "sharp", "long", "metallic"));
         mInventory.add(new Weapon("hammer", "heavy", "blunt"));
         mInventory.add(new Potion("potion"));
-        mInventory.add(new Potion("potion"));
         mInventory.add(new Potion("elixer"));
         if (sStartOverworld) { initOverworldState(new Room01()); }
         else { initBattleState(new Troll(100)); }

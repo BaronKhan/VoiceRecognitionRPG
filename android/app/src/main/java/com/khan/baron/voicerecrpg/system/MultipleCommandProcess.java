@@ -40,6 +40,7 @@ public class MultipleCommandProcess {
                         mPartialQueue.remove();
                         result += "\n\n---\n\n" + "Found command: \"" + nextCommand + "\"\n"
                                 + mVoiceProcess.processInput(nextCommand);
+                        mVoiceProcess.setExpectingMoreInput(mPartialQueue.size() > 0);
                     }
                 }
                 return result;
@@ -52,6 +53,8 @@ public class MultipleCommandProcess {
                     mPartialQueue = new LinkedList<>(queue);
                     queue.clear();
                 }
+                mVoiceProcess.setExpectingMoreInput(queue.size() > 0
+                        || (mPartialQueue != null && mPartialQueue.size() > 0));
                 return result;
             }
         } else { return null; }

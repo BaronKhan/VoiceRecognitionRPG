@@ -36,6 +36,9 @@ public class VoiceProcess {
 
     private AmbiguousHandler mAmbiguousHandler;
 
+    private boolean mExpectingMoreInput = false;
+    private Action mPreviousAction = null;
+
     public VoiceProcess(
             Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
         mMainActivity = mainActivity;
@@ -157,6 +160,7 @@ public class VoiceProcess {
                     actionOutput += mAmbiguousHandler.initSuggestion(
                             chosenAction, currentTarget, chosenContext);
                 } else {
+                    mPreviousAction = action;
                     actionOutput += action.execute(mState, currentTarget);
                 }
             }
@@ -173,9 +177,19 @@ public class VoiceProcess {
                     actionOutput = "Intent not understood.";
                 }
             } else {
-                Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                if (sentenceMatchResult != null) { return sentenceMatchResult; }
-                actionOutput = "Intent not understood.";
+                Entity possibleTarget = getBestTarget(words, tags, false);
+                if (mExpectingMoreInput && possibleTarget != null
+                        && possibleTarget != mContextActionMap.mDefaultTarget
+                        && mPreviousAction != null)
+                {
+                    actionOutput += mPreviousAction.execute(mState, possibleTarget);
+                } else {
+                    Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                    if (sentenceMatchResult != null) {
+                        return sentenceMatchResult;
+                    }
+                    actionOutput = "Intent not understood.";
+                }
             }
         }
 
@@ -191,6 +205,7 @@ public class VoiceProcess {
             if (mContextActionMap.hasPossibleTarget(targetName)) {
                 Entity target = mContextActionMap.getPossibleTarget(targetName);
                 Action action = match.first;
+                mPreviousAction = action;
                 return action.execute(mState, target);
             }
         }
@@ -522,5 +537,13 @@ public class VoiceProcess {
 
     public void setExpectingReply(boolean expectingReply) {
         mAmbiguousHandler.setExpectingReply(expectingReply);
+    }
+
+    public boolean isExpectingMoreInput() {
+        return mExpectingMoreInput;
+    }
+
+    public void setExpectingMoreInput(boolean mExpectingMoreInput) {
+        this.mExpectingMoreInput = mExpectingMoreInput;
     }
 }

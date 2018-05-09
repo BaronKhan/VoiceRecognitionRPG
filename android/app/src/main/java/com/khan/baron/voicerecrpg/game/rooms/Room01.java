@@ -3,6 +3,7 @@ package com.khan.baron.voicerecrpg.game.rooms;
 import android.util.Pair;
 
 import com.khan.baron.voicerecrpg.game.enemies.Troll;
+import com.khan.baron.voicerecrpg.game.items.Potion;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
 import com.khan.baron.voicerecrpg.game.objects.room01.Door;
 import com.khan.baron.voicerecrpg.game.objects.room01.Painting;
@@ -31,10 +32,13 @@ public class Room01 extends Room {
                 "There is a glass table in the middle of the room.",
                 new GlassTable());
         addDescriptionWithObjectCond(
-                "There is a knife on the table.",
-                "A knife lays on the floor with the broken table.",
-                new Weapon("knife", "sharp", "short", "metal"),
+                "A potion has been placed on the table.",
+                "A potion lays on the floor with the broken table",
+                new Potion("potion"),
                 () -> getRoomObjectCount("table") > 0);
+        addDescriptionWithObject(
+                "There is a knife on the floor.",
+                new Weapon("knife", "sharp", "short", "metal"));
         addDescriptionWithObjectCond(
                 "A painting of a tree hangs by a string on the left wall.",
                 "The painting that was on the wall lies on the floor.",
