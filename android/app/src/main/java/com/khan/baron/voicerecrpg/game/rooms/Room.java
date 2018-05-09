@@ -1,12 +1,19 @@
 package com.khan.baron.voicerecrpg.game.rooms;
 
+import android.util.Pair;
+
 import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.system.ContextActionMap;
 import com.khan.baron.voicerecrpg.game.Inventory;
 import com.khan.baron.voicerecrpg.game.items.Item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+
+import edu.stanford.nlp.util.Triple;
 
 /**
  * Created by Baron on 14/01/2018.
@@ -29,17 +36,16 @@ public abstract class Room extends Entity {
         room.addRoomObject(inventoryItem);
     }
 
-    private List<Entity> mRoomObjects = new ArrayList<>();
+    protected List<Entity> mRoomObjects = new ArrayList<>();
+
+    protected List<Triple<Pair<String, String>, BooleanSupplier, BooleanSupplier>> mDescriptionList
+            = new ArrayList<>();
 
     private int mRoomState = -1;
-
-    private String mDescription = "";
 
     public Room() {
         super("room", "environment", "surrounding");
     }
-
-    public String getRoomDescription() { return ""; }
 
     public List<Entity> getRoomObjects() { return mRoomObjects; }
 
@@ -87,18 +93,50 @@ public abstract class Room extends Entity {
     }
 
     //TODO: better room generation
-    private void addDescription(String text) {
-        addDescription(text, true);
+    protected void addDescription(String text) {
+        addDescription(text, () -> true);
     }
 
-    private void addDescription(String text, boolean cond) {
-        if (cond) { mDescription += " - " + text + "\n"; }
+    protected void addDescription(String text, BooleanSupplier cond) {
+        addDescriptionCond(text, null, cond);
     }
 
-    private void addDescription(String textTrue, String textFalse, boolean cond) {
-        if (cond) { mDescription += " - " + textTrue + "\n"; }
-        else { mDescription += " - " + textFalse + "\n"; }
+    protected void addDescriptionCond(String textTrue, String textFalse, BooleanSupplier cond) {
+        addDescriptionWithObjectCond(textTrue, textFalse, null, cond);
     }
 
-    private void generateObjectsFromDescription() {}
+    protected void addDescriptionWithObject(String text, Entity object) {
+        addDescriptionWithObjectCond(text, "", object, () -> true);
+    }
+
+    protected void addDescriptionWithObjectCond(
+            String textTrue, String textFalse, Entity obj, BooleanSupplier cond)
+    {
+        BooleanSupplier objectExists = null;
+        if (obj != null) {
+            objectExists = () -> getRoomObjectCount(obj.getName()) > 0;
+            addRoomObject(obj);
+        }
+
+        mDescriptionList.add(new Triple<>(new Pair<>(textTrue, textFalse), objectExists, cond));
+    }
+
+    public String getRoomDescription() {
+        String roomOutput = "";
+        for (Triple<Pair<String, String>, BooleanSupplier, BooleanSupplier> description : mDescriptionList) {
+            boolean objectExists = true;
+            if (description.second != null) {
+                objectExists = description.second.getAsBoolean();
+            }
+            boolean cond = description.third.getAsBoolean();
+            if (objectExists) {
+                if (cond) {
+                    roomOutput += " - "+description.first.first+"\n";
+                } else if (description.first.second != null) {
+                    roomOutput += " - "+description.first.second+"\n";
+                }
+            }
+        }
+        return roomOutput;
+    }
 }

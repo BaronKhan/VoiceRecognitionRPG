@@ -202,6 +202,9 @@ Generate room based on description
   if knife in room)
 - addDescription(), addDescription(..., cond), etc.
 - This should be considered an extension
+- addDescriptionWithObject should add a sentence to a list, print if object exists
+- Use Predicate for conditional storing
+- Advantage: don't have to write a bunch of if statements (give example in repo)
 
 Sentence similarity
 -----------------
@@ -241,10 +244,27 @@ Library
 
 - Create script to automatically generate JAR from source files
 - Replace com.khan.baron.voicerecrpg with package name in files
-- Voice Commands with WordNet (VCW)
+- Voice Commands with WordNet (VCWW, voice-commands-with-wordnet)
 - Add countless voice commands with little effort
-- Create separate repo with source files
+- Create separate repo with source files (copy them from main repo)
 - Remove Log, Toast; add Pair, Triple classes
+
+Video Conferencing example
+-----------------
+
+- "call dan"
+- "phone dan"
+- "contact dan"
+- "call dan with video"
+- "use audio to phone dan"
+- "make a call to dan" - sentence mapping
+- "make an audio call to dan" - sentence mapping
+- "call dan and fred with video" - needs multiple targets
+- Add call to possible targets during call
+- "stop call"
+- "finish the call"
+- "hang up [the call]"
+- "hang up the call with dan"
 
 TODO
 -----------------
