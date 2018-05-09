@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg.game.actions;
+package com.khan.baron.voicerecrpg.system;
 
 import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.system.GlobalState;

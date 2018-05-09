@@ -243,6 +243,8 @@ Library
 - Replace com.khan.baron.voicerecrpg with package name in files
 - Voice Commands with WordNet (VCW)
 - Add countless voice commands with little effort
+- Create separate repo with source files
+- Remove Log, Toast; add Pair, Triple classes
 
 TODO
 -----------------

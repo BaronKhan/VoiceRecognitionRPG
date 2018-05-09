@@ -5,7 +5,7 @@ import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.system.GlobalState;
 import com.khan.baron.voicerecrpg.game.Inventory;
-import com.khan.baron.voicerecrpg.game.actions.Action;
+import com.khan.baron.voicerecrpg.system.Action;
 
 public class ShowDefault extends Action {
     public String execute(GlobalState state, Entity currentTarget) {

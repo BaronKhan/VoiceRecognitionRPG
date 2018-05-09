@@ -3,7 +3,7 @@ package com.khan.baron.voicerecrpg.game.actions.sharedActions;
 import com.khan.baron.voicerecrpg.system.ContextActionMap;
 import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.system.GlobalState;
-import com.khan.baron.voicerecrpg.game.actions.Action;
+import com.khan.baron.voicerecrpg.system.Action;
 
 public class ShowActions extends Action {
     public String execute(GlobalState state, Entity currentTarget) {

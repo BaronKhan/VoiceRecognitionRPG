@@ -3,7 +3,7 @@ package com.khan.baron.voicerecrpg.game.actions.overworldActions;
 import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.system.GlobalState;
-import com.khan.baron.voicerecrpg.game.actions.Action;
+import com.khan.baron.voicerecrpg.system.Action;
 import com.khan.baron.voicerecrpg.game.objects.PhysicalObject;
 
 public class BreakWeaponNotBlunt extends Action {
