@@ -38,11 +38,19 @@
 \contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{27}
 \contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{27}
 \contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{28}
-\contentsline {subsection}{\numberline {4.5}Game Design Overview}{28}
-\contentsline {subsubsection}{\numberline {4.5.1}Game Flow}{28}
-\contentsline {subsection}{\numberline {4.6}Game Design UML Class Diagram}{29}
-\contentsline {section}{\numberline {5}Appendix}{30}
-\contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{30}
-\contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{32}
-\contentsline {subsection}{\numberline {5.3}System UML Class Diagram}{33}
-\contentsline {section}{References}{34}
+\contentsline {subsection}{\numberline {4.5}System Features}{28}
+\contentsline {subsubsection}{\numberline {4.5.1}Synonym Mapping}{28}
+\contentsline {subsubsection}{\numberline {4.5.2}Ignoring Incorrect Matches}{28}
+\contentsline {subsubsection}{\numberline {4.5.3}Confirmation and Suggestions}{28}
+\contentsline {subsubsection}{\numberline {4.5.4}Multiple Commands}{29}
+\contentsline {subsubsection}{\numberline {4.5.5}Multiple Targets}{29}
+\contentsline {subsubsection}{\numberline {4.5.6}Sentence Mapping}{29}
+\contentsline {subsection}{\numberline {4.6}Game Design Overview}{29}
+\contentsline {subsubsection}{\numberline {4.6.1}Game Flow}{30}
+\contentsline {subsection}{\numberline {4.7}Game Design UML Class Diagram}{31}
+\contentsline {section}{\numberline {5}Appendix}{33}
+\contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{33}
+\contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{35}
+\contentsline {subsection}{\numberline {5.3}System UML Class Diagram}{36}
+\contentsline {subsection}{\numberline {5.4}Game Design UML Class Diagram}{37}
+\contentsline {section}{References}{38}

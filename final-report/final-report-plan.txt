@@ -46,22 +46,32 @@ Explain QOL features:
 - synonyms
 - match ignores
 - Confirmation
-- multiple Commands
+- multiple commands
 - sentence mapping
+- multiple targets
 
 Game Design Overview:
 - Battle, Overworld, Zork-like
 - Show UML class diagram
 
+Game Design Extensions:
+- Room descriptions
+- Properties of objects (PhysicalObject)
+
+- Performance Engineering (none)
+
+
 __Implementation__
 
 UI:
 
-CustomWordNet
+General code
+
+CustomLexicalDatabase: mention meronyms, holonyms, etc.
+
+Custom Lesk: mention use of Fernflower decompiler and altered code.
 
 Android profiler for performance
-
-CustomWordNet: mention meronyms, holonyms, etc.
 
 __Evaluation__
 
@@ -81,6 +91,11 @@ Evaluation of semantic similarity
 (pick action maps to knife instead of grab!)
 
 Evaluation of effectivenesss of learning mechanism
+
+Evaluation of other extensions (multipe commands, confirmation, suggestions)
+
+Limitations:
+- Only single-word actions, targets and contexts
 
 Contributions
 

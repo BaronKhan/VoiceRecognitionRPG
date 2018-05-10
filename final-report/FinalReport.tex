@@ -587,7 +587,7 @@ Each non-null field in the Context-Action map contains a class that extends from
 Figure \ref{fig:system-overview} shows a simplified UML class diagram focusing on the classes used for the voice recognition system, including the inheritance and associations of the classes. Although the \texttt{GameState} class is related to the game system, it helps to illustrate the overall system design. Only the important member fields and methods are shown for each class.
 \\
 \\
-See the Appendix for the full UML class diagram of the Android application. 
+See the Appendix for the full UML class diagram of the Android application.
 
 \begin{center}
 \begin{figure}[H]
@@ -628,6 +628,40 @@ The \texttt{ContextActionMap} class contains the mapping of contexts to actions.
 \subsubsection{\texttt{SemanticSimilarity} Class}
 
 This class contains the semantic similarity engine used for calculating the semantic similarity of two words as a confidence value between 0.0 and 1.0, based on information in the WordNet database. It uses a singleton design pattern so we don't have to instantiate the class every time we want to perform a calculation in a different method, nor do we have to pass a reference to an instance around. It also allows us to use the same static instance across different Android Activity contexts (and therefore allowing the engine's parameters to be changed in a \textit{Settings} activity).
+
+\subsection{System Features}
+
+In order to make the voice recognition system as as flexible as possible and able to infer the meanings of a wide variety for utterances, several mechanisms have been added to the system. These mechanisms help to reduce the amount of work required by the developer, and some are present in order to compensate for the shortcomings of the system (see the Evaluation section).
+
+\subsubsection{Synonym Mapping}
+
+The developer can map synonyms to actions if the words are not considered semantically similar by the system. For instance, if the word, "regenerate" has a low semantic similarity score when compared to the "heal" action, then the developer can create a map of "regenerate" $\rightarrow$ "heal" so the system performs the correct mapping.
+
+\subsubsection{Ignoring Incorrect Matches}
+
+Semantic similarity matches can be ignored if they are incorrectly mapped by the system, as a juxtaposition to the above feature.
+
+\subsubsection{Confirmation and Suggestions}
+
+If the user gives a command that has a confidence value just below the threshold, then the phrase is considered ambiguous and, using the possible candidate matches, suggestions are given to the user to confirm their intent. 
+\\
+\\
+For example, if the user's intent is to pick up a knife and they say, "pick up the utensil", where the similarity score between "utensil" and "knife" is just below the threshold, the system will output, "Did you mean, 'pick up the knife? (yes/no)'", and waits for the user to respond. If they say no, then the system may suggest another alternative using the next ambiguous candidate (e.g, "Did you mean, 'pick up the plate?'", etc).
+
+\subsubsection{Multiple Commands}
+
+The user has the ability to execute a chain of several commands one after the other using just one utterance. For example, if the user says, "attack the enemy and then heal using a potion", this will execute two separate commands.
+
+\subsubsection{Multiple Targets}
+
+A user may want to execute a command that involves several targets. In this case, these are divided into several actions instead, with each action focused on one of the targets. For instance, if the user says, "attack the troll and the goblin", this will be split into two actions: one to attack the troll, followed by an attack on the goblin.
+
+\subsubsection{Sentence Mapping}
+
+The core mechanism of the system is the slot-filling structure described above. This covers most of the forms of possible imperative commands that a user may utter to the system to execute an intent. However, one disadvantage of this system is that it will not detect phrases that do not map to the slot-filling grammar given (e.g. \{\texttt{ACTION TARGET WITH CONTEXT}\}), despite being a valid phrase. Such utterances are usually phrased as a question, such as, "what actions can i do", or , "what items are in my bag", etc. We would like to still be able to detect these types of commands but prevent the user from hard-coding each possible variation of the intents.
+\\
+\\
+The proposed solution is to perform sentence matching on these phrases. The developer
 
 \subsection{Game Design Overview}
 
@@ -687,6 +721,26 @@ Examples include: "attack the troll" "heal with a potion", "look around", and so
 
 \subsection{Game Design UML Class Diagram}
 
+Figure \ref{fig:game-overview} shows a simplified UML class diagram for the game logic. See the Appendix for the full UML class diagram of the game logic.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{game-overview.pdf}
+  \caption{A simplified UML class diagram outlining the design of the gameplay mechanics. Diagram created using the online LucidChart tool. See the Appendix for the full class diagram.}
+  \label{fig:game-overview}
+  \end{center}
+\end{figure}
+\end{center}
+
+The \texttt{GameState} class (shown previously in the system UML class diagram, to aid explanations) contains two different instances of classes that override the voice recognition system's \texttt{ContextActionMap} class (which contain the voice command mappings): one for the overworld gameplay and the other for the battling gameplay.
+\\
+\\
+The \texttt{Entity} abstract class represents anything that can be considered a possible target or context for the slot-filling. Each entity is given a name and a context type (as a string) that is used to determine which context it maps to (e.g. "weapon", "key", etc). See Table \ref{action-context-ex-table} above for examples of these contexts. Each entity also contains a description field which is an array of words that describe the entity (e.g. a knife would be described as "sharp", "pointy", etc). These descriptions are optional but they aid the voice recognition system to help identify similar words (if the semantic similarity match fails).
+\\
+\\
+Finally, \texttt{Room} is an abstract class for generating new rooms for the game, each with their own objects.
+
 \newpage
 \section{Appendix}
 \subsection{Skyrim Kinect Command List}
@@ -732,6 +786,13 @@ Below is the UML class diagram for the voice recognition system used in the Andr
 \\
 \\
 \includegraphics[scale=0.37]{system-uml.png}
+
+\newpage
+\subsection{Game Design UML Class Diagram}
+Below is the UML class diagram for the game mechanics - both the \textit{Overworld} and \textit{Battle} game modes. Generated using the third-party \textit{simpleUML} Android plugin.
+\\
+\\
+\includegraphics[width=\textwidth]{game-uml.png}
 
 \newpage
 \addcontentsline{toc}{section}{References}
