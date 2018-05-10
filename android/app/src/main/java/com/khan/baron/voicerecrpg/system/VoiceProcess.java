@@ -94,6 +94,7 @@ public class VoiceProcess {
                     +") != no.of tags("+tags.size()+"), input = "+input);
         }
 
+        // Elements in the words list are removed during this method, so keep a copy
         List<String> wordsCopy = new CopyOnWriteArrayList<>(words);
 
         // Check for learning phrase ("___ means ___")
@@ -143,7 +144,9 @@ public class VoiceProcess {
             mPreviousTarget = currentTarget;
 
             if (mContextActionMap.isValidContext(chosenContext)) {
-                if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
+                if ((!chosenAction.equals("<none>")) &&
+                        mContextActionMap.get(chosenContext).get(chosenAction) == null)
+                {
                     actionOutput += "You cannot " + chosenAction + " with that. Ignoring...\n";
                     chosenContext = "default";
                 }
@@ -180,7 +183,8 @@ public class VoiceProcess {
                 if (!output.equals("")) {
                     actionOutput += output;
                 } else {
-                    String currentContext = getBestContext(oldWords, oldTags, true);  // Sets mActionContext
+                    String currentContext = getBestContext(oldWords, oldTags, true);
+                    // Check if using new context for previous action
                     if (mExpectingMoreInput) {
                         if (mContextActionMap.isValidContext(currentContext)) {
                             if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
@@ -207,6 +211,7 @@ public class VoiceProcess {
                 if (!output.equals("")) {
                     actionOutput += output;
                 } else {
+                    // Perform sentence matching as last resort
                     Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
                     if (sentenceMatchResult != null) {
                         return sentenceMatchResult;
@@ -220,7 +225,6 @@ public class VoiceProcess {
     }
 
     private String checkForAnotherTarget(List<String> words, List<String> tags) {
-        // Check for another target
         String output = "";
         Entity possibleTarget = getBestTarget(words, tags, false);
         mActionContext = mPreviousContext;
