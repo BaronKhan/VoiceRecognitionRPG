@@ -38,6 +38,7 @@ public class VoiceProcess {
 
     private boolean mExpectingMoreInput = false;
     private String mPreviousAction = null;
+    private Entity mPreviousTarget = null;
     private Entity mPreviousContext = null;
 
     public VoiceProcess(
@@ -139,6 +140,7 @@ public class VoiceProcess {
             chosenAction = actionPair.second;
 
             mPreviousContext = mActionContext;
+            mPreviousTarget = currentTarget;
 
             if (mContextActionMap.isValidContext(chosenContext)) {
                 if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
@@ -171,27 +173,39 @@ public class VoiceProcess {
             if (words.contains("use") || words.contains("with") || words.contains("using") ||
                     words.contains("utilise"))
             {
-                getBestContext(words, tags, true);  // Sets mActionContext
-                if (mActionContext != null) {
-                    actionOutput = "What do you want to use the "+mActionContext.getName()+" for?";
+                //Copy words and tags
+                List<String> oldWords = new CopyOnWriteArrayList<>(words);
+                List<String> oldTags = new CopyOnWriteArrayList<>(tags);
+                String output = checkForAnotherTarget(words, tags);
+                if (!output.equals("")) {
+                    actionOutput += output;
                 } else {
-                    Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                    if (sentenceMatchResult != null) { return sentenceMatchResult; }
-                    actionOutput = "Intent not understood.";
+                    String currentContext = getBestContext(oldWords, oldTags, true);  // Sets mActionContext
+                    if (mExpectingMoreInput) {
+                        if (mContextActionMap.isValidContext(currentContext)) {
+                            if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
+                                actionOutput = "You cannot " + mPreviousAction + " with that. Ignoring...\n";
+                                currentContext = "default";
+                            }
+                        } else { currentContext = "default"; }
+                        Action action = mContextActionMap.get(currentContext).get(mPreviousAction);
+                        actionOutput += action.execute(mState, mPreviousTarget);
+                    } else {
+                        if (mActionContext != null) {
+                            actionOutput = "What do you want to use the " + mActionContext.getName() + " for?";
+                        } else {
+                            Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                            if (sentenceMatchResult != null) {
+                                return sentenceMatchResult;
+                            }
+                            actionOutput = "Intent not understood.";
+                        }
+                    }
                 }
             } else {
-                Entity possibleTarget = getBestTarget(words, tags, false);
-                mActionContext = mPreviousContext;
-                if (mExpectingMoreInput && possibleTarget != null
-                        && possibleTarget != mContextActionMap.mDefaultTarget
-                        && mPreviousAction != null)
-                {
-                    Action action = mContextActionMap.get(
-                            (mActionContext == null)
-                                ? "default"
-                                : mActionContext.getContext())
-                            .get(mPreviousAction);
-                    actionOutput += action.execute(mState, possibleTarget);
+                String output = checkForAnotherTarget(words, tags);
+                if (!output.equals("")) {
+                    actionOutput += output;
                 } else {
                     Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
                     if (sentenceMatchResult != null) {
@@ -203,6 +217,31 @@ public class VoiceProcess {
         }
 
         return actionOutput;
+    }
+
+    private String checkForAnotherTarget(List<String> words, List<String> tags) {
+        // Check for another target
+        String output = "";
+        Entity possibleTarget = getBestTarget(words, tags, false);
+        mActionContext = mPreviousContext;
+        if (mExpectingMoreInput && possibleTarget != null
+                && possibleTarget != mContextActionMap.mDefaultTarget
+                && mPreviousAction != null) {
+            String currentContext = getBestContext(words, tags, false);
+            if (currentContext == null || currentContext.equals("default")) {
+                if (mPreviousContext != null) { currentContext = mPreviousContext.getContext(); }
+                else { currentContext = "default"; }
+            }
+            if (mContextActionMap.isValidContext(currentContext)) {
+                if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
+                    output = "You cannot " + mPreviousAction + " with that. Ignoring...\n";
+                    currentContext = "default";
+                }
+            } else { currentContext = "default"; }
+            Action action = mContextActionMap.get(currentContext).get(mPreviousAction);
+            output += action.execute(mState, possibleTarget);
+        } else { return ""; }
+        return output;
     }
 
     private Object checkMatchingSentence(List<String> words) {
