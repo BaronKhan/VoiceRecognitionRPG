@@ -37,7 +37,8 @@ public class VoiceProcess {
     private AmbiguousHandler mAmbiguousHandler;
 
     private boolean mExpectingMoreInput = false;
-    private Action mPreviousAction = null;
+    private String mPreviousAction = null;
+    private Entity mPreviousContext = null;
 
     public VoiceProcess(
             Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
@@ -137,6 +138,8 @@ public class VoiceProcess {
             }
             chosenAction = actionPair.second;
 
+            mPreviousContext = mActionContext;
+
             if (mContextActionMap.isValidContext(chosenContext)) {
                 if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
                     actionOutput += "You cannot " + chosenAction + " with that. Ignoring...\n";
@@ -160,7 +163,7 @@ public class VoiceProcess {
                     actionOutput += mAmbiguousHandler.initSuggestion(
                             chosenAction, currentTarget, chosenContext);
                 } else {
-                    mPreviousAction = action;
+                    mPreviousAction = chosenAction;
                     actionOutput += action.execute(mState, currentTarget);
                 }
             }
@@ -178,11 +181,17 @@ public class VoiceProcess {
                 }
             } else {
                 Entity possibleTarget = getBestTarget(words, tags, false);
+                mActionContext = mPreviousContext;
                 if (mExpectingMoreInput && possibleTarget != null
                         && possibleTarget != mContextActionMap.mDefaultTarget
                         && mPreviousAction != null)
                 {
-                    actionOutput += mPreviousAction.execute(mState, possibleTarget);
+                    Action action = mContextActionMap.get(
+                            (mActionContext == null)
+                                ? "default"
+                                : mActionContext.getContext())
+                            .get(mPreviousAction);
+                    actionOutput += action.execute(mState, possibleTarget);
                 } else {
                     Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
                     if (sentenceMatchResult != null) {
@@ -205,7 +214,6 @@ public class VoiceProcess {
             if (mContextActionMap.hasPossibleTarget(targetName)) {
                 Entity target = mContextActionMap.getPossibleTarget(targetName);
                 Action action = match.first;
-                mPreviousAction = action;
                 return action.execute(mState, target);
             }
         }

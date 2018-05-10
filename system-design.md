@@ -213,6 +213,15 @@ Multiple targets
 - In the MultipleCommandProcess class
 - Check the next statement if it contains only a possible target
 - In VoiceProcess: if multiple commands and expecting more input toggles
+- There is currently a bug when first command has context
+- "attack the troll and the goblin with the sword" won't work correctly
+- Must say "attack the troll with the sword and the goblin with the sword"
+- This is a minor downside of the systems
+
+Multiple Context
+----------------
+
+- "attack the troll with a sword and hammer"
 
 Sentence similarity
 -----------------

@@ -211,4 +211,15 @@ public class OverworldTest {
         assertEquals(gameState.updateState("break the door and the table")
                 .contains("broke the table"), true);
     }
+
+    @Test
+    public void testMultipleTargetsWithContextSuite() {
+        Room testRoom = new Room01();
+        gameState.initOverworldState(testRoom);
+        gameState.updateState("grab the knife");
+        assertEquals(gameState.updateState("use the knife to cut the table and the door")
+                .contains("scratched the door using your knife"), true);
+        assertEquals(gameState.updateState("cut the door using the knife and the table")
+                .contains("scratched the table using your knife"), true);
+    }
 }
