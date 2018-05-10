@@ -149,6 +149,17 @@ public class OverworldTest {
     }
 
     @Test
+    public void testAdaptiveLearningSuite() {
+        gameState.initOverworldState(new Room01());
+        assertEquals(gameState.updateState("cut the utensil").contains("you mean"), true);
+        gameState.updateState("yes");
+        assertEquals(gameState.updateState("cut the utensil").contains("you mean"), true);
+        gameState.updateState("yes");
+        assertEquals(gameState.updateState("cut the utensil").contains("you mean"), false);
+    }
+
+
+    @Test
     public void testMultipleCommandsSuite() {
         gameState.initOverworldState(new Room01());
         assertEquals(gameState

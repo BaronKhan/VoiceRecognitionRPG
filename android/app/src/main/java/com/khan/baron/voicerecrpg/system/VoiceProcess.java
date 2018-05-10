@@ -297,7 +297,7 @@ public class VoiceProcess {
                     mContextActionMap.hasPossibleContext(word))) {
                 if (mContextActionMap.hasSynonym(word)) {
                     if (deleteWord) { removeWordAtIndex(words, tags, i); }
-                    return new Pair<>(i, mContextActionMap.getSynonymAction(word));
+                    return new Pair<>(i, mContextActionMap.getSynonymMapping(word));
                 }
                 for (String action : actionsList) {
                     if (mContextActionMap.wordIsIgnored(word, action)) {
@@ -385,6 +385,13 @@ public class VoiceProcess {
         Entity bestTarget = null;
         for (int i: candidateTargets) {
             String word = words.get(i);
+            if (mContextActionMap.hasSynonym(word)) {
+                String targetName = mContextActionMap.getSynonymMapping(word);
+                if (mContextActionMap.hasPossibleTarget(targetName)) {
+                    removeWordAtIndex(words, tags, i);
+                    return mContextActionMap.getPossibleTarget(targetName);
+                }
+            }
             for (Entity target : possibleTargetList) {
                 String targetName = target.getName();
                 if (mContextActionMap.wordIsIgnored(word, targetName)) { continue; }
@@ -435,6 +442,15 @@ public class VoiceProcess {
         //Find best word
         for (int i : candidateContext) {
             String word = words.get(i);
+            if (mContextActionMap.hasSynonym(word)) {
+                String contextName = mContextActionMap.getSynonymMapping(word);
+                if (mContextActionMap.hasPossibleContext(contextName)) {
+                    bestScore = 1.0;
+                    bestContext = mContextActionMap.getPossibleContext(contextName);
+                    bestIndex = i;
+                    break;
+                }
+            }
             for (Entity context : possibleContextList) {
                 String contextName = context.getName();
                 if (mContextActionMap.wordIsIgnored(word, contextName)

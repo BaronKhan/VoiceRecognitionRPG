@@ -93,7 +93,7 @@ public abstract class ContextActionMap extends Entity {
         return mIgnoreMap.containsKey(ignore) && mIgnoreMap.get(ignore).equals(word);
     }
 
-    public String getSynonymAction(String synonym) {
+    public String getSynonymMapping(String synonym) {
         return (hasSynonym(synonym)) ? mSynonymMap.get(synonym) : synonym;
     }
 
@@ -116,6 +116,13 @@ public abstract class ContextActionMap extends Entity {
             if (context.getName().equals(name)) { return true; }
         }
         return false;
+    }
+
+    public Entity getPossibleContext(String name) {
+        for (Entity context : mPossibleContexts) {
+            if (context.getName().equals(name)) { return context; }
+        }
+        return null;
     }
 
     public void addSentenceMatch(Action action, String targetName, String ... examples) {
