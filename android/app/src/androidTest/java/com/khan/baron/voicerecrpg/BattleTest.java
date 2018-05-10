@@ -205,11 +205,14 @@ public class BattleTest {
     public void testMultipleCommandsSuite() {
         gameState.initBattleState(new Troll(9999999));
         gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
         for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
         assertEquals(gameState.updateState("obliterate the troll with the sword and then " +
                 "regenerate using a potion").contains("you mean, \"attack"), true);
         testAttackedWithSword("yes", true);
         testHealed("yeah", true);
+        testAttackedWithHammer("attack with a sword and hammer", true);
+        testAttackedWithSword("attack with a hammer and with a sword", true);
     }
 
     @Test

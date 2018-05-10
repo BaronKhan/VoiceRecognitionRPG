@@ -173,12 +173,13 @@ public class VoiceProcess {
                 }
             }
         } else {
+            //Copy words and tags
+            List<String> oldWords = new CopyOnWriteArrayList<>(words);
+            List<String> oldTags = new CopyOnWriteArrayList<>(tags);
+
             if (words.contains("use") || words.contains("with") || words.contains("using") ||
                     words.contains("utilise"))
             {
-                //Copy words and tags
-                List<String> oldWords = new CopyOnWriteArrayList<>(words);
-                List<String> oldTags = new CopyOnWriteArrayList<>(tags);
                 String output = checkForAnotherTarget(words, tags);
                 if (!output.equals("")) {
                     actionOutput += output;
@@ -211,12 +212,27 @@ public class VoiceProcess {
                 if (!output.equals("")) {
                     actionOutput += output;
                 } else {
-                    // Perform sentence matching as last resort
-                    Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                    if (sentenceMatchResult != null) {
-                        return sentenceMatchResult;
+                    String currentContext = getBestContext(oldWords, oldTags, true);
+                    // Check if using new context for previous action
+                    if (mExpectingMoreInput) {
+                        if (mContextActionMap.isValidContext(currentContext)) {
+                            if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
+                                actionOutput = "You cannot " + mPreviousAction + " with that. Ignoring...\n";
+                                currentContext = "default";
+                            }
+                        } else {
+                            currentContext = "default";
+                        }
+                        Action action = mContextActionMap.get(currentContext).get(mPreviousAction);
+                        actionOutput += action.execute(mState, mPreviousTarget);
+                    } else {
+                        // Perform sentence matching as last resort
+                        Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                        if (sentenceMatchResult != null) {
+                            return sentenceMatchResult;
+                        }
+                        actionOutput = "Intent not understood.";
                     }
-                    actionOutput = "Intent not understood.";
                 }
             }
         }
