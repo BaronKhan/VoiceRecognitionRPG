@@ -661,7 +661,29 @@ A user may want to execute a command that involves several targets. In this case
 The core mechanism of the system is the slot-filling structure described above. This covers most of the forms of possible imperative commands that a user may utter to the system to execute an intent. However, one disadvantage of this system is that it will not detect phrases that do not map to the slot-filling grammar given (e.g. \{\texttt{ACTION TARGET WITH CONTEXT}\}), despite being a valid phrase. Such utterances are usually phrased as a question, such as, "what actions can i do", or , "what items are in my bag", etc. We would like to still be able to detect these types of commands but prevent the user from hard-coding each possible variation of the intents.
 \\
 \\
-The proposed solution is to perform sentence matching on these phrases. The developer
+The proposed solution is to perform sentence matching on these phrases. The developer specifies an intent followed by several example sentences that a user would say to execute the intent. For example, if the intent is to show the player the items they possess, example sentences include: "What is in my bag?", "What items do I have?", "What are the contents of my inventory?", and so on. When parsing a new utterance from the player (e.g. "what items are in my bag"), if the phrase fails the slot-filling stage, then the similarity of the sentence is calculated compared to the example sentences.
+\\
+\\
+The calculation involves using a slightly altered cosine similarity method. Based on the formula for the cosine of an angle between two vectors, the cosine  similarity method measures uses the cosine of the angle as a measure of similarity, using a vector space model RRR (the vector of a sentence is represented by its word frequencies). The similarity between two vectors, $a$ and $b$ is:
+
+$$similarity = \cos \theta = \frac{a \cdot b}{\lvert a\rvert\lvert b\rvert}$$
+
+Take two examples: "the apples are in the tree" and "the tree contains apples". The vectors for these sentences would be:
+
+\begin{center}
+a = \{the:2, apples:1, are:1, in:1, the:2, tree:1, contains:0\}
+\\
+b = \{the:1, apples:1, are:0, in:0, the:1, tree:1, contains:1\}
+\end{center}
+
+The cosine similarity of these sentences is therefore:
+
+$$\frac{a \cdot b}{\lvert a\rvert\lvert b\rvert} = \frac{6}{2\sqrt{3} \cdot \sqrt{5}} = 0.77$$
+
+The definition for cosine similarity has been altered to form a "soft cosine measure" RRR. 
+\\
+\\
+While the cosine similarity is not ideal for all situations (e.g. it ignores word order so may match two sentences which are not similar at all).
 
 \subsection{Game Design Overview}
 
