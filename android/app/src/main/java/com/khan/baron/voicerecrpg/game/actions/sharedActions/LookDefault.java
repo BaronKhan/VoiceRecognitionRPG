@@ -24,8 +24,9 @@ public class LookDefault extends Action {
                 if (gameState.getGameMode() == GameState.Mode.MODE_OVERWORLD) {
                     if (currentTarget instanceof Room) {
                         return gameState.getCurrentRoom().getRoomDescription();
-                    }
-                    else {
+                    } else if (currentTarget != null) {
+                        return "You looked at "+currentTarget.getName()+".";
+                    } else {
                         return "Intent not understood.";
                     }
                 } else if (gameState.getGameMode() == GameState.Mode.MODE_BATTLE) {
