@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg.system;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -21,7 +22,6 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.util.Triple;
 
 public class VoiceProcess {
-    private Activity mMainActivity;
     private GlobalState mState;
     private ContextActionMap mContextActionMap;
 
@@ -42,8 +42,7 @@ public class VoiceProcess {
     private Entity mPreviousContext = null;
 
     public VoiceProcess(
-            Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
-        mMainActivity = mainActivity;
+            GlobalState state, ContextActionMap contextActionMap) {
         mState = state;
         mContextActionMap = contextActionMap;
         mAmbiguousHandler = new AmbiguousHandler(this);
@@ -58,8 +57,7 @@ public class VoiceProcess {
                     sTagger = new MaxentTagger(modelPath);
                 }
             } catch (Exception e) {
-                Toast.makeText(mainActivity, "Error loading model: " + e.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Log.e("VoiceProcess", "Error loading model: " + e.getMessage());
             }
         }
     }
