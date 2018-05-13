@@ -16,9 +16,8 @@ public class MultipleCommandProcess {
 
     public MultipleCommandProcess(VoiceProcess voiceProcess) { mVoiceProcess = voiceProcess; }
 
-    public MultipleCommandProcess(
-            Activity mainActivity, GlobalState state, ContextActionMap contextActionMap) {
-        mVoiceProcess = new VoiceProcess(mainActivity, state, contextActionMap);
+    public MultipleCommandProcess(GlobalState state, ContextActionMap contextActionMap) {
+        mVoiceProcess = new VoiceProcess(state, contextActionMap);
     }
 
     public Queue<String> splitInput(String input) {

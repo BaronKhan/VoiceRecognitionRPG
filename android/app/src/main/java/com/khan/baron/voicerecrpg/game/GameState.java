@@ -51,10 +51,10 @@ public class GameState extends GlobalState {
         mCurrentEnemy = null;
 
         mBattleMap = new BattleContextActionMap(this);
-        mBattleVoiceProcess = new MultipleCommandProcess(mainActivity, this, mBattleMap);
+        mBattleVoiceProcess = new MultipleCommandProcess(this, mBattleMap);
 
         mOverworldMap = new OverworldContextActionMap(this);
-        mOverworldVoiceProcess = new MultipleCommandProcess(mainActivity, this, mOverworldMap);
+        mOverworldVoiceProcess = new MultipleCommandProcess(this, mOverworldMap);
 
         mInventory = new Inventory(mBattleMap, mOverworldMap);
     }
