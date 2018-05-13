@@ -78,4 +78,22 @@
             tools:layout_editor_absoluteY="303dp" />
     </RadioGroup>
 
+    <Button
+        android:id="@+id/buttonCallDemo"
+        android:layout_width="249dp"
+        android:layout_height="wrap_content"
+        android:text="Video Conferencing Demo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.699" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
 </android.support.constraint.ConstraintLayout>

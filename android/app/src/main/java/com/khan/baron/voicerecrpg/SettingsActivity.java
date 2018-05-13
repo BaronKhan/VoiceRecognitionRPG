@@ -1,8 +1,11 @@
 package com.khan.baron.voicerecrpg;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,8 +24,9 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonLESK;
     private RadioButton mRadioButtonFASTLESK;
 
-    private Switch mOverworldSwitch;
-    private Switch mMultSuggestSwitch;
+    private Switch mSwitchOverworld;
+    private Switch mSwitchMultSuggest;
+    private Button mButtonCallDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +57,24 @@ public class SettingsActivity extends AppCompatActivity {
         mRadioButtonFASTLESK = (RadioButton) findViewById(R.id.radioButtonFASTLESK);
         setMethodRadioButton();
 
-        mOverworldSwitch = (Switch) findViewById(R.id.switchOverworld);
-        mOverworldSwitch.setChecked(!GameState.getStartOverworld());
-        mOverworldSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mSwitchOverworld = (Switch) findViewById(R.id.switchOverworld);
+        mSwitchOverworld.setChecked(!GameState.getStartOverworld());
+        mSwitchOverworld.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 GameState.setStartOverworld(!isChecked);
             }
         });
 
-        mMultSuggestSwitch = (Switch) findViewById(R.id.switchMultSuggestions);
-        mMultSuggestSwitch.setChecked(AmbiguousHandler.isGivingMultipleSuggestions());
-        mMultSuggestSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mSwitchMultSuggest = (Switch) findViewById(R.id.switchMultSuggestions);
+        mSwitchMultSuggest.setChecked(AmbiguousHandler.isGivingMultipleSuggestions());
+        mSwitchMultSuggest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 AmbiguousHandler.setGiveMultipleSuggestions(isChecked);
             }
         });
+
+        mButtonCallDemo = (Button) findViewById(R.id.buttonCallDemo);
+        mButtonCallDemo.setOnClickListener((x) -> startActivity(new Intent(this, CallActivity.class)));
     }
 
     @Override
