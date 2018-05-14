@@ -176,6 +176,13 @@ Problem: Semantic similarity messes up sometimes
 - "grab the utensil"
 - Add attempts timeout
 
+Action Replies
+-----------------
+
+- Action Class should have interface to ask for reply from system, and an
+abstract function to execute the reply.
+- "Are you sure you want to leave this room."
+
 
 Performance Issues
 ------------------
@@ -277,15 +284,18 @@ Video Conferencing example
 - "use audio to phone dan"
 - "make a call to dan" - sentence mapping
 - "make an audio call to dan" - sentence mapping
-- "call dan and fred with video" - needs multiple targets
+- "call dan and fred with video" - needs multiple targets (won't work)
 - Add call to possible targets during call
 - "stop call"
 - "finish the call"
 - "hang up [the call]"
 - "hang up the call with dan"
+- Need to add ability to ask for more input from actions
 
 TODO
 -----------------
 
+- Need to add weightings to the synonyms
+- Add settings control for synonyms
 - Add match ignore code to target and context
 - Use different similarity methods for action, target and context

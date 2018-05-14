@@ -117,10 +117,12 @@ public class OverworldTest {
     public void testOpenSuite() {
         gameState.initOverworldState(new Room01());
         assertEquals(gameState.updateState("open the table").contains("opened the drawer"), true);
-        assertEquals(gameState.updateState("open the door").contains("locked"), true);
+        gameState.updateState("open the door");
+        assertEquals(gameState.updateState("yes").contains("locked"), true);
         gameState.updateState("pick up the knife");
         gameState.updateState("cut the painting");
-        assertEquals(gameState.updateState("open the door")
+        gameState.updateState("open the door");
+        assertEquals(gameState.updateState("yes")
                 .contains("opened"), true);
     }
 
@@ -135,7 +137,8 @@ public class OverworldTest {
         testScratched("use the knife to cut the glass table", true);
         assertEquals(gameState.updateState("use the knife to cut the painting")
                 .contains("cut the painting"), true);
-        assertEquals(gameState.updateState("use the key to open the door")
+        gameState.updateState("use the key to open the door");
+        assertEquals(gameState.updateState("yeah")
                 .contains("opened"), true);
     }
 
@@ -162,9 +165,8 @@ public class OverworldTest {
     @Test
     public void testMultipleCommandsSuite() {
         gameState.initOverworldState(new Room01());
-        assertEquals(gameState
-                .updateState("grab the knife and cut the painting then unlock the door")
-                .contains("opened"), true);
+        gameState.updateState("grab the knife and cut the painting then unlock the door");
+        assertEquals(gameState.updateState("yeah").contains("opened"), true);
     }
 
     @Test

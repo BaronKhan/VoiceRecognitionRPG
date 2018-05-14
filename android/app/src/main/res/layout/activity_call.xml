@@ -6,4 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".CallActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/microphoneButton"
+        android:layout_width="67dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorMicrophone"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/ic_microphone"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_editor_absoluteY="431dp" />
+
 </android.support.constraint.ConstraintLayout>

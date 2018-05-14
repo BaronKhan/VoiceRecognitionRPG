@@ -1,6 +1,5 @@
 package com.khan.baron.voicerecrpg.system;
 
-import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Pair;
@@ -36,9 +35,12 @@ public class VoiceProcess {
     private AmbiguousHandler mAmbiguousHandler;
 
     private boolean mExpectingMoreInput = false;
-    private String mPreviousAction = null;
+    private String mPreviousActionStr = null;
     private Entity mPreviousTarget = null;
     private Entity mPreviousContext = null;
+
+    //Stored for action replies
+    private Action mCurrentAction = null;
 
     public VoiceProcess(
             GlobalState state, ContextActionMap contextActionMap) {
@@ -81,6 +83,13 @@ public class VoiceProcess {
         mActionContext = null;
 
         mAmbiguousHandler.resetState();
+
+        // Process action reply
+        if (mCurrentAction != null && mCurrentAction.wantsReply()) {
+            actionOutput += mCurrentAction.processReply(mState, input);
+            mCurrentAction.setWantsReply(false);
+            return actionOutput;
+        }
 
         // Tokenize and tag input
         List<String> words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
@@ -156,7 +165,7 @@ public class VoiceProcess {
                 if (sentenceMatchResult != null) { return sentenceMatchResult; }
                 actionOutput += "Intent not understood.";
             } else {
-                Action action = mContextActionMap.get(chosenContext).get(chosenAction);
+                mCurrentAction = mContextActionMap.get(chosenContext).get(chosenAction);
                 //Check for ambiguous intent
                 if (mAmbiguousHandler.isAmbiguous()) {
                     Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
@@ -165,8 +174,8 @@ public class VoiceProcess {
                     actionOutput += mAmbiguousHandler.initSuggestion(
                             chosenAction, currentTarget, chosenContext);
                 } else {
-                    mPreviousAction = chosenAction;
-                    actionOutput += action.execute(mState, currentTarget);
+                    mPreviousActionStr = chosenAction;
+                    actionOutput += mCurrentAction.execute(mState, currentTarget);
                 }
             }
         } else {
@@ -185,13 +194,13 @@ public class VoiceProcess {
                     // Check if using new context for previous action
                     if (mExpectingMoreInput) {
                         if (mContextActionMap.isValidContext(currentContext)) {
-                            if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
-                                actionOutput = "You cannot " + mPreviousAction + " with that. Ignoring...\n";
+                            if (mContextActionMap.get(currentContext).get(mPreviousActionStr) == null) {
+                                actionOutput = "You cannot " + mPreviousActionStr + " with that. Ignoring...\n";
                                 currentContext = "default";
                             }
                         } else { currentContext = "default"; }
-                        Action action = mContextActionMap.get(currentContext).get(mPreviousAction);
-                        actionOutput += action.execute(mState, mPreviousTarget);
+                        mCurrentAction = mContextActionMap.get(currentContext).get(mPreviousActionStr);
+                        actionOutput += mCurrentAction.execute(mState, mPreviousTarget);
                     } else {
                         if (mActionContext != null) {
                             actionOutput = "What do you want to use the " + mActionContext.getName() + " for?";
@@ -213,15 +222,15 @@ public class VoiceProcess {
                     // Check if using new context for previous action
                     if (mExpectingMoreInput) {
                         if (mContextActionMap.isValidContext(currentContext)) {
-                            if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
-                                actionOutput = "You cannot " + mPreviousAction + " with that. Ignoring...\n";
+                            if (mContextActionMap.get(currentContext).get(mPreviousActionStr) == null) {
+                                actionOutput = "You cannot " + mPreviousActionStr + " with that. Ignoring...\n";
                                 currentContext = "default";
                             }
                         } else {
                             currentContext = "default";
                         }
-                        Action action = mContextActionMap.get(currentContext).get(mPreviousAction);
-                        actionOutput += action.execute(mState, mPreviousTarget);
+                        mCurrentAction = mContextActionMap.get(currentContext).get(mPreviousActionStr);
+                        actionOutput += mCurrentAction.execute(mState, mPreviousTarget);
                     } else {
                         // Perform sentence matching as last resort
                         Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
@@ -243,20 +252,20 @@ public class VoiceProcess {
         mActionContext = mPreviousContext;
         if (mExpectingMoreInput && possibleTarget != null
                 && possibleTarget != mContextActionMap.mDefaultTarget
-                && mPreviousAction != null) {
+                && mPreviousActionStr != null) {
             String currentContext = getBestContext(words, tags, false);
             if (currentContext == null || currentContext.equals("default")) {
                 if (mPreviousContext != null) { currentContext = mPreviousContext.getContext(); }
                 else { currentContext = "default"; }
             }
             if (mContextActionMap.isValidContext(currentContext)) {
-                if (mContextActionMap.get(currentContext).get(mPreviousAction) == null) {
-                    output = "You cannot " + mPreviousAction + " with that. Ignoring...\n";
+                if (mContextActionMap.get(currentContext).get(mPreviousActionStr) == null) {
+                    output = "You cannot " + mPreviousActionStr + " with that. Ignoring...\n";
                     currentContext = "default";
                 }
             } else { currentContext = "default"; }
-            Action action = mContextActionMap.get(currentContext).get(mPreviousAction);
-            output += action.execute(mState, possibleTarget);
+            mCurrentAction = mContextActionMap.get(currentContext).get(mPreviousActionStr);
+            output += mCurrentAction.execute(mState, possibleTarget);
         } else { return ""; }
         return output;
     }
@@ -269,8 +278,8 @@ public class VoiceProcess {
             String targetName = match.second;
             if (mContextActionMap.hasPossibleTarget(targetName)) {
                 Entity target = mContextActionMap.getPossibleTarget(targetName);
-                Action action = match.first;
-                return action.execute(mState, target);
+                mCurrentAction = match.first;
+                return mCurrentAction.execute(mState, target);
             }
         }
         return null;
@@ -625,5 +634,14 @@ public class VoiceProcess {
 
     public void setExpectingMoreInput(boolean mExpectingMoreInput) {
         this.mExpectingMoreInput = mExpectingMoreInput;
+    }
+
+    public static boolean replyIsYes(String input) {
+        return input.contains("yes") || input.contains("yeah") || input.contains("yup");
+    }
+
+    public static boolean replyIsNo(String input) {
+        return input.contains("no") || input.contains("na") || input.contains("nope") ||
+                input.contains("negative");
     }
 }
