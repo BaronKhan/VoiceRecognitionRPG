@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.txtInput),
                 (TextView) findViewById(R.id.txtOutput),
                 (TextView) findViewById(R.id.txtTimer),
-                mGameState);
+                mGameState, true);
         mVoiceControl.setOutputText(mGameState.getInitOutput());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.microphoneButton);

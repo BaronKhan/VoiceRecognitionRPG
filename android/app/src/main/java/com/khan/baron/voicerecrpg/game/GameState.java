@@ -114,6 +114,7 @@ public class GameState extends GlobalState {
 
     public Mode getGameMode() { return mGameMode; }
 
+    @Override
     public String updateState(String input) {
         if (mGameMode == MODE_BATTLE) {
             Queue<String> commandQueue = mBattleVoiceProcess.splitInput(input);

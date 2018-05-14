@@ -15,4 +15,6 @@ public abstract class GlobalState {
     }
 
     public boolean getActionSucceeded() { return mActionSucceeded; }
+
+    public abstract String updateState(String input);
 }

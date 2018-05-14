@@ -291,6 +291,8 @@ Video Conferencing example
 - "hang up [the call]"
 - "hang up the call with dan"
 - Need to add ability to ask for more input from actions
+- "mute my video"
+- "silence my audio"
 
 TODO
 -----------------

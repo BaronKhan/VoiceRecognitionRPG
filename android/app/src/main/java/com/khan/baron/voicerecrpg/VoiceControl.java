@@ -15,8 +15,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.khan.baron.voicerecrpg.R;
-import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.system.GlobalState;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -35,18 +34,21 @@ public class VoiceControl implements RecognitionListener {
     private SpeechRecognizer mSpeech;
     private Intent mRecognizerIntent;
 
-    private GameState mGameState;
+    private GlobalState mState;
 
     private boolean mCanRecord;
 
+    private boolean mAccumulateText;
+
     public VoiceControl(AppCompatActivity activity, TextView txtInput, TextView txtOutput,
-                        TextView txtTimer, GameState gameState) {
+                        TextView txtTimer, GlobalState state, boolean accumulateText) {
         super();
         mActivity = activity;
         mTxtInput = txtInput;
         mTxtOutput = txtOutput;
         mTxtTimer = txtTimer;
-        mGameState = gameState;
+        mState = state;
+        mAccumulateText = accumulateText;
 
         mTxtOutput.setMovementMethod(new ScrollingMovementMethod());
 
@@ -143,8 +145,8 @@ public class VoiceControl implements RecognitionListener {
             text += matches.get(0);
         }
 
-        mTxtInput.setText(text);
-        updateGameState(text);
+        mTxtInput.setText(text.toLowerCase());
+        updateState(text);
     }
 
     @Override
@@ -189,10 +191,10 @@ public class VoiceControl implements RecognitionListener {
         return message;
     }
 
-    private void updateGameState(String input) {
+    private void updateState(String input) {
         String newOutput = "\n\n----------\n\n\"" + mTxtInput.getText()+ "\"\n";
         long startTime = System.currentTimeMillis();
-        String output = mGameState.updateState(input);
+        String output = mState.updateState(input.toLowerCase());
         long endTime = System.currentTimeMillis();
         if (DEBUG_TIMER) {
             mTxtTimer.setText(getTimeAsString(endTime - startTime));
@@ -200,7 +202,8 @@ public class VoiceControl implements RecognitionListener {
             mTxtTimer.setText("");
         }
         newOutput += output;
-        appendOutputTextAndScroll(newOutput);
+        if (mAccumulateText) { appendOutputTextAndScroll(newOutput); }
+        else { setOutputText(output); }
         // TODO: play TTS (should be optional)
     }
 
