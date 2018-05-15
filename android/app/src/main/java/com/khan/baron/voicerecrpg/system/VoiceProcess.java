@@ -42,6 +42,14 @@ public class VoiceProcess {
     //Stored for action replies
     private Action mCurrentAction = null;
 
+    //Thresholds
+    private final double ACTION_MIN = 0.5;  //0.7
+    private final double ACTION_CONFIDENT = 0.8;
+    private final double TARGET_MIN = 0.7;  //0.8
+    private final double TARGET_CONFIDENT = 0.81;
+    private final double CONTEXT_MIN = 0.6;  //0.8
+    private final double CONTEXT_CONFIDENT = 0.81;
+
     public VoiceProcess(GlobalState state, ContextActionMap contextActionMap) {
         mState = state;
         mContextActionMap = contextActionMap;
@@ -317,7 +325,7 @@ public class VoiceProcess {
     {
         mAmbiguousHandler.initAmbiguousActionCandidates();
         List<Integer> candidateActions = getCandidateActions(tags);
-        double bestScore = 0.5; //0.7
+        double bestScore = ACTION_MIN;
         int bestIndex = -1;
         String bestAction = "<none>";
         List<String> actionsList = mContextActionMap.getActions();
@@ -354,33 +362,13 @@ public class VoiceProcess {
                         bestAction = action;
                     }
                 }
-//                List<Double> scoresList = new CopyOnWriteArrayList<>();
-//                actionsList.parallelStream().forEach((action) -> {
-//                    if (!mContextActionMap.wordIsIgnored(word, action)) {
-//                        double score = SemanticSimilarity.getInstance().calculateScore(action, word);
-//                        scoresList.add(score);
-//                    } else {
-//                        scoresList.add(0.0);
-//                    }
-//                });
-//                for (int j = 0; j < actionsList.size(); ++j) {
-//                    double score = scoresList.get(j);
-//                    String action = actionsList.get(j);
-//                    if (score > 0.5 && score < 0.8) {
-//                        mAmbiguousHandler.addAmbiguousActionCandidate(
-//                                new Triple<>(word, action, score), bestScore);
-//                    }
-//                    if (score > bestScore) {
-//                        bestScore = score;
-//                        bestIndex = i;
-//                        bestAction = action;
-//                    }
-//                }
             }
         }
 
         if (bestIndex > -1) {
-            if (bestScore > 0.5 && bestScore < 0.8) { mAmbiguousHandler.setIsAmbiguous(true); }
+            if (bestScore > ACTION_MIN && bestScore < ACTION_CONFIDENT) {
+                mAmbiguousHandler.setIsAmbiguous(true);
+            }
             else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
             //Remove chosen action from list inputs
             if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
@@ -413,7 +401,7 @@ public class VoiceProcess {
                 candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
             return mContextActionMap.mDefaultTarget;
         }
-        double bestScore = 0.7; //0.8
+        double bestScore = TARGET_MIN;
         int bestIndex = -1;
         Entity bestTarget = null;
         for (int i: candidateTargets) {
@@ -437,7 +425,7 @@ public class VoiceProcess {
                         return target;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, targetName);
-                    if (score > 0.7 && score < 0.81) {
+                    if (score > TARGET_MIN && score < TARGET_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousTargetCandidate(
                                 new Triple<>(word, target, score), bestScore);
                     }
@@ -468,7 +456,7 @@ public class VoiceProcess {
                 candidateContext.size() < 1 || possibleContextList.size() < 1) {
             return "default";
         }
-        double bestScore = 0.6; //0.8
+        double bestScore = CONTEXT_MIN;
         Entity bestContext = null;
         int bestIndex = -1;
         String bestContextType = "<none>";
@@ -501,7 +489,7 @@ public class VoiceProcess {
                         break;
                     }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
-                    if (score > 0.6 && score < 0.81) {
+                    if (score > CONTEXT_MIN && score < CONTEXT_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousContextCandidate(
                                 new Triple<>(words, context, score), bestScore);
                     }
