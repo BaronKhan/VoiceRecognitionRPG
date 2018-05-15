@@ -42,25 +42,32 @@ public class VoiceProcess {
     //Stored for action replies
     private Action mCurrentAction = null;
 
-    public VoiceProcess(
-            GlobalState state, ContextActionMap contextActionMap) {
+    public VoiceProcess(GlobalState state, ContextActionMap contextActionMap) {
         mState = state;
         mContextActionMap = contextActionMap;
         mAmbiguousHandler = new AmbiguousHandler(this);
 
         if (sTagger == null) {
-            try {
-                // Load model
-                String modelPath = Environment.getExternalStorageDirectory()
-                        + "/english-left3words-distsim.tagger";
-                File modelFile = new File(modelPath);
-                if (modelFile.exists()) {
-                    sTagger = new MaxentTagger(modelPath);
-                }
-            } catch (Exception e) {
-                Log.e("VoiceProcess", "Error loading model: " + e.getMessage());
-            }
+            loadTagger();
         }
+    }
+
+    public static void loadTagger(String modelPath) {
+        try {
+            // Load model
+            File modelFile = new File(modelPath);
+            if (modelFile.exists()) {
+                sTagger = new MaxentTagger(modelPath);
+            }
+        } catch (Exception e) {
+            Log.e("VoiceProcess", "Error loading model: " + e.getMessage());
+        }
+    }
+
+    public void loadTagger() {
+        String modelPath = Environment.getExternalStorageDirectory()
+                + "/english-left3words-distsim.tagger";
+        loadTagger(modelPath);
     }
 
     public static MaxentTagger getTagger() {
