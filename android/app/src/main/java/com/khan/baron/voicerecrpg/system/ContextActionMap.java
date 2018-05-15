@@ -20,6 +20,9 @@ public abstract class ContextActionMap extends Entity {
     protected Map<String, String> mIgnoreMap = new HashMap<>();
     protected SentenceMapper mSentenceMapper;
 
+    private static Map<String, String> sUserSynonyms = new HashMap<>();
+    private static boolean sRememberUserSynonyms = true;
+
     public ContextActionMap(GlobalState state) {
         super("actions", "commands", "options");
         setContext("actions");
@@ -27,6 +30,23 @@ public abstract class ContextActionMap extends Entity {
         mPossibleTargets.add(this);
         mPossibleTargets.add(new Self());
         mSentenceMapper = new SentenceMapper(this);
+        mSynonymMap = new HashMap<>(sUserSynonyms);
+    }
+
+    public static Map<String, String> getUserSynonyms() {
+        return sUserSynonyms;
+    }
+
+    public static void setUserSynonyms(Map<String, String> sUserSynonyms) {
+        ContextActionMap.sUserSynonyms = sUserSynonyms;
+    }
+
+    public static boolean isRememberingUserSynonyms() {
+        return sRememberUserSynonyms;
+    }
+
+    public static void setRememberUserSynonyms(boolean sRememberUserSynonyms) {
+        ContextActionMap.sRememberUserSynonyms = sRememberUserSynonyms;
     }
 
     public Map<String, Action> get(String action) { return mMap.get(action); }
@@ -79,6 +99,11 @@ public abstract class ContextActionMap extends Entity {
 
     public void addSynonym(String synonym, String action) {
         mSynonymMap.put(synonym,action);
+    }
+
+    public void addUserSynonym(String synonym, String action) {
+        addSynonym(synonym,action);
+        if (sRememberUserSynonyms) { sUserSynonyms.put(synonym, action); }
     }
 
     public boolean hasSynonym(String synonym) {

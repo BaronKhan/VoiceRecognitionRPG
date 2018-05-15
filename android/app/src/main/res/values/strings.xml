@@ -14,4 +14,6 @@
     <string name="method_lesk">LESK</string>
     <string name="switch_battle">Initialize with Battle</string>
     <string name="switch_mult_suggest">Suggest Multiple Commands</string>
+    <string name="label_synonym_map">User Synonyms</string>
+    <string name="delete">Delete</string>
 </resources>

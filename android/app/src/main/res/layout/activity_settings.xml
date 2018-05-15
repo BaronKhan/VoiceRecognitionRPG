@@ -9,13 +9,13 @@
     <RadioGroup
         android:id="@+id/radioGroupMethod"
         android:layout_width="355dp"
-        android:layout_height="287dp"
+        android:layout_height="207dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.165">
+        app:layout_constraintVertical_bias="0.051">
 
         <TextView
             android:id="@+id/textView"
@@ -59,35 +59,45 @@
             android:layout_weight="1"
             android:text="FASTLESK" />
 
-        <Switch
-            android:id="@+id/switchOverworld"
-            android:layout_width="355dp"
-            android:layout_height="65dp"
-            android:layout_weight="1"
-            android:text="@string/switch_battle"
-            tools:layout_editor_absoluteX="13dp"
-            tools:layout_editor_absoluteY="303dp" />
-
-        <Switch
-            android:id="@+id/switchMultSuggestions"
-            android:layout_width="355dp"
-            android:layout_height="65dp"
-            android:layout_weight="1"
-            android:text="@string/switch_mult_suggest"
-            tools:layout_editor_absoluteX="13dp"
-            tools:layout_editor_absoluteY="303dp" />
     </RadioGroup>
+
+    <Switch
+        android:id="@+id/switchMultSuggestions"
+        android:layout_width="355dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:text="@string/switch_mult_suggest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.564" />
+
+    <Switch
+        android:id="@+id/switchOverworld"
+        android:layout_width="355dp"
+        android:layout_height="43dp"
+        android:layout_weight="1"
+        android:text="@string/switch_battle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.476" />
 
     <Button
         android:id="@+id/buttonCallDemo"
         android:layout_width="249dp"
-        android:layout_height="wrap_content"
-        android:text="Video Conferencing Demo"
+        android:layout_height="36dp"
+        android:text="@string/call_activity_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.699" />
+        app:layout_constraintVertical_bias="0.663" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -95,5 +105,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="20dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_weight="1"
+        android:text="@string/label_synonym_map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.737" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewSynonymMap"
+        android:layout_width="347dp"
+        android:layout_height="113dp"
+        android:background="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
 
 </android.support.constraint.ConstraintLayout>

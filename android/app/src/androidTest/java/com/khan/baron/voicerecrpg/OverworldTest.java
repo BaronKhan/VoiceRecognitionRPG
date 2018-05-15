@@ -9,6 +9,7 @@ import com.khan.baron.voicerecrpg.game.items.Weapon;
 import com.khan.baron.voicerecrpg.game.rooms.Room;
 import com.khan.baron.voicerecrpg.game.rooms.Room01;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
+import com.khan.baron.voicerecrpg.system.ContextActionMap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,7 @@ public class OverworldTest {
 
     public OverworldTest() {
         gameState = new GameState(null);
+        ContextActionMap.setRememberUserSynonyms(false);
         File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
         if (dictFile.exists()) {
             System.out.println("Found WordNet database on phone");

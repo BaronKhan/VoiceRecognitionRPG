@@ -7,6 +7,7 @@ import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.game.enemies.Troll;
 import com.khan.baron.voicerecrpg.game.items.Potion;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
+import com.khan.baron.voicerecrpg.system.ContextActionMap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ public class BattleTest {
 
     public BattleTest() {
         gameState = new GameState(null);
+        ContextActionMap.setRememberUserSynonyms(false);
         File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
         if (dictFile.exists()) {
             System.out.println("Found WordNet database on phone");

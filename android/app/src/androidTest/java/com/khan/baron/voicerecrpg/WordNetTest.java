@@ -45,6 +45,7 @@ public class WordNetTest {
 
     public WordNetTest() {
         gameState = new GameState(null);
+        ContextActionMap.setRememberUserSynonyms(false);
         File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
         if (dictFile.exists()) {
             System.out.println("Found WordNet database on phone");

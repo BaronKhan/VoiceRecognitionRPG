@@ -286,7 +286,7 @@ public class VoiceProcess {
     }
 
     public String addSynonym(String synonym, String word) {
-        mContextActionMap.addSynonym(synonym, word);
+        mContextActionMap.addUserSynonym(synonym, word);
         return "Added synonym: " + synonym + " --> " + word + "\n";
     }
 

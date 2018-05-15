@@ -1,19 +1,31 @@
 package com.khan.baron.voicerecrpg;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
+import com.khan.baron.voicerecrpg.system.ContextActionMap;
 import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
+import com.khan.baron.voicerecrpg.system.VoiceProcess;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -23,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonLIN;
     private RadioButton mRadioButtonLESK;
     private RadioButton mRadioButtonFASTLESK;
+    private RecyclerView mRecyclerViewSynonyms;
 
     private Switch mSwitchOverworld;
     private Switch mSwitchMultSuggest;
@@ -75,6 +88,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         mButtonCallDemo = (Button) findViewById(R.id.buttonCallDemo);
         mButtonCallDemo.setOnClickListener((x) -> startActivity(new Intent(this, CallActivity.class)));
+
+        mRecyclerViewSynonyms = (RecyclerView) findViewById(R.id.recyclerViewSynonymMap);
+        mRecyclerViewSynonyms.setAdapter(new SynonymsAdapter());
+        mRecyclerViewSynonyms.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -106,6 +123,48 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             default:
                 mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
+        }
+    }
+
+    // Taken from example at: https://guides.codepath.com/android/using-the-recyclerview
+    public class SynonymsAdapter extends RecyclerView.Adapter<SynonymsAdapter.ViewHolder> {
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public TextView synonymTextView;
+            public Button deleteButton;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                synonymTextView = (TextView) itemView.findViewById(R.id.synonym_pair);
+                deleteButton = (Button) itemView.findViewById(R.id.delete_button);
+            }
+        }
+
+        @Override
+        public SynonymsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Context context = parent.getContext();
+            LayoutInflater inflater = LayoutInflater.from(context);
+
+            View contactView = inflater.inflate(R.layout.layout_synonyn_map, parent, false);
+
+            ViewHolder viewHolder = new ViewHolder(contactView);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(SynonymsAdapter.ViewHolder viewHolder, int position) {
+            List list = Arrays.asList(ContextActionMap.getUserSynonyms().entrySet().toArray());
+            Map.Entry pair = (Map.Entry)list.get(position);
+
+            TextView textView = viewHolder.synonymTextView;
+            textView.setText(pair.getKey()+" --> "+pair.getValue());
+            Button button = viewHolder.deleteButton;
+            button.setText(getString(R.string.delete));
+        }
+
+        @Override
+        public int getItemCount() {
+            return ContextActionMap.getUserSynonyms().size();
         }
     }
 }
