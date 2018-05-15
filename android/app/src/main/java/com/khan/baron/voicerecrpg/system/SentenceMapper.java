@@ -18,7 +18,7 @@ import static java.lang.Math.sqrt;
 
 public class SentenceMapper {
     private ContextActionMap mContextActionMap;
-    private List<Triple<Action, String, List<String>>> mSentenceList = new ArrayList<>();
+    private List<Triple<Action, String, List<String>>> mSentenceList = new CopyOnWriteArrayList<>();
 
     private final double THRESHOLD = 0.5;
 
@@ -36,9 +36,9 @@ public class SentenceMapper {
             List<String> sentences = triple.third;
             double totalScore = 0.0;
             if (sentences.size() > 0) {
-//                for (String sentence : sentences) { totalScore += calculateCosScore(words, sentence); }
-                totalScore = sentences.parallelStream().mapToDouble((sentence) ->
-                        calculateCosScore(words, sentence)).sum();
+                for (String sentence : sentences) { totalScore += calculateCosScore(words, sentence); }
+//                totalScore = sentences.parallelStream().mapToDouble((sentence) ->
+//                        calculateCosScore(words, sentence)).sum();
                 totalScore /= (double) sentences.size();
             }
             totalScore = min(totalScore, 1.0);

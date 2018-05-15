@@ -175,6 +175,10 @@ Problem: Semantic similarity messes up sometimes
 - "show my troll", "obliterate the troll" are ambiguous
 - "grab the utensil"
 - Add attempts timeout
+- Need to have a weighting for the synonyms that are added
+- Example: pick up the utensil
+- There is a fork and knife in the room
+- "did you mean fork?"
 
 Action Replies
 -----------------
@@ -298,7 +302,6 @@ TODO
 -----------------
 
 - Need to add weightings to the synonyms
-- Add settings control for synonyms
 - Add match ignore code to target and context
 - Use different similarity methods for action, target and context
 - Fix locking
