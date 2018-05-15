@@ -1,5 +1,6 @@
 #!/bin/bash
 
+OUTPUTNAME="vcw.0.0.1.jar"
 SOURCEDIR="../android/app/src/main/java/com/khan/baron/voicerecrpg/system"
 LIBDIR="../android/app/libs"
 LIBCOMMON="$LIBDIR/commons-compress-1.15.jar"
@@ -42,6 +43,6 @@ done
 printf "package com.khan.baron.vcw; public class Pair<F, S> { public final F first; public final S second; public Pair(F first, S second) { this.first=first; this.second=second; } }" > Pair.java
 printf "package com.khan.baron.vcw; public class Triple<F, S, T> { public final F first; public final S second; public final T third; public Triple(F first, S second, T third) { this.first=first; this.second=second; this.third=third; } }" > Triple.java
 
-javac -cp ".;$LIBCOMON;$LIBJWI;$LIBPOS;$LIBWS4J" *.java && jar cvf vcw.0.0.1.jar *.class
+javac -cp ".;$LIBCOMON;$LIBJWI;$LIBPOS;$LIBWS4J" *.java && jar cvf $OUTPUTNAME *.class
 
 rm -Rf *.java *.class
