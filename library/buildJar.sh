@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PKGNAME="com/khan/baron/vcw"
+
 OUTPUTNAME="vcw.0.0.1.jar"
 SOURCEDIR="../android/app/src/main/java/com/khan/baron/voicerecrpg/system"
 LIBDIR="../android/app/libs"
@@ -14,35 +16,37 @@ if [ ! -d "../android" ]; then
 fi
 
 # clean up
-rm -Rf *.java *.class *.jar
+rm -Rf *.java *.class *.jar com
+
+mkdir -p $PKGNAME
 
 # copy source files
-cp $SOURCEDIR/*.java .
+cp $SOURCEDIR/*.java $PKGNAME/.
 
 # remove android code
-for FILE in `ls .`
+for FILE in `ls $PKGNAME`
 do
   if [ $FILE != "buildJar.sh" ]; then
-    sed -i '/Log/d' ./$FILE
-    sed -i '/Toast/d' ./$FILE
-    sed -i '/MakeToast/d' ./$FILE
-    sed -i '/candidates = "/d' ./$FILE
-    sed -i '/new AssertionError());/d' ./$FILE
-    sed -i '/+"= "+totalScore);/d' ./$FILE
-    sed -i '/android.os.Environment;/d' ./$FILE
-    sed -i '/android.app.Activity;/d' ./$FILE
-    sed -i 's/android.util.Pair/com.khan.baron.vcw.Pair/g' ./$FILE
-    sed -i 's/android.util.Triple/com.khan.baron.vcw.Triple/g' ./$FILE
-    sed -i '/Environment.getExternalStorageDirectory()/d' ./$FILE
-    sed -i 's/+ "\/english-left3words-distsim.tagger";/String modelPath="english-left3words-distsim.tagger";/g' ./$FILE
-    sed -i 's/voicerecrpg\/system/vcw/g' ./$FILE
-    sed -i 's/voicerecrpg.system/vcw/g' ./$FILE
+    sed -i '/Log/d' ./$PKGNAME/$FILE
+    sed -i '/Toast/d' ./$PKGNAME/$FILE
+    sed -i '/MakeToast/d' ./$PKGNAME/$FILE
+    sed -i '/candidates = "/d' ./$PKGNAME/$FILE
+    sed -i '/new AssertionError());/d' ./$PKGNAME/$FILE
+    sed -i '/+"= "+totalScore);/d' ./$PKGNAME/$FILE
+    sed -i '/android.os.Environment;/d' ./$PKGNAME/$FILE
+    sed -i '/android.app.Activity;/d' ./$PKGNAME/$FILE
+    sed -i 's/android.util.Pair/com.khan.baron.vcw.Pair/g' ./$PKGNAME/$FILE
+    sed -i 's/android.util.Triple/com.khan.baron.vcw.Triple/g' ./$PKGNAME/$FILE
+    sed -i '/Environment.getExternalStorageDirectory()/d' ./$PKGNAME/$FILE
+    sed -i 's/+ "\/english-left3words-distsim.tagger";/String modelPath="english-left3words-distsim.tagger";/g' ./$PKGNAME/$FILE
+    sed -i 's/voicerecrpg\/system/vcw/g' ./$PKGNAME/$FILE
+    sed -i 's/voicerecrpg.system/vcw/g' ./$PKGNAME/$FILE
   fi
 done
 
-printf "package com.khan.baron.vcw; public class Pair<F, S> { public final F first; public final S second; public Pair(F first, S second) { this.first=first; this.second=second; } }" > Pair.java
-printf "package com.khan.baron.vcw; public class Triple<F, S, T> { public final F first; public final S second; public final T third; public Triple(F first, S second, T third) { this.first=first; this.second=second; this.third=third; } }" > Triple.java
+printf "package com.khan.baron.vcw; public class Pair<F, S> { public final F first; public final S second; public Pair(F first, S second) { this.first=first; this.second=second; } }" > $PKGNAME/Pair.java
+printf "package com.khan.baron.vcw; public class Triple<F, S, T> { public final F first; public final S second; public final T third; public Triple(F first, S second, T third) { this.first=first; this.second=second; this.third=third; } }" > $PKGNAME/Triple.java
 
-javac -cp ".;$LIBCOMON;$LIBJWI;$LIBPOS;$LIBWS4J" *.java && jar cvf $OUTPUTNAME *.class
+javac -cp ".;$LIBCOMON;$LIBJWI;$LIBPOS;$LIBWS4J" $PKGNAME/*.java && jar cvf $OUTPUTNAME $PKGNAME/*.class
 
-rm -Rf *.java *.class
+rm -Rf *.java *.class com
