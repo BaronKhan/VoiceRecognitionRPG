@@ -301,3 +301,4 @@ TODO
 - Add settings control for synonyms
 - Add match ignore code to target and context
 - Use different similarity methods for action, target and context
+- Fix locking

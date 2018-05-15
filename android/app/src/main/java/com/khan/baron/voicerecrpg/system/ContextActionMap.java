@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Baron on 12/01/2018.
@@ -20,7 +21,7 @@ public abstract class ContextActionMap extends Entity {
     protected Map<String, String> mIgnoreMap = new HashMap<>();
     protected SentenceMapper mSentenceMapper;
 
-    private static Map<String, String> sUserSynonyms = new HashMap<>();
+    private static Map<String, String> sUserSynonyms = new ConcurrentHashMap<>();
     private static boolean sRememberUserSynonyms = true;
 
     public ContextActionMap(GlobalState state) {
