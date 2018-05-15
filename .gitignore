@@ -62,6 +62,6 @@ freeline_project_description.json
 
 w/
 
-build/*.java
-build/*.class
-build/*.jar
+libary/*.java
+libary/*.class
+libary/*.jar
