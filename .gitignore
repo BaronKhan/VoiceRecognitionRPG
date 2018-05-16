@@ -65,3 +65,5 @@ w/
 library/*.java
 library/*.class
 library/*.jar
+
+evaluation/*.csv
