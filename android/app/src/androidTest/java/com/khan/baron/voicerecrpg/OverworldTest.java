@@ -133,8 +133,6 @@ public class OverworldTest {
         gameState.initOverworldState(new Room01());
         assertEquals(gameState.updateState("use your hand to pick up the knife")
                 .contains("picked"), true);
-        assertEquals(gameState.updateState("use something sharp")
-                .contains("want to use the knife"), true);
         testScratched("use the knife to slash the door", true);
         testScratched("use the knife to cut the glass table", true);
         assertEquals(gameState.updateState("use the knife to cut the painting")
