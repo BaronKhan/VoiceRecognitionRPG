@@ -21,36 +21,40 @@
 \contentsline {subsubsection}{\numberline {3.4.6}Generating Sentences}{16}
 \contentsline {subsection}{\numberline {3.5}WordNet}{17}
 \contentsline {subsection}{\numberline {3.6}Object Properties}{17}
-\contentsline {section}{\numberline {4}Design}{19}
-\contentsline {subsection}{\numberline {4.1}Target Platform}{19}
-\contentsline {subsection}{\numberline {4.2}Java Programming Language}{19}
-\contentsline {subsection}{\numberline {4.3}System Overview}{19}
-\contentsline {subsubsection}{\numberline {4.3.1}Speech-to-Text}{20}
-\contentsline {subsubsection}{\numberline {4.3.2}POS Tagging}{21}
-\contentsline {subsubsection}{\numberline {4.3.3}Slot-filling Matching}{21}
-\contentsline {subsubsection}{\numberline {4.3.4}Semantic Similarity}{23}
-\contentsline {subsubsection}{\numberline {4.3.5}Context-Action Mapping}{24}
-\contentsline {subsubsection}{\numberline {4.3.6}Intent Execution}{25}
-\contentsline {subsection}{\numberline {4.4}System UML Class Diagram}{25}
-\contentsline {subsubsection}{\numberline {4.4.1}\texttt {MainActivity} Class}{26}
-\contentsline {subsubsection}{\numberline {4.4.2}\texttt {VoiceControl} Class}{27}
-\contentsline {subsubsection}{\numberline {4.4.3}\texttt {VoiceProcess} Class}{27}
-\contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{27}
-\contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{27}
-\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{28}
-\contentsline {subsection}{\numberline {4.5}System Features}{28}
-\contentsline {subsubsection}{\numberline {4.5.1}Synonym Mapping}{28}
-\contentsline {subsubsection}{\numberline {4.5.2}Ignoring Incorrect Matches}{28}
-\contentsline {subsubsection}{\numberline {4.5.3}Confirmation and Suggestions}{28}
-\contentsline {subsubsection}{\numberline {4.5.4}Multiple Commands}{29}
-\contentsline {subsubsection}{\numberline {4.5.5}Multiple Targets}{29}
-\contentsline {subsubsection}{\numberline {4.5.6}Sentence Mapping}{29}
-\contentsline {subsection}{\numberline {4.6}Game Design Overview}{30}
-\contentsline {subsubsection}{\numberline {4.6.1}Game Flow}{30}
-\contentsline {subsection}{\numberline {4.7}Game Design UML Class Diagram}{31}
-\contentsline {section}{\numberline {5}Appendix}{34}
-\contentsline {subsection}{\numberline {5.1}Skyrim Kinect Command List}{34}
-\contentsline {subsection}{\numberline {5.2}Penn Treebank Tagset}{36}
-\contentsline {subsection}{\numberline {5.3}System UML Class Diagram}{37}
-\contentsline {subsection}{\numberline {5.4}Game Design UML Class Diagram}{38}
-\contentsline {section}{References}{39}
+\contentsline {section}{\numberline {4}Design}{18}
+\contentsline {subsection}{\numberline {4.1}Target Platform}{18}
+\contentsline {subsection}{\numberline {4.2}Java Programming Language}{18}
+\contentsline {subsection}{\numberline {4.3}System Overview}{18}
+\contentsline {subsubsection}{\numberline {4.3.1}Speech-to-Text}{19}
+\contentsline {subsubsection}{\numberline {4.3.2}POS Tagging}{20}
+\contentsline {subsubsection}{\numberline {4.3.3}Slot-filling Matching}{20}
+\contentsline {subsubsection}{\numberline {4.3.4}Semantic Similarity}{22}
+\contentsline {subsubsection}{\numberline {4.3.5}Context-Action Mapping}{23}
+\contentsline {subsubsection}{\numberline {4.3.6}Intent Execution}{24}
+\contentsline {subsection}{\numberline {4.4}System UML Class Diagram}{24}
+\contentsline {subsubsection}{\numberline {4.4.1}\texttt {MainActivity} Class}{25}
+\contentsline {subsubsection}{\numberline {4.4.2}\texttt {VoiceControl} Class}{26}
+\contentsline {subsubsection}{\numberline {4.4.3}\texttt {VoiceProcess} Class}{26}
+\contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{26}
+\contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{26}
+\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{27}
+\contentsline {subsection}{\numberline {4.5}System Features}{27}
+\contentsline {subsubsection}{\numberline {4.5.1}Synonym Mapping}{27}
+\contentsline {subsubsection}{\numberline {4.5.2}Ignoring Incorrect Matches}{27}
+\contentsline {subsubsection}{\numberline {4.5.3}Confirmation and Suggestions}{27}
+\contentsline {subsubsection}{\numberline {4.5.4}Multiple Commands}{28}
+\contentsline {subsubsection}{\numberline {4.5.5}Multiple Targets}{28}
+\contentsline {subsubsection}{\numberline {4.5.6}Sentence Mapping}{28}
+\contentsline {subsection}{\numberline {4.6}Game Design Overview}{29}
+\contentsline {subsubsection}{\numberline {4.6.1}Game Flow}{29}
+\contentsline {subsection}{\numberline {4.7}Game Design UML Class Diagram}{30}
+\contentsline {subsection}{\numberline {4.8}Room Generation}{32}
+\contentsline {section}{\numberline {5}Implementation}{33}
+\contentsline {subsection}{\numberline {5.1}Voice Recognition Interface}{33}
+\contentsline {section}{\numberline {6}Appendix}{34}
+\contentsline {subsection}{\numberline {6.1}Skyrim Kinect Command List}{34}
+\contentsline {subsection}{\numberline {6.2}Penn Treebank Tagset}{36}
+\contentsline {subsection}{\numberline {6.3}System UML Class Diagram}{37}
+\contentsline {subsection}{\numberline {6.4}Game Design UML Class Diagram}{38}
+\contentsline {subsection}{\numberline {6.5}WordNet Download Code}{39}
+\contentsline {section}{References}{41}

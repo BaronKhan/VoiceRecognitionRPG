@@ -10,6 +10,6 @@ public class GameContextActionMap extends ContextActionMap {
         setActionList(                      "attack",           "heal",             "move");
         addDefaultContextActions(           new Attack(),       new Heal(),         new Move());
         addContextActions("weapon",         new AttackWeapon(), null,               new Move());
-        addContextActions("healing-item", null,               new HealPotion(),   new Move());
+        addContextActions("healing-item",   null,               new HealPotion(),   new Move());
     }
 }

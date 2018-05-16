@@ -23,4 +23,11 @@ Tests
 - charge at the enemy
 - hit the enemy
 - attack with a sword
-- 
+-
+
+Test Layout
+---------
+
+- Run each method separately (too slow to change on each test)
+- Separate csv for each method
+- Headers for each domain
