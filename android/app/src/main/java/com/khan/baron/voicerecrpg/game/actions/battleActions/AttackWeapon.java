@@ -20,7 +20,7 @@ public class AttackWeapon extends Action {
                     currentEnemy.decreaseHealth(5);
                     state.actionSucceeded();
                     return "You attacked the " + currentEnemy.getName() + " with a "
-                            + gameState.getBattleActionContext().getName() + ".";
+                            + Action.getCurrentContext().getName() + ".";
                 } else {
                     state.actionFailed();
                     return "There is no " + currentEnemy.getName() + " to attack.";

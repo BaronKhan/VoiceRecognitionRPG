@@ -20,7 +20,7 @@ public class AttackWeaponSharp extends Action {
                     currentEnemy.decreaseHealth(17);
                     state.actionSucceeded();
                     return "You attacked the " + currentEnemy.getName() + " with a sharp "
-                            + gameState.getBattleActionContext().getName() + ".";
+                            + Action.getCurrentContext().getName() + ".";
                 } else {
                     state.actionFailed();
                     return "There is no " + currentEnemy.getName() + " to attack.";

@@ -8,6 +8,8 @@ import com.khan.baron.voicerecrpg.system.GlobalState;
  */
 
 public abstract class Action {
+    private static Entity sCurrentContext = null;
+
     public abstract Object execute(GlobalState state, Entity currentTarget);
 
     public Object processReply(GlobalState state, String input) {
@@ -23,5 +25,13 @@ public abstract class Action {
 
     public void setWantsReply(boolean mWantsReply) {
         this.mWantsReply = mWantsReply;
+    }
+
+    protected static Entity getCurrentContext() {
+        return sCurrentContext;
+    }
+
+    protected static void setCurrentContext(Entity currentContext) {
+        sCurrentContext = currentContext;
     }
 }

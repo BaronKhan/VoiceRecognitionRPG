@@ -20,7 +20,7 @@ public class AttackWeaponBlunt extends Action {
                     currentEnemy.decreaseHealth(15);
                     state.actionSucceeded();
                     return "You attacked the " + currentEnemy.getName() + " with a blunt "
-                            + gameState.getBattleActionContext().getName() + ".";
+                            + Action.getCurrentContext().getName() + ".";
                 } else {
                     state.actionFailed();
                     return "There is no " + currentEnemy.getName() + " to attack.";

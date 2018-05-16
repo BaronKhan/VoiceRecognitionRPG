@@ -95,7 +95,7 @@ public class VoiceProcess {
         }
 
         mState.actionFailed();  // By default, we fail to execute input
-        mActionContext = null;
+        setActionContext(null);
 
         mAmbiguousHandler.resetState();
 
@@ -161,7 +161,7 @@ public class VoiceProcess {
             }
             chosenAction = actionPair.second;
 
-            mPreviousContext = mActionContext;
+            mPreviousContext = getActionContext();
             mPreviousTarget = currentTarget;
 
             if (mContextActionMap.isValidContext(chosenContext)) {
@@ -217,8 +217,8 @@ public class VoiceProcess {
                         mCurrentAction = mContextActionMap.get(currentContext).get(mPreviousActionStr);
                         actionOutput += mCurrentAction.execute(mState, mPreviousTarget);
                     } else {
-                        if (mActionContext != null) {
-                            actionOutput = "What do you want to use the " + mActionContext.getName() + " for?";
+                        if (getActionContext() != null) {
+                            actionOutput = "What do you want to use the " + getActionContext().getName() + " for?";
                         } else {
                             Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
                             if (sentenceMatchResult != null) {
@@ -264,7 +264,7 @@ public class VoiceProcess {
     private String checkForAnotherTarget(List<String> words, List<String> tags) {
         String output = "";
         Entity possibleTarget = getBestTarget(words, tags, false);
-        mActionContext = mPreviousContext;
+        setActionContext(mPreviousContext);
         if (mExpectingMoreInput && possibleTarget != null
                 && possibleTarget != mContextActionMap.getDefaultTarget()
                 && mPreviousActionStr != null) {
@@ -508,7 +508,7 @@ public class VoiceProcess {
 
         if (bestContext != null) {
             bestContextType = bestContext.getContext();
-            mActionContext = bestContext;
+            setActionContext(bestContext);
             if (bestScore > 0.6 && bestScore < 0.8) { mAmbiguousHandler.setIsAmbiguous(true); }
             else { mAmbiguousHandler.clearAmbiguousContextCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
@@ -616,6 +616,7 @@ public class VoiceProcess {
 
     public void setActionContext(Entity mActionContext) {
         this.mActionContext = mActionContext;
+        Action.setCurrentContext(this.mActionContext);
     }
 
     public boolean isExpectingReply() {
