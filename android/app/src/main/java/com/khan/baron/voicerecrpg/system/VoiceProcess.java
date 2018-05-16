@@ -521,7 +521,7 @@ public class VoiceProcess {
         List<Integer> candidateActions = new ArrayList<>();
         for (int i=0; i<tags.size(); ++i) {
             String tag = tags.get(i).toLowerCase();
-            if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n') {
+            if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j') {
                 candidateActions.add(i);
             }
         }
