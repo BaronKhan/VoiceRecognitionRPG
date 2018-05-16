@@ -4,8 +4,6 @@ Voice Recognition RPG project
 Deadlines
 -------------------
 
-### Week of Monday May 14th - Friday May 18th 2017. Project health check-up.
-
 ### Wednesday, 20th June, 12 noon. EiE final reports due
 
 All students hand in your project report to the Student Administration Office as well as submit a version online.
