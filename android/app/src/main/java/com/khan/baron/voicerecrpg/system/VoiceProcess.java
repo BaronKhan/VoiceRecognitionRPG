@@ -266,7 +266,7 @@ public class VoiceProcess {
         Entity possibleTarget = getBestTarget(words, tags, false);
         mActionContext = mPreviousContext;
         if (mExpectingMoreInput && possibleTarget != null
-                && possibleTarget != mContextActionMap.mDefaultTarget
+                && possibleTarget != mContextActionMap.getDefaultTarget()
                 && mPreviousActionStr != null) {
             String currentContext = getBestContext(words, tags, false);
             if (currentContext == null || currentContext.equals("default")) {
@@ -399,7 +399,7 @@ public class VoiceProcess {
         List<Entity> possibleTargetList = mContextActionMap.getPossibleTargets();
         if (candidateTargets == null || possibleTargetList == null ||
                 candidateTargets.size() < 1 || possibleTargetList.size() < 1) {
-            return mContextActionMap.mDefaultTarget;
+            return mContextActionMap.getDefaultTarget();
         }
         double bestScore = TARGET_MIN;
         int bestIndex = -1;
@@ -439,7 +439,7 @@ public class VoiceProcess {
         }
         if (bestTarget == null) {
             mAmbiguousHandler.clearAmbiguousTargetCandidates();
-            return mContextActionMap.mDefaultTarget;
+            return mContextActionMap.getDefaultTarget();
         } else {
             if (bestScore > 0.7 && bestScore < 0.8) { mAmbiguousHandler.setIsAmbiguous(true); }
             else { mAmbiguousHandler.clearAmbiguousTargetCandidates(); }
@@ -481,7 +481,9 @@ public class VoiceProcess {
                     bestContext = context;
                     bestIndex = i;
                     break;
-                } else if (!word.equals(mContextActionMap.mDefaultTarget.getName())) {
+                } else if (mContextActionMap.getDefaultTarget() == null ||
+                        (!word.equals(mContextActionMap.getDefaultTarget().getName())))
+                {
                     if (context.descriptionHas(word)) {
                         bestScore = 1.0;
                         bestContext = context;
@@ -491,7 +493,7 @@ public class VoiceProcess {
                     double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
                     if (score > CONTEXT_MIN && score < CONTEXT_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousContextCandidate(
-                                new Triple<>(words, context, score), bestScore);
+                                new Triple<>(word, context, score), bestScore);
                     }
                     if (score > bestScore) {
                         bestScore = score;
@@ -536,7 +538,8 @@ public class VoiceProcess {
                     words.get(i).equals("utilising"))) {
                 return candidateTargets;
             } else if ((tag.charAt(0) == 'n' || tag.charAt(0) == 'v'
-                    || tag.charAt(0) == 'j' || tag.charAt(0) == 'i')) {
+                    || tag.charAt(0) == 'j' || tag.charAt(0) == 'i'
+                    || (tag.charAt(0) == 'r' && tag.charAt(1) == 'b') )) {
                 candidateTargets.add(i);
             }
         }

@@ -179,6 +179,7 @@ Problem: Semantic similarity messes up sometimes
 - Example: pick up the utensil
 - There is a fork and knife in the room
 - "did you mean fork?"
+- Now utensil maps to fork
 
 Action Replies
 -----------------
@@ -277,6 +278,7 @@ Library
 - Add countless voice commands with little effort
 - Create separate repo with source files (copy them from main repo)
 - Remove Log, Toast; add Pair, Triple classes
+- Add main executable demo class to JAR
 
 Video Conferencing example
 -----------------

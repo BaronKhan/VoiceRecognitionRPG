@@ -16,14 +16,17 @@ if [ ! -d "../android" ]; then
 fi
 
 # clean up
+printf "cleaning up\n"
 rm -Rf *.java *.class *.jar com
 
 mkdir -p $PKGNAME
 
 # copy source files
+printf "copying source files\n"
 cp $SOURCEDIR/*.java $PKGNAME/.
 
 # remove android code
+printf "removing android code\n"
 for FILE in `ls $PKGNAME`
 do
   if [ $FILE != "buildJar.sh" ]; then
@@ -44,9 +47,13 @@ do
   fi
 done
 
+printf "creating new classes\n"
 printf "package com.khan.baron.vcw; public class Pair<F, S> { public final F first; public final S second; public Pair(F first, S second) { this.first=first; this.second=second; } }" > $PKGNAME/Pair.java
 printf "package com.khan.baron.vcw; public class Triple<F, S, T> { public final F first; public final S second; public final T third; public Triple(F first, S second, T third) { this.first=first; this.second=second; this.third=third; } }" > $PKGNAME/Triple.java
 
+printf "building jar\n"
 javac -cp ".;$LIBCOMON;$LIBJWI;$LIBPOS;$LIBWS4J" $PKGNAME/*.java && jar cvf $OUTPUTNAME $PKGNAME/*.class
+
+printf "created jar file: $OUTPUTNAME"
 
 rm -Rf *.java *.class com

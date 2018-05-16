@@ -69,9 +69,7 @@ public class AmbiguousHandler {
     }
 
     private boolean canExecutePending(ContextActionMap map) {
-        return (mPendingAction != null &&
-                mPendingTarget != null &&
-                map.get(mPendingContext).get(mPendingAction) != null);
+        return (mPendingAction != null && map.get(mPendingContext).get(mPendingAction) != null);
     }
 
     public String initSuggestion(String chosenAction, Entity currentTarget, String chosenContext) {
@@ -224,7 +222,7 @@ public class AmbiguousHandler {
                     .get(mPendingAction) == null)
             {
                 mPendingContext = "default";
-            } else { mPendingContext = "default"; }
+            } else { mPendingContext = context.getContext(); }
         } else {
             mPendingContext = "default";
         }

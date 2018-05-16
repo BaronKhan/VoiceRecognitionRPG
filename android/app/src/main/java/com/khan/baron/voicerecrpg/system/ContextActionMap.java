@@ -1,6 +1,7 @@
 package com.khan.baron.voicerecrpg.system;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class ContextActionMap extends Entity {
     protected GlobalState mState;
     protected List<Entity> mPossibleTargets = new ArrayList<>();
-    public Entity mDefaultTarget = null;
+    private Entity mDefaultTarget = null;
     protected List<Entity> mPossibleContexts = new ArrayList<>();
-    protected List<String> mActionList = new ArrayList<>();
+    private List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
     protected Map<String, String> mSynonymMap = new HashMap<>();
     protected Map<String, String> mIgnoreMap = new HashMap<>();
     protected SentenceMapper mSentenceMapper;
+    private Self mSelf = new Self();
 
     private static Map<String, String> sUserSynonyms = new ConcurrentHashMap<>();
     private static boolean sRememberUserSynonyms = true;
@@ -29,7 +31,7 @@ public abstract class ContextActionMap extends Entity {
         setContext("actions");
         mState = state;
         mPossibleTargets.add(this);
-        mPossibleTargets.add(new Self());
+        mPossibleTargets.add(mSelf);
         mSentenceMapper = new SentenceMapper(this);
         mSynonymMap = new HashMap<>(sUserSynonyms);
     }
@@ -161,5 +163,25 @@ public abstract class ContextActionMap extends Entity {
 
     public void setSentenceMapper(SentenceMapper mSentenceMapper) {
         this.mSentenceMapper = mSentenceMapper;
+    }
+
+    public List<String> getActionList() {
+        return mActionList;
+    }
+
+    public void setActionList(List<String> mActionList) {
+        this.mActionList = mActionList;
+    }
+
+    public void setActionList(String ... mActionList) {
+        this.mActionList = Arrays.asList(mActionList);
+    }
+
+    public Self getSelf() {
+        return mSelf;
+    }
+
+    public void setSelf(Self mSelf) {
+        this.mSelf = mSelf;
     }
 }

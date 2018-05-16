@@ -17,3 +17,10 @@ returned
 
 Tests
 ---------
+
+- Game:
+- attack the enemy
+- charge at the enemy
+- hit the enemy
+- attack with a sword
+- 

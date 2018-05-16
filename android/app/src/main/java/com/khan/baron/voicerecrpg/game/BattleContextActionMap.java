@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class BattleContextActionMap extends ContextActionMap {
     public BattleContextActionMap(GlobalState state) {
         super(state);
-        mActionList = Arrays.asList(        "attack",                   "heal",             "show",             "look");
+        setActionList(Arrays.asList(        "attack",                   "heal",             "show",             "look"));
         addDefaultContextActions(           new AttackDefault(),        new HealDefault(),  new ShowDefault(),  new LookDefault());
         addContextActions("weapon",         new AttackWeapon(),         null,               null,               null);
         addContextActions("weapon-sharp",   new AttackWeaponSharp(),    null,               null,               null);

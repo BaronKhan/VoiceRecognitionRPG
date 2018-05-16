@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class CallContextActionMap extends ContextActionMap {
     public CallContextActionMap(GlobalState state) {
         super(state);
-        mActionList = Arrays.asList(        "call",                     "stop",                 "mute");
+        setActionList(Arrays.asList(        "call",                     "stop",                 "mute"));
         addDefaultContextActions(            new CallContact(),         null,                   null);
 
         addSynonym("contact", "call");

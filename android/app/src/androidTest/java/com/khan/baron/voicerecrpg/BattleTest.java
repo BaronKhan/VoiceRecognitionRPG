@@ -201,6 +201,9 @@ public class BattleTest {
         testHealed("yes", true);
         //regenerate added as synonym
         testHealed("regenerate", true);
+        gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
+        gameState.updateState("attack with a bang");
+        testAttackedWithHammer("yes", true);
     }
 
     @Test

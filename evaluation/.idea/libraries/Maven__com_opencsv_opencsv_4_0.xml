@@ -2,12 +2,18 @@
   <library name="Maven: com.opencsv:opencsv:4.0">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/opencsv/opencsv/4.0/opencsv-4.0.jar!/" />
+      <root url="file://$PROJECT_DIR$/../library" />
+      <root url="file://$PROJECT_DIR$/../android/app/libs" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/com/opencsv/opencsv/4.0/opencsv-4.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/opencsv/opencsv/4.0/opencsv-4.0-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/../android/app/libs" />
     </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../android/app/libs" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../library" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../android/app/libs" recursive="false" type="SOURCES" />
   </library>
 </component>
