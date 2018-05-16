@@ -122,10 +122,10 @@ public class Main {
     ));
 
     private static List<Pair<String, String>> sCallTests = new ArrayList<Pair<String, String>>(Arrays.asList(
-            new Pair<String, String>("call", "CALL"),
-            new Pair<String, String>("call fred", "CALL_FRED"),
-            new Pair<String, String>("call jane", "CALL_JANE"),
-            new Pair<String, String>("call jane with video", "CALL_JANE_VIDEO"),
+            new Pair<String, String>("phone", "PHONE"),
+            new Pair<String, String>("phone fred", "PHONE_FRED"),
+            new Pair<String, String>("phone jane", "PHONE_JANE"),
+            new Pair<String, String>("phone jane with video", "PHONE_JANE_VIDEO"),
             new Pair<String, String>("stop call", "STOP"),
             new Pair<String, String>("stop call with fred", "STOP_FRED"),
             new Pair<String, String>("mute video with fred", "MUTE_VIDEO_FRED"),

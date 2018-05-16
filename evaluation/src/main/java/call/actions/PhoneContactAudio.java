@@ -5,10 +5,10 @@ import com.khan.baron.vcw.Action;
 import com.khan.baron.vcw.Entity;
 import com.khan.baron.vcw.GlobalState;
 
-public class CallContactAudio extends Action {
+public class PhoneContactAudio extends Action {
     public Object execute(GlobalState state, Entity currentTarget) {
-        if (currentTarget instanceof Contact) { return "CALL_"+currentTarget.getName().toUpperCase()+"_AUDIO"; }
-        return "CALL_AUDIO";
+        if (currentTarget instanceof Contact) { return "PHONE_"+currentTarget.getName().toUpperCase()+"_AUDIO"; }
+        return "PHONE_AUDIO";
     }
 }
 

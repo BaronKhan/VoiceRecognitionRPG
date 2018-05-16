@@ -3,15 +3,14 @@ package call;
 import call.actions.*;
 import com.khan.baron.vcw.ContextActionMap;
 import com.khan.baron.vcw.GlobalState;
-import game.actions.*;
 
 public class CallContextActionMap extends ContextActionMap {
     public CallContextActionMap(GlobalState state) {
         super(state);
-        setActionList(               "call",                    "stop",                 "mute");
-        addDefaultContextActions(    new CallContact(),         new StopCall(),         new Mute());
-        addContextActions("video",   new CallContactVideo(),    null,                   null);
-        addContextActions("audio",   new CallContactAudio(),    null,                   null);
+        setActionList(               "phone",                   "stop",                 "mute");
+        addDefaultContextActions(    new PhoneContact(),         new StopCall(),         new Mute());
+        addContextActions("video",   new PhoneContactVideo(),    null,                   null);
+        addContextActions("audio",   new PhoneContactAudio(),    null,                   null);
         addContextActions("contact", null,                      new StopCallContact(),  new MuteContact());
     }
 }
