@@ -1,3 +1,4 @@
+import call.CallState;
 import com.khan.baron.vcw.GlobalState;
 import com.khan.baron.vcw.Pair;
 import com.khan.baron.vcw.SemanticSimilarity;
@@ -33,13 +34,22 @@ public class Main {
 
         SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_WUP);
 
+        scoreAllTests = 0;
+
         GameState gameState = new GameState();
         try { gameState.addDictionary(url); }
         catch (Exception e) { System.out.println(e.getMessage()); }
         runTests(writer, gameState, "Game", sGameTests);
 
+        CallState callState = new CallState();
+        try { callState.addDictionary(url); }
+        catch (Exception e) { System.out.println(e.getMessage()); }
+        runTests(writer, callState, "Video Conferencing", sCallTests);
+
         writer.close();
     }
+
+    private static int scoreAllTests = 0;
 
     private static void runTests(CSVWriter writer, GlobalState state, String testName, List<Pair<String, String>> tests) {
         writer.writeNext(new String[] {testName+":"});
@@ -62,7 +72,10 @@ public class Main {
                     (passed ? "" : result)
             };
             writer.writeNext(gameRecord);
-            if (passed) { ++scoreAcc; }
+            if (passed) {
+                ++scoreAcc;
+                ++scoreAllTests;
+            }
             System.out.println("Result for "+testName+" test: "+input+" : "+gameRecord[2]);
         }
         long endTime = System.currentTimeMillis();
@@ -106,5 +119,16 @@ public class Main {
             new Pair<String, String>("continue forwards", "MOVE_FORWARDS"),
             new Pair<String, String>("run forwards", "MOVE_FORWARDS"),
             new Pair<String, String>("dash forwards", "MOVE_FORWARDS")
+    ));
+
+    private static List<Pair<String, String>> sCallTests = new ArrayList<Pair<String, String>>(Arrays.asList(
+            new Pair<String, String>("call", "CALL"),
+            new Pair<String, String>("call fred", "CALL_FRED"),
+            new Pair<String, String>("call jane", "CALL_JANE"),
+            new Pair<String, String>("call jane with video", "CALL_JANE_VIDEO"),
+            new Pair<String, String>("stop call", "STOP"),
+            new Pair<String, String>("stop call with fred", "STOP_FRED"),
+            new Pair<String, String>("mute video with fred", "MUTE_VIDEO_FRED"),
+            new Pair<String, String>("mute jane", "MUTE_JANE")
     ));
 }
