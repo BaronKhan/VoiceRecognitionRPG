@@ -99,7 +99,7 @@ public class CustomLexicalDatabase implements ILexicalDatabase {
 
     // To offset.
     public String conceptToString( String synset ) {
-        return null;
+        return "";
     }
 
     // Note: most of this method is similar to the NictWordNet one, but using JWI instead
