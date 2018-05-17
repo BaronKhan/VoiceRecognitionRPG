@@ -14,7 +14,6 @@ import static java.lang.Math.max;
 
 public class SemanticSimilarity {
     public enum SimilarityMethod {
-        METHOD_WUP_LIN,
         METHOD_WUP,
         METHOD_LIN,
         METHOD_JCN,
@@ -29,7 +28,8 @@ public class SemanticSimilarity {
     //Use all senses, not just most frequent sense (slower but more accurate)
     private SemanticSimilarity() { WS4JConfiguration.getInstance().setMFS(false); }
 
-    private static SimilarityMethod sCurrentMethod = SimilarityMethod.METHOD_WUP_LIN;
+    private static SimilarityMethod sCurrentMethod1 = SimilarityMethod.METHOD_WUP;
+    private static SimilarityMethod sCurrentMethod2 = null;
 
     private ILexicalDatabase mDb = null;
     private RelatednessCalculator mMethod1 = null;
@@ -37,44 +37,50 @@ public class SemanticSimilarity {
 
     public void init(ILexicalDatabase db) {
         mDb = db;
-        setSimilarityMethod(sCurrentMethod);
+        setSimilarityMethod(1, sCurrentMethod1);
+        setSimilarityMethod(2, sCurrentMethod2);
     }
 
-    public static SimilarityMethod getSimilarityMethod() {
-        return sCurrentMethod;
+    public static SimilarityMethod getSimilarityMethod(int i) {
+        if (i == 1) { return sCurrentMethod1; }
+        else { return sCurrentMethod2; }
     }
 
-    public static void setStaticSimilarityMethod(SimilarityMethod chosenMethod) {
-        sCurrentMethod = chosenMethod;
+    public static void setSimilarityMethodEnum(int i, SimilarityMethod chosenMethod) {
+        if (i == 1) { sCurrentMethod1 = chosenMethod; }
+        else { sCurrentMethod2 = chosenMethod; }
     }
 
-    protected void setSimilarityMethod(SimilarityMethod chosenMethod) {
-        sCurrentMethod = chosenMethod;
+    protected void setSimilarityMethod(int i, SimilarityMethod chosenMethod) {
+        RelatednessCalculator method = null;
         if (mDb == null) { return; }
-        mMethod1 = null; mMethod2 = null;
-        switch(chosenMethod) {
-            case METHOD_WUP_LIN:
-                mMethod1 = new WuPalmer(mDb);
-                mMethod2 = new Lin(mDb);
-                break;
-            case METHOD_WUP:
-                mMethod1 = new WuPalmer(mDb);
-                break;
-            case METHOD_LIN:
-                mMethod1 = new Lin(mDb);
-                break;
-            case METHOD_JCN:
-                mMethod1 = new JiangConrath(mDb);
-                break;
-            case METHOD_LESK:
-                mMethod1 = new Lesk(mDb);
-                break;
-            case METHOD_FASTLESK:
-                mMethod1 = new FastLesk(mDb);
-                break;
-            default:
-                mMethod1 = new WuPalmer(mDb);
-                mMethod2 = new Lin(mDb);
+        if (chosenMethod != null) {
+            switch (chosenMethod) {
+                case METHOD_WUP:
+                    method = new WuPalmer(mDb);
+                    break;
+                case METHOD_LIN:
+                    method = new Lin(mDb);
+                    break;
+                case METHOD_JCN:
+                    method = new JiangConrath(mDb);
+                    break;
+                case METHOD_LESK:
+                    method = new Lesk(mDb);
+                    break;
+                case METHOD_FASTLESK:
+                    method = new FastLesk(mDb);
+                    break;
+                default:
+                    method = null;
+            }
+        }
+        if (i == 1) {
+            sCurrentMethod1 = chosenMethod;
+            mMethod1 = method;
+        } else {
+            sCurrentMethod2 = chosenMethod;
+            mMethod2 = method;
         }
     }
 
@@ -90,15 +96,18 @@ public class SemanticSimilarity {
             if (mMethod1 != null) { score1 = mMethod1.calcRelatednessOfWords(word1, word2); }
             if (mMethod2 != null) { score2 = mMethod2.calcRelatednessOfWords(word1, word2); }
 
-            if (sCurrentMethod == SimilarityMethod.METHOD_WUP_LIN && score2 > 0)  {
-                score = (score1*0.75) + (score2*0.25);
-            } else { score = score1; }
+            //Normalise score
+            if (sCurrentMethod1 == SimilarityMethod.METHOD_LESK) { score1 = max(score1 / 80.0, 1.0); }
+            if (sCurrentMethod2 == SimilarityMethod.METHOD_LESK) { score2 = max(score2 / 80.0, 1.0); }
+
+            if (score2 > 0) {
+                score = (score1 * 0.5) + (score2 * 0.5);
+            } else {
+                score = score1;
+            }
+
             Log.d("SemanticSimilarity", "score("+word1+", "+word2+") = "+score);
 
-            //Normalise score
-            if (sCurrentMethod == SimilarityMethod.METHOD_LESK) {
-                score = max(score / 80.0, 1.0);
-            }
 
             return score;
         } catch (Exception e) {

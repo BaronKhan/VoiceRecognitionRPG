@@ -25,13 +25,6 @@
             android:text="@string/semantic_similarity_method" />
 
         <RadioButton
-            android:id="@+id/radioButtonWUPLIN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/method_wuplin" />
-
-        <RadioButton
             android:id="@+id/radioButtonWUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +51,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="FASTLESK" />
+
+        <RadioButton
+            android:id="@+id/radioButtonWUPLIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/method_wuplin" />
 
     </RadioGroup>
 

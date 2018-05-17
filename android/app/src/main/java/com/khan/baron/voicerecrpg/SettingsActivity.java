@@ -21,7 +21,6 @@ import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
 import com.khan.baron.voicerecrpg.system.ContextActionMap;
 import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
-import com.khan.baron.voicerecrpg.system.VoiceProcess;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,16 +49,24 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == mRadioButtonWUPLIN.getId()) {
-                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_WUP_LIN);
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_WUP,
+                            SemanticSimilarity.SimilarityMethod.METHOD_LIN);
                 } else if (checkedId == mRadioButtonWUP.getId()) {
-                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_WUP);
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_WUP, null);
                 } else if (checkedId == mRadioButtonLIN.getId()) {
-                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_LIN);
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_LIN, null);
                 } else if (checkedId == mRadioButtonLESK.getId()) {
-                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_LESK);
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_LESK, null);
                 } else if (checkedId == mRadioButtonFASTLESK.getId()) {
-                    SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK);
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK, null);
                 }
+            }
+
+            private void setSimilarityMethods(SemanticSimilarity.SimilarityMethod method1,
+                                             SemanticSimilarity.SimilarityMethod method2)
+            {
+                SemanticSimilarity.setSimilarityMethodEnum(1, method1);
+                SemanticSimilarity.setSimilarityMethodEnum(2, method2);
             }
         });
 
@@ -105,24 +112,22 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setMethodRadioButton() {
-        switch(SemanticSimilarity.getSimilarityMethod()) {
-            case METHOD_WUP_LIN:
-                mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
-                break;
-            case METHOD_WUP:
-                mMethodRadioGroup.check(mRadioButtonWUP.getId());
-                break;
-            case METHOD_LIN:
-                mMethodRadioGroup.check(mRadioButtonLIN.getId());
-                break;
-            case METHOD_LESK:
-                mMethodRadioGroup.check(mRadioButtonLESK.getId());
-                break;
-            case METHOD_FASTLESK:
-                mMethodRadioGroup.check(mRadioButtonFASTLESK.getId());
-                break;
-            default:
-                mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
+        SemanticSimilarity.SimilarityMethod method1 = SemanticSimilarity.getSimilarityMethod(1);
+        SemanticSimilarity.SimilarityMethod method2 = SemanticSimilarity.getSimilarityMethod(2);
+        if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_WUP &&
+                method2 == SemanticSimilarity.SimilarityMethod.METHOD_LIN)
+        {
+            mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
+        } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_WUP) {
+            mMethodRadioGroup.check(mRadioButtonWUP.getId());
+        } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_LIN) {
+            mMethodRadioGroup.check(mRadioButtonLIN.getId());
+        } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_LESK) {
+            mMethodRadioGroup.check(mRadioButtonLESK.getId());
+        } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK) {
+            mMethodRadioGroup.check(mRadioButtonFASTLESK.getId());
+        } else {
+            mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
         }
     }
 
