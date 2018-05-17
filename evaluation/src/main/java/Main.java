@@ -29,7 +29,7 @@ public class Main {
                 null,
                 SemanticSimilarity.SimilarityMethod.METHOD_WUP,
                 SemanticSimilarity.SimilarityMethod.METHOD_LIN,
-                SemanticSimilarity.SimilarityMethod.METHOD_LEAC,
+                SemanticSimilarity.SimilarityMethod.METHOD_LEACOCK,
                 SemanticSimilarity.SimilarityMethod.METHOD_PATH,
                 SemanticSimilarity.SimilarityMethod.METHOD_JCN,
                 SemanticSimilarity.SimilarityMethod.METHOD_RES,
