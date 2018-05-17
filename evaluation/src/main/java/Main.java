@@ -10,6 +10,7 @@ import game.GameState;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -17,44 +18,80 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
+    private static int scoreAllTests;
+    private static URL sUrl;
+
     public static void main(String[] args) throws IOException {
-        CSVWriter writer = new CSVWriter(new FileWriter("results.csv"));
 
+        loadWordNetAndPOSTagger();
+
+        List<SemanticSimilarity.SimilarityMethod> methods = Arrays.asList(
+                null,
+                SemanticSimilarity.SimilarityMethod.METHOD_WUP,
+                SemanticSimilarity.SimilarityMethod.METHOD_LIN,
+                SemanticSimilarity.SimilarityMethod.METHOD_LESK,
+                SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK
+        );
+
+        String fileName = "results.csv";
+        runTestSuite(fileName, SemanticSimilarity.SimilarityMethod.METHOD_WUP, null);
+    }
+
+    private static void loadWordNetAndPOSTagger() throws MalformedURLException {
         VoiceProcess.loadTagger("../w/english-left3words-distsim.tagger");
-
         File dictFile = new File("../w/dict/");
         if (dictFile.exists()) {
             System.out.println("Found WordNet database");
         } else {
             System.out.println("Could not find WordNet database. Path = "+dictFile);
-            writer.close();
             System.exit(0);
         }
-        URL url = new URL("file", null, dictFile.getPath());
+        sUrl = new URL("file", null, dictFile.getPath());
+    }
 
-        SemanticSimilarity.setStaticSimilarityMethod(SemanticSimilarity.SimilarityMethod.METHOD_WUP);
+    private static void runTestSuite(String fileName, SemanticSimilarity.SimilarityMethod method1,
+                                     SemanticSimilarity.SimilarityMethod method2) throws IOException
+    {
+        CSVWriter writer = new CSVWriter(new FileWriter(fileName));
+
+        SemanticSimilarity.setSimilarityMethodEnum(1, method1);
+        SemanticSimilarity.setSimilarityMethodEnum(2, method2);
 
         scoreAllTests = 0;
 
+        long testStart = System.currentTimeMillis();
+
         GameState gameState = new GameState();
-        try { gameState.addDictionary(url); }
+        try { gameState.addDictionary(sUrl); }
         catch (Exception e) { System.out.println(e.getMessage()); }
         runTests(writer, gameState, "Game", sGameTests);
 
         CallState callState = new CallState();
-        try { callState.addDictionary(url); }
+        try { callState.addDictionary(sUrl); }
         catch (Exception e) { System.out.println(e.getMessage()); }
         runTests(writer, callState, "Video Conferencing", sCallTests);
 
         CookingState cookingState = new CookingState();
-        try { cookingState.addDictionary(url); }
+        try { cookingState.addDictionary(sUrl); }
         catch (Exception e) { System.out.println(e.getMessage()); }
         runTests(writer, cookingState, "Cooking", sCookingTests);
 
-        writer.close();
-    }
+        long testEnd = System.currentTimeMillis();
+        long totalTime = testEnd - testStart;
+        int totalTests = sGameTests.size()+sCallTests.size()+sCookingTests.size();
+        double avgScore = (100.0* scoreAllTests)/totalTests;
 
-    private static int scoreAllTests = 0;
+        writer.writeNext(new String[] {""});
+        writer.writeNext(new String[] {"Final Results:"});
+        writer.writeNext(new String[] {
+                "Time per test",
+                new DecimalFormat("##.000").format((((double)totalTime)/totalTests))+" ms",
+                "Score:",
+                new DecimalFormat("##.00").format(avgScore)+"%"});
+
+        writer.close();
+        System.out.println("Created CSV file: "+fileName);
+    }
 
     private static void runTests(CSVWriter writer, GlobalState state, String testName, List<Pair<String, String>> tests) {
         writer.writeNext(new String[] {testName+":"});
@@ -93,6 +130,7 @@ public class Main {
                 new DecimalFormat("##.000").format((((double)totalTime)/tests.size()))+" ms",
                 "Score:",
                 new DecimalFormat("##.00").format(score)+"%"});
+        writer.writeNext(new String[] {""});
         System.out.println("Finished tests for "+testName);
         System.out.println("Total time = "+totalTime+" ms");
         System.out.println("Score = "+new DecimalFormat("##.00").format(score)+"%");
