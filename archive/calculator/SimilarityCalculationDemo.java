@@ -42,7 +42,7 @@ public class SimilarityCalculationDemo {
         System.out.println("PATH: "+new Path(db).calcRelatednessOfWords(args[0], args[1]));
     } else {
 
-      System.out.println("Must specify two arguments.\nRunning default demo...")
+      System.out.println("Must specify two arguments.\nRunning default demo with WUP...\n");
 
 		// String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create", "dog", "cat"};
 		String [] words = {"attack", "hit", "charge", "prevent", "use", "heal", "recover", "regenerate", "cure", "restore"};
