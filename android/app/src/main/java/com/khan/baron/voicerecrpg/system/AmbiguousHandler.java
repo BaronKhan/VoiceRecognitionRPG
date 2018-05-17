@@ -91,10 +91,10 @@ public class AmbiguousHandler {
                     ? ""
                     : "use "+context.getName()+" to ")
                     +action
-                    +((target != defaultTarget) ? " the "+target.getName() : "");
+                    +((target != defaultTarget) ? " "+target.getName() : "");
         } else {
             return action
-                    +((target != defaultTarget) ? " the "+target.getName() : "")
+                    +((target != defaultTarget) ? " "+target.getName() : "")
                     +(context == null || context.getName().equals("default")
                     ? ""
                     : " with "+context.getName());
