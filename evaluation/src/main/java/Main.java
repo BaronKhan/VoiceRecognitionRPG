@@ -4,6 +4,7 @@ import com.khan.baron.vcw.Pair;
 import com.khan.baron.vcw.SemanticSimilarity;
 import com.khan.baron.vcw.VoiceProcess;
 import com.opencsv.CSVWriter;
+import cooking.CookingState;
 import game.GameState;
 
 import java.io.File;
@@ -44,6 +45,11 @@ public class Main {
         try { callState.addDictionary(url); }
         catch (Exception e) { System.out.println(e.getMessage()); }
         runTests(writer, callState, "Video Conferencing", sCallTests);
+
+        CookingState cookingState = new CookingState();
+        try { cookingState.addDictionary(url); }
+        catch (Exception e) { System.out.println(e.getMessage()); }
+        runTests(writer, cookingState, "Cooking", sCookingTests);
 
         writer.close();
     }
@@ -141,5 +147,13 @@ public class Main {
             new Pair<String, String>("mute video with fred", "MUTE_VIDEO_FRED"),
             new Pair<String, String>("mute jane", "MUTE_JANE"),
             new Pair<String, String>("silence jane", "MUTE_JANE")
+    ));
+
+    private static List<Pair<String, String>> sCookingTests = new ArrayList<Pair<String, String>>(Arrays.asList(
+            new Pair<String, String>("make egg", "MAKE_EGG"),
+            new Pair<String, String>("boil egg", "BOIL_EGG"),
+            new Pair<String, String>("boil soup with cooker", "BOIL_SOUP_COOKER"),
+            new Pair<String, String>("stir soup", "STIR_SOUP"),
+            new Pair<String, String>("stir soup with spoon", "STIR_SOUP_SPOON")
     ));
 }

@@ -1,6 +1,9 @@
 package cooking;
 
 import com.khan.baron.vcw.*;
+import cooking.entities.Cooker;
+import cooking.entities.Food;
+import cooking.entities.Spoon;
 import game.GameContextActionMap;
 import game.entities.Direction;
 import game.entities.Potion;
@@ -17,6 +20,12 @@ public class CookingState extends GlobalState {
     private MultipleCommandProcess mCommandProcess = new MultipleCommandProcess(mVoiceProcess);
 
     public CookingState() {
+        Entity egg = new Food("egg");
+        Entity soup = new Food("soup");
+        Entity spoon = new Spoon();
+        Entity cooker = new Cooker();
+        mMap.addPossibleTargets(Arrays.asList(egg, soup));
+        mMap.addPossibleContexts(Arrays.asList(egg, soup, spoon, cooker));
     }
 
     public void addDictionary(URL url) throws IOException {

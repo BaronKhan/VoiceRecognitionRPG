@@ -1,15 +1,16 @@
 package cooking;
 
-import call.actions.*;
 import com.khan.baron.vcw.ContextActionMap;
 import com.khan.baron.vcw.GlobalState;
+import cooking.actions.*;
 
 public class CookingContextActionMap extends ContextActionMap {
     public CookingContextActionMap(GlobalState state) {
         super(state);
         setActionList(              "make",                    "stir",                 "boil");
-        addDefaultContextActions(   null,         null,         null);
-        addContextActions("spoon",  null,    null,                   null);
-        addContextActions("cooker", null,    null,                   null);
+        addDefaultContextActions(   new Make(),                new Stir(),             new Boil());
+        addContextActions("spoon",  new Make(),                new StirSpoon(),        null);
+        addContextActions("cooker", new Make(),                null,                   new BoilCooker());
+        addContextActions("food",   new MakeFood(),            null,                   null);
     }
 }
