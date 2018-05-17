@@ -29,12 +29,20 @@ public class Main {
                 null,
                 SemanticSimilarity.SimilarityMethod.METHOD_WUP,
                 SemanticSimilarity.SimilarityMethod.METHOD_LIN,
-                SemanticSimilarity.SimilarityMethod.METHOD_LESK,
-                SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK
+                SemanticSimilarity.SimilarityMethod.METHOD_LEAC,
+                SemanticSimilarity.SimilarityMethod.METHOD_PATH,
+                SemanticSimilarity.SimilarityMethod.METHOD_JCN,
+                SemanticSimilarity.SimilarityMethod.METHOD_RES,
+                SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK,
+                SemanticSimilarity.SimilarityMethod.METHOD_LESK
         );
 
-        String fileName = "results.csv";
-        runTestSuite(fileName, SemanticSimilarity.SimilarityMethod.METHOD_WUP, null);
+        for (SemanticSimilarity.SimilarityMethod method: methods) {
+            String fileName = "results"+(method.name().replace("METHOD_",""))+".csv";
+            System.out.println("Running test suite using "+method.name()+" method...");
+            runTestSuite(fileName, method, null);
+            System.out.println("Finished test suite for "+method.name()+" method...");
+        }
     }
 
     private static void loadWordNetAndPOSTagger() throws MalformedURLException {
@@ -52,6 +60,14 @@ public class Main {
     private static void runTestSuite(String fileName, SemanticSimilarity.SimilarityMethod method1,
                                      SemanticSimilarity.SimilarityMethod method2) throws IOException
     {
+        File file = new File(fileName);
+        if (file.exists()) {
+            System.out.println("Found existing "+fileName+". Skipping...");
+            return;
+        } else {
+            System.out.println("Writing to "+fileName);
+        }
+
         CSVWriter writer = new CSVWriter(new FileWriter(fileName));
 
         SemanticSimilarity.setSimilarityMethodEnum(1, method1);
