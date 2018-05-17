@@ -333,9 +333,7 @@ public class VoiceProcess {
             String word = words.get(i);
             //ignore with/use words
             if (!(word.equals("use") || word.equals("with") || word.equals("using") ||
-                    words.contains("utilise") ||
-                    mContextActionMap.hasPossibleTarget(word) ||
-                    mContextActionMap.hasPossibleContext(word))) {
+                    words.contains("utilise"))) {
                 if (mContextActionMap.hasSynonym(word)) {
                     if (deleteWord) { removeWordAtIndex(words, tags, i); }
                     return new Pair<>(i, mContextActionMap.getSynonymMapping(word));
@@ -350,7 +348,10 @@ public class VoiceProcess {
                     }
                 }
                 for (String action : actionsList) {
-                    if (mContextActionMap.wordIsIgnored(word, action)) { continue; }
+                    if (mContextActionMap.wordIsIgnored(word, action) ||
+                            mContextActionMap.hasPossibleTarget(word) ||
+                            mContextActionMap.hasPossibleContext(word))
+                    { continue; }
                     double score = SemanticSimilarity.getInstance().calculateScore(action, word);
                     if (score > 0.5 && score < 0.8) {
                         mAmbiguousHandler.addAmbiguousActionCandidate(
