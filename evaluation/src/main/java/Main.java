@@ -120,7 +120,9 @@ public class Main {
             new Pair<String, String>("heal with an elixer", "HEAL_POTION"),
             new Pair<String, String>("heal with an healing drink", "HEAL_POTION"),
             new Pair<String, String>("move forwards", "MOVE_FORWARDS"),
+            new Pair<String, String>("move straight", "MOVE_FORWARDS"),
             new Pair<String, String>("move backwards", "MOVE_BACKWARDS"),
+            new Pair<String, String>("move in reverse", "MOVE_BACKWARDS"),
             new Pair<String, String>("move ahead", "MOVE_FORWARDS"),
             new Pair<String, String>("continue forwards", "MOVE_FORWARDS"),
             new Pair<String, String>("run forwards", "MOVE_FORWARDS"),
@@ -133,6 +135,8 @@ public class Main {
             new Pair<String, String>("phone jane", "PHONE_JANE"),
             new Pair<String, String>("ring jane", "PHONE_JANE"),
             new Pair<String, String>("phone jane with video", "PHONE_JANE_VIDEO"),
+            new Pair<String, String>("phone jane with webcam", "PHONE_JANE_VIDEO"),
+            new Pair<String, String>("use webcam to call jane", "PHONE_JANE_VIDEO"),
             new Pair<String, String>("call jane with audio", "PHONE_JANE_AUDIO"),
             new Pair<String, String>("phone jane with sound", "PHONE_JANE_AUDIO"),
             new Pair<String, String>("contact jane with video", "PHONE_JANE_VIDEO"),
@@ -144,16 +148,36 @@ public class Main {
             new Pair<String, String>("halt call with fred", "STOP_FRED"),
             new Pair<String, String>("mute video", "MUTE_VIDEO"),
             new Pair<String, String>("mute screen", "MUTE_VIDEO"),
-            new Pair<String, String>("mute video with fred", "MUTE_VIDEO_FRED"),
             new Pair<String, String>("mute jane", "MUTE_JANE"),
             new Pair<String, String>("silence jane", "MUTE_JANE")
     ));
 
     private static List<Pair<String, String>> sCookingTests = new ArrayList<Pair<String, String>>(Arrays.asList(
             new Pair<String, String>("make egg", "MAKE_EGG"),
+            new Pair<String, String>("make eggs", "MAKE_EGG"),
+            new Pair<String, String>("make soup", "MAKE_SOUP"),
+            new Pair<String, String>("create soup", "MAKE_SOUP"),
+            new Pair<String, String>("produce soup", "MAKE_SOUP"),
+            new Pair<String, String>("cook egg", "MAKE_EGG"),
+            new Pair<String, String>("make omelette", "MAKE_EGG"),
+            new Pair<String, String>("make something liquid", "MAKE_SOUP"),
             new Pair<String, String>("boil egg", "BOIL_EGG"),
+            new Pair<String, String>("heat egg", "BOIL_EGG"),
             new Pair<String, String>("boil soup with cooker", "BOIL_SOUP_COOKER"),
+            new Pair<String, String>("boil soup with boiler", "BOIL_SOUP_COOKER"),
+            new Pair<String, String>("boil soup with stove", "BOIL_SOUP_COOKER"),
+            new Pair<String, String>("heat pottage with stove", "BOIL_SOUP_COOKER"),
             new Pair<String, String>("stir soup", "STIR_SOUP"),
-            new Pair<String, String>("stir soup with spoon", "STIR_SOUP_SPOON")
+            new Pair<String, String>("mix soup", "STIR_SOUP"),
+            new Pair<String, String>("blend soup", "STIR_SOUP"),
+            new Pair<String, String>("stir chowder", "STIR_SOUP"),
+            new Pair<String, String>("stir pottage", "STIR_SOUP"),
+            new Pair<String, String>("stir soup with spoon", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("stir soup with cutlery", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("stir soup with utensil", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("stir soup with tablespoon", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("stir soup with teaspoon", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("stir soup with soupspoon", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("blend chowder using soupspoon", "STIR_SOUP_SPOON")
     ));
 }
