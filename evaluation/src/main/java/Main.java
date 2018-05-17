@@ -38,6 +38,7 @@ public class Main {
         );
 
         for (SemanticSimilarity.SimilarityMethod method: methods) {
+            if (method == null) { continue; }
             String fileName = "results"+(method.name().replace("METHOD_",""))+".csv";
             System.out.println("Running test suite using "+method.name()+" method...");
             runTestSuite(fileName, method, null);
@@ -99,11 +100,12 @@ public class Main {
 
         writer.writeNext(new String[] {""});
         writer.writeNext(new String[] {"Final Results:"});
-        writer.writeNext(new String[] {
-                "Time per test",
-                new DecimalFormat("##.000").format((((double)totalTime)/totalTests))+" ms",
-                "Score:",
-                new DecimalFormat("##.00").format(avgScore)+"%"});
+        writer.writeNext(new String[] {"Time per test",
+                new DecimalFormat("##.000").format((((double)totalTime)/totalTests))+" ms"});
+        writer.writeNext(new String[] {"Score:", new DecimalFormat("##.00").format(avgScore)+"%"});
+        System.out.println("Final Results");
+        System.out.println("Total time = "+totalTime+" ms");
+        System.out.println("Average of Scores = "+new DecimalFormat("##.00").format(avgScore)+"%");
 
         writer.close();
         System.out.println("Created CSV file: "+fileName);
@@ -143,9 +145,8 @@ public class Main {
         double score = (100.0 * scoreAcc / (double)tests.size());
         writer.writeNext(new String[] {
                 "Time per test",
-                new DecimalFormat("##.000").format((((double)totalTime)/tests.size()))+" ms",
-                "Score:",
-                new DecimalFormat("##.00").format(score)+"%"});
+                new DecimalFormat("##.000").format((((double)totalTime)/tests.size()))+" ms"});
+        writer.writeNext(new String[] {"Score:", new DecimalFormat("##.00").format(score)+"%"});
         writer.writeNext(new String[] {""});
         System.out.println("Finished tests for "+testName);
         System.out.println("Total time = "+totalTime+" ms");
