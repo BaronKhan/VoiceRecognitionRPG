@@ -40,9 +40,9 @@ public class SimilarityCalculationDemo {
         System.out.println("HST: "+new HirstStOnge(db).calcRelatednessOfWords(args[0], args[1]));
         System.out.println("RES: "+new Resnik(db).calcRelatednessOfWords(args[0], args[1]));
         System.out.println("PATH: "+new Path(db).calcRelatednessOfWords(args[0], args[1]));
-    } else {
+    } else if (args.length == 1 && args[0].equals("--demo")) {
 
-      System.out.println("Must specify two arguments.\nRunning default demo with WUP...\n");
+
 
 		// String[] words = {"add", "get", "filter", "remove", "check", "find", "collect", "create", "dog", "cat"};
 		String [] words = {"attack", "hit", "charge", "prevent", "use", "heal", "recover", "regenerate", "cure", "restore"};
@@ -72,6 +72,8 @@ public class SimilarityCalculationDemo {
         while (iterator2.hasNext()) {
         	System.out.println(iterator2.next());
         }
-      }
+    } else {
+			System.out.println("usage: <word1> <word2>  OR  --demo\n");
+		}
 	}
 }
