@@ -4,9 +4,13 @@ import android.util.Log;
 
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.ws4j.RelatednessCalculator;
+import edu.cmu.lti.ws4j.impl.HirstStOnge;
 import edu.cmu.lti.ws4j.impl.JiangConrath;
+import edu.cmu.lti.ws4j.impl.LeacockChodorow;
 import edu.cmu.lti.ws4j.impl.Lesk;
 import edu.cmu.lti.ws4j.impl.Lin;
+import edu.cmu.lti.ws4j.impl.Path;
+import edu.cmu.lti.ws4j.impl.Resnik;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 
@@ -18,7 +22,10 @@ public class SemanticSimilarity {
         METHOD_LIN,
         METHOD_JCN,
         METHOD_LESK,
-        METHOD_FASTLESK
+        METHOD_FASTLESK,
+        METHOD_LEAC,
+        METHOD_PATH,
+        METHOD_RES
     }
 
     private static final SemanticSimilarity sInstance = new SemanticSimilarity();
@@ -70,6 +77,15 @@ public class SemanticSimilarity {
                     break;
                 case METHOD_FASTLESK:
                     method = new FastLesk(mDb);
+                    break;
+                case METHOD_LEAC:
+                    method = new LeacockChodorow(mDb);
+                    break;
+                case METHOD_PATH:
+                    method = new Path(mDb);
+                    break;
+                case METHOD_RES:
+                    method = new Resnik(mDb);
                     break;
                 default:
                     method = null;
