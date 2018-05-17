@@ -14,7 +14,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -76,7 +75,8 @@ public class Main {
                 ++scoreAcc;
                 ++scoreAllTests;
             }
-            System.out.println("Result for "+testName+" test: "+input+" : "+gameRecord[2]);
+            System.out.println("Result for "+testName+" test: "+input+" : "+gameRecord[2] +
+                    (passed ? "" : " ---> "+result));
         }
         long endTime = System.currentTimeMillis();
 
@@ -125,10 +125,21 @@ public class Main {
             new Pair<String, String>("phone", "PHONE"),
             new Pair<String, String>("phone fred", "PHONE_FRED"),
             new Pair<String, String>("phone jane", "PHONE_JANE"),
+            new Pair<String, String>("ring jane", "PHONE_JANE"),
             new Pair<String, String>("phone jane with video", "PHONE_JANE_VIDEO"),
+            new Pair<String, String>("call jane with audio", "PHONE_JANE_AUDIO"),
+            new Pair<String, String>("phone jane with sound", "PHONE_JANE_AUDIO"),
+            new Pair<String, String>("contact jane with video", "PHONE_JANE_VIDEO"),
             new Pair<String, String>("stop call", "STOP"),
             new Pair<String, String>("stop call with fred", "STOP_FRED"),
+            new Pair<String, String>("end call with fred", "STOP_FRED"),
+            new Pair<String, String>("close", "STOP"),
+            new Pair<String, String>("finish call with fred", "STOP_FRED"),
+            new Pair<String, String>("halt call with fred", "STOP_FRED"),
+            new Pair<String, String>("mute video", "MUTE_VIDEO"),
+            new Pair<String, String>("mute screen", "MUTE_VIDEO"),
             new Pair<String, String>("mute video with fred", "MUTE_VIDEO_FRED"),
-            new Pair<String, String>("mute jane", "MUTE_JANE")
+            new Pair<String, String>("mute jane", "MUTE_JANE"),
+            new Pair<String, String>("silence jane", "MUTE_JANE")
     ));
 }
