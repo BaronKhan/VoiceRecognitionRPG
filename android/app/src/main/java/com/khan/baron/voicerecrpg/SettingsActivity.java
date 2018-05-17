@@ -34,6 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonLIN;
     private RadioButton mRadioButtonLESK;
     private RadioButton mRadioButtonFASTLESK;
+    private RadioButton mRadioButtonLEACOCK;
+    private RadioButton mRadioButtonWUPLEACOCK;
     private RecyclerView mRecyclerViewSynonyms;
 
     private Switch mSwitchOverworld;
@@ -59,6 +61,11 @@ public class SettingsActivity extends AppCompatActivity {
                     setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_LESK, null);
                 } else if (checkedId == mRadioButtonFASTLESK.getId()) {
                     setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK, null);
+                } else if (checkedId == mRadioButtonLEACOCK.getId()) {
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_LEACOCK, null);
+                } else if (checkedId == mRadioButtonWUPLEACOCK.getId()) {
+                    setSimilarityMethods(SemanticSimilarity.SimilarityMethod.METHOD_WUP,
+                            SemanticSimilarity.SimilarityMethod.METHOD_LEACOCK);
                 }
             }
 
@@ -75,6 +82,8 @@ public class SettingsActivity extends AppCompatActivity {
         mRadioButtonLIN = (RadioButton) findViewById(R.id.radioButtonLIN);
         mRadioButtonLESK = (RadioButton) findViewById(R.id.radioButtonLESK);
         mRadioButtonFASTLESK = (RadioButton) findViewById(R.id.radioButtonFASTLESK);
+        mRadioButtonLEACOCK = (RadioButton) findViewById(R.id.radioButtonLEACOCK);
+        mRadioButtonWUPLEACOCK = (RadioButton) findViewById(R.id.radioButtonWUPLEACOCK);
         setMethodRadioButton();
 
         mSwitchOverworld = (Switch) findViewById(R.id.switchOverworld);
@@ -115,9 +124,11 @@ public class SettingsActivity extends AppCompatActivity {
         SemanticSimilarity.SimilarityMethod method1 = SemanticSimilarity.getSimilarityMethod(1);
         SemanticSimilarity.SimilarityMethod method2 = SemanticSimilarity.getSimilarityMethod(2);
         if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_WUP &&
-                method2 == SemanticSimilarity.SimilarityMethod.METHOD_LIN)
-        {
+                method2 == SemanticSimilarity.SimilarityMethod.METHOD_LIN) {
             mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
+        } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_WUP &&
+                method2 == SemanticSimilarity.SimilarityMethod.METHOD_LEACOCK) {
+            mMethodRadioGroup.check(mRadioButtonWUPLEACOCK.getId());
         } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_WUP) {
             mMethodRadioGroup.check(mRadioButtonWUP.getId());
         } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_LIN) {
@@ -126,8 +137,10 @@ public class SettingsActivity extends AppCompatActivity {
             mMethodRadioGroup.check(mRadioButtonLESK.getId());
         } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK) {
             mMethodRadioGroup.check(mRadioButtonFASTLESK.getId());
+        } else if (method1 == SemanticSimilarity.SimilarityMethod.METHOD_LEACOCK) {
+            mMethodRadioGroup.check(mRadioButtonLEACOCK.getId());
         } else {
-            mMethodRadioGroup.check(mRadioButtonWUPLIN.getId());
+            mMethodRadioGroup.check(mRadioButtonWUP.getId());
         }
     }
 

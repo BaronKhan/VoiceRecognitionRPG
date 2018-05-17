@@ -8,7 +8,8 @@
     <string name="processing">Processing…</string>
     <string name="permissions_enable">Please enable permissions</string>
     <string name="semantic_similarity_method">Semantic Similarity Method</string>
-    <string name="method_wuplin">Combined (WUP + LIN)</string>
+    <string name="method_wuplin">Comb (WUP + LIN)</string>
+    <string name="method_wupleacock">Comb (WUP + LEACOCK)</string>
     <string name="method_wup">WUP</string>
     <string name="method_lin">LIN</string>
     <string name="method_lesk">LESK</string>

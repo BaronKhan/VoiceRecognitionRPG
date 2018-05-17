@@ -53,11 +53,25 @@
             android:text="FASTLESK" />
 
         <RadioButton
+            android:id="@+id/radioButtonLEACOCK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LEACOCK" />
+
+        <RadioButton
             android:id="@+id/radioButtonWUPLIN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/method_wuplin" />
+
+        <RadioButton
+            android:id="@+id/radioButtonWUPLEACOCK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/method_wupleacock" />
 
     </RadioGroup>
 
