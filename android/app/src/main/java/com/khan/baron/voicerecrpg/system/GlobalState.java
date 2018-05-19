@@ -7,14 +7,10 @@ package com.khan.baron.voicerecrpg.system;
 //Derived classes should contain the environment objects to be used in actions
 public abstract class GlobalState {
     protected boolean mActionSucceeded = true;
-
     public void actionSucceeded() { mActionSucceeded = true; }
-
     public void actionFailed() {
         mActionSucceeded = false;
     }
-
     public boolean getActionSucceeded() { return mActionSucceeded; }
-
     public abstract String updateState(String input);
 }
