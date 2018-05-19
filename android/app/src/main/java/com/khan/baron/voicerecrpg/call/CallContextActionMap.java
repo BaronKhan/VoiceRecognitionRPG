@@ -21,5 +21,7 @@ public class CallContextActionMap extends ContextActionMap {
         addSynonym("contact", "call");
         addSynonym("hang", "stop");
         addSynonym("unmute", "increase");
+        addSynonym("hang", "stop");
+        addSynonym("silence", "mute");
     }
 }

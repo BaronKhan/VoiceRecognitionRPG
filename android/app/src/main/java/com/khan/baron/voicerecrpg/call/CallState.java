@@ -42,6 +42,10 @@ public class CallState extends GlobalState {
         mContacts = new ArrayList<>(Arrays.asList(new Contact("fred"), new Contact("jane")));
         mContextActionMap.addPossibleTargets(mContacts);
         mContextActionMap.addPossibleTargets(Arrays.asList(new Audio(), new Video()));
+
+
+        mContextActionMap.addPossibleContexts(mContacts);
+        mContextActionMap.addPossibleContexts(Arrays.asList(new Audio(), new Video()));
     }
 
     public void addDictionary(URL url) throws IOException {

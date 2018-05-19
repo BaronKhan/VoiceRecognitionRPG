@@ -274,8 +274,9 @@ Library
 
 - Create script to automatically generate JAR from source files
 - Replace com.khan.baron.voicerecrpg with package name in files
-- Voice Commands with WordNet (VCWW, voice-commands-with-wordnet)
+- Voice Commands with WordNet (VCW, voice-commands-with-wordnet)
 - Add countless voice commands with little effort
+- Map countless voice commands with ease
 - Create separate repo with source files (copy them from main repo)
 - Remove Log, Toast; add Pair, Triple classes
 - Add main executable demo class to JAR
@@ -296,7 +297,7 @@ Video Conferencing example
 - "finish the call"
 - "hang up [the call]"
 - "hang up the call with dan"
-- Need to add ability to ask for more input from actions
+- "Are you sure you want to hang up?"
 - "mute my video"
 - "silence my audio"
 
