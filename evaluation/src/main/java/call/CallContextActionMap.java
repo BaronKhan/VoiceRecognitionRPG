@@ -11,7 +11,7 @@ public class CallContextActionMap extends ContextActionMap {
         addDefaultContextActions(    new PhoneContact(),         new StopCall(),         new Mute());
         addContextActions("video",   new PhoneContactVideo(),    null,                   null);
         addContextActions("audio",   new PhoneContactAudio(),    null,                   null);
-        addContextActions("contact", null,                      new StopCallContact(),   null);
+        addContextActions("contact", null,                       new StopCallContact(),  null);
     }
 }
 
