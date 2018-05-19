@@ -36,7 +36,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26"
+        app:layout_constraintVertical_bias="0.309"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1" />
 
@@ -71,5 +71,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.991" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewParticipants"
+        android:layout_width="256dp"
+        android:layout_height="89dp"
+        android:background="@drawable/back"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.456" />
+
+    <ImageView
+        android:id="@+id/imageViewScreen"
+        android:layout_width="361dp"
+        android:layout_height="374dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.306"
+        app:srcCompat="@drawable/ic_screen" />
+
+    <ImageView
+        android:id="@+id/imageViewMyVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.703"
+        app:srcCompat="@drawable/ic_video" />
+
+    <ImageView
+        android:id="@+id/imageViewMyAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.703"
+        app:srcCompat="@drawable/ic_audio" />
 
 </android.support.constraint.ConstraintLayout>
