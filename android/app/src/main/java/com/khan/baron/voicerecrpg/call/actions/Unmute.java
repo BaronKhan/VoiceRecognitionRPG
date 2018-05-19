@@ -20,7 +20,7 @@ public class Unmute extends Action {
             return "Audio unmuted";
         }
         if (currentTarget instanceof Contact) {
-            return "Unmuted "+currentTarget.getName().toUpperCase()+".";
+            return "Unmuted "+currentTarget.getName()+".";
         }
         return "Intent not understood.";
     }

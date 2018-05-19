@@ -134,7 +134,7 @@ public class CallTest {
         testUnmutedVideo("unmute my video", true);
         testUnmutedAudio("unmute my audio", true);
         testMutedAudio("silence my audio", true);
-        testMutedAudio("increase my audio", true);
+        testUnmutedAudio("increase my audio", true);
         testMutedContact("mute fred", "fred", true);
         testUnmutedContact("unmute fred", "fred", true);
     }
