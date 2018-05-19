@@ -217,6 +217,9 @@ Generate room based on description
 - addDescriptionWithObject should add a sentence to a list, print if object exists
 - Use Predicate for conditional storing
 - Advantage: don't have to write a bunch of if statements (give example in repo)
+- Want to do better room generation (just from a description)
+- Something similar to RSpec
+- 
 
 Multiple targets
 -----------------
@@ -307,4 +310,4 @@ TODO
 - Need to add weightings to the synonyms
 - Add match ignore code to target and context
 - Use different similarity methods for action, target and context
-- Fix locking
+- Better room generation from description

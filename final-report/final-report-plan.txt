@@ -1,7 +1,7 @@
 Title
 Abstract
 Introduction
-Motivation
+Motivation? (ASk first)
 Background
 The details (Implementation)
 Evaluation/Discussion
@@ -72,6 +72,8 @@ CustomLexicalDatabase: mention meronyms, holonyms, etc.
 Custom Lesk: mention use of Fernflower decompiler and altered code.
 
 Android profiler for performance
+- Attempt to multithread
+Had locking issues
 
 __Evaluation__
 
@@ -96,6 +98,10 @@ Evaluation of other extensions (multipe commands, confirmation, suggestions)
 
 Limitations:
 - Only single-word actions, targets and contexts
+- Can't handle negatives (call dan with no audio)
+- Action cannot have the same string as target or context
+- Ambiguous words (throw the match)
+- Lots of targets, few contexts? (ActionTargetMap)
 
 Contributions
 
@@ -103,11 +109,15 @@ Contributions
 
 __Conclusion and Future Work__
 
-Mention language changes
+- Mention language changes
+- Combining methods and getting weighting (use ML to find best ones)
+- Hand-free (wake-word detection)
+- Output nlp text based on description of room (alternative)
 
 Appendix:
 Screeenshots of app
 Include github statistics
+Other evaluation tests
 
 Note: RRR is a reference location
 
