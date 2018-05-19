@@ -34,9 +34,15 @@ numbersep=10pt,
 tabsize=4,
 showspaces=false,
 showstringspaces=false,
-breaklines=true}
+breaklines=true,
+frame=single}
 
 \definecolor{grey}{rgb}{0.9,0.9,0.9} % Color of the box surrounding the title - these values can be changed to give the box a different color
+
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
 
 \thispagestyle{empty}
 
@@ -792,10 +798,78 @@ This section outlines the steps taken to implement the system and the game, most
 The first step involved creating an Android project with a skeleton I/O to take as input the microphone audio, converts the speech to text, sends it to the voice recognition system for processing (initially just an empty class that pipes the input to output), before finally displaying the text on the screen.
 \\
 \\
-The interface is within an Android \texttt{Activity} class. When the activity is created, it also downloads a tar ball containing a WordNet database and unzips it on the device's local storage. See the Appendix \ref{appendix:download} for a snippet of the download code.
+The interface is within an Android \texttt{Activity} class. When the activity is created, it also downloads a tar ball containing a WordNet database and unzips it on the device's local storage. See the Appendix \ref{appendix:download} for a snippet of the code that downloads the database.
 \\
 \\
-The \texttt{MainActivity} class contains a \texttt{VoiceControl} classes that handles the speech-to-text (STT) I/O. It contains a \texttt{SpeechRecognizer} class that 
+The \texttt{MainActivity} class contains a \texttt{VoiceControl} classes that  handles the speech-to-text (STT) I/O, and implements a \texttt{RecognizerIntent}. The \texttt{VoiceControl} object contains an instance of the \texttt{SpeechRecognizer} class that has a \texttt{startListening} method which invokes an \texttt{onResults()} method when finished. This method have a \texttt{results} parameter of type \texttt{Bundle}, containing the string result of the speech recognition. The string is then processed by an instance of the \texttt{VoiceProcess} class (described below).
+
+\subsection{RPG User Interface}
+
+Figure \ref{fig:snapshot-ui} snapshot of the user interface for the game logic with the following labels:
+
+\begin{enumerate}
+	\item The player's input for the game as a string (i.e. it is the output of the speech-to-text API).
+	\item The cumulative output as the game processes each user input.
+	\item Pressing this button enables the microphone and starts a voice intent.
+	\item A timer used for debugging the time taken to process an intent by the system.
+	\item This drop-down list contains an option to open the settings menu.
+\end{enumerate}
+
+\begin{center}
+\begin{figure}
+\begin{center}
+  \includegraphics[scale=0.4]{Screenshot_20180519-233930.png}
+  \caption{A snapshot of the user interface for the text-based role-playing game.}
+  \label{fig:snapshot-ui}
+  \end{center}
+\end{figure}
+\end{center}
+
+All UI elements are accessed in the MainActivity and are separate from the voice recognition system.
+
+\subsection{Voice Recognition System Implementation}
+
+\subsubsection{GlobalState}
+
+The \texttt{GlobalState} class is an abstract interface that sends the string input to a \texttt{VoiceProcess} instance via the \texttt{updateState} method. Derived classes (e.g. \texttt{GameState} for a game, \texttt{KitchenState} for a cooking application, etc.) contain the application-specific logic and environment that can be accessed by the action methods. Listing \ref{lst:global-state} shows the code for the \texttt{GlobalState} class.
+
+\begin{lstlisting}[language=Java, caption=GlobalState.java, label={lst:global-state}]
+package com.khan.baron.voicerecrpg.system;
+
+//Derived classes should contain the environment objects to be used in actions
+public abstract class GlobalState {
+    protected boolean mActionSucceeded = true;
+    
+    public void actionSucceeded() { mActionSucceeded = true; }
+    
+    public void actionFailed() { mActionSucceeded = false; }
+    
+    public boolean getActionSucceeded() { return mActionSucceeded; }
+    
+    public abstract String updateState(String input);
+}
+\end{lstlisting}
+
+In some scenarios, a follow-up action may only take place if the user's action was successful. For instance, in a generic two-player game, the second player may only be able to make their move once the first player has made a successful move. A more relevant example is in a turn-based role-playing game, where
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 \section{Appendix}
@@ -857,12 +931,6 @@ Below is the UML class diagram for the game mechanics - both the \textit{Overwor
 \newpage
 \subsection{WordNet Download Code}
 \label{appendix:download}
-\definecolor{javared}{rgb}{0.6,0,0} % for strings
-\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
-\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
-\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
- 
-
 \begin{lstlisting}[language=Java, caption=MainActivity.getWordNetDatabase()]
 public void getWordNetDatabase() throws IOException {
     boolean foundWordNetDatabase = false;

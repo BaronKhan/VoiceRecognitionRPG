@@ -66,6 +66,15 @@ __Implementation__
 UI:
 
 General code
+- GlobalState
+- VoicePRocess
+- SemanticSimiliarty
+- CustomLexicalDatabase
+- ContextActionMaps and Action
+- Synonym Map code
+- AmbiguousHandler
+- SentenceMapper
+- MultipleCommandProcess
 
 CustomLexicalDatabase: mention meronyms, holonyms, etc.
 
@@ -74,6 +83,8 @@ Custom Lesk: mention use of Fernflower decompiler and altered code.
 Android profiler for performance
 - Attempt to multithread
 Had locking issues
+
+Testing implementations
 
 __Evaluation__
 
