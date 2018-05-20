@@ -208,7 +208,7 @@ public class Main {
     ));
 
     private static List<Pair<String, String>> sCookingTests = new ArrayList<Pair<String, String>>(Arrays.asList(
-            new Pair<String, String>("make egg", "MAKE_EGG"),
+            new Pair<String, String>("make an egg", "MAKE_EGG"),
             new Pair<String, String>("make eggs", "MAKE_EGG"),
             new Pair<String, String>("make soup", "MAKE_SOUP"),
             new Pair<String, String>("create soup", "MAKE_SOUP"),
