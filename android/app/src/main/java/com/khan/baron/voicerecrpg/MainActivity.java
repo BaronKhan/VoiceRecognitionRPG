@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.game.rooms.Room02;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -259,6 +260,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
         } else if (item.getItemId() == R.id.action_goto_call) {
             startActivity(new Intent(this, CallActivity.class));
+        }else if (item.getItemId() == R.id.action_goto_room02) {
+            mGameState.initOverworldState(new Room02());
+            mVoiceControl.setOutputText(mGameState.getInitOutput());
         }
         return super.onOptionsItemSelected(item);
     }

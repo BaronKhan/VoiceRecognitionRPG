@@ -99,6 +99,7 @@ public class GameState extends GlobalState {
     }
 
     public void initBattleState(Enemy currentEnemy) {
+        mBattleMap.clearPossibleEntities();
         mGameMode = MODE_BATTLE;
         setCurrentBattle(currentEnemy);
         mInitOutput = "A "+currentEnemy.getName()+" appears in front of you!\n\n"
@@ -106,6 +107,7 @@ public class GameState extends GlobalState {
     }
 
     public void initOverworldState(Room room) {
+        mOverworldMap.clearPossibleEntities();
         mGameMode = MODE_OVERWORLD;
         setCurrentRoom(room);
         mInitOutput = room.getRoomDescription()+"\n\n"
@@ -189,4 +191,22 @@ public class GameState extends GlobalState {
     public static void setStartOverworld(boolean sStartOverworld) {
         GameState.sStartOverworld = sStartOverworld;
     }
+
+    public ContextActionMap getBattleMap() {
+        return mBattleMap;
+    }
+
+    public void setBattleMap(ContextActionMap mBattleMap) {
+        this.mBattleMap = mBattleMap;
+    }
+
+    public ContextActionMap getOverworldMap() {
+        return mOverworldMap;
+    }
+
+    public void setOverworldMap(ContextActionMap mOverworldMap) {
+        this.mOverworldMap = mOverworldMap;
+    }
+
+
 }

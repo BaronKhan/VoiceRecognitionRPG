@@ -20,7 +20,7 @@ public class Room01 extends Room {
         setRoomState(StateRoom01.START.ordinal());
         addDescriptionWithObject(
                 "You are in a room with a locked door in front of you.",
-                new Door(new Troll(100)));
+                new Door(new Troll(100), true));
         addDescriptionWithObject(
                 "There is a glass table in the middle of the room.",
                 new GlassTable());

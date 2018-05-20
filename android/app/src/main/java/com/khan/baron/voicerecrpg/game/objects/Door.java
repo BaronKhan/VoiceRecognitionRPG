@@ -6,27 +6,30 @@ import com.khan.baron.voicerecrpg.game.objects.PhysicalObject;
 import com.khan.baron.voicerecrpg.game.rooms.Room;
 
 public class Door extends PhysicalObject {
-    Room mNextRoom = null;
-    Enemy mNextEnemy = null;
+    private Room mNextRoom = null;
+    private Enemy mNextEnemy = null;
 
-    private Door() {
+    private boolean mNeedsKey;
+
+    private Door(boolean needsKey) {
         super("door", "gate", "lock");
         setContext("door");
         setScratchable(true);
+        mNeedsKey = needsKey;
     }
 
-    public Door(Room nextRoom) {
-        this();
+    public Door(Room nextRoom, boolean needsKey) {
+        this(needsKey);
         mNextRoom = nextRoom;
     }
 
-    public Door(Enemy nextEnemy) {
-        this();
+    public Door(Enemy nextEnemy, boolean needsKey) {
+        this(needsKey);
         mNextEnemy = nextEnemy;
     }
 
     public String onOpened(GameState gameState) {
-        boolean hasKey = gameState.getInventory().hasItem("key");
+        boolean hasKey = (!mNeedsKey) || gameState.getInventory().hasItem("key");
         if (hasKey) {
             gameState.actionSucceeded();
             gameState.getInventory().remove("key");

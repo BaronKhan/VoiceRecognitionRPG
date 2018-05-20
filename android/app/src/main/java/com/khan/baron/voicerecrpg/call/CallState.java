@@ -25,8 +25,7 @@ public class CallState extends GlobalState {
 
     private List<Entity> mContacts = new ArrayList<>(Arrays.asList(
             new Contact("fred"),
-            new Contact("jane"),
-            new Contact("billy")
+            new Contact("jane")
     ));;
 
     private boolean mInCall = false;
@@ -166,7 +165,9 @@ public class CallState extends GlobalState {
         if (index > -1) {
             mParticipantsAudio.remove(index);
             mParticipantsAudio.add(index, false);
-            mCallActivity.updateParticipants();
+            if (mCallActivity != null) {
+                mCallActivity.updateParticipants();
+            }
         }
     }
 
@@ -175,7 +176,9 @@ public class CallState extends GlobalState {
         if (index > -1) {
             mParticipantsAudio.remove(index);
             mParticipantsAudio.add(index, true);
-            mCallActivity.updateParticipants();
+            if (mCallActivity != null) {
+                mCallActivity.updateParticipants();
+            }
         }
     }
 

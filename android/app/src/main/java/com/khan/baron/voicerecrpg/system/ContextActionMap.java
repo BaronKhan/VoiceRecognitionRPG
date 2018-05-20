@@ -188,4 +188,11 @@ public abstract class ContextActionMap extends Entity {
     public void setDefaultTargetToSelf() {
         setDefaultTarget(getSelf());
     }
+
+    public void clearPossibleEntities() {
+        mPossibleTargets = new ArrayList<>();
+        mPossibleContexts = new ArrayList<>();
+        mPossibleTargets.add(this);
+        mPossibleTargets.add(mSelf);
+    }
 }
