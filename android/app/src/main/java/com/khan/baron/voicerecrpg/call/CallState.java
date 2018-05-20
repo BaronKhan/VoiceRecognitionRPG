@@ -23,13 +23,19 @@ public class CallState extends GlobalState {
     private ContextActionMap mContextActionMap;
     private MultipleCommandProcess mCommandProcess;
 
-    private List<Entity> mContacts;
+    private List<Entity> mContacts = new ArrayList<>(Arrays.asList(
+            new Contact("fred"),
+            new Contact("jane"),
+            new Contact("billy")
+    ));;
 
     private boolean mInCall = false;
     private boolean mVideoOn = true;
     private boolean mAudioOn = true;
     private List<Contact> mParticipants = new ArrayList<>();
     private Call mCall = new Call();
+    private Video mVideo = new Video();
+    private Audio mAudio = new Audio();
 
     private CallActivity mCallActivity;
 
@@ -37,15 +43,13 @@ public class CallState extends GlobalState {
         mCallActivity = activity;
         mContextActionMap = new CallContextActionMap(this);
         mCommandProcess = new MultipleCommandProcess(this, mContextActionMap);
-        mContextActionMap.setDefaultTarget(new Self());
+        mContextActionMap.setDefaultTargetToSelf();
 
-        mContacts = new ArrayList<>(Arrays.asList(new Contact("fred"), new Contact("jane")));
         mContextActionMap.addPossibleTargets(mContacts);
-        mContextActionMap.addPossibleTargets(Arrays.asList(new Audio(), new Video()));
-
+        mContextActionMap.addPossibleTargets(Arrays.asList(mAudio, mVideo));
 
         mContextActionMap.addPossibleContexts(mContacts);
-        mContextActionMap.addPossibleContexts(Arrays.asList(new Audio(), new Video()));
+        mContextActionMap.addPossibleContexts(Arrays.asList(mAudio, mVideo));
     }
 
     public void addDictionary(URL url) throws IOException {

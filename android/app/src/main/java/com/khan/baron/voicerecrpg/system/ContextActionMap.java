@@ -184,4 +184,8 @@ public abstract class ContextActionMap extends Entity {
     public void setSelf(Self mSelf) {
         this.mSelf = mSelf;
     }
+
+    public void setDefaultTargetToSelf() {
+        setDefaultTarget(getSelf());
+    }
 }
