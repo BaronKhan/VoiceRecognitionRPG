@@ -219,7 +219,10 @@ Generate room based on description
 - Advantage: don't have to write a bunch of if statements (give example in repo)
 - Want to do better room generation (just from a description)
 - Something similar to RSpec
-- 
+- Create a program that takes as input a text file of a room description
+- The program will create a .java file for the room
+- The user can fill in the gaps by themselves
+- Program build an AST after parsing the grammar
 
 Multiple targets
 -----------------
