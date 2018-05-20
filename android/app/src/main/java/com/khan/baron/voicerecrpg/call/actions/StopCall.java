@@ -6,6 +6,7 @@ import com.khan.baron.voicerecrpg.call.Contact;
 import com.khan.baron.voicerecrpg.system.Action;
 import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.system.GlobalState;
+import com.khan.baron.voicerecrpg.system.VoiceProcess;
 
 public class StopCall extends Action {
     @Override
@@ -21,7 +22,7 @@ public class StopCall extends Action {
                 }
             } else {
                 setWantsReply(true);
-                return "Are you want you want to end all the calls?";
+                return "Are you sure you want to end all the calls?";
             }
         } else {
             return "No call is currently active.";
@@ -29,8 +30,12 @@ public class StopCall extends Action {
     }
 
     public Object processReply(GlobalState state, String input) {
-        CallState callState = (CallState) state;
-        callState.endAllCalls();
-        return "All calls ended.";
+        if (VoiceProcess.replyIsYes(input)) {
+            CallState callState = (CallState) state;
+            callState.endAllCalls();
+            return "All calls ended.";
+        } else {
+            return "Intent ignored.";
+        }
     }
 }

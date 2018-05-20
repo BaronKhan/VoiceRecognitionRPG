@@ -33,6 +33,7 @@ public class CallState extends GlobalState {
     private boolean mVideoOn = true;
     private boolean mAudioOn = true;
     private List<Contact> mParticipants = new ArrayList<>();
+    private List<Boolean> mParticipantsAudio = new ArrayList<>();
     private Call mCall = new Call();
     private Video mVideo = new Video();
     private Audio mAudio = new Audio();
@@ -81,6 +82,7 @@ public class CallState extends GlobalState {
         setVideoOn(withVideo);
         setAudioOn(withAudio);
         mParticipants.add(contact);
+        mParticipantsAudio.add(true);
         if (mCallActivity != null) {
             mCallActivity.updateParticipants();
         }
@@ -97,6 +99,7 @@ public class CallState extends GlobalState {
 
     public void endCall(Contact contact) {
         if (mParticipants.contains(contact)) {
+            mParticipantsAudio.remove(mParticipants.indexOf(contact));
             mParticipants.remove(contact);
             if (mCallActivity != null) {
                 mCallActivity.updateParticipants();
@@ -156,5 +159,31 @@ public class CallState extends GlobalState {
 
     public void setInCall(boolean mInCall) {
         this.mInCall = mInCall;
+    }
+
+    public void muteContact(Contact contact) {
+        int index = mParticipants.indexOf(contact);
+        if (index > -1) {
+            mParticipantsAudio.remove(index);
+            mParticipantsAudio.add(index, false);
+            mCallActivity.updateParticipants();
+        }
+    }
+
+    public void UnmuteContact(Contact contact) {
+        int index = mParticipants.indexOf(contact);
+        if (index > -1) {
+            mParticipantsAudio.remove(index);
+            mParticipantsAudio.add(index, true);
+            mCallActivity.updateParticipants();
+        }
+    }
+
+    public List<Boolean> getParticipantsAudio() {
+        return mParticipantsAudio;
+    }
+
+    public void setParticipantsAudio(List<Boolean> mParticipantsAudio) {
+        this.mParticipantsAudio = mParticipantsAudio;
     }
 }

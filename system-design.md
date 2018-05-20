@@ -180,6 +180,13 @@ Problem: Semantic similarity messes up sometimes
 - There is a fork and knife in the room
 - "did you mean fork?"
 - Now utensil maps to fork
+- Next room: knife and spoon
+- "did you mean knife"
+- utensil now maps to knife
+- this will overwrite mapping of utensil to fork
+- Next room contains fork and knife
+- This should be ambiguous and ask which one they meant
+- Can do this by mapping synonym to list of words
 
 Action Replies
 -----------------

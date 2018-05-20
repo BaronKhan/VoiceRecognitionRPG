@@ -4,7 +4,7 @@ import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.system.GlobalState;
 import com.khan.baron.voicerecrpg.system.Action;
-import com.khan.baron.voicerecrpg.game.objects.room01.Door;
+import com.khan.baron.voicerecrpg.game.objects.Door;
 import com.khan.baron.voicerecrpg.game.objects.room01.GlassTable;
 import com.khan.baron.voicerecrpg.system.VoiceProcess;
 

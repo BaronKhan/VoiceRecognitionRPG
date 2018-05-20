@@ -94,10 +94,12 @@ public class CallActivity extends AppCompatActivity {
     public class ParticipantsAdapter extends RecyclerView.Adapter<CallActivity.ParticipantsAdapter.ViewHolder> {
         public class ViewHolder extends RecyclerView.ViewHolder {
             public TextView participantTextView;
+            public ImageView participantAudioImageView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                participantTextView = (TextView) itemView.findViewById(R.id.particpant);
+                participantTextView = (TextView) itemView.findViewById(R.id.particpantTextView);
+                participantAudioImageView = (ImageView) itemView.findViewById(R.id.imageViewParticipantAudio);
             }
         }
 
@@ -117,6 +119,10 @@ public class CallActivity extends AppCompatActivity {
         public void onBindViewHolder(CallActivity.ParticipantsAdapter.ViewHolder viewHolder, int position) {
             TextView textView = viewHolder.participantTextView;
             textView.setText("In Call: "+mCallState.getParticipants().get(position).getName());
+            ImageView imageView = viewHolder.participantAudioImageView;
+            imageView.setImageResource((mCallState.getParticipantsAudio().get(position))
+                    ? R.drawable.ic_audio
+                    : R.drawable.ic_audio_off);
         }
 
         @Override

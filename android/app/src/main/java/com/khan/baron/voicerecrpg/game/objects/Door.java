@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg.game.objects.room01;
+package com.khan.baron.voicerecrpg.game.objects;
 
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.game.enemies.Enemy;

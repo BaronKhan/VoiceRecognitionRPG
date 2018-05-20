@@ -20,6 +20,7 @@ public class Unmute extends Action {
             return "Audio unmuted";
         }
         if (currentTarget instanceof Contact) {
+            callState.UnmuteContact((Contact)currentTarget);
             return "Unmuted "+currentTarget.getName()+".";
         }
         return "Intent not understood.";

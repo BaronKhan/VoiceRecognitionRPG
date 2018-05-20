@@ -20,6 +20,7 @@ public class Mute extends Action {
             return "Audio muted";
         }
         if (currentTarget instanceof Contact) {
+            callState.muteContact((Contact)currentTarget);
             return "Muted "+currentTarget.getName()+".";
         }
         return "Intent not understood.";

@@ -10,7 +10,7 @@
     >
 
     <TextView
-        android:id="@+id/particpant"
+        android:id="@+id/particpantTextView"
         android:text="In Call: "
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewParticipantAudio"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_weight="1"

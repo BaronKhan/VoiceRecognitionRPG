@@ -1,18 +1,11 @@
 package com.khan.baron.voicerecrpg.game.rooms;
 
-import android.util.Pair;
-
 import com.khan.baron.voicerecrpg.game.enemies.Troll;
 import com.khan.baron.voicerecrpg.game.items.Potion;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
-import com.khan.baron.voicerecrpg.game.objects.room01.Door;
+import com.khan.baron.voicerecrpg.game.objects.Door;
 import com.khan.baron.voicerecrpg.game.objects.room01.Painting;
 import com.khan.baron.voicerecrpg.game.objects.room01.GlassTable;
-
-import java.util.List;
-import java.util.function.BooleanSupplier;
-
-import edu.stanford.nlp.util.Triple;
 
 //TODO: generate room description using NLP (the impossible task)
 public class Room01 extends Room {
