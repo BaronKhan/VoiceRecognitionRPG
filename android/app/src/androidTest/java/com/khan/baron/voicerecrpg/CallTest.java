@@ -124,6 +124,8 @@ public class CallTest {
         testStoppedAllCalls("hang up", true);
         callState.updateState("yes and phone fred");
         testStoppedCall("hang up with fred", "fred", true);
+        callState.updateState("phone fred");
+        testStoppedCall("stop calling fred", "fred", true);
     }
 
     @Test
