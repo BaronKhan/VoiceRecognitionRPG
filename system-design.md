@@ -177,10 +177,10 @@ Problem: Semantic similarity messes up sometimes
 - Add attempts timeout
 - Need to have a weighting for the synonyms that are added
 - Example: pick up the utensil
-- There is a fork and knife in the room
+- There is a fork in the room
 - "did you mean fork?"
 - Now utensil maps to fork
-- Next room: knife and spoon
+- Next room: knife
 - "did you mean knife"
 - utensil now maps to knife
 - this will overwrite mapping of utensil to fork
