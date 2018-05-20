@@ -9,7 +9,7 @@ import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.system.GlobalState;
 
 public class Mute extends Action {
-    public Object execute(GlobalState state, Entity currentTarget) {
+    public String execute(GlobalState state, Entity currentTarget) {
         CallState callState = (CallState) state;
         if (currentTarget instanceof Video) {
             callState.setVideoOn(false);

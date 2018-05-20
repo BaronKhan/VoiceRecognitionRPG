@@ -10,7 +10,7 @@ import com.khan.baron.voicerecrpg.system.GlobalState;
 public abstract class Action {
     private static Entity sCurrentContext = null;
 
-    public abstract Object execute(GlobalState state, Entity currentTarget);
+    public abstract String execute(GlobalState state, Entity currentTarget);
 
     public Object processReply(GlobalState state, String input) {
         return "Intent not understood.";

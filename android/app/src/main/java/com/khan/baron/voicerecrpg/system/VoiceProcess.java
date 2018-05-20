@@ -86,7 +86,7 @@ public class VoiceProcess {
         VoiceProcess.sTagger = sTagger;
     }
 
-    public Object processInput(String input) {
+    public String processInput(String input) {
         String actionOutput = "";
         if (mDict == null) { return "Error: WordNet not loaded."; }
 
@@ -133,7 +133,7 @@ public class VoiceProcess {
                             + "\" are valid actions.";
                 }
             } else {
-                Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                String sentenceMatchResult = checkMatchingSentence(wordsCopy);
                 if (sentenceMatchResult != null) { return sentenceMatchResult; }
                 return "Intent not understood";
             }
@@ -176,14 +176,14 @@ public class VoiceProcess {
             }
 
             if (mContextActionMap.get(chosenContext).get(chosenAction) == null) {
-                Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                String sentenceMatchResult = checkMatchingSentence(wordsCopy);
                 if (sentenceMatchResult != null) { return sentenceMatchResult; }
                 actionOutput += "Intent not understood.";
             } else {
                 mCurrentAction = mContextActionMap.get(chosenContext).get(chosenAction);
                 //Check for ambiguous intent
                 if (mAmbiguousHandler.isAmbiguous()) {
-                    Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                    String sentenceMatchResult = checkMatchingSentence(wordsCopy);
                     if (sentenceMatchResult != null) { return sentenceMatchResult; }
 
                     actionOutput += mAmbiguousHandler.initSuggestion(
@@ -220,7 +220,7 @@ public class VoiceProcess {
                         if (getActionContext() != null) {
                             actionOutput = "What do you want to use the " + getActionContext().getName() + " for?";
                         } else {
-                            Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                            String sentenceMatchResult = checkMatchingSentence(wordsCopy);
                             if (sentenceMatchResult != null) {
                                 return sentenceMatchResult;
                             }
@@ -248,7 +248,7 @@ public class VoiceProcess {
                         actionOutput += mCurrentAction.execute(mState, mPreviousTarget);
                     } else {
                         // Perform sentence matching as last resort
-                        Object sentenceMatchResult = checkMatchingSentence(wordsCopy);
+                        String sentenceMatchResult = checkMatchingSentence(wordsCopy);
                         if (sentenceMatchResult != null) {
                             return sentenceMatchResult;
                         }
@@ -285,7 +285,7 @@ public class VoiceProcess {
         return output;
     }
 
-    private Object checkMatchingSentence(List<String> words) {
+    private String checkMatchingSentence(List<String> words) {
         SentenceMapper sentenceMapper = mContextActionMap.getSentenceMapper();
         Triple<Action, String, List<String>> match = sentenceMapper.checkSentenceMatch(words);
         if (match != null) {

@@ -8,7 +8,7 @@ import com.khan.baron.voicerecrpg.system.GlobalState;
 
 public class PhoneContact extends Action {
     @Override
-    public Object execute(GlobalState state, Entity currentTarget) {
+    public String execute(GlobalState state, Entity currentTarget) {
         if (state instanceof CallState && currentTarget instanceof Contact) {
             ((CallState)state).callContact((Contact)currentTarget);
             return "Calling "+currentTarget.getName();
