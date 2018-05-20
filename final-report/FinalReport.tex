@@ -850,7 +850,16 @@ public abstract class GlobalState {
 }
 \end{lstlisting}
 
-In some scenarios, a follow-up action may only take place if the user's action was successful. For instance, in a generic two-player game, the second player may only be able to make their move once the first player has made a successful move. A more relevant example is in a turn-based role-playing game, where
+In some scenarios, a follow-up action may only take place if the user's action was successful. For instance, in a generic two-player game, the second player may only be able to make their move once the first player has made a successful move. A more relevant example is in a turn-based role-playing game, where the player is fighting an enemy. The enemy can make their move once the player has made their move.
+\\
+\\
+To support this scenario, there is a Boolean field called \texttt{mActionSucceeded}, which is set within the action methods that are executed to tell the system whether the action has succeeded, and the developer can choose what happens next.
+
+[NEED MORE HERE]
+
+\subsubsection{SemanticSimilarity.java}
+
+The semantic similarity engine uses a singleton design pattern so that it doesn't have to be constantly instantiated whenever a calculation is made. 
 
 
 
