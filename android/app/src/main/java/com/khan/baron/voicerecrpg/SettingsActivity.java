@@ -164,13 +164,11 @@ public class SettingsActivity extends AppCompatActivity {
             LayoutInflater inflater = LayoutInflater.from(context);
 
             View contactView = inflater.inflate(R.layout.layout_synonyn_map, parent, false);
-
-            ViewHolder viewHolder = new ViewHolder(contactView);
-            return viewHolder;
+            return new ViewHolder(contactView);
         }
 
         @Override
-        public void onBindViewHolder(SynonymsAdapter.ViewHolder viewHolder, int position) {
+        public void onBindViewHolder(SynonymsAdapter.ViewHolder viewHolder, final int position) {
             List list = Arrays.asList(ContextActionMap.getUserSynonyms().entrySet().toArray());
             Map.Entry pair = (Map.Entry)list.get(position);
 
@@ -178,11 +176,20 @@ public class SettingsActivity extends AppCompatActivity {
             textView.setText(pair.getKey()+" --> "+pair.getValue());
             Button button = viewHolder.deleteButton;
             button.setText(getString(R.string.delete));
+            button.setOnClickListener((view) -> removeAt(position));
         }
 
         @Override
         public int getItemCount() {
             return ContextActionMap.getUserSynonyms().size();
+        }
+
+        private void removeAt(int position) {
+            List list = Arrays.asList(ContextActionMap.getUserSynonyms().entrySet().toArray());
+            Map.Entry pair = (Map.Entry)list.get(position);
+            ContextActionMap.getUserSynonyms().remove(pair.getKey());
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, ContextActionMap.getUserSynonyms().size());
         }
     }
 }
