@@ -336,7 +336,16 @@ public class VoiceProcess {
                     words.contains("utilise"))) {
                 if (mContextActionMap.hasSynonym(word)) {
                     if (deleteWord) { removeWordAtIndex(words, tags, i); }
-                    return new Pair<>(i, mContextActionMap.getSynonymMapping(word));
+                    List<String> synonyms = mContextActionMap.getSynonymMapping(word);
+                    if (synonyms.size() > 1){
+                        //Ambiguous synoyms - ask user about each one
+                        for (String action : synonyms) {
+                            mAmbiguousHandler.setIsAmbiguous(true);
+                            mAmbiguousHandler.addAmbiguousActionCandidate(
+                                    new Triple<>(word, action, 1.0), bestScore);
+                        }
+                    }
+                    return new Pair<>(i, synonyms.get(0));
                 }
                 for (String action : actionsList) {
                     if (mContextActionMap.wordIsIgnored(word, action)) {
@@ -408,7 +417,21 @@ public class VoiceProcess {
         for (int i: candidateTargets) {
             String word = words.get(i);
             if (mContextActionMap.hasSynonym(word)) {
-                String targetName = mContextActionMap.getSynonymMapping(word);
+                List<String> targetNames = mContextActionMap.getSynonymMapping(word);
+                if (targetNames.size() > 1) {
+                    //Ambiguous - ask user about all the targets
+                    for (String targetName : targetNames) {
+                        if (mContextActionMap.hasPossibleTarget(targetName)) {
+                            mAmbiguousHandler.setIsAmbiguous(true);
+                            mAmbiguousHandler.addAmbiguousTargetCandidate(
+                                    new Triple<>(word,
+                                            mContextActionMap.getPossibleTarget(targetName),
+                                            1.0),
+                                    bestScore);
+                        }
+                    }
+                }
+                String targetName = targetNames.get(0);
                 if (mContextActionMap.hasPossibleTarget(targetName)) {
                     removeWordAtIndex(words, tags, i);
                     return mContextActionMap.getPossibleTarget(targetName);
@@ -465,7 +488,20 @@ public class VoiceProcess {
         for (int i : candidateContext) {
             String word = words.get(i);
             if (mContextActionMap.hasSynonym(word)) {
-                String contextName = mContextActionMap.getSynonymMapping(word);
+                List<String> contextNames = mContextActionMap.getSynonymMapping(word);
+                if (contextNames.size() > 1) {
+                    for (String targetName : contextNames) {
+                        if (mContextActionMap.hasPossibleContext(targetName)) {
+                            mAmbiguousHandler.setIsAmbiguous(true);
+                            mAmbiguousHandler.addAmbiguousContextCandidate(
+                                    new Triple<>(word,
+                                            mContextActionMap.getPossibleContext(targetName),
+                                            1.0),
+                                    bestScore);
+                        }
+                    }
+                }
+                String contextName = contextNames.get(0);
                 if (mContextActionMap.hasPossibleContext(contextName)) {
                     bestScore = 1.0;
                     bestContext = mContextActionMap.getPossibleContext(contextName);

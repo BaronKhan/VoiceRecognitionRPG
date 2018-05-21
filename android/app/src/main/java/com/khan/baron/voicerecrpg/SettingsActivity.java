@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Switch mSwitchOverworld;
     private Switch mSwitchMultSuggest;
-    private Button mButtonCallDemo;
+    private Button mButtonAddUtensil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +102,17 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        mButtonCallDemo = (Button) findViewById(R.id.buttonCallDemo);
-        mButtonCallDemo.setOnClickListener((x) -> startActivity(new Intent(this, CallActivity.class)));
+        mButtonAddUtensil = (Button) findViewById(R.id.buttonAddUtensil);
+        mButtonAddUtensil.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 if (!ContextActionMap.getUserSynonyms().containsKey("utensil")) {
+                     ContextActionMap.addUserSynonymOnly("utensil", "knife");
+                     ContextActionMap.addUserSynonymOnly("utensil", "fork");
+                     mRecyclerViewSynonyms.setAdapter(new SynonymsAdapter());
+                 }
+             }
+        });
 
         mRecyclerViewSynonyms = (RecyclerView) findViewById(R.id.recyclerViewSynonymMap);
         mRecyclerViewSynonyms.setAdapter(new SynonymsAdapter());
@@ -173,7 +182,7 @@ public class SettingsActivity extends AppCompatActivity {
             Map.Entry pair = (Map.Entry)list.get(position);
 
             TextView textView = viewHolder.synonymTextView;
-            textView.setText(pair.getKey()+" --> "+pair.getValue());
+            textView.setText(pair.getKey()+" --> "+pair.getValue().toString());
             Button button = viewHolder.deleteButton;
             button.setText(getString(R.string.delete));
             button.setOnClickListener((view) -> removeAt(position));

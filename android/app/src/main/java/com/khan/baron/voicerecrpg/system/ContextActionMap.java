@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg.system;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,12 @@ public abstract class ContextActionMap extends Entity {
     protected List<Entity> mPossibleContexts = new ArrayList<>();
     private List<String> mActionList = new ArrayList<>();
     protected Map<String, Map<String, Action>> mMap = new HashMap<>();
-    protected Map<String, String> mSynonymMap = new HashMap<>();
+    protected Map<String, List<String>> mSynonymMap = new HashMap<>();
     protected Map<String, String> mIgnoreMap = new HashMap<>();
     protected SentenceMapper mSentenceMapper;
     private Self mSelf = new Self();
 
-    private static Map<String, String> sUserSynonyms = new ConcurrentHashMap<>();
+    private static Map<String, List<String>> sUserSynonyms = new ConcurrentHashMap<>();
     private static boolean sRememberUserSynonyms = true;
 
     public ContextActionMap(GlobalState state) {
@@ -36,11 +37,11 @@ public abstract class ContextActionMap extends Entity {
         mSynonymMap = new HashMap<>(sUserSynonyms);
     }
 
-    public static Map<String, String> getUserSynonyms() {
+    public static Map<String, List<String>> getUserSynonyms() {
         return sUserSynonyms;
     }
 
-    public static void setUserSynonyms(Map<String, String> sUserSynonyms) {
+    public static void setUserSynonyms(Map<String, List<String>> sUserSynonyms) {
         ContextActionMap.sUserSynonyms = sUserSynonyms;
     }
 
@@ -101,12 +102,34 @@ public abstract class ContextActionMap extends Entity {
     public Entity getDefaultTarget() { return mDefaultTarget; }
 
     public void addSynonym(String synonym, String action) {
-        mSynonymMap.put(synonym,action);
+        if(mSynonymMap.containsKey(synonym)) {
+            if (!mSynonymMap.get(synonym).contains(action)) {
+                mSynonymMap.get(synonym).add(action);
+            }
+        } else {
+            mSynonymMap.put(synonym, new ArrayList<>(Collections.singletonList(action)));
+        }
     }
 
     public void addUserSynonym(String synonym, String action) {
         addSynonym(synonym,action);
-        if (sRememberUserSynonyms) { sUserSynonyms.put(synonym, action); }
+        addUserSynonymOnly(synonym, action);
+    }
+
+    public static void addUserSynonymOnly(String synonym, String action) {
+        if (sRememberUserSynonyms) {
+            if (sUserSynonyms.containsKey(synonym)) {
+                if (!sUserSynonyms.get(synonym).contains(action)) {
+                    sUserSynonyms.get(synonym).add(action);
+                }
+            } else {
+                sUserSynonyms.put(synonym, new ArrayList<>(Collections.singletonList(action)));
+            }
+        }
+    }
+
+    public static void clearUserSynonyms() {
+        sUserSynonyms = new ConcurrentHashMap<>();
     }
 
     public boolean hasSynonym(String synonym) {
@@ -121,8 +144,8 @@ public abstract class ContextActionMap extends Entity {
         return mIgnoreMap.containsKey(ignore) && mIgnoreMap.get(ignore).equals(word);
     }
 
-    public String getSynonymMapping(String synonym) {
-        return (hasSynonym(synonym)) ? mSynonymMap.get(synonym) : synonym;
+    public List<String> getSynonymMapping(String synonym) {
+        return (hasSynonym(synonym)) ? mSynonymMap.get(synonym) : Collections.singletonList(synonym);
     }
 
     public boolean hasPossibleTarget(String name) {

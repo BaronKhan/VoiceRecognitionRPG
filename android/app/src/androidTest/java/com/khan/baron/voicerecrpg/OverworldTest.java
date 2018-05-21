@@ -8,6 +8,7 @@ import com.khan.baron.voicerecrpg.game.items.Potion;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
 import com.khan.baron.voicerecrpg.game.rooms.Room;
 import com.khan.baron.voicerecrpg.game.rooms.Room01;
+import com.khan.baron.voicerecrpg.game.rooms.RoomUtensil;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
 import com.khan.baron.voicerecrpg.system.ContextActionMap;
 
@@ -15,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
@@ -27,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class OverworldTest {
     private GameState gameState;
+    private URL mUrl;
 
     public OverworldTest() {
         gameState = new GameState(null);
@@ -35,8 +38,8 @@ public class OverworldTest {
         if (dictFile.exists()) {
             System.out.println("Found WordNet database on phone");
             try {
-                URL url = new URL("file", null, dictFile.getPath());
-                gameState.addDictionary(url);
+                mUrl = new URL("file", null, dictFile.getPath());
+                gameState.addDictionary(mUrl);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -237,5 +240,27 @@ public class OverworldTest {
                 .contains("scratched the door using your sword"), true);
         assertEquals(gameState.updateState("cut the door with the knife and then with the sword")
                 .contains("scratched the door using your sword"), true);
+    }
+
+    @Test
+    public void testMultipleSynonymMapping() throws IOException {
+        ContextActionMap.setRememberUserSynonyms(true);
+        ContextActionMap.addUserSynonymOnly("utensil", "knife");
+        ContextActionMap.addUserSynonymOnly("utensil", "fork");
+        gameState = new GameState(null);
+        gameState.addDictionary(mUrl);
+        Room testRoom = new RoomUtensil();
+        gameState.initOverworldState(testRoom);
+
+        String output = gameState.updateState("grab the utensil");
+        assertEquals(output, output.contains("you mean, \"grab"), true);   // the fork
+        assertEquals(gameState.updateState("no").contains("you mean, \"grab"), true);   // the knife
+        assertEquals(gameState.updateState("no").contains("No more suggestions"), true);
+
+        assertEquals(gameState.updateState("pick up the utensil").contains("you mean, \"grab"), true);
+        assertEquals(gameState.updateState("yes").contains("picked"), true);
+        
+        ContextActionMap.getUserSynonyms().clear();
+        ContextActionMap.setRememberUserSynonyms(false);
     }
 }
