@@ -791,7 +791,7 @@ Instead of forcing the developer to manually instantiate object within each room
 \newpage
 \section{Implementation}
 
-This section outlines the steps taken to implement the system and the game, mostly in chronologically order where appropriate. For more details on the source code, please the corresponding GitHub repository containing this project's work.\footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}
+This section outlines the steps taken to implement the system and the game, mostly in chronological order where appropriate. For more details on the source code, please the corresponding GitHub repository containing this project's work.\footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}
 
 \subsection{Voice Recognition Interface}
 
@@ -803,7 +803,7 @@ The interface is within an Android \texttt{Activity} class. When the activity is
 \\
 The \texttt{MainActivity} class contains a \texttt{VoiceControl} classes that  handles the speech-to-text (STT) I/O, and implements a \texttt{RecognizerIntent}. The \texttt{VoiceControl} object contains an instance of the \texttt{SpeechRecognizer} class that has a \texttt{startListening} method which invokes an \texttt{onResults()} method when finished. This method have a \texttt{results} parameter of type \texttt{Bundle}, containing the string result of the speech recognition. The string is then processed by an instance of the \texttt{VoiceProcess} class (described below).
 
-\subsection{RPG User Interface}
+\subsection{Graphical User Interface}
 
 Figure \ref{fig:snapshot-ui} snapshot of the user interface for the game logic with the following labels:
 
@@ -855,7 +855,61 @@ In some scenarios, a follow-up action may only take place if the user's action w
 \\
 To support this scenario, there is a Boolean field called \texttt{mActionSucceeded}, which is set within the action methods that are executed to tell the system whether the action has succeeded, and the developer can choose what happens next.
 
-[NEED MORE HERE]
+\subsubsection{VoiceProcess.java}
+
+\texttt{VoiceProcess.java} is the main class that performs all the processing on the text string input (of the user's utterance). The main method is the \texttt{processInput} method that takes the string input and returns the response. Listing \ref{lst:voice-process-pseudo} show the pseudocode for the method, with most of the details ignored (as it is a relatively long method). For the full Java method, refer to the source code in the project's repository.
+
+\begin{lstlisting}[caption=VoiceProcess.processInput(), label={lst:voice-process-pseudo}]
+def processInput(input):
+    checkIfWordNetIsLoaded()
+    
+    if expectingReply:
+        return processPendingIntent(input)
+    
+    //Check for action replies
+    if currentAction.wantsReply():
+        return currentAction.processReply(input)
+    
+    //Tokenise and tag the input
+    words = input.split(" ")
+    tags = getTags(words)
+    if words.size() != tags.size:
+        throw Exeception
+    
+    //Check for learning phrase ("___ means ___")
+    if words.size() == 3 and words.contains("means"):
+        addSynonym(words[0], words[2])
+    
+    //Parse the input
+    actionIndex, chosenAction = getBestAction(words, tag)
+    
+    if isValidAction(actionStr):
+        chosenTarget = getBestTarget(words, tags)
+        chosenContext = getBestContext(words, tags)
+        
+        if not isValidContext(bestContext):
+                or contextActionMap.get(chosenContext).get(chosenAction) == null:
+            chosenContext = "default"
+            
+        action = contextActionMap.get(chosenContext).get(chosenAction)
+        if action == null:
+            return "Intent not understood."
+        else:
+            if isAmbiguous():
+                return suggestion()	//Did you mean...?
+            else:
+                 return action.execute(state, chosenTarget)
+    else:
+    	//Check for another target for previous action
+        if foundAnotherTarget(words, tags):
+            currentTarget = getBestTarget(words, tags)
+            return previousAction.execute(state, currentTarget)
+        else if foundAnotherContext(words, tags):
+            currentContext = getBestContext(words, tags)
+            return previousAction.execute(state, currentContext)
+        else:
+            performSentenceMatching(input)
+\end{lstlisting}
 
 \subsubsection{SemanticSimilarity.java}
 
