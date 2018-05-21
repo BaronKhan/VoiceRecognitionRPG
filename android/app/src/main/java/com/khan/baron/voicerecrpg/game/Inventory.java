@@ -26,6 +26,10 @@ public class Inventory extends Entity {
         setContext("inventory");
         mItems = new ArrayList<>();
         mPastItems = new HashSet<>();
+        addInventoryToMaps(maps);
+    }
+
+    public void addInventoryToMaps(ContextActionMap ... maps) {
         for (ContextActionMap map : maps) {
             map.addPossibleTarget(this);
             mMaps.add(map);

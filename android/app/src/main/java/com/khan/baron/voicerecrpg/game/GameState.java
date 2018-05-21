@@ -100,6 +100,7 @@ public class GameState extends GlobalState {
 
     public void initBattleState(Enemy currentEnemy) {
         mBattleMap.clearPossibleEntities();
+        mInventory.addInventoryToMaps(mBattleMap);
         mGameMode = MODE_BATTLE;
         setCurrentBattle(currentEnemy);
         mInitOutput = "A "+currentEnemy.getName()+" appears in front of you!\n\n"
@@ -108,6 +109,7 @@ public class GameState extends GlobalState {
 
     public void initOverworldState(Room room) {
         mOverworldMap.clearPossibleEntities();
+        mInventory.addInventoryToMaps(mOverworldMap);
         mGameMode = MODE_OVERWORLD;
         setCurrentRoom(room);
         mInitOutput = room.getRoomDescription()+"\n\n"
