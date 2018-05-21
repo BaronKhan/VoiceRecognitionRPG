@@ -362,7 +362,7 @@ public class VoiceProcess {
                             mContextActionMap.hasPossibleContext(word))
                     { continue; }
                     double score = SemanticSimilarity.getInstance().calculateScore(action, word);
-                    if (score > 0.5 && score < 0.8) {
+                    if (score > ACTION_MIN && score < ACTION_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousActionCandidate(
                                 new Triple<>(word, action, score), bestScore);
                     }
@@ -465,7 +465,7 @@ public class VoiceProcess {
             mAmbiguousHandler.clearAmbiguousTargetCandidates();
             return mContextActionMap.getDefaultTarget();
         } else {
-            if (bestScore > 0.7 && bestScore < 0.8) { mAmbiguousHandler.setIsAmbiguous(true); }
+            if (bestScore > TARGET_MIN && bestScore < TARGET_CONFIDENT) { mAmbiguousHandler.setIsAmbiguous(true); }
             else { mAmbiguousHandler.clearAmbiguousTargetCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
             return bestTarget;
@@ -546,7 +546,7 @@ public class VoiceProcess {
         if (bestContext != null) {
             bestContextType = bestContext.getContext();
             setActionContext(bestContext);
-            if (bestScore > 0.6 && bestScore < 0.8) { mAmbiguousHandler.setIsAmbiguous(true); }
+            if (bestScore > CONTEXT_MIN && bestScore < CONTEXT_CONFIDENT) { mAmbiguousHandler.setIsAmbiguous(true); }
             else { mAmbiguousHandler.clearAmbiguousContextCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
         } else { mAmbiguousHandler.clearAmbiguousContextCandidates(); }

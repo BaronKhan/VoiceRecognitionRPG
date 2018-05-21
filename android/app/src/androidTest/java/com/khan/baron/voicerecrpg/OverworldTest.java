@@ -259,7 +259,7 @@ public class OverworldTest {
 
         assertEquals(gameState.updateState("pick up the utensil").contains("you mean, \"grab"), true);
         assertEquals(gameState.updateState("yes").contains("picked"), true);
-        
+
         ContextActionMap.getUserSynonyms().clear();
         ContextActionMap.setRememberUserSynonyms(false);
     }
