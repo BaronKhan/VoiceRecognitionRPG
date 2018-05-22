@@ -319,7 +319,7 @@ A technique often used in NLP is to try to label each word with its correct part
 There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, "can" can either be a verb ("I can..."), a noun ("a can of tuna"), or another verb with a completely different meaning to the previous ("can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its word senses.
 \\
 \\
-The second challenge are words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
+The second challenge is words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
 \\
 \\
 The proposed design for this project will use an open-source POS tagger in order to identify specific words in the player's input, namely verbs and nouns.
@@ -701,14 +701,14 @@ The cosine similarity of these sentences is therefore:
 
 $$\frac{a \cdot b}{\lvert a\rvert\lvert b\rvert} = \frac{6}{2\sqrt{3} \cdot \sqrt{5}} = 0.77$$
 
-The definition for cosine similarity has been altered to form a "soft cosine measure" RRR. 
+The definition for cosine similarity has been altered to form a "soft cosine measure" RRR. This uses the semantic similarity between the two words (when the dot product is calculated) as a weighting: if a word only appears in one sentence and not he other, then the scores of its semantic similarity to the words in the other sentence are added to the numerator.
 \\
 \\
 While the cosine similarity is not ideal for all situations (e.g. it ignores word order so may match two sentences which are not similar at all).
 
 \subsection{Game Design Overview}
 
-The voice recognition system will be applied to a text-based role-playing game that has several different modes of play, in order to demonstrate the flexibility of the system. The first mode is similar to the Zork-style text-adventure gameplay, mentioned previously. This involves the player interacting with objects in the environment to solve puzzles while collecting items, in order to progress. This mode is named the \textit{Overworld} mode
+The voice recognition system will be applied to a text-based role-playing game that has several different modes of play, in order to demonstrate the flexibility of the system. The first mode is similar to the Zork-style text-adventure gameplay, mentioned previously. This involves the player interacting with objects in the environment to solve puzzles while collecting items, in order to progress. This mode is named the \textit{Overworld} mode.
 \\
 \\
 The second mode of gameplay is similar to classic turn-based RPGs such as Pokemon or Final Fantasy, where the player character battles an enemy, and the opposing sides alternate between taking turns to either attack, defend, heal, or perform some other action. This mode is called the \textit{Battle} mode.
@@ -825,11 +825,11 @@ Figure \ref{fig:snapshot-ui} snapshot of the user interface for the game logic w
 \end{figure}
 \end{center}
 
-All UI elements are accessed in the MainActivity and are separate from the voice recognition system.
+All UI elements are accessed in the \texttt{MainActivity} and are separate from the voice recognition system.
 
 \subsection{Voice Recognition System Implementation}
 
-\subsubsection{GlobalState}
+\subsubsection{GlobalState.java}
 
 The \texttt{GlobalState} class is an abstract interface that sends the string input to a \texttt{VoiceProcess} instance via the \texttt{updateState} method. Derived classes (e.g. \texttt{GameState} for a game, \texttt{KitchenState} for a cooking application, etc.) contain the application-specific logic and environment that can be accessed by the action methods. Listing \ref{lst:global-state} shows the code for the \texttt{GlobalState} class.
 
@@ -911,9 +911,96 @@ def processInput(input):
             performSentenceMatching(input)
 \end{lstlisting}
 
+When tokenising and tagging the input create the \texttt{words} and \texttt{tags} lists, the index of a word in \texttt{words} corresponds to the index of its tag in \texttt{tags}.
+\\
+\\
+On line 25 of the pseudocode, the order of choosing the best action, target and context (if they exist) is decided by which slot-filling structure (SFS) is being used. Below is the Java code for this.
+\\
+\begin{lstlisting}[language=Java, label={lst:sfs}]
+mUsingAltSFS = isUsingAltSlotFillingStructure(words, tags, actionPair.first);
+if (mUsingAltSFS) {
+    // SFS: with/use CONTEXT ACTION TARGET
+    chosenContext = getBestContext(words, tags, true);
+    actionPair = getBestAction(words, tags);
+    currentTarget = getBestTarget(words, tags, true);
+} else {
+    // SFS: ACTION TARGET with/using CONTEXT
+    actionPair = getBestAction(words, tags);
+    currentTarget = getBestTarget(words, tags, false);
+    chosenContext = getBestContext(words, tags, false);
+}
+\end{lstlisting}
+
+For the \texttt{getBestAction()}, \texttt{getBestTarget()} and  \texttt{getBestContext()} methods, the words in the input are checked sequentially to determine the best match. For instance, in the \texttt{getBestAction()} method, the candidate actions are chosen from the input. For each candidate action, a score out of 1.0 is calculated against each possible action defined in the ContextActionMap: if the words match character-by-character or the the candidate is a synonym for one of the action, then the score is set to 1.0. Otherwise, the score is set to the semantic similarity score of the two words. The \texttt{getBestTarget()} and \texttt{getBestContext()} methods work similarly.
+\\
+\\
+The candidates are chosen using the POS tagging, to filter out words with no meaning such as "the", "it", etc. Words in the input are candidate actions if they are tagged as either a verb, adverb, or noun (as sometimes, the POS tagger incorrectly tags some imperative verbs as nouns). Listing \ref{lst:candidates} shows the method for finding candidate actions, which returns a list of the indices (positions) of the candidates in the \texttt{words} and \texttt{tags} lists.
+\\
+\begin{lstlisting}[language=Java, caption=getCandidateActions(), label={lst:candidates}]
+private List<Integer> getCandidateActions(List<String> tags) {
+    List<Integer> candidateActions = new ArrayList<>();
+    for (int i=0; i<tags.size(); ++i) {
+        String tag = tags.get(i).toLowerCase();
+        if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j') {
+            candidateActions.add(i);
+        }
+    }
+    return candidateActions;
+}
+\end{lstlisting}
+
+Listing \ref{lst:bestAction} shows the pseudocode for the \texttt{getBestAction} method. For the full Java code for this method, see Appendix \ref{appendix:bestActionJava}.
+\\
+\begin{lstlisting}[language=Java, caption=getBestAction(), label={lst:bestAction}]
+def getBestAction(words, tags):
+   candidateActions = getCandidateActions(tags)
+   bestScore, bestIndex, bestAction = ACTION_MIN, -1, "<none>"
+   actionList = mContextActionMap.getActions()
+   for i in candidateActions:
+       word = words.get(i)
+       if (wordIsSynonym(word)):
+           return new Pair(i, synonyms.get(word))
+       for action in actionList:
+           if word.equals(action):
+               return new Pair(i, action)
+       for action in actionList:
+           score = SemanticSimiarity.getInstance().calculateScore(word, action)
+           if score > ACTION_MIN && score < ACTION_CONFIDENT:
+               isAmbiguous = true
+               addAmbiguousActionCandidate(word, action, score)
+           if score > bestScore:
+               bestScore = score
+               bestIndex = i
+               bestAction = action
+   return new Pair(bestIndex, bestAction)
+\end{lstlisting}
+
+On line 11 of Listing \ref{lst:bestAction}, the same for loop over \texttt{actionList} is split into two: the first loop checks for direct matches, and the second loop runs the semantic similarity engine. The reason for the separation is so that, if there is a direct match with any of the words, then there is no need to run the similarity engine at all, and therefore the intent is processed faster.
+
+\subsubsection{AmbiguousHandler.java}
+
+As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say "no" or something similar), then the next suggestion is given, until no more suggestions are available. Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed to the user after an ambiguous intent.
+
+\begin{center}
+\begin{figure}
+\begin{center}
+  \includegraphics[scale=0.25]{Screenshot_20180522-183411.png}
+  \caption{A snapshot of the ambiguous user intent, "obliterate the troll". Here, the word, 'obliterate' is most semantically similarity to the 'attack' action, but not enough to pass the threshold, so it is queried to the user.}
+  \label{fig:snapshot-suggestion}
+  \end{center}
+\end{figure}
+\end{center}
+
+
+
 \subsubsection{SemanticSimilarity.java}
 
-The semantic similarity engine uses a singleton design pattern so that it doesn't have to be constantly instantiated whenever a calculation is made. 
+ 
+
+
+
+
+
 
 
 
@@ -1084,6 +1171,78 @@ public void getWordNetDatabase() throws IOException {
             return;
         }
     }
+}
+\end{lstlisting}
+
+\newpage
+\subsection{Finding the best action in VoiceProcess.java}
+\label{appendix:bestActionJava}
+\begin{lstlisting}[language=Java, caption=MainActivity.getBestAction()]
+private Pair<Integer, String> getBestAction(
+        List<String> words, List<String> tags, boolean deleteWord)
+{
+    mAmbiguousHandler.initAmbiguousActionCandidates();
+    List<Integer> candidateActions = getCandidateActions(tags);
+    double bestScore = ACTION_MIN;
+    int bestIndex = -1;
+    String bestAction = "<none>";
+    List<String> actionsList = mContextActionMap.getActions();
+    for (int i: candidateActions) {
+        String word = words.get(i);
+        //ignore with/use words
+        if (!(word.equals("use") || word.equals("with") || word.equals("using") ||
+                words.contains("utilise"))) {
+            if (mContextActionMap.hasSynonym(word)) {
+                if (deleteWord) { removeWordAtIndex(words, tags, i); }
+                List<String> synonyms = mContextActionMap.getSynonymMapping(word);
+                if (synonyms.size() > 1){
+                    //Ambiguous synoyms - ask user about each one
+                    for (String action : synonyms) {
+                        mAmbiguousHandler.setIsAmbiguous(true);
+                        mAmbiguousHandler.addAmbiguousActionCandidate(
+                                new Triple<>(word, action, 1.0), bestScore);
+                    }
+                }
+                return new Pair<>(i, synonyms.get(0));
+            }
+            for (String action : actionsList) {
+                if (mContextActionMap.wordIsIgnored(word, action)) {
+                    continue;
+                }
+                if (word.equals(action)) {
+                    if (deleteWord) { removeWordAtIndex(words, tags, i); }
+                    return new Pair<>(i, action);
+                }
+            }
+            for (String action : actionsList) {
+                if (mContextActionMap.wordIsIgnored(word, action) ||
+                        mContextActionMap.hasPossibleTarget(word) ||
+                        mContextActionMap.hasPossibleContext(word))
+                { continue; }
+                double score = SemanticSimilarity.getInstance().calculateScore(action, word);
+                if (score > ACTION_MIN && score < ACTION_CONFIDENT) {
+                    mAmbiguousHandler.addAmbiguousActionCandidate(
+                            new Triple<>(word, action, score), bestScore);
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestIndex = i;
+                    bestAction = action;
+                }
+            }
+        }
+    }
+
+    if (bestIndex > -1) {
+        if (bestScore > ACTION_MIN && bestScore < ACTION_CONFIDENT) {
+            mAmbiguousHandler.setIsAmbiguous(true);
+        }
+        else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
+        //Remove chosen action from list inputs
+        if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
+    } else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
+
+    return new Pair<>(bestIndex, bestAction);
 }
 \end{lstlisting}
 
