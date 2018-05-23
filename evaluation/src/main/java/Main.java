@@ -34,7 +34,8 @@ public class Main {
                 SemanticSimilarity.SimilarityMethod.METHOD_JCN,
                 SemanticSimilarity.SimilarityMethod.METHOD_RES,
                 SemanticSimilarity.SimilarityMethod.METHOD_FASTLESK,
-                SemanticSimilarity.SimilarityMethod.METHOD_LESK
+                SemanticSimilarity.SimilarityMethod.METHOD_LESK,
+                SemanticSimilarity.SimilarityMethod.METHOD_COS
         );
 
         for (SemanticSimilarity.SimilarityMethod method: methods) {

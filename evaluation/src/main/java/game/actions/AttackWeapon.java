@@ -5,7 +5,7 @@ import com.khan.baron.vcw.Entity;
 import com.khan.baron.vcw.GlobalState;
 
 public class AttackWeapon extends Action {
-    public Object execute(GlobalState state, Entity currentTarget) {
+    public String execute(GlobalState state, Entity currentTarget) {
         return "ATTACK_WEAPON";
     }
 }

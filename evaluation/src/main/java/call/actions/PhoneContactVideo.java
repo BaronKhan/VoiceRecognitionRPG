@@ -6,7 +6,7 @@ import com.khan.baron.vcw.Entity;
 import com.khan.baron.vcw.GlobalState;
 
 public class PhoneContactVideo extends Action {
-    public Object execute(GlobalState state, Entity currentTarget) {
+    public String execute(GlobalState state, Entity currentTarget) {
         if (currentTarget instanceof Contact) { return "PHONE_"+currentTarget.getName().toUpperCase()+"_VIDEO"; }
         return "PHONE_VIDEO";
     }

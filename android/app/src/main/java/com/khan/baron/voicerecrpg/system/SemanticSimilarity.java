@@ -24,7 +24,8 @@ public class SemanticSimilarity {
         METHOD_FASTLESK,
         METHOD_LEACOCK,
         METHOD_PATH,
-        METHOD_RES
+        METHOD_RES,
+        METHOD_COS
     }
 
     private static final SemanticSimilarity sInstance = new SemanticSimilarity();
@@ -85,6 +86,9 @@ public class SemanticSimilarity {
                     break;
                 case METHOD_RES:
                     method = new Resnik(mDb);
+                    break;
+                case METHOD_COS:
+                    method = new Cos(mDb);
                     break;
                 default:
                     method = null;
