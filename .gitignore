@@ -67,3 +67,5 @@ library/*.class
 library/*.jar
 
 evaluation/*.csv
+
+generators/*.java
