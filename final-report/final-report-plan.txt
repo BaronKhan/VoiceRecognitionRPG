@@ -67,7 +67,7 @@ UI:
 
 General code
 - GlobalState
-- VoicePRocess
+- VoiceProcess
 - SemanticSimiliarty
 - CustomLexicalDatabase
 - ContextActionMaps and Action
