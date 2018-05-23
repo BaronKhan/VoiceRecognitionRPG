@@ -573,6 +573,9 @@ $$sim_{lin} = \frac{2*IC(LCS(w_1,w_2))}{IC(w_1)+IC(w_2)}$$
 Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions RRR. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, we can deduce that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information RRR.
 \\
 \\
+As well as using the definitions of the synonyms, hypernyms and hyponyms of the word, this method also uses the definitions of the word's meronyms and holonyms. Meronyms are words that represent part of something else RRR. For example, 'face' would be a meronym of 'person'. Holonyms are words that represent the whole of several parts, so a 'body' would be a holoynm for words such as 'arm', 'leg' and 'torso' RRR. Using these definitions as well make the Lesk method more accurate, but also add more processing time for each calculation.
+\\
+\\
 The WordNet database is accessed and traversed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database RRR. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
 \\
 \\
@@ -997,17 +1000,63 @@ As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be ma
 The semantic similarity engine is implemented as a singleton design pattern with a private constructor and a private instance of itself within the class. The main method of the class is the \texttt{calculateScore()} method which returns the semantic similarity score for two words.
 \\
 \\
-The engine uses up to two semantic similarity methods, and if two are chosen, then the score returned is the average score from both methods. By default, only the Wu and Palmer method (WUP) is used. See the Appendix for the \texttt{setSimilarityMethod} containing the similarity methods used from the WS4J library, and the custom ones (such as FastLesk)
+The engine uses up to two semantic similarity methods, and if two are chosen, then the score returned is the average score from both methods. As well as the Wu and Palmer (WUP), Lin and Lesk methods mentioned previously, below is a list of methods that can also be chosen: 
+
+\begin{itemize}
+\item Fast Lesk (FASTLESK) - a faster implementation of the Lesk method, that removes definition string formatting and ignores meronym and holonym definitions.
+
+\item Path-based (PATH) - a simpler version of the WUP method which uses the reciprocal of the shortest path between the words in the WordNet database as the similarity score RRR.
+
+\item Leacock and Chodorow (LCH) - another path-based measure which uses the negaitve log of the shortest distance between the two words RRR.
+
+\item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' lowest common subsumer RRR.
+
+\item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps).
+\end{itemize}
+
+Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are implementations unique to this project and are implemented manually in the code. By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings menu.
 
 \subsubsection{CustomLexicalDatabase.java}
 
-Despite the WS4J library providing implementations of the algorithms for the semantic similarity method
+Despite the WS4J library providing implementations of the algorithms for most of the semantic similarity methods used in this project, they require an interface to be implemented in order to access a WordNet database. Listing \ref{lst:ilexicaldatabase} shows the interface that needs to be implemented and used as an input to the WS4J methods.
 
-\begin{lstlisting}[language=Java, label={lst:method-enum}]
+\begin{lstlisting}[language=Java, caption=ILexicalDatabase.java (from the WS4J library), label={lst:ilexicaldatabase}]
+package edu.cmu.lti.lexical_db;
 
+import java.util.Collection;
+import edu.cmu.lti.lexical_db.data.Concept;
+
+public interface ILexicalDatabase {
+	Concept getMostFrequentConcept(String word, String pos);
+	Collection<Concept> getAllConcepts(String word, String pos);
+	Collection<String> getHypernyms(String synset);
+	Concept findSynsetBySynset( String synset );
+	String conceptToString( String synset );
+	Collection<String> getGloss( Concept synset, String linkString );
+}
 \end{lstlisting}
 
+The WS4J library is packaged with its own implementation of this interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet) RRR. Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used.
+\\
+\\
+A new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with the Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
+\\
+\\
+Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online for this \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation of the interface.
+
 \subsubsection{ContextActionMap.java}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
