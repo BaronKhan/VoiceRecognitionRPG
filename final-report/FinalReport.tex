@@ -1013,7 +1013,7 @@ The semantic similarity engine is implemented as a singleton design pattern with
 The engine uses up to two semantic similarity methods, and if two are chosen, then the score returned is the average score from both methods. As well as the Wu and Palmer (WUP), Lin and Lesk methods mentioned previously, below is a list of methods that can also be chosen: 
 
 \begin{itemize}
-\item Fast Lesk (FASTLESK) - a faster implementation of the Lesk method, that removes definition string formatting and ignores meronym and holonym definitions.
+\item Fast Lesk (FASTLESK) - a faster implementation of the Lesk method, that removes definition string formatting and ignores meronym and holonym definitions of the words.
 
 \item Path-based (PATH) - a simpler version of the WUP method which uses the reciprocal of the shortest path between the words in the WordNet database as the similarity score RRR.
 
@@ -1021,10 +1021,10 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 
 \item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' lowest common subsumer RRR.
 
-\item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps).
+\item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps in words).
 \end{itemize}
 
-Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code. By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings.
+Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler). By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings.
 
 \subsubsection{CustomLexicalDatabase.java}
 
@@ -1105,8 +1105,11 @@ In the \texttt{ContextActionMap} class, there are two member fields that the dev
 \label{section:entity}
 
 \texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, "sword", "potion", etc), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
+\\
+\\
+Once a match for a context is found, its \texttt{mContext} string value is used to index the \texttt{ContextActionMap}, along with the best action.
 
-
+\subsubsection{Action.java}
 
 
 
@@ -1315,7 +1318,7 @@ private boolean useAltSlotFillingStructure(
     for (String keyword : keywords) {
         if (words.contains(keyword)) {
             int keywordIndex = words.indexOf(keyword);
-            if (keywordIndex < bestActionIndex) {
+            if (keywordIndex < bestActionIndex) {	//If WITH CONTEXT ACTION TARGET
                 removeWordAtIndex(words, tags, keywordIndex);
                 return true;
             }

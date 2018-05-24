@@ -70,13 +70,16 @@ General code
 - GlobalState
 - VoiceProcess
 - SemanticSimiliarty
+- AmbiguousHandler
 - CustomLexicalDatabase
 - ContextActionMaps and Action
 - Entity
+- Action
 - Synonym Map code
-- AmbiguousHandler
 - SentenceMapper
 - MultipleCommandProcess
+
+Settings
 
 CustomLexicalDatabase: mention meronyms, holonyms, etc.
 
