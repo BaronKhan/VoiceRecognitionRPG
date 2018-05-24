@@ -34,14 +34,14 @@ def renderJava(tableReader, outputName):
             else:
                 outputFile.write("        addDefaultContextActions(")
         else:
-            outputFile.write("        addContextActions(\""+row[0]+"\", ")
+            outputFile.write("        addContextActions(\""+row[0].strip()+"\", ")
 
         rowStr = ""
         for i in range(1, max(len(row), numActions+1)):
-            if i >= len(row):
+            if i >= len(row) or row[i].strip()=="":
                 rowStr += "null"
             else:
-                rowStr += str(row[i])
+                rowStr += "new "+str(row[i].strip())+"()"
             if i != max(len(row), numActions+1)-1:
                 rowStr += ", "
         rowStr += ");\n"
@@ -70,5 +70,5 @@ if not os.path.isfile(fileName):
     exit(0)
 
 with open(fileName, 'rt') as f:
-    tableReader = csv.reader(f)
+    tableReader = csv.reader(f, skipinitialspace=True, delimiter=',')
     renderJava(tableReader, outputName)

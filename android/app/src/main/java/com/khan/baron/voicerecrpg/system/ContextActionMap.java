@@ -18,7 +18,7 @@ public abstract class ContextActionMap extends Entity {
     private Entity mDefaultTarget = null;
     protected List<Entity> mPossibleContexts = new ArrayList<>();
     private List<String> mActionList = new ArrayList<>();
-    protected Map<String, Map<String, Action>> mMap = new HashMap<>();
+    protected Map<String, Map<String, Action>> mContextActionMapping = new HashMap<>();
     protected Map<String, List<String>> mSynonymMap = new HashMap<>();
     protected Map<String, String> mIgnoreMap = new HashMap<>();
     protected SentenceMapper mSentenceMapper;
@@ -53,7 +53,7 @@ public abstract class ContextActionMap extends Entity {
         ContextActionMap.sRememberUserSynonyms = sRememberUserSynonyms;
     }
 
-    public Map<String, Action> get(String action) { return mMap.get(action); }
+    public Map<String, Action> get(String action) { return mContextActionMapping.get(action); }
 
     public List<String> getActions() { return mActionList; }
 
@@ -87,7 +87,7 @@ public abstract class ContextActionMap extends Entity {
             tempList.put(actionStr, actions[i]);
             ++i;
         }
-        mMap.put(context, tempList);
+        mContextActionMapping.put(context, tempList);
     }
 
     public void addDefaultContextActions(Action ... actions) {
@@ -95,7 +95,7 @@ public abstract class ContextActionMap extends Entity {
     }
 
     public boolean isValidContext(String context) {
-        return mMap.keySet().contains(context);
+        return mContextActionMapping.keySet().contains(context);
     }
 
     public void setDefaultTarget(Entity defaultTarget) { mDefaultTarget = defaultTarget; }
