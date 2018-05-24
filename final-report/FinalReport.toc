@@ -66,6 +66,7 @@
 \contentsline {subsection}{\numberline {6.3}System UML Class Diagram}{46}
 \contentsline {subsection}{\numberline {6.4}Game Design UML Class Diagram}{47}
 \contentsline {subsection}{\numberline {6.5}WordNet Download Code}{48}
-\contentsline {subsection}{\numberline {6.6}Finding the best action in VoiceProcess.java}{50}
-\contentsline {subsection}{\numberline {6.7}JwiLexicalDatabase.java}{52}
-\contentsline {section}{References}{55}
+\contentsline {subsection}{\numberline {6.6}useAltSlotFillingStructure() method}{50}
+\contentsline {subsection}{\numberline {6.7}Finding the best action in VoiceProcess.java}{51}
+\contentsline {subsection}{\numberline {6.8}JwiLexicalDatabase.java}{53}
+\contentsline {section}{References}{56}

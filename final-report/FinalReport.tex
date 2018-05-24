@@ -863,7 +863,7 @@ To support this scenario, there is a Boolean field called \texttt{mActionSucceed
 
 \texttt{VoiceProcess.java} is the main class that performs all the processing on the text string input (of the user's utterance). The main method is the \texttt{processInput} method that takes the string input and returns the response. Listing \ref{lst:voice-process-pseudo} show the pseudocode for the method, with most of the details ignored (as it is a relatively long method). For the full Java method, refer to the source code in the project's repository.
 
-\begin{lstlisting}[caption=VoiceProcess.processInput(), label={lst:voice-process-pseudo}]
+\begin{lstlisting}[caption=VoiceProcess.processInput() pseudocode, label={lst:voice-process-pseudo}]
 def processInput(input):
     checkIfWordNetIsLoaded()
     
@@ -921,6 +921,8 @@ When tokenising and tagging the input create the \texttt{words} and \texttt{tags
 On line 25 of the pseudocode, the order of choosing the best action, target and context (if they exist) is decided by which slot-filling structure (SFS) is being used. Below is the Java code for this.
 \\
 \begin{lstlisting}[language=Java, label={lst:sfs}]
+...
+
 mUsingAltSFS = isUsingAltSlotFillingStructure(words, tags, actionPair.first);
 if (mUsingAltSFS) {
     // SFS: with/use CONTEXT ACTION TARGET
@@ -933,8 +935,13 @@ if (mUsingAltSFS) {
     currentTarget = getBestTarget(words, tags, false);
     chosenContext = getBestContext(words, tags, false);
 }
+
+...
 \end{lstlisting}
 
+See the Appendix \ref{appendix:useAltSlotFillingStructure} for the Java code of the \texttt{isUsingAltSlotFillingStructure()} method.
+\\
+\\
 For the \texttt{getBestAction()}, \texttt{getBestTarget()} and  \texttt{getBestContext()} methods, the words in the input are checked sequentially to determine the best match. For instance, in the \texttt{getBestAction()} method, the candidate actions are chosen from the input. For each candidate action, a score out of 1.0 is calculated against each possible action defined in the ContextActionMap: if the words match character-by-character or the the candidate is a synonym for one of the action, then the score is set to 1.0. Otherwise, the score is set to the semantic similarity score of the two words. The \texttt{getBestTarget()} and \texttt{getBestContext()} methods work similarly.
 \\
 \\
@@ -955,7 +962,7 @@ private List<Integer> getCandidateActions(List<String> tags) {
 
 Listing \ref{lst:bestAction} shows the pseudocode for the \texttt{getBestAction} method. For the full Java code for this method, see Appendix \ref{appendix:bestActionJava}.
 \\
-\begin{lstlisting}[language=Java, caption=getBestAction(), label={lst:bestAction}]
+\begin{lstlisting}[language=Java, caption=getBestAction() pseudocode, label={lst:bestAction}]
 def getBestAction(words, tags):
    candidateActions = getCandidateActions(tags)
    bestScore, bestIndex, bestAction = ACTION_MIN, -1, "<none>"
@@ -1049,8 +1056,9 @@ Since this implementation using the JWI library may be useful for others in the 
 
 
 \subsubsection{ContextActionMap.java}
+\label{section:context-action-map}
 
-The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which actions should be called for each action (in the same order) based on the context.
+The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context.
 \\
 \\
 There is also an \texttt{addDefaultContextActions()} method, which defines the actions to be called if no context is given in the input. A \texttt{null} entry means that the action is invalid for the given context (e.g. you cannot attack with a potion). In this case, the default context action is called instead.
@@ -1091,11 +1099,16 @@ See the source code in the project's repository for the full Python script.
 \end{tabular}
 \end{table}
 
-In the \texttt{ContextActionMap} class, there are two member fields that the developer must build in their application: the \texttt{mPossibleTargets} and \texttt{mPossibleContexts} lists. These are lists of objects that extend the abstract \texttt{Entity}, and 
+In the \texttt{ContextActionMap} class, there are two member fields that the developer must build in their application: the \texttt{mPossibleTargets} and \texttt{mPossibleContexts} lists. These are lists of objects that extend the abstract \texttt{Entity} class (described in Section \ref{section:entity}). Only entities in these lists are used in the target/context matching (when finding the best match).
 
 \subsubsection{Entity.java}
+\label{section:entity}
 
-When processing the user's intent, using 
+\texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, "sword", "potion", etc), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
+
+
+
+
 
 
 
@@ -1288,6 +1301,27 @@ public void getWordNetDatabase() throws IOException {
             return;
         }
     }
+}
+\end{lstlisting}
+
+\newpage
+\subsection{useAltSlotFillingStructure() method}
+\label{appendix:useAltSlotFillingStructure}
+\begin{lstlisting}[language=Java, caption=useAltSlotFillingStructure()]
+private boolean useAltSlotFillingStructure(
+        List<String> words, List<String> tags, int bestActionIndex)
+{
+    List<String> keywords = Arrays.asList("use", "using", "with", "utilise");
+    for (String keyword : keywords) {
+        if (words.contains(keyword)) {
+            int keywordIndex = words.indexOf(keyword);
+            if (keywordIndex < bestActionIndex) {
+                removeWordAtIndex(words, tags, keywordIndex);
+                return true;
+            }
+        }
+    }
+    return false;
 }
 \end{lstlisting}
 
