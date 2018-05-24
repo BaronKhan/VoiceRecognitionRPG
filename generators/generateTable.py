@@ -31,6 +31,18 @@ def renderJava(tableReader, outputName):
             if rowNum < 1:
                 numActions = len(row)-1
                 outputFile.write("        setActionList(")
+                rowStr = ""
+                for i in range(1, max(len(row), numActions+1)):
+                    if i >= len(row) or row[i].strip()=="":
+                        rowStr += "null"
+                    else:
+                        rowStr += "\""+str(row[i].strip())+"\""
+                    if i != max(len(row), numActions+1)-1:
+                        rowStr += ", "
+                rowStr += ");\n"
+                outputFile.write(rowStr)
+                rowNum += 1
+                continue
             else:
                 outputFile.write("        addDefaultContextActions(")
         else:
