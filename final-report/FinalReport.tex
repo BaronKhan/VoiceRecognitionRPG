@@ -80,10 +80,10 @@ frame=single}
 \textbf{When adding voice commands to a video game, a developer may find themselves hard-coding text strings for phrases that a player can say, and mapping them to intents within the game. It becomes more work to include varying versions of the same intent as the developer would have to include every permutation of the phrase (for which there could be infinitely many).
 \\
 \\
-This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases.
+This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases, and with no cloud processing required.
 \\
 \\
-We explore and evaluate various methods for improving the voice recognition system with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques. We also explore various other ways of making the development of the role-playing game easier (such as automated room generation).}
+We explore and evaluate various methods for improving the voice recognition system with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques. We also apply the voice recognition system to other domains such as video conferencing solutions, and cooking applications.}
 
 \newpage
 
@@ -983,7 +983,10 @@ On line 11 of Listing \ref{lst:bestAction}, the same for loop over \texttt{actio
 
 \subsubsection{AmbiguousHandler.java}
 
-As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say "no" or something similar), then the next suggestion is given, until no more suggestions are available. Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed to the user after an ambiguous intent. See the \texttt{AmbiguousHandler.java} file in the project's repository for the full code.
+As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say "no" or something similar), then the next suggestion is given, until no more suggestions are available.
+\\
+\\
+Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed to the user after an ambiguous intent. See the \texttt{AmbiguousHandler.java} file in the project's repository for the full code.
 
 \begin{center}
 \begin{figure}
@@ -1014,7 +1017,7 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 \item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps).
 \end{itemize}
 
-Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are implementations unique to this project and are implemented manually in the code. By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings menu.
+Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code. By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings.
 
 \subsubsection{CustomLexicalDatabase.java}
 
@@ -1042,9 +1045,66 @@ The WS4J library is packaged with its own implementation of this interface, call
 A new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with the Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
 \\
 \\
-Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online for this \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation of the interface.
+Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online that other developers may freely use \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation.
+
 
 \subsubsection{ContextActionMap.java}
+
+The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which actions should be called for each action (in the same order) based on the context.
+\\
+\\
+There is also an \texttt{addDefaultContextActions()} method, which defines the actions to be called if no context is given in the input. A \texttt{null} entry means that the action is invalid for the given context (e.g. you cannot attack with a potion). In this case, the default context action is called instead.
+\\
+\\
+Listing \ref{lst:game-context-action-map} shows an example of a derived class to create a table. Note that this example was only used for testing and evaluation of the system, and is not one of the tables used in the RPG demo.
+
+\begin{lstlisting}[language=Java, caption=Example of a ContextActionMap, label={lst:game-context-action-map}]
+public class GameContextActionMap extends ContextActionMap {
+    public GameContextActionMap(GlobalState state) {
+        super(state);
+        setActionList(              "attack",        "heal",           "move");
+        addDefaultContextActions(   new Attack(),    new Heal(),       new Move());
+        addContextActions("weapon", new AtkWeapon(), null,             null);
+        addContextActions("potion", null,            new HealPotion(), null);
+    }
+}
+\end{lstlisting}
+
+In order to make it easier for the developer to create this 'table', a Python script was written called \texttt{generateTable.py} which takes as input a CSV file of a table, and generates a Java source file similar to Listing \ref{lst:game-context-action-map}. Table \ref{table:game-map-csv} shows the CSV table (where cells are separated by commas) that will generate the Java source file in Listing \ref{lst:game-context-action-map} using the command, 
+
+\begin{center}
+\texttt{python generateTable.py game-map.csv GameContextActionMap}
+\end{center}
+
+See the source code in the project's repository for the full Python script.
+
+\begin{table}[H]
+\centering
+\caption{game-map.csv}
+\label{table:game-map-csv}
+\begin{tabular}{l|l|l|l|}
+\cline{1-4}
+\multicolumn{1}{|l|}{\textbf{}} & \textit{attack}    & \textit{heal}  & \textit{move}    \\ \hline
+\multicolumn{1}{|l|}{\textit{default}} & Attack    & Heal  & Move    \\ \hline
+\multicolumn{1}{|l|}{\textit{weapon}}  & AtkWeapon &            &  \\ \hline
+\multicolumn{1}{|l|}{\textit{potion}}  &                & HealPotion &              \\ \hline
+\end{tabular}
+\end{table}
+
+In the \texttt{ContextActionMap} class, there are two member fields that the developer must build in their application: the \texttt{mPossibleTargets} and \texttt{mPossibleContexts} lists. These are lists of objects that extend the abstract \texttt{Entity}, and 
+
+\subsubsection{Entity.java}
+
+When processing the user's intent, using 
+
+
+
+
+
+
+
+
+
 
 
 

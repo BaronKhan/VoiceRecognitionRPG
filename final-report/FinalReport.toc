@@ -59,12 +59,13 @@
 \contentsline {subsubsection}{\numberline {5.3.4}SemanticSimilarity.java}{38}
 \contentsline {subsubsection}{\numberline {5.3.5}CustomLexicalDatabase.java}{40}
 \contentsline {subsubsection}{\numberline {5.3.6}ContextActionMap.java}{41}
-\contentsline {section}{\numberline {6}Appendix}{42}
-\contentsline {subsection}{\numberline {6.1}Skyrim Kinect Command List}{42}
-\contentsline {subsection}{\numberline {6.2}Penn Treebank Tagset}{44}
-\contentsline {subsection}{\numberline {6.3}System UML Class Diagram}{45}
-\contentsline {subsection}{\numberline {6.4}Game Design UML Class Diagram}{46}
-\contentsline {subsection}{\numberline {6.5}WordNet Download Code}{47}
-\contentsline {subsection}{\numberline {6.6}Finding the best action in VoiceProcess.java}{49}
-\contentsline {subsection}{\numberline {6.7}JwiLexicalDatabase.java}{51}
-\contentsline {section}{References}{54}
+\contentsline {subsubsection}{\numberline {5.3.7}Entity.java}{42}
+\contentsline {section}{\numberline {6}Appendix}{43}
+\contentsline {subsection}{\numberline {6.1}Skyrim Kinect Command List}{43}
+\contentsline {subsection}{\numberline {6.2}Penn Treebank Tagset}{45}
+\contentsline {subsection}{\numberline {6.3}System UML Class Diagram}{46}
+\contentsline {subsection}{\numberline {6.4}Game Design UML Class Diagram}{47}
+\contentsline {subsection}{\numberline {6.5}WordNet Download Code}{48}
+\contentsline {subsection}{\numberline {6.6}Finding the best action in VoiceProcess.java}{50}
+\contentsline {subsection}{\numberline {6.7}JwiLexicalDatabase.java}{52}
+\contentsline {section}{References}{55}

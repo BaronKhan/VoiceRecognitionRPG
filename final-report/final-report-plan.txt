@@ -4,6 +4,7 @@ Introduction
 Motivation? (ASk first)
 Background
 The details (Implementation)
+Testing
 Evaluation/Discussion
 Conclusions and further work (library, conferencing)
 Bibliography
@@ -71,6 +72,7 @@ General code
 - SemanticSimiliarty
 - CustomLexicalDatabase
 - ContextActionMaps and Action
+- Entity
 - Synonym Map code
 - AmbiguousHandler
 - SentenceMapper
