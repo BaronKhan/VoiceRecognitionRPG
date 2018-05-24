@@ -802,14 +802,14 @@ This section outlines the steps taken to implement the system and the game, most
 The first step involved creating an Android project with a skeleton I/O to take as input the microphone audio, converts the speech to text, sends it to the voice recognition system for processing (initially just an empty class that pipes the input to output), before finally displaying the text on the screen.
 \\
 \\
-The interface is within an Android \texttt{Activity} class. When the activity is created, it also downloads a tar ball containing a WordNet database and unzips it on the device's local storage. See the Appendix \ref{appendix:download} for a snippet of the code that downloads the database.
+The interface is within an Android \texttt{Activity} class. When the activity is created, it also downloads a tar ball containing a WordNet database and unzips it on the device's local storage. While it is possible to package the database with the model, the code was originally written to download the database and, due to time constraints, could not be changed.
 \\
 \\
 The \texttt{MainActivity} class contains a \texttt{VoiceControl} classes that  handles the speech-to-text (STT) I/O, and implements a \texttt{RecognizerIntent}. The \texttt{VoiceControl} object contains an instance of the \texttt{SpeechRecognizer} class that has a \texttt{startListening} method which invokes an \texttt{onResults()} method when finished. This method have a \texttt{results} parameter of type \texttt{Bundle}, containing the string result of the speech recognition. The string is then processed by an instance of the \texttt{VoiceProcess} class (described below).
 
 \subsection{Graphical User Interface}
 
-Figure \ref{fig:snapshot-ui} snapshot of the user interface for the game logic with the following labels:
+Figure \ref{fig:snapshot-ui} shows a snapshot of the UI for the game logic with the following labels:
 
 \begin{enumerate}
 	\item The player's input for the game as a string (i.e. it is the output of the speech-to-text API).
@@ -1210,102 +1210,6 @@ Below is the UML class diagram for the game mechanics - both the \textit{Overwor
 \\
 \\
 \includegraphics[width=\textwidth]{game-uml.png}
-
-\newpage
-\subsection{WordNet Download Code}
-\label{appendix:download}
-\begin{lstlisting}[language=Java, caption=MainActivity.getWordNetDatabase()]
-public void getWordNetDatabase() throws IOException {
-    boolean foundWordNetDatabase = false;
-    if (!isSDCardPresent()) {
-        Snackbar.make(findViewById(R.id.activity_main),
-                "Error: SD card not mounted. Cannot access WordNet database.",
-                Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        return;
-    }
-
-    File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
-    if(dictFile.exists()) {
-        Snackbar.make(findViewById(R.id.activity_main), "Found WordNet database",
-                Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        foundWordNetDatabase = true;
-
-    } else {
-        if (isDownloadManagerAvailable()) {
-            Snackbar.make(findViewById(R.id.activity_main), "Downloading WordNet database...",
-                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-            checkDownloadPermission();
-            if (!mCanDownload) {
-                Snackbar.make(findViewById(R.id.activity_main),
-                        "Error: permission not given to download WordNet database",
-                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                return;
-            }
-
-            File archive = new File(
-                    Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_DOWNLOADS) + "/wn3.1.dict.tar.gz");
-            if(!archive.exists()) {
-                String url = "http://wordnetcode.princeton.edu/wn3.1.dict.tar.gz";
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                request.setDescription("Downloading WordNet database...");
-                request.setTitle("WordNet Database");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    request.allowScanningByMediaScanner();
-                    request.setNotificationVisibility(
-                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                }
-                request.setDestinationInExternalPublicDir(
-                        Environment.DIRECTORY_DOWNLOADS, "wn3.1.dict.tar.gz");
-                DownloadManager manager = (DownloadManager) getSystemService(
-                        Context.DOWNLOAD_SERVICE);
-                manager.enqueue(request);
-                BroadcastReceiver onComplete=new BroadcastReceiver() {
-                    public void onReceive(Context ctxt, Intent intent) {
-                        try {
-                            getWordNetDatabase();
-                        } catch (Exception e) {
-                            mVoiceControl.setOutputText("Error: " + e.getMessage());
-                        }
-                    }
-                };
-                registerReceiver(onComplete, new IntentFilter(
-                        DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-            } else {
-
-                // Extract tarball
-                File dest = new File(Environment.getExternalStorageDirectory().getPath());
-                TarArchiveInputStream fin = new TarArchiveInputStream(
-                        new GzipCompressorInputStream(new FileInputStream(archive.getPath())));
-                TarArchiveEntry entry;
-                while ((entry = fin.getNextTarEntry()) != null) {
-                    if (entry.isDirectory()) {
-                        continue;
-                    }
-                    File curfile = new File(dest, entry.getName());
-                    File parent = curfile.getParentFile();
-                    if (!parent.exists()) {
-                        parent.mkdirs();
-                    }
-                    IOUtils.copy(fin, new FileOutputStream(curfile));
-                }
-
-                Snackbar.make(findViewById(R.id.activity_main), "Downloaded WordNet database",
-                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                foundWordNetDatabase = true;
-            }
-
-        } else {
-            Snackbar.make(findViewById(R.id.activity_main),
-                    "Error: could not download WordNet database", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            return;
-        }
-    }
-}
-\end{lstlisting}
 
 \newpage
 \subsection{useAltSlotFillingStructure() method}
