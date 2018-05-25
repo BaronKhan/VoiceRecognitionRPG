@@ -61,12 +61,16 @@
 \contentsline {subsubsection}{\numberline {5.3.6}ContextActionMap.java}{41}
 \contentsline {subsubsection}{\numberline {5.3.7}Entity.java}{42}
 \contentsline {subsubsection}{\numberline {5.3.8}Action.java}{43}
-\contentsline {section}{\numberline {6}Appendix}{44}
-\contentsline {subsection}{\numberline {6.1}Skyrim Kinect Command List}{44}
-\contentsline {subsection}{\numberline {6.2}Penn Treebank Tagset}{46}
-\contentsline {subsection}{\numberline {6.3}System UML Class Diagram}{47}
-\contentsline {subsection}{\numberline {6.4}Game Design UML Class Diagram}{48}
-\contentsline {subsection}{\numberline {6.5}useAltSlotFillingStructure() method}{49}
-\contentsline {subsection}{\numberline {6.6}Finding the best action in VoiceProcess.java}{50}
-\contentsline {subsection}{\numberline {6.7}JwiLexicalDatabase.java}{52}
-\contentsline {section}{References}{55}
+\contentsline {subsubsection}{\numberline {5.3.9}MultipleCommandProcess.java}{44}
+\contentsline {subsubsection}{\numberline {5.3.10}SentenceMapper.java}{44}
+\contentsline {subsubsection}{\numberline {5.3.11}Synonym Mapping Implementation}{44}
+\contentsline {section}{\numberline {6}Appendix}{45}
+\contentsline {subsection}{\numberline {6.1}Skyrim Kinect Command List}{45}
+\contentsline {subsection}{\numberline {6.2}Penn Treebank Tagset}{47}
+\contentsline {subsection}{\numberline {6.3}System UML Class Diagram}{48}
+\contentsline {subsection}{\numberline {6.4}Game Design UML Class Diagram}{49}
+\contentsline {subsection}{\numberline {6.5}useAltSlotFillingStructure() method}{50}
+\contentsline {subsection}{\numberline {6.6}Finding the best action in VoiceProcess.java}{51}
+\contentsline {subsection}{\numberline {6.7}JwiLexicalDatabase.java}{53}
+\contentsline {subsection}{\numberline {6.8}OpenObject.java}{56}
+\contentsline {section}{References}{57}

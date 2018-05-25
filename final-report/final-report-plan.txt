@@ -79,15 +79,18 @@ General code
 - SentenceMapper
 - MultipleCommandProcess
 
-Settings
-
 CustomLexicalDatabase: mention meronyms, holonyms, etc.
 
 Custom Lesk: mention use of Fernflower decompiler and altered code.
 
+Settings
+
+
 Android profiler for performance
 - Attempt to multithread
 Had locking issues
+
+Call Example
 
 Testing implementations
 
@@ -111,6 +114,8 @@ Evaluation of semantic similarity
 Evaluation of effectivenesss of learning mechanism
 
 Evaluation of other extensions (multipe commands, confirmation, suggestions)
+
+Evaluate speed of recognition (pc, phone, raspberry pi)
 
 Limitations:
 - Only single-word actions, targets and contexts

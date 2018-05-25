@@ -18,7 +18,6 @@ public class GrabObject extends Action {
             if (roomObjects.contains(currentTarget) && currentTarget instanceof Item) {
                 Room.transferRoomItemToInventory(
                         gameState.getCurrentRoom(),(Item)currentTarget, gameState.getInventory());
-
                 state.actionSucceeded();
                 return "You picked up the "+currentTarget.getName()+". Added to inventory.\n"
                         +(new ShowInventory().execute(state, gameState.getInventory()));

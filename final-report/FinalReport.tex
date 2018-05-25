@@ -1058,7 +1058,7 @@ Since this implementation using the JWI library may be useful for others in the 
 \subsubsection{ContextActionMap.java}
 \label{section:context-action-map}
 
-The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context.
+The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context. The entries in the 'table' are either null or inherit from the \texttt{Action} class (see Section \ref{section:action}).
 \\
 \\
 There is also an \texttt{addDefaultContextActions()} method, which defines the actions to be called if no context is given in the input. A \texttt{null} entry means that the action is invalid for the given context (e.g. you cannot attack with a potion). In this case, the default context action is called instead.
@@ -1110,21 +1110,79 @@ In the \texttt{ContextActionMap} class, there are two member fields that the dev
 Once a match for a context is found, its \texttt{mContext} string value is used to index the \texttt{ContextActionMap}, along with the best action.
 
 \subsubsection{Action.java}
+\label{section:action}
+
+The \texttt{Action} class is an abstract class that is used to wrap the methods that should be executed in the \texttt{ContextActionMap}. Listing \ref{lst:action} shows the source code for the class.
+
+\begin{lstlisting}[language=Java, caption=Action.java, label={lst:action}]
+public abstract class Action {
+    private static Entity sCurrentContext = null;
+    public abstract String execute(GlobalState state, Entity currentTarget);
+    protected boolean mWantsReply = false;
+    protected Entity mCurrentTarget;
+    
+    public boolean wantsReply() { return mWantsReply; }
+    public void setWantsReply(boolean wantsReply) { mWantsReply = wantsReply; }
+
+    public Object processReply(GlobalState state, String input) { 
+        return "Intent not understood.";
+    }
+
+    protected static Entity getCurrentContext() { return sCurrentContext; }
+
+    protected static void setCurrentContext(Entity currentContext) {
+        sCurrentContext = currentContext;
+    }
+}
+\end{lstlisting}
+
+The \texttt{execute()} method is overridden by the derived class and executed when the action is chosen in the \texttt{VoiceProcess} class (see line 39 of the pseudocode in Listing \ref{lst:voice-process-pseudo}). The method takes as input the GlobalState object (so the method can update its state if needed) and the current target (if it exists).
+
+\begin{lstlisting}[language=Java, caption=HealItem.java, label={lst:heal-item}]
+public class HealItem extends Action {
+    public String execute(GlobalState state, Entity currentTarget) {
+        if (state instanceof GameState) {
+            GameState gameState = (GameState)state;
+            String itemName = Action.getCurrentContext().getName();
+            if (gameState.getInventory().hasItem(itemName)) {
+                gameState.incPlayerHealth(100);
+                //Remove healing item from inventory
+                gameState.getInventory().remove(itemName);
+                state.actionSucceeded();
+                return "You healed with a " + itemName;
+            } else {
+                state.actionFailed();
+                return "You don't have a " + itemName;
+            }
+        }
+        state.actionFailed();
+        return "Error: unknown GlobalState loaded.";
+    }
+}
+\end{lstlisting}
+
+Some methods may wish to ask the user for confirmation before executing (e.g. "Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said "yes"/"no", etc). See the Appendix \ref{appendix:open-object} for an example of an Action class (\texttt{OpenObject}) which overrides the \texttt{processReply()} method and asks the player if they want to progress through a door.
+
+\subsubsection{MultipleCommandProcess.java}
 
 
 
+\subsubsection{SentenceMapper.java}
 
+\subsubsection{Synonym Mapping Implementation}
 
+Synonyms are used to aid the \texttt{VoiceProcess} system to match more words that the semantic similarity engine does not match automatically (due to a low similarity score). For example, the word, 'obliterate' has a low similarity score to 'attack' (below the threshold) even though they are very similar. Therefore, either the player or developer can add this mapping such that 'obliterate' maps to 'attack'.
+\\
+\\
+The following are the possible ways of adding a synonym mapping:
 
+\begin{itemize}
+\item Add the synonym in the code (e.g. \texttt{addSynonym("obliterate", "attack")}).
 
+\item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, "Did you mean, 'attack'?" twice, and the user replies with "yes" twice).
 
-
-
-
-
-
-
-
+\item The player defines the mapping as an intent (i.e. they say, "obliterate means attack").
+\end{itemize}
 
 
 
@@ -1480,6 +1538,52 @@ public class JwiLexicalDatabase implements ILexicalDatabase {
     }
 }
 \end{lstlisting}
+
+\newpage
+\subsection{OpenObject.java}
+\label{appendix:open-object}
+\begin{lstlisting}[language=Java]
+public class OpenObject extends Action {
+    public String execute(GlobalState state, Entity currentTarget) {
+        if (state instanceof GameState) {
+            GameState gameState = (GameState) state;
+            if (gameState.getCurrentRoom().hasRoomObject(currentTarget.getName())) {
+                if (currentTarget instanceof Door) {
+                    state.actionSucceeded();
+                    mWantsReply = true;
+                    mCurrentTarget = currentTarget;
+                    return "Are you sure you want to leave this room? (yes/no)";
+                } else if (currentTarget instanceof GlassTable) {
+                    state.actionSucceeded();
+                    return "You opened the drawer of the glass table but nothing is inside. You"
+                            +" closed it again.";
+                } else {
+                    state.actionFailed();
+                    return "You cannot open the "+currentTarget.getName()+".";
+                }
+            } else {
+                state.actionFailed();
+                return "You cannot open the "+currentTarget.getName()+".";
+            }
+        }
+        state.actionFailed();
+        return "You can't do that right now";
+    }
+
+    @Override
+    public Object processReply(GlobalState state, String input) {
+        if (mCurrentTarget != null) {
+            if (VoiceProcess.replyIsYes(input) && mCurrentTarget instanceof Door) {
+                return ((Door) mCurrentTarget).onOpened((GameState) state);
+            }
+            return "You did not open the " + mCurrentTarget.getName()+".";
+        }
+        return "Intent not understand.";
+    }
+}
+
+\end{lstlisting}
+
 
 \newpage
 \addcontentsline{toc}{section}{References}

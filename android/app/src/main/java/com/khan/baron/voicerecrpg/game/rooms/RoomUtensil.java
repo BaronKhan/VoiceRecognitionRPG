@@ -3,7 +3,6 @@ package com.khan.baron.voicerecrpg.game.rooms;
 import com.khan.baron.voicerecrpg.game.enemies.Troll;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
 import com.khan.baron.voicerecrpg.game.objects.Door;
-import com.khan.baron.voicerecrpg.system.ContextActionMap;
 
 public class RoomUtensil extends Room {
     public RoomUtensil() {
