@@ -1,6 +1,7 @@
 package com.khan.baron.voicerecrpg.call;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -25,7 +26,9 @@ public class CallState extends GlobalState {
 
     private List<Entity> mContacts = new ArrayList<>(Arrays.asList(
             new Contact("fred"),
-            new Contact("jane")
+            new Contact("jane"),
+            new Contact("baron", "first"),
+            new Contact("baron", "second")
     ));;
 
     private boolean mInCall = false;
@@ -188,5 +191,15 @@ public class CallState extends GlobalState {
 
     public void setParticipantsAudio(List<Boolean> mParticipantsAudio) {
         this.mParticipantsAudio = mParticipantsAudio;
+    }
+
+    public List<Entity> hasDuplicateFirstName(Entity contact) {
+        List<Entity> duplicates = new ArrayList<>();
+        for (Entity secondContact : mContacts) {
+            if ((secondContact != contact) && (secondContact.getName().equals(contact.getName()))) {
+                duplicates.add(secondContact);
+            }
+        }
+        return (duplicates.size() > 0) ? duplicates : null;
     }
 }

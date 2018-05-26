@@ -19,9 +19,9 @@ public class Weapon extends Item {
     public Weapon(String name, double damageMod, String ... description) {
         super (name, ItemType.ITEM_WEAPON, description);
         mDamageModifier = damageMod;
-        if (mDescription.contains("sharp")) {
+        if (getDescription().contains("sharp")) {
             setContext("weapon-sharp");
-        } else if (mDescription.contains("blunt")) {
+        } else if (getDescription().contains("blunt")) {
             setContext("weapon-blunt");
         } else {
             setContext("weapon");

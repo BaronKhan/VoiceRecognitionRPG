@@ -140,4 +140,12 @@ public class CallTest {
         testMutedContact("mute fred", "fred", true);
         testUnmutedContact("unmute fred", "fred", true);
     }
+
+    @Test
+    public void testDuplicates() {
+        callState.updateState("phone baron");
+        testCalled("first", "first", true);
+        callState.updateState("phone baron");
+        testCalled("second", "second", true);
+    }
 }

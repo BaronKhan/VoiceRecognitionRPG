@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class Entity {
     private String mContext = "<none>";
     protected final String mName;
-    protected List<String> mDescription = new ArrayList<>();
+    private List<String> mDescription = new ArrayList<>();
 
     public Entity(String name, String ... description) {
         mName = name;
@@ -26,4 +26,12 @@ public abstract class Entity {
     }
 
     public String getName() { return mName; }
+
+    public List<String> getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(List<String> mDescription) {
+        this.mDescription = mDescription;
+    }
 }
