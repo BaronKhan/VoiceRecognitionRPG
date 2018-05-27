@@ -6,7 +6,7 @@ def renderBeginningFile(outputFile, outputName):
     outputFile.write("\
 import com.khan.baron.vcw.ContextActionMap;\n\
 import com.khan.baron.vcw.GlobalState;\n\
-import cooking.actions.*;\n\
+/* TODO: insert action imports */\n\
 \n\
 public class "+outputName+" extends ContextActionMap {\n\
     public "+outputName+"(GlobalState state) {\n\

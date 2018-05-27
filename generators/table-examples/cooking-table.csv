@@ -1,5 +1,5 @@
-       , make, stir     , boil
-default, Make, Stir     , Boil
-spoon  , Make, StirSpoon,
-cooker , Make,          , BoilCooker
-food   , MakeFood,      ,
+       , make    , stir     , boil
+default, Make    , Stir     , Boil
+spoon  , Make    , StirSpoon,
+cooker , Make    ,          , BoilCooker
+food   , MakeFood,          ,
