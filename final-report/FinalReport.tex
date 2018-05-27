@@ -1165,7 +1165,23 @@ Some methods may wish to ask the user for confirmation before executing (e.g. "A
 
 \subsubsection{MultipleCommandProcess.java}
 
+Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, "attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleProcessCommand} class.
+\\
+\\
+The \texttt{splitInput()} method splits the user's input using the words, "and" and "then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupt and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a partial queue, and then processed once the previous intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the Appendix \ref{appendix:multiple-commands-execute} for the Java code of the \texttt{executeCommand()} method.
+\\
+\\
+The following is an example of using an instance of the \texttt{MultipleCommandProcess} class for the \textit{Overworld} gameplay.
 
+\begin{lstlisting}[language=Java, label={lst:multiple-commands-ex}]
+String overworldOutput = "";
+Queue<String> commandQueue = mOverworldVoiceProcess.splitInput(input);
+while (!commandQueue.isEmpty()) {
+    overworldOutput += mOverworldVoiceProcess.executeCommand(commandQueue)
+            + ((commandQueue.isEmpty()) ? "" : "\n\n---\n\n");
+}
+return overworldOutput;
+\end{lstlisting}
 
 \subsubsection{SentenceMapper.java}
 
@@ -1183,6 +1199,50 @@ The following are the possible ways of adding a synonym mapping:
 
 \item The player defines the mapping as an intent (i.e. they say, "obliterate means attack").
 \end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1584,6 +1644,71 @@ public class OpenObject extends Action {
 
 \end{lstlisting}
 
+\newpage
+\subsection{Multiple Commands Example}
+\label{appendix:multiple-commands-ex}
+The following is an example of a multiple-command intent being interrupted and then continued. In the first snapshot, the the system asks the user to resolve the first intent ("obliterate the troll using the sword"):
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{Screenshot_20180527-150212.png}
+  \label{fig:snapshot-multiple-command-1}
+  \end{center}
+\end{figure}
+\end{center}
+
+\newpage
+Once the user resolves the first intent, it executes it followed by the second intent ("heal with a potion"):
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{Screenshot_20180527-150225.png}
+  \label{fig:snapshot-multiple-command-1}
+  \end{center}
+\end{figure}
+\end{center}
+
+\newpage
+\subsection{MultipleCommandProcess.executeCommand()}
+\label{appendix:multiple-commands-execute}
+\begin{lstlisting}[language=Java, caption=MultipleCommandProcess.executeCommand()]
+public Object executeCommand(Queue<String> queue) {
+    if (queue == null || queue.size() <= 0) { return null; }
+
+    String command = queue.peek();
+    if (command != null) {
+        if (mVoiceProcess.isExpectingReply()) {
+            queue.clear();  //ignore the rest of the input
+            String result = "";
+            result += mVoiceProcess.processInput(command);    //process confirmation
+            if (!mVoiceProcess.isExpectingReply()) {
+                String nextCommand = mPartialQueue.peek();
+                if (nextCommand != null) {
+                    mPartialQueue.remove();
+                    result += "\n\n---\n\n" + "Found command: \"" + nextCommand + "\"\n"
+                            + mVoiceProcess.processInput(nextCommand);
+                    mVoiceProcess.setExpectingMoreInput(mPartialQueue.size() > 0);
+                }
+            }
+            return result;
+        }
+        else {
+            queue.remove();
+            Object result = "Found command: \"" + command + "\"\n"
+                    + mVoiceProcess.processInput(command);
+            if (mVoiceProcess.isExpectingReply()) {
+                mPartialQueue = new LinkedList<>(queue);
+                queue.clear();
+            }
+            mVoiceProcess.setExpectingMoreInput(queue.size() > 0
+                    || (mPartialQueue != null && mPartialQueue.size() > 0));
+            return result;
+        }
+    } else { return null; }
+}
+\end{lstlisting}
 
 \newpage
 \addcontentsline{toc}{section}{References}
