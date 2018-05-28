@@ -70,3 +70,5 @@ evaluation/*.csv
 evaluation/.idea/workspace.xml
 
 generators/*.java
+
+*.jar
