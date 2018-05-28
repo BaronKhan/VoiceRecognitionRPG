@@ -602,7 +602,6 @@ public class VoiceProcess {
     }
 
     private List<String> getTags(String input) {
-        assert(sTagger != null);
         String taggedWords = sTagger.tagString(input);
         List<String> tags = new ArrayList<>();
         Matcher m = Pattern.compile("(?<=_)[A-Z$]+(?=\\s|$)").matcher(taggedWords);
