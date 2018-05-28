@@ -27,7 +27,8 @@ def renderJava(txtContents, outputName):
     for line in lines:
         lineTrimmed = line.strip()
         if lineTrimmed != "":
-            outputFile.write("        addDescription(\""+line.strip()+".\");\n")
+            outputFile.write("        addDescription(\n                \""
+            +""+line.strip()+".\");\n")
 
     renderEndFile(outputFile)
 
