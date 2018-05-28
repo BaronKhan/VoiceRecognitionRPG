@@ -1,6 +1,9 @@
 Evaluation of Semantic Similarity Methods
 ==========
 
+Note: this Java project requires the repository's library to be generated (go
+  to the `library` directory and run `buildJar.sh`).
+
 Goal
 ---------
 
