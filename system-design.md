@@ -230,6 +230,9 @@ Generate room based on description
 - The program will create a .java file for the room
 - The user can fill in the gaps by themselves
 - Program build an AST after parsing the grammar
+- Make a Java program which uses semantic similarity library!
+- https://github.com/knowitall/reverb
+- 
 
 Multiple targets
 -----------------
