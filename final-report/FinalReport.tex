@@ -682,6 +682,7 @@ The user has the ability to execute a chain of several commands one after the ot
 A user may want to execute a command that involves several targets. In this case, these are divided into several actions instead, with each action focused on one of the targets. For instance, if the user says, "attack the troll and the goblin", this will be split into two actions: one to attack the troll, followed by an attack on the goblin.
 
 \subsubsection{Sentence Mapping}
+\label{section:sentence-mapping}
 
 The core mechanism of the system is the slot-filling structure described above. This covers most of the forms of possible imperative commands that a user may utter to the system to execute an intent. However, one disadvantage of this system is that it will not detect phrases that do not map to the slot-filling grammar given (e.g. \{\texttt{ACTION TARGET WITH CONTEXT}\}), despite being a valid phrase. Such utterances are usually phrased as a question, such as, "what actions can i do", or , "what items are in my bag", etc. The system should still be able to detect these types of commands but prevent the developer from hard-coding each possible variation of the intents.
 \\
@@ -1173,7 +1174,7 @@ The \texttt{splitInput()} method splits the user's input using the words, "and" 
 \\
 The following is an example of using an instance of the \texttt{MultipleCommandProcess} class for the \textit{Overworld} gameplay.
 
-\begin{lstlisting}[language=Java, label={lst:multiple-commands-ex}]
+\begin{lstlisting}[language=Java]
 String overworldOutput = "";
 Queue<String> commandQueue = mOverworldVoiceProcess.splitInput(input);
 while (!commandQueue.isEmpty()) {
@@ -1184,6 +1185,60 @@ return overworldOutput;
 \end{lstlisting}
 
 \subsubsection{SentenceMapper.java}
+
+The \texttt{SentenceMapper} is used to match sentences provided by the developer which do not fit the default slot-filling structures (e.g. question-based intents). Each instance of \texttt{ContextActionMap} holds a reference to an instance of a \texttt{SentenceMapper}. Invoking the \texttt{addSentenceMatch()} in the \texttt{ContextActionMap} class will add a map of several example utterances to an action and target. The following code block shows an example in the \texttt{BattleContextActionMap} class for showing the inventory.
+
+\begin{lstlisting}[language=Java]
+addSentenceMatch(new ShowDefault(), "inventory",
+        "what is in my inventory",
+        "what are the contents of my bag",
+        "what items do i have"
+);
+\end{lstlisting}
+
+The sentence mapper is run at the very end of the \texttt{processInput} method of the \texttt{VoiceControl} class, if no slot-filling matching failed. A disadvantage to this is that the example sentences should not be able to be matched to the slot-filling grammar.
+\\
+\\
+The \texttt{checkSentenceMatch()} method of the \texttt{SentenceMapper} class goes through each group of sentences, and calculates the average similarity of each group of sentences to the user's utterance, and matches with the highest value (if it is greater than a threshold of 0.5).
+\\
+\\
+The similarity of each sentence with the utterance is based on the cosine similarity of the sentences (refer to Section \ref{section:sentence-mapping}). First, a vector of each sentence is created (which is just a map of the words to the word count) before the formula for cosine similarity is applied. Listing \ref{lst:cos-score} shows the code for this method.
+
+\begin{lstlisting}[language=Java, caption=SentenceMapper.calculateCosScore(), label=lst:cos-score]
+private double calculateCosScore(List<String> words1, String sentence) {
+    Map<String, Integer> vector1 = getVector(words1);
+    Map<String, Integer> vector2 = getVector(sentence);
+
+    //Get common keys
+    double numerator = 0.0;
+    for (Map.Entry<String, Integer> entry1 : vector1.entrySet()) {
+        for (Map.Entry<String, Integer> entry2 : vector2.entrySet()) {
+            if (entry1.getKey().equals(entry2.getKey())) {
+                numerator += entry1.getValue() * entry2.getValue();
+            } else {
+                numerator += 0.25*min(SemanticSimilarity.getInstance().calculateScore(
+                        entry1.getKey(), entry2.getKey()) *
+                        (entry1.getValue() * entry2.getValue()), 1.0);
+            }
+        }
+    }
+
+    double sum1 = 0.0;
+    for (Map.Entry<String, Integer> entry1 : vector1.entrySet()) {
+        sum1 += pow(entry1.getValue(), 2);
+    }
+
+    double sum2 = 0.0;
+    for (Map.Entry<String, Integer> entry1 : vector2.entrySet()) {
+        sum2 += pow(entry1.getValue(), 2);
+    }
+
+    double denominator = sqrt(sum1) + sqrt(sum2);
+
+    if (denominator <= 0.0) { return 0.0; }
+    else { return numerator / denominator; }
+}
+\end{lstlisting}
 
 \subsubsection{Synonym Mapping Implementation}
 

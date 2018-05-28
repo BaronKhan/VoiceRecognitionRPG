@@ -83,14 +83,20 @@ CustomLexicalDatabase: mention meronyms, holonyms, etc.
 
 Custom Lesk: mention use of Fernflower decompiler and altered code.
 
-Settings
+Game implementation:
+- "Simple demo rooms were created to demonstrate the system applied to different
+settings"
+- Battle impl
+- Overworld impl
+- Utensil room
 
+Call Example
+
+Settings UI
 
 Android profiler for performance
 - Attempt to multithread
 Had locking issues
-
-Call Example
 
 Testing implementations
 
@@ -110,6 +116,7 @@ Evaluation of effectiveness of slot-filling
 
 Evaluation of semantic similarity
 (pick action maps to knife instead of grab!)
+Evaluation project details
 
 Evaluation of effectivenesss of learning mechanism
 
