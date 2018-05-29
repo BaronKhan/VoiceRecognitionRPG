@@ -145,7 +145,7 @@ public class CallTest {
     public void testDuplicates() {
         callState.updateState("phone baron");
         testCalled("first", "first", true);
-        callState.updateState("phone baron");
-        testCalled("second", "second", true);
+        callState.updateState("phone baron with audio only");
+        testCalledAudio("second", true);
     }
 }

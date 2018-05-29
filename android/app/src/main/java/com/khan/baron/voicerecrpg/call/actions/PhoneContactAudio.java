@@ -37,7 +37,6 @@ public class PhoneContactAudio extends Action {
     public Object processReply(GlobalState state, String input) {
         for (Entity contact : mDuplicates) {
             if (contact.descriptionHas(input)) {
-                ((CallState)state).callContact((Contact) mCurrentTarget);
                 ((CallState)state).callContact((Contact)mCurrentTarget, false, true);
                 return "Calling "+mCurrentTarget.getName()+" "+
                         mCurrentTarget.getDescription().get(0)+" (audio only)";
