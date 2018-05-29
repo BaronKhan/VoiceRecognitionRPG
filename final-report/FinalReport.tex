@@ -1272,6 +1272,40 @@ The \texttt{GameState} class also has an instance of the \texttt{Inventory} clas
 
 \subsubsection{Battle Mode}
 
+In the \textit{Battle} mode, the player is able to attack the enemy with a wepon in their inventory. If no weapon is specified in the intent (as the context), then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc), as well as look at their inventory or the available actions. Figure \ref{fig:battle-context-action-map} shows the 'table' of action mappings for the \textit{Battle} mode. See the Appendix \ref{appendix:battle-context-action-map} for the full \texttt{BattleContextActionMap} class (including the helper features such as synonym maps and sentence matches).
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{battle-context-action-map.png}
+  \caption{A snapshot of the context-action 'table' in \texttt{BattleContextActionMap.java}.}
+  \label{fig:battle-context-action-map}
+  \end{center}
+\end{figure}
+\end{center}
+
+Weapons can be classified as either "sharp" or "blunt" based on whether they are instantiated with a description containing one of those words - each type of weapon as has different multiplier for the damage caused to the enemy.
+\\
+\\
+Enemies are entities with their own health that the player fights. The enemy in the demo is a troll that can attack the enemy once the player has performed a successful action.
+\\
+\\
+See the Appendix \ref{appendix:screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1341,6 +1375,41 @@ The \texttt{GameState} class also has an instance of the \texttt{Inventory} clas
 
 \newpage
 \section{Appendix}
+\subsection{Android Application Screenshots}
+This section contains snapshots of the Android application during different scenarios.
+\label{appendix:screenshots}
+\subsubsection{Battle Mode Example}
+\label{appendix:battle-mode-screenshots}
+Below are screenshots of actions performed as the player battles a troll enemy.
+
+
+\newpage
+\subsubsection{Multiple Commands Example}
+\label{appendix:multiple-commands-ex}
+The following is an example of a multiple-command intent being interrupted and then continued. In the first snapshot, the the system asks the user to resolve the first intent ("obliterate the troll using the sword"):
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{Screenshot_20180527-150212.png}
+  \label{fig:snapshot-multiple-command-1}
+  \end{center}
+\end{figure}
+\end{center}
+
+\newpage
+Once the user resolves the first intent, it executes it followed by the second intent ("heal with a potion"):
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{Screenshot_20180527-150225.png}
+  \label{fig:snapshot-multiple-command-2}
+  \end{center}
+\end{figure}
+\end{center}
+
+\newpage
 \subsection{Skyrim Kinect Command List}
 \label{appendix:skyrim}
 Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected \cite{RefWorks:24}.
@@ -1397,8 +1466,11 @@ Below is the UML class diagram for the game mechanics - both the \textit{Overwor
 \includegraphics[width=\textwidth]{game-uml.png}
 
 \newpage
-\subsection{useAltSlotFillingStructure() method}
+\subsection{Choosing the Slot-filling Grammar}
 \label{appendix:useAltSlotFillingStructure}
+
+The code belows shows the method for choosing which slot-filling grammar to use.
+
 \begin{lstlisting}[language=Java, caption=useAltSlotFillingStructure()]
 private boolean useAltSlotFillingStructure(
         List<String> words, List<String> tags, int bestActionIndex)
@@ -1418,7 +1490,7 @@ private boolean useAltSlotFillingStructure(
 \end{lstlisting}
 
 \newpage
-\subsection{Finding the best action in VoiceProcess.java}
+\subsection{Finding the Best Action in VoiceProcess.java}
 \label{appendix:bestActionJava}
 \begin{lstlisting}[language=Java, caption=MainActivity.getBestAction()]
 private Pair<Integer, String> getBestAction(
@@ -1712,32 +1784,6 @@ public class OpenObject extends Action {
 \end{lstlisting}
 
 \newpage
-\subsection{Multiple Commands Example}
-\label{appendix:multiple-commands-ex}
-The following is an example of a multiple-command intent being interrupted and then continued. In the first snapshot, the the system asks the user to resolve the first intent ("obliterate the troll using the sword"):
-
-\begin{center}
-\begin{figure}[H]
-\begin{center}
-  \includegraphics[scale=0.25]{Screenshot_20180527-150212.png}
-  \label{fig:snapshot-multiple-command-1}
-  \end{center}
-\end{figure}
-\end{center}
-
-\newpage
-Once the user resolves the first intent, it executes it followed by the second intent ("heal with a potion"):
-
-\begin{center}
-\begin{figure}[H]
-\begin{center}
-  \includegraphics[scale=0.25]{Screenshot_20180527-150225.png}
-  \label{fig:snapshot-multiple-command-2}
-  \end{center}
-\end{figure}
-\end{center}
-
-\newpage
 \subsection{MultipleCommandProcess.executeCommand()}
 \label{appendix:multiple-commands-execute}
 \begin{lstlisting}[language=Java, caption=MultipleCommandProcess.executeCommand()]
@@ -1774,6 +1820,46 @@ public Object executeCommand(Queue<String> queue) {
             return result;
         }
     } else { return null; }
+}
+\end{lstlisting}
+
+\newpage
+\subsection{BattleContextActionMap.java}
+\label{appendix:battle-context-action-map}
+\begin{lstlisting}[language=Java, caption=BattleContextActionMap]
+public class BattleContextActionMap extends ContextActionMap {
+    public BattleContextActionMap(GlobalState state) {
+        super(state);
+        setActionList(Arrays.asList(        "attack",                   "heal",             "show",             "look"));
+        addDefaultContextActions(           new AttackDefault(),        new HealDefault(),  new ShowDefault(),  new LookDefault());
+        addContextActions("weapon",         new AttackWeapon(),         null,               null,               null);
+        addContextActions("weapon-sharp",   new AttackWeaponSharp(),    null,               null,               null);
+        addContextActions("weapon-blunt",   new AttackWeaponBlunt(),    null,               null,               null);
+        addContextActions("healing-item",   null,                       new HealItem(),     null,               null);
+
+        addSynonym("punch", "attack");
+        addSynonym("assault", "attack");
+        addSynonym("observe","look");
+        addSynonym("blade", "knife");
+
+        addMatchIgnore("jump", "look");
+        addMatchIgnore("jump", "attack");
+        addMatchIgnore("bag", "attack");
+
+        addSentenceMatch(new ShowDefault(), "inventory",
+                "what is in my inventory",
+                "what are the contents of my bag",
+                "what items do i have"
+        );
+
+        addSentenceMatch(new ShowDefault(), "actions",
+                "what can i do",
+                "what are my actions",
+                "what are the commands",
+                "what action can i do",
+                "what are my options"
+        );
+    }
 }
 \end{lstlisting}
 
