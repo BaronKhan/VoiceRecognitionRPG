@@ -32,6 +32,9 @@ public class Inventory extends Entity {
     public void addInventoryToMaps(ContextActionMap ... maps) {
         for (ContextActionMap map : maps) {
             map.addPossibleTarget(this);
+            for (Item item : mItems) {
+                map.addPossibleContext(item);
+            }
             mMaps.add(map);
         }
     }

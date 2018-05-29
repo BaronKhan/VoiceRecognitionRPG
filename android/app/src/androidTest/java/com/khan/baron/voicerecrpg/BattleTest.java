@@ -84,6 +84,17 @@ public class BattleTest {
         testAttackedWithSword("use a sword attack", true);
     }
 
+    @Test
+    public void testCorrectContexts() {
+        gameState.initBattleState(new Troll(9999999));
+        gameState.getInventory().add(new Weapon("sword"));
+        gameState.getInventory().add(new Weapon("hammer"));
+        testAttackedWithSword("attack the troll with a sword", true);
+        testAttackedWithHammer("attack the troll with a hammer", true);
+        testAttackedWithSword("attack the troll with a sword", true);
+        testAttackedWithHammer("attack the troll with a hammer", true);
+    }
+
     private void testHealed(String input, boolean correctInput) {
         assertEquals(gameState.updateState(input).contains("healed"), correctInput);
     }
@@ -116,6 +127,7 @@ public class BattleTest {
     public void testSentenceStructure() {
         gameState.initBattleState(new Troll(9999999));
         gameState.getInventory().add(new Weapon("sword"));
+        gameState.getInventory().add(new Weapon("hammer"));
         testAttackedWithSword("attack the troll with a sword", true);
     }
 

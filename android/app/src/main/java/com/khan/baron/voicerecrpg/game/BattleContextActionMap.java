@@ -23,6 +23,7 @@ public class BattleContextActionMap extends ContextActionMap {
         addContextActions("weapon-blunt",   new AttackWeaponBlunt(),    null,               null,               null);
         addContextActions("healing-item",   null,                       new HealItem(),     null,               null);
 
+        addSynonym("hit", "attack");
         addSynonym("punch", "attack");
         addSynonym("assault", "attack");
         addSynonym("observe","look");
