@@ -18,7 +18,7 @@ public class CallContextActionMap extends ContextActionMap {
         addContextActions("audio",   new PhoneContactAudio(),    null,                   null,          null);
         addContextActions("contact", null,                       new StopCallContact(),  null,          null);
 
-        addSynonym("contact", "call");
+        addSynonym("contact", "phone");
         addSynonym("hang", "stop");
         addSynonym("unmute", "increase");
         addSynonym("silence", "mute");
