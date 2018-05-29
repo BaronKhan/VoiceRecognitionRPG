@@ -100,7 +100,7 @@ It becomes increasingly difficult for the developer to add more phrases that can
 Natural Language Processing (NLP, also referred to as Natural Language Understanding) has been used to improve inference of what users were trying to say, and to extract meaning from the user's phrases and sentences. For instance, if the user says, "push the door open", NLP can be used to infer that the user's intent is to open a door. Using NLP, several user phrases can be mapped to the same intent without having to hard-code each possible phrase.
 \\
 \\
-NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}. Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition to games.
+NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}. Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition to games. In other applications such as embedded systems or remote robotics, no internet connection can be established, so the only option is to hard-code the acceptable phrases.
 \\
 \\
 The goal of this project is to apply NLP to a voice control scheme used within a role-playing game (RPG), in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
@@ -115,7 +115,7 @@ If the player has many different items, they may need to spend a lot of time sea
 Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevent them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it is consoles, PC or mobile.
 \\
 \\
-A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses. The target platform will be Android to allow for hands-free voice control input.
+A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses.
 \\
 \\
 Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of voice control schemes.
@@ -125,7 +125,7 @@ The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
 \item Allow a developer to add voice recognition to their game with little effort.
 \item Create a simple natural language processing system that can work offline.
-\item Explore NLP usages in RPGs (for text generation, item descriptions, etc).
+\item Evaluate the effectiveness of using different semantic similarity methods.
 \end{itemize}
 
 \newpage
@@ -431,7 +431,7 @@ By assigning items different properties, the actions that the user can perform f
 \section{Design}
 \subsection{Target Platform}
 
-According to Ovum's Mobile Games Market forecast for 2017-2022 RRR, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.
+According to Ovum's Mobile Games Market forecast for 2017-2022 RRR, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.  It also allows for hands-free input as a future extension.
 \\
 \\
 The chosen platform to develop the voice recognition system and game will be Android mobile devices, as the availability of the open-source Google Speech-to-Text API means that less effort is required to get the text input from the user's utterance.
@@ -1252,13 +1252,25 @@ The following are the possible ways of adding a synonym mapping:
 
 \item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, "Did you mean, 'attack'?" twice, and the user replies with "yes" twice).
 
-\item The player defines the mapping as an intent (i.e. they say, "obliterate means attack").
+\item The player defines the mapping as an intent (i.e. they say, "obliterate means attack"). See line 17 of the pseudocode in Listing \ref{lst:voice-process-pseudo} on page \pageref{lst:voice-process-pseudo}.
 \end{itemize}
 
 
+\subsection{Role-playing Game Implementation}
 
+Simple rooms were created to demonstrate the system working with a typical text-based role-playing game. The first room of the game focuses on the \textit{Overworld} gameplay, and has a door which leads to a battle with an enemy (transitioning to the \textit{Battle} mode).
 
+\subsubsection{GameState.java}
 
+\texttt{GameState} is derived from \texttt{GlobalState} and acts as the 'environment' for the game; it contains all the game's objects and handles the current state.
+\\
+\\
+Since there are two distinct modes of gameplay (the \textit{Battle} gameplay and the \textit{Overworld} gameplay), there is a \texttt{ContextActionMap} for each one in the \texttt{GameState} class. It also keeps track of various data such as the current game mode; the current room/enemy; and the player's health.
+\\
+\\
+The \texttt{GameState} class also has an instance of the \texttt{Inventory} class. This is a list of items currently in the player's possession. The player can transfer items from their inventory to the room and vice versa.
+
+\subsubsection{Battle Mode}
 
 
 
@@ -1331,7 +1343,7 @@ The following are the possible ways of adding a synonym mapping:
 \section{Appendix}
 \subsection{Skyrim Kinect Command List}
 \label{appendix:skyrim}
-Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected.
+Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected \cite{RefWorks:24}.
 
 \includegraphics[scale=0.235]{skyrim-1.jpg}
 \includegraphics[scale=0.235]{skyrim-2.jpg}
@@ -1720,7 +1732,7 @@ Once the user resolves the first intent, it executes it followed by the second i
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=0.25]{Screenshot_20180527-150225.png}
-  \label{fig:snapshot-multiple-command-1}
+  \label{fig:snapshot-multiple-command-2}
   \end{center}
 \end{figure}
 \end{center}

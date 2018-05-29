@@ -64,6 +64,9 @@
 \contentsline {subsubsection}{\numberline {5.3.9}MultipleCommandProcess.java}{44}
 \contentsline {subsubsection}{\numberline {5.3.10}SentenceMapper.java}{44}
 \contentsline {subsubsection}{\numberline {5.3.11}Synonym Mapping Implementation}{46}
+\contentsline {subsection}{\numberline {5.4}Role-playing Game Implementation}{46}
+\contentsline {subsubsection}{\numberline {5.4.1}GameState.java}{46}
+\contentsline {subsubsection}{\numberline {5.4.2}Battle Mode}{46}
 \contentsline {section}{\numberline {6}Appendix}{47}
 \contentsline {subsection}{\numberline {6.1}Skyrim Kinect Command List}{47}
 \contentsline {subsection}{\numberline {6.2}Penn Treebank Tagset}{49}

@@ -86,9 +86,14 @@ Custom Lesk: mention use of Fernflower decompiler and altered code.
 Game implementation:
 - "Simple demo rooms were created to demonstrate the system applied to different
 settings"
-- Battle impl
-- Overworld impl
-- Utensil room
+- GameState
+- Battle impl (show map)
+-- Enemies
+-- Inventory and Items
+- Overworld impl (show map)
+-- Rooms and Room generation
+-- Physical Objects
+-- Utensil room
 
 Call Example
 
@@ -149,5 +154,6 @@ Include github statistics
 Other evaluation tests
 
 Note: RRR is a reference location
+Don't forget to add references in!!!!!!!!!!!!
 
 Fix double quotes
