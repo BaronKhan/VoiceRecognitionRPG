@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-
+import java.text.*;
 
 public class GenerateRoom {
   public static void main(String args[]) throws IOException {
@@ -15,22 +15,26 @@ public class GenerateRoom {
       System.exit(0);
     }
 
-    String fileName = args[0];
+    String txtFileName = args[0];
     String outputName = args[1];
 
-    File file = new File(fileName);
+    File file = new File(txtFileName);
     if (!file.exists()) {
-      System.out.println("error: "+fileName+" does not exist");
+      System.out.println("error: "+txtFileName+" does not exist");
       System.exit(0);
     }
 
-    renderJava(outputName);
+    renderJava(txtFileName, outputName);
   }
 
-  public static void renderJava(String outputName) throws IOException {
+  public static void renderJava(String txtFileName, String outputName)
+    throws IOException
+  {
     BufferedWriter writer = new BufferedWriter(new FileWriter(outputName+".java"));
 
     renderBeginning(writer, outputName);
+
+    generateRoom(writer, txtFileName);
 
     renderEnd(writer);
 
@@ -47,6 +51,34 @@ public class GenerateRoom {
       "    public "+outputName+"() {\n"+
       "        super();\n"
     );
+  }
+
+  public static void generateRoom(BufferedWriter writer, String txtFileName)
+    throws FileNotFoundException, IOException
+  {
+    //abhinandanmk.blogspot.com/2012/05/java-how-to-read-complete-text-file.html
+    String entireFileText = new Scanner(new File(txtFileName))
+    .useDelimiter("\\A").next();
+
+    //Better sentence-breaking: https://stackoverflow.com/a/2687929/8919086
+    BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.UK);
+    String source = entireFileText;
+    iterator.setText(source);
+    int start = iterator.first();
+    for (int end = iterator.next();
+        end != BreakIterator.DONE;
+        start = end, end = iterator.next())
+    {
+      String sentence = source.substring(start,end).trim();
+      processSentence(writer, sentence);
+    }
+  }
+
+  public static void processSentence(BufferedWriter writer, String sentence)
+    throws IOException
+  {
+    writer.write("        addDescription(\n                \""+
+      sentence+"\");\n");
   }
 
   public static void renderEnd(BufferedWriter writer)
