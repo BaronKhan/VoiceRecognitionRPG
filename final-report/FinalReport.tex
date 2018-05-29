@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 \usepackage{blindtext}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
@@ -125,7 +125,7 @@ The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
 \item Allow a developer to add voice recognition to their game with little effort.
 \item Create a simple natural language processing system that can work offline.
-\item Evaluate the effectiveness of using different semantic similarity methods.
+\item Evaluate the effectiveness of using different semantic similarity methods for mapping voice commands to actions.
 \end{itemize}
 
 \newpage
@@ -1255,6 +1255,17 @@ The following are the possible ways of adding a synonym mapping:
 \item The player defines the mapping as an intent (i.e. they say, "obliterate means attack"). See line 17 of the pseudocode in Listing \ref{lst:voice-process-pseudo} on page \pageref{lst:voice-process-pseudo}.
 \end{itemize}
 
+In some cases, a word could become a synonym for multiple words. Take the following scenario:
+
+\begin{itemize}
+\item The player is in a room with just a knife. The player utters, "pick up the utensil", and creates a mapping from "utensil" to "knife".
+
+\item The player progresses to a room with just a fork. They create a mapping from "utensil" to "fork".
+
+\item The player is now in a room with both a knife and a fork, and says, "pick up the utensil".
+\end{itemize}
+
+In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See the Appendix \ref{appendix:utensil} for the room that demonstrates this scenario.
 
 \subsection{Role-playing Game Implementation}
 
@@ -1290,13 +1301,34 @@ Weapons can be classified as either "sharp" or "blunt" based on whether they are
 Enemies are entities with their own health that the player fights. The enemy in the demo is a troll that can attack the enemy once the player has performed a successful action.
 \\
 \\
-See the Appendix \ref{appendix:screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode
+See the Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode.
 
+\subsubsection{Overworld Mode}
 
+In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Figure \ref{fig:overworld-context-action-map} shows the 'table' of action mappings for the \textit{Overworld} mode. See the Appendix \ref{appendix:overworld-context-action-map} for the full \texttt{OverworldContextActionMap} class.
 
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{overworld-context-action-map.png}
+  \caption{A snapshot of the context-action 'table' in \texttt{OverworldContextActionMap.java}.}
+  \label{fig:overworld-context-action-map}
+  \end{center}
+\end{figure}
+\end{center}
 
+Objects in the room can inherit from the \texttt{PhysicalObject} class, and can have properties such as whether they are breakable, whether they can be cut or scratched, etc.
+\\
+\\
+See the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
 
+\subsubsection{Rooms}
 
+\subsection{Settings}
+
+The application also has a settings activity, which allows the user to change various settings such as the current semantic similarity method used, as well as edit the user-defined synonym mappings. See the Appendix \ref{appendix:settings} for a screenshot of the settings activity.
+
+\subsection{Video Conferencing Demo}
 
 
 
@@ -1382,6 +1414,26 @@ This section contains snapshots of the Android application during different scen
 \label{appendix:battle-mode-screenshots}
 Below are screenshots of actions performed as the player battles a troll enemy.
 
+\begin{center}
+\includegraphics[scale=0.18]{battle-1.png}
+\includegraphics[scale=0.18]{battle-2.png}
+\newpage
+\includegraphics[scale=0.18]{battle-3.png}
+\includegraphics[scale=0.18]{battle-4.png}
+\end{center}
+
+\newpage
+\subsubsection{Overworld Mode Example}
+\label{appendix:overworld-mode-screenshots}
+Below are screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
+
+\begin{center}
+\includegraphics[scale=0.18]{overworld-1.png}
+\includegraphics[scale=0.18]{overworld-2.png}
+\newpage
+\includegraphics[scale=0.18]{overworld-3.png}
+\includegraphics[scale=0.18]{overworld-4.png}
+\end{center}
 
 \newpage
 \subsubsection{Multiple Commands Example}
@@ -1405,6 +1457,31 @@ Once the user resolves the first intent, it executes it followed by the second i
 \begin{center}
   \includegraphics[scale=0.25]{Screenshot_20180527-150225.png}
   \label{fig:snapshot-multiple-command-2}
+  \end{center}
+\end{figure}
+\end{center}
+
+\newpage
+\subsubsection{Ambiguous Utensil Example}
+\label{appendix:utensil}
+Below are screenshots of the room containing both a fork and a knife, with the synonym mapping of \texttt{utensil --> [fork, knife]} defined.
+
+\begin{center}
+\includegraphics[scale=0.18]{utensil-1.png}
+\includegraphics[scale=0.18]{utensil-2.png}
+\end{center}
+
+\newpage
+\subsubsection{Settings Activity}
+\label{appendix:settings}
+Below is a screenshot of the graphical user interface for the settings.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{settings.png}
+  \caption{A snapshot of the settings activity.}
+  \label{fig:snapshot-settings}
   \end{center}
 \end{figure}
 \end{center}
@@ -1845,6 +1922,43 @@ public class BattleContextActionMap extends ContextActionMap {
         addMatchIgnore("jump", "look");
         addMatchIgnore("jump", "attack");
         addMatchIgnore("bag", "attack");
+
+        addSentenceMatch(new ShowDefault(), "inventory",
+                "what is in my inventory",
+                "what are the contents of my bag",
+                "what items do i have"
+        );
+
+        addSentenceMatch(new ShowDefault(), "actions",
+                "what can i do",
+                "what are my actions",
+                "what are the commands",
+                "what action can i do",
+                "what are my options"
+        );
+    }
+}
+\end{lstlisting}
+
+\newpage
+\subsection{OverworldContextActionMap.java}
+\label{appendix:overworld-context-action-map}
+\begin{lstlisting}[language=Java, caption=OverworldContextActionMap]
+public class OverworldContextActionMap extends ContextActionMap {
+    public OverworldContextActionMap(GlobalState state) {
+        super(state);
+        setActionList(Arrays.asList(        "look",             "show",             "grab",             "open",             "cut",                      "break"));
+        addDefaultContextActions(           new LookDefault(),  new ShowDefault(),  new GrabObject(),   new OpenObject(),   new CutDefault(),           new BreakDefault());
+        addContextActions("weapon",         null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponNotBlunt());
+        addContextActions("weapon-sharp",   null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponSharp(),       new BreakWeaponNotBlunt());
+        addContextActions("weapon-blunt",   null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponBlunt());
+
+        addSynonym("observe", "look");
+        addSynonym("reveal", "show");
+        addSynonym("pick", "grab");
+
+        addMatchIgnore("jump", "look");
+        addMatchIgnore("do", "cut");
 
         addSentenceMatch(new ShowDefault(), "inventory",
                 "what is in my inventory",

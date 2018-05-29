@@ -76,6 +76,7 @@ General code
 - Entity
 - Action
 - Synonym Map code
+-- Utensil room in appendix    TODO
 - SentenceMapper
 - MultipleCommandProcess
 
@@ -91,13 +92,14 @@ settings"
 -- Enemies
 -- Inventory and Items
 - Overworld impl (show map)
--- Rooms and Room generation
 -- Physical Objects
--- Utensil room
+-- Rooms and Room generation
 
-Call Example
+
 
 Settings UI
+
+Call Example
 
 Android profiler for performance
 - Attempt to multithread
@@ -145,6 +147,7 @@ __Conclusion and Future Work__
 
 - Mention language changes
 - Combining methods and getting weighting (use ML to find best ones)
+- Multithreading for performance
 - Hand-free (wake-word detection)
 - Output nlp text based on description of room (alternative)
 

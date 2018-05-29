@@ -9,18 +9,18 @@
 \contentsline {subsection}{\numberline {3.2}Limitations of Zork}{6}
 \contentsline {subsection}{\numberline {3.3}Voice Recognition Implementations}{7}
 \contentsline {subsubsection}{\numberline {3.3.1}Tazti - Speech Recognition for PC Games}{7}
-\contentsline {subsubsection}{\numberline {3.3.2}PocketSphinx for Unreal Engine 4}{8}
+\contentsline {subsubsection}{\numberline {3.3.2}PocketSphinx for Unreal Engine 4}{7}
 \contentsline {subsubsection}{\numberline {3.3.3}Houndify}{8}
-\contentsline {subsubsection}{\numberline {3.3.4}Watson Conversation Engine}{9}
-\contentsline {subsection}{\numberline {3.4}Natural Language Processing}{11}
+\contentsline {subsubsection}{\numberline {3.3.4}Watson Conversation Engine}{8}
+\contentsline {subsection}{\numberline {3.4}Natural Language Processing}{10}
 \contentsline {subsubsection}{\numberline {3.4.1}Stages of Natural Language Processing}{11}
-\contentsline {subsubsection}{\numberline {3.4.2}Part-of-Speech Tagging}{13}
+\contentsline {subsubsection}{\numberline {3.4.2}Part-of-Speech Tagging}{12}
 \contentsline {subsubsection}{\numberline {3.4.3}Slot Filling}{13}
-\contentsline {subsubsection}{\numberline {3.4.4}Synonyms and Hypernyms}{14}
-\contentsline {subsubsection}{\numberline {3.4.5}Semantic Similarity}{15}
-\contentsline {subsubsection}{\numberline {3.4.6}Generating Sentences}{16}
-\contentsline {subsection}{\numberline {3.5}WordNet}{17}
-\contentsline {subsection}{\numberline {3.6}Object Properties}{17}
+\contentsline {subsubsection}{\numberline {3.4.4}Synonyms and Hypernyms}{13}
+\contentsline {subsubsection}{\numberline {3.4.5}Semantic Similarity}{14}
+\contentsline {subsubsection}{\numberline {3.4.6}Generating Sentences}{15}
+\contentsline {subsection}{\numberline {3.5}WordNet}{16}
+\contentsline {subsection}{\numberline {3.6}Object Properties}{16}
 \contentsline {section}{\numberline {4}Design}{18}
 \contentsline {subsection}{\numberline {4.1}Target Platform}{18}
 \contentsline {subsection}{\numberline {4.2}Java Programming Language}{18}
@@ -37,17 +37,17 @@
 \contentsline {subsubsection}{\numberline {4.4.3}\texttt {VoiceProcess} Class}{26}
 \contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{26}
 \contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{26}
-\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{27}
+\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{26}
 \contentsline {subsection}{\numberline {4.5}System Features}{27}
 \contentsline {subsubsection}{\numberline {4.5.1}Synonym Mapping}{27}
 \contentsline {subsubsection}{\numberline {4.5.2}Ignoring Incorrect Matches}{27}
 \contentsline {subsubsection}{\numberline {4.5.3}Confirmation and Suggestions}{27}
-\contentsline {subsubsection}{\numberline {4.5.4}Multiple Commands}{28}
-\contentsline {subsubsection}{\numberline {4.5.5}Multiple Targets}{28}
+\contentsline {subsubsection}{\numberline {4.5.4}Multiple Commands}{27}
+\contentsline {subsubsection}{\numberline {4.5.5}Multiple Targets}{27}
 \contentsline {subsubsection}{\numberline {4.5.6}Sentence Mapping}{28}
 \contentsline {subsection}{\numberline {4.6}Game Design Overview}{29}
 \contentsline {subsubsection}{\numberline {4.6.1}Game Flow}{29}
-\contentsline {subsection}{\numberline {4.7}Game Design UML Class Diagram}{31}
+\contentsline {subsection}{\numberline {4.7}Game Design UML Class Diagram}{30}
 \contentsline {subsection}{\numberline {4.8}Room Generation}{32}
 \contentsline {section}{\numberline {5}Implementation}{33}
 \contentsline {subsection}{\numberline {5.1}Voice Recognition Interface}{33}
@@ -60,25 +60,33 @@
 \contentsline {subsubsection}{\numberline {5.3.5}CustomLexicalDatabase.java}{40}
 \contentsline {subsubsection}{\numberline {5.3.6}ContextActionMap.java}{41}
 \contentsline {subsubsection}{\numberline {5.3.7}Entity.java}{42}
-\contentsline {subsubsection}{\numberline {5.3.8}Action.java}{43}
-\contentsline {subsubsection}{\numberline {5.3.9}MultipleCommandProcess.java}{44}
+\contentsline {subsubsection}{\numberline {5.3.8}Action.java}{42}
+\contentsline {subsubsection}{\numberline {5.3.9}MultipleCommandProcess.java}{43}
 \contentsline {subsubsection}{\numberline {5.3.10}SentenceMapper.java}{44}
-\contentsline {subsubsection}{\numberline {5.3.11}Synonym Mapping Implementation}{46}
+\contentsline {subsubsection}{\numberline {5.3.11}Synonym Mapping Implementation}{45}
 \contentsline {subsection}{\numberline {5.4}Role-playing Game Implementation}{46}
 \contentsline {subsubsection}{\numberline {5.4.1}GameState.java}{46}
 \contentsline {subsubsection}{\numberline {5.4.2}Battle Mode}{46}
+\contentsline {subsubsection}{\numberline {5.4.3}Overworld Mode}{47}
+\contentsline {subsubsection}{\numberline {5.4.4}Rooms}{47}
+\contentsline {subsection}{\numberline {5.5}Settings}{47}
+\contentsline {subsection}{\numberline {5.6}Video Conferencing Demo}{47}
 \contentsline {section}{\numberline {6}Appendix}{48}
 \contentsline {subsection}{\numberline {6.1}Android Application Screenshots}{48}
 \contentsline {subsubsection}{\numberline {6.1.1}Battle Mode Example}{48}
-\contentsline {subsubsection}{\numberline {6.1.2}Multiple Commands Example}{49}
-\contentsline {subsection}{\numberline {6.2}Skyrim Kinect Command List}{51}
-\contentsline {subsection}{\numberline {6.3}Penn Treebank Tagset}{53}
-\contentsline {subsection}{\numberline {6.4}System UML Class Diagram}{54}
-\contentsline {subsection}{\numberline {6.5}Game Design UML Class Diagram}{55}
-\contentsline {subsection}{\numberline {6.6}Choosing the Slot-filling Grammar}{56}
-\contentsline {subsection}{\numberline {6.7}Finding the Best Action in VoiceProcess.java}{57}
-\contentsline {subsection}{\numberline {6.8}JwiLexicalDatabase.java}{59}
-\contentsline {subsection}{\numberline {6.9}OpenObject.java}{62}
-\contentsline {subsection}{\numberline {6.10}MultipleCommandProcess.executeCommand()}{63}
-\contentsline {subsection}{\numberline {6.11}BattleContextActionMap.java}{64}
-\contentsline {section}{References}{65}
+\contentsline {subsubsection}{\numberline {6.1.2}Overworld Mode Example}{50}
+\contentsline {subsubsection}{\numberline {6.1.3}Multiple Commands Example}{52}
+\contentsline {subsubsection}{\numberline {6.1.4}Ambiguous Utensil Example}{54}
+\contentsline {subsubsection}{\numberline {6.1.5}Settings Activity}{55}
+\contentsline {subsection}{\numberline {6.2}Skyrim Kinect Command List}{56}
+\contentsline {subsection}{\numberline {6.3}Penn Treebank Tagset}{58}
+\contentsline {subsection}{\numberline {6.4}System UML Class Diagram}{59}
+\contentsline {subsection}{\numberline {6.5}Game Design UML Class Diagram}{60}
+\contentsline {subsection}{\numberline {6.6}Choosing the Slot-filling Grammar}{61}
+\contentsline {subsection}{\numberline {6.7}Finding the Best Action in VoiceProcess.java}{62}
+\contentsline {subsection}{\numberline {6.8}JwiLexicalDatabase.java}{64}
+\contentsline {subsection}{\numberline {6.9}OpenObject.java}{67}
+\contentsline {subsection}{\numberline {6.10}MultipleCommandProcess.executeCommand()}{68}
+\contentsline {subsection}{\numberline {6.11}BattleContextActionMap.java}{69}
+\contentsline {subsection}{\numberline {6.12}OverworldContextActionMap.java}{70}
+\contentsline {section}{References}{71}
