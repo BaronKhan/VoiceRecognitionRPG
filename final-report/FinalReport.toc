@@ -18,9 +18,10 @@
 \contentsline {subsubsection}{\numberline {3.4.3}Slot Filling}{13}
 \contentsline {subsubsection}{\numberline {3.4.4}Synonyms and Hypernyms}{13}
 \contentsline {subsubsection}{\numberline {3.4.5}Semantic Similarity}{14}
-\contentsline {subsubsection}{\numberline {3.4.6}Generating Sentences}{15}
+\contentsline {subsubsection}{\numberline {3.4.6}Generating Objects from Descriptions}{15}
+\contentsline {subsubsection}{\numberline {3.4.7}Generating Descriptions from Objects}{16}
 \contentsline {subsection}{\numberline {3.5}WordNet}{16}
-\contentsline {subsection}{\numberline {3.6}Object Properties}{16}
+\contentsline {subsection}{\numberline {3.6}Object Properties}{17}
 \contentsline {section}{\numberline {4}Design}{18}
 \contentsline {subsection}{\numberline {4.1}Target Platform}{18}
 \contentsline {subsection}{\numberline {4.2}Java Programming Language}{18}
@@ -69,7 +70,7 @@
 \contentsline {subsubsection}{\numberline {5.4.2}Battle Mode}{46}
 \contentsline {subsubsection}{\numberline {5.4.3}Overworld Mode}{47}
 \contentsline {subsubsection}{\numberline {5.4.4}Rooms}{47}
-\contentsline {subsection}{\numberline {5.5}Settings}{47}
+\contentsline {subsection}{\numberline {5.5}Settings Activity}{47}
 \contentsline {subsection}{\numberline {5.6}Video Conferencing Demo}{47}
 \contentsline {section}{\numberline {6}Appendix}{48}
 \contentsline {subsection}{\numberline {6.1}Android Application Screenshots}{48}
@@ -77,7 +78,7 @@
 \contentsline {subsubsection}{\numberline {6.1.2}Overworld Mode Example}{50}
 \contentsline {subsubsection}{\numberline {6.1.3}Multiple Commands Example}{52}
 \contentsline {subsubsection}{\numberline {6.1.4}Ambiguous Utensil Example}{54}
-\contentsline {subsubsection}{\numberline {6.1.5}Settings Activity}{55}
+\contentsline {subsubsection}{\numberline {6.1.5}Settings User Interface}{55}
 \contentsline {subsection}{\numberline {6.2}Skyrim Kinect Command List}{56}
 \contentsline {subsection}{\numberline {6.3}Penn Treebank Tagset}{58}
 \contentsline {subsection}{\numberline {6.4}System UML Class Diagram}{59}
@@ -85,7 +86,7 @@
 \contentsline {subsection}{\numberline {6.6}Choosing the Slot-filling Grammar}{61}
 \contentsline {subsection}{\numberline {6.7}Finding the Best Action in VoiceProcess.java}{62}
 \contentsline {subsection}{\numberline {6.8}JwiLexicalDatabase.java}{64}
-\contentsline {subsection}{\numberline {6.9}OpenObject.java}{67}
+\contentsline {subsection}{\numberline {6.9}Action Class Example}{67}
 \contentsline {subsection}{\numberline {6.10}MultipleCommandProcess.executeCommand()}{68}
 \contentsline {subsection}{\numberline {6.11}BattleContextActionMap.java}{69}
 \contentsline {subsection}{\numberline {6.12}OverworldContextActionMap.java}{70}

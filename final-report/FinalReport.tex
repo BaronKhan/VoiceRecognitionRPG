@@ -400,9 +400,16 @@ The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically 
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
-\subsubsection{Generating Sentences}
+\subsubsection{Generating Objects from Descriptions}
 
-One feature for the proposed design of the RPG is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the intent inference described above, where the meaning of a sentence/phrase is extracted; developers would like to be able to go in the opposite direction.
+One feature for the proposed design of the RPG is to prevent the developer from manually placing objects in a room/environment within the game. A designer may want to just provide a description of the room without having to program anything. A simple solution to this would be to perform noun extraction on the description to extract the objects that should be in the room. However, it would also be useful to extract relations of objects to other objects as well. For instance, if a lamp should only be on a table if a table exists in the room; if the table is removed/broken by the player, then the lamp should now be on the floor. This would allow for more information to be extracted about the objects in the room, as opposed to simply their existence.
+\\
+\\
+Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships RRR. They created a tool for this called \textit{ReVerb} RRR. Taking the sentence, "A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship ("be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
+
+\subsubsection{Generating Descriptions from Objects}
+
+The opposite to the above is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the above, where the object of a sentence/phrase is extracted; developers may want to go in the opposite direction.
 \\
 \\
 This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) are used to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
@@ -792,6 +799,9 @@ Finally, \texttt{Room} is an abstract class for generating new rooms for the gam
 \subsection{Room Generation}
 
 Instead of forcing the developer to manually instantiate object within each room, a mechanism will be written that will allow a developer to generate a new room from just a description of it, using natural language processing techniques.
+\\
+\\
+A program has been created which takes as input a text file containing a description of a room
 
 \newpage
 \section{Implementation}
@@ -1324,13 +1334,13 @@ See the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of th
 
 \subsubsection{Rooms}
 
-\subsection{Settings}
+\subsection{Settings Activity}
 
 The application also has a settings activity, which allows the user to change various settings such as the current semantic similarity method used, as well as edit the user-defined synonym mappings. See the Appendix \ref{appendix:settings} for a screenshot of the settings activity.
 
 \subsection{Video Conferencing Demo}
 
-
+In order to demonstrate the flexibility of the voice recognition system, 
 
 
 
@@ -1472,7 +1482,7 @@ Below are screenshots of the room containing both a fork and a knife, with the s
 \end{center}
 
 \newpage
-\subsubsection{Settings Activity}
+\subsubsection{Settings User Interface}
 \label{appendix:settings}
 Below is a screenshot of the graphical user interface for the settings.
 
@@ -1816,8 +1826,11 @@ public class JwiLexicalDatabase implements ILexicalDatabase {
 \end{lstlisting}
 
 \newpage
-\subsection{OpenObject.java}
+\subsection{Action Class Example}
 \label{appendix:open-object}
+
+Below is an example of an action class derived from the \texttt{Action} abstract class. The action involves opening certain objects, such as a door, or the drawer of a table, etc. Note the overriding of the \texttt{processReply()} method, for when the user is opening a door.
+
 \begin{lstlisting}[language=Java]
 public class OpenObject extends Action {
     public String execute(GlobalState state, Entity currentTarget) {
