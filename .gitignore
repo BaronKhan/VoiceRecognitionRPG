@@ -72,3 +72,5 @@ evaluation/.idea/workspace.xml
 generators/*.java
 
 *.jar
+
+generators/room-generator/*.java
