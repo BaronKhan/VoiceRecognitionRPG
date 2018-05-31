@@ -1275,7 +1275,7 @@ In some cases, a word could become a synonym for multiple words. Take the follow
 \item The player is now in a room with both a knife and a fork, and says, "pick up the utensil".
 \end{itemize}
 
-In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See the Appendix \ref{appendix:utensil} for the room that demonstrates this scenario.
+In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See the Appendix \ref{appendix:utensil} for the room that demonstrates this scenario (as well as room with multiple utensils, in which case, all suggestions are displayed at the same time).
 
 \subsection{Role-playing Game Implementation}
 
@@ -1340,7 +1340,7 @@ The application also has a settings activity, which allows the user to change va
 
 \subsection{Video Conferencing Demo}
 
-In order to demonstrate the flexibility of the voice recognition system, 
+In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain.
 
 
 
@@ -1479,6 +1479,13 @@ Below are screenshots of the room containing both a fork and a knife, with the s
 \begin{center}
 \includegraphics[scale=0.18]{utensil-1.png}
 \includegraphics[scale=0.18]{utensil-2.png}
+\end{center}
+
+\newpage
+If there are multiple mappings for utensil to various objects (e.g. \texttt{utensil --> [fork, knife, spoon, instrument]}). Below is a screenshot of a room with these objects.
+
+\begin{center}
+\includegraphics[scale=0.25]{utensil-3.png}
 \end{center}
 
 \newpage
