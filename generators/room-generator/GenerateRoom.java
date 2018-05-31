@@ -12,6 +12,7 @@ public class GenerateRoom {
     private static ILexicalDatabase sDb = new NictWordNet();
     private static RelatednessCalculator sCalc = new WuPalmer(sDb);
     public static Map<String, String> sObjectMap = new HashMap();
+    public static List<String> sCreatedObjects = new ArrayList();
 
     public static void main(String args[]) throws IOException {
         WS4JConfiguration.getInstance().setMFS(false);
@@ -43,9 +44,13 @@ public class GenerateRoom {
             System.exit(0);
         }
 
+        System.out.println("processing object file");
         processObjects(objFileName);
 
+        System.out.println("rendering java file");
         renderJava(txtFileName, outputName);
+
+        System.out.println("sucessfully rendered "+outputName+".java");
     }
 
     public static void processObjects(String objFileName) throws IOException {
@@ -89,7 +94,7 @@ public class GenerateRoom {
     {
         //abhinandanmk.blogspot.com/2012/05/java-how-to-read-complete-text-file.html
         String entireFileText = new Scanner(new File(txtFileName))
-        .useDelimiter("\\A").next();
+            .useDelimiter("\\A").next();
 
         //Better sentence-breaking: https://stackoverflow.com/a/2687929/8919086
         BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.UK);
@@ -112,19 +117,21 @@ public class GenerateRoom {
         //Second phase: search for objects
         String[] words = sentence.replaceAll("[^a-zA-Z* ]", "").toLowerCase()
                             .split("\\s+");
+        String prettySentence = sentence.replaceAll("\\*", "");
         for (String word : words) {
             if (!word.contains("*")) { continue; }
             word = word.replaceAll("\\*","");
             if (sObjectMap.keySet().contains(word)) {
                 writer.write("        addDescriptionWithObject(\n            \""+
-                    sentence.replaceAll("\\*", "")+"\",\n            new "+
+                    prettySentence+"\",\n            new "+
                     sObjectMap.get(word)+");\n");
                 return;
             }
+            //Search using semantic similarity
         }
         //Third phase: just add sentence
         writer.write("        addDescription(\n            \""+
-            sentence.replaceAll("[\\*]", "")+"\");\n");
+            prettySentence+"\");\n");
     }
 
     public static void renderEnd(BufferedWriter writer)

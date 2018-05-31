@@ -234,7 +234,7 @@ Generate room based on description
 - Program build an AST after parsing the grammar
 - Make a Java program which uses semantic similarity library!
 - https://github.com/knowitall/reverb
-- 
+- Use asterik in text to denote something (if object is new).
 
 Multiple targets
 -----------------
