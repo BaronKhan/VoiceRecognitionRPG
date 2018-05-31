@@ -8,6 +8,7 @@ import com.khan.baron.voicerecrpg.game.items.Potion;
 import com.khan.baron.voicerecrpg.game.items.Weapon;
 import com.khan.baron.voicerecrpg.game.rooms.Room;
 import com.khan.baron.voicerecrpg.game.rooms.Room01;
+import com.khan.baron.voicerecrpg.game.rooms.RoomMoreUtensils;
 import com.khan.baron.voicerecrpg.game.rooms.RoomUtensil;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
 import com.khan.baron.voicerecrpg.system.ContextActionMap;
@@ -259,6 +260,27 @@ public class OverworldTest {
 
         assertEquals(gameState.updateState("pick up the utensil").contains("you mean, \"grab"), true);
         assertEquals(gameState.updateState("yes").contains("picked"), true);
+
+        ContextActionMap.getUserSynonyms().clear();
+        ContextActionMap.setRememberUserSynonyms(false);
+    }
+
+    @Test
+    public void testMultipleUtensils() throws IOException {
+        ContextActionMap.setRememberUserSynonyms(true);
+        ContextActionMap.addUserSynonymOnly("utensil", "knife");
+        ContextActionMap.addUserSynonymOnly("utensil", "fork");
+        ContextActionMap.addUserSynonymOnly("utensil", "spoon");
+        ContextActionMap.addUserSynonymOnly("utensil", "instrument");
+        gameState = new GameState(null);
+        gameState.addDictionary(mUrl);
+        Room testRoom = new RoomMoreUtensils();
+        gameState.initOverworldState(testRoom);
+
+        String output = gameState.updateState("grab the utensil");
+        assertEquals(output, output.contains("Multiple matches"), true);
+        output = gameState.updateState("pick up the utensil");
+        assertEquals(output, output.contains("Multiple matches"), true);
 
         ContextActionMap.getUserSynonyms().clear();
         ContextActionMap.setRememberUserSynonyms(false);

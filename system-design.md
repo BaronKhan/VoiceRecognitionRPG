@@ -187,6 +187,8 @@ Problem: Semantic similarity messes up sometimes
 - Next room contains fork and knife
 - This should be ambiguous and ask which one they meant
 - Can do this by mapping synonym to list of words
+- If there are more than two suggestions, list all of them
+at once the the user displays them
 
 Action Replies
 -----------------

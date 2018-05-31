@@ -340,7 +340,7 @@ public class VoiceProcess {
                     if (synonyms.size() > 1){
                         //Ambiguous synoyms - ask user about each one
                         for (String action : synonyms) {
-                            mAmbiguousHandler.setIsAmbiguous(true);
+                            mAmbiguousHandler.setIsAmbiguous(true, true);
                             mAmbiguousHandler.addAmbiguousActionCandidate(
                                     new Triple<>(word, action, 1.0), bestScore);
                         }
@@ -422,7 +422,7 @@ public class VoiceProcess {
                     //Ambiguous - ask user about all the targets
                     for (String targetName : targetNames) {
                         if (mContextActionMap.hasPossibleTarget(targetName)) {
-                            mAmbiguousHandler.setIsAmbiguous(true);
+                            mAmbiguousHandler.setIsAmbiguous(true, true);
                             mAmbiguousHandler.addAmbiguousTargetCandidate(
                                     new Triple<>(word,
                                             mContextActionMap.getPossibleTarget(targetName),
@@ -492,7 +492,7 @@ public class VoiceProcess {
                 if (contextNames.size() > 1) {
                     for (String targetName : contextNames) {
                         if (mContextActionMap.hasPossibleContext(targetName)) {
-                            mAmbiguousHandler.setIsAmbiguous(true);
+                            mAmbiguousHandler.setIsAmbiguous(true, true);
                             mAmbiguousHandler.addAmbiguousContextCandidate(
                                     new Triple<>(word,
                                             mContextActionMap.getPossibleContext(targetName),

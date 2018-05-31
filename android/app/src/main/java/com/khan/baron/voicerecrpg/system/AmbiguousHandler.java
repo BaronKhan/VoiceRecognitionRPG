@@ -18,6 +18,7 @@ public class AmbiguousHandler {
 
     //Confirmation checking state
     private boolean mIsAmbiguous = false;
+    private boolean mShowAllSuggestions = false;
 
     private List<Triple<String, String, Double>> mAmbiguousActionCandidates = null;   //synonym first
     private List<Triple<String, Entity, Double>> mAmbiguousTargetCandidates = null;
@@ -73,7 +74,6 @@ public class AmbiguousHandler {
     }
 
     public String initSuggestion(String chosenAction, Entity currentTarget, String chosenContext) {
-        mExpectingReply = true;
         mPendingAction = chosenAction;
         mPendingTarget = currentTarget;
         mPendingContext = chosenContext;
@@ -81,7 +81,14 @@ public class AmbiguousHandler {
                 "\ntarget candidates = "+mAmbiguousTargetCandidates+
                 "\ncontext candidates = "+mAmbiguousContextCandidates);
         mAmbiguousPermutations = generateAmbiguousPermutations();
-        return "Intent not understood.\n" + generateSuggestion();
+        if (mShowAllSuggestions && mAmbiguousPermutations.size() > 3) {
+            mExpectingReply = false;
+            return "Intent not understood.\n" + generateAllSuggestions();
+        } else {
+            mExpectingReply = true;
+            mShowAllSuggestions = false;
+            return "Intent not understood.\n" + generateSuggestion();
+        }
     }
 
     private String buildIntent(String action, Entity target, Entity context, boolean usingAltSFS) {
@@ -210,6 +217,23 @@ public class AmbiguousHandler {
             mExpectingReply = false;
             return "No more suggestions. Intent ignored.";
         }
+    }
+
+    private String generateAllSuggestions() {
+        mShowAllSuggestions = false;
+        String output = "Multiple matches found:\n";
+        int count = 1;
+        for (Triple<Triple, Triple, Triple> phraseCandidate : mAmbiguousPermutations) {
+            if (phraseCandidate.first != null) { getAmbiguousAction(phraseCandidate.first); }
+            if (phraseCandidate.second != null) { getAmbiguousTarget(phraseCandidate.second); }
+            if (phraseCandidate.third != null) { getAmbiguousContext(phraseCandidate.third); }
+            String currentIntent = "   "+count+". \""+
+                    buildIntent(mPendingAction, mPendingTarget, mVoiceProcess.getActionContext(),
+                            mVoiceProcess.isUsingAltSFS()) +"\"";
+            output += currentIntent+"\n";
+            ++count;
+        }
+        return output+"Please try again.";
     }
 
     private void getAmbiguousContext(Triple<String, Entity, Double> candidate) {
@@ -341,7 +365,12 @@ public class AmbiguousHandler {
         return mIsAmbiguous;
     }
 
-    public void setIsAmbiguous(boolean mIsAmbiguous) {
+    public void setIsAmbiguous(boolean mIsAmbiguous, boolean showAllSuggestions) {
         this.mIsAmbiguous = mIsAmbiguous;
+        mShowAllSuggestions = mShowAllSuggestions || showAllSuggestions;
+    }
+
+    public void setIsAmbiguous(boolean mIsAmbiguous) {
+        setIsAmbiguous(mIsAmbiguous, false);
     }
 }
