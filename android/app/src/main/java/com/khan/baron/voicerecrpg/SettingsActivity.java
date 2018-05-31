@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.Cipher;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private RadioGroup mMethodRadioGroup;
@@ -41,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch mSwitchOverworld;
     private Switch mSwitchMultSuggest;
     private Button mButtonAddUtensil;
+    private Button mButtonAddMoreUtensil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,20 @@ public class SettingsActivity extends AppCompatActivity {
                      mRecyclerViewSynonyms.setAdapter(new SynonymsAdapter());
                  }
              }
+        });
+
+        mButtonAddMoreUtensil = (Button) findViewById(R.id.buttonAddMoreUtensil);
+        mButtonAddMoreUtensil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ContextActionMap.getUserSynonyms().containsKey("utensil")) {
+                    if (ContextActionMap.getUserSynonyms().get("utensil").size() < 4) {
+                        ContextActionMap.addUserSynonymOnly("utensil", "spoon");
+                        ContextActionMap.addUserSynonymOnly("utensil", "instrument");
+                    }
+                    mRecyclerViewSynonyms.setAdapter(new SynonymsAdapter());
+                }
+            }
         });
 
         mRecyclerViewSynonyms = (RecyclerView) findViewById(R.id.recyclerViewSynonymMap);

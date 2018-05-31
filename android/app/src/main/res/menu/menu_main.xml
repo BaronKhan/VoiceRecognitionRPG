@@ -13,8 +13,14 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_goto_room02"
-        android:title="@string/action_goto_room02"
+        android:id="@+id/action_goto_room_utensil"
+        android:title="@string/action_goto_room_utensil"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_goto_room_more_utensils"
+        android:title="@string/action_goto_room_more_utensils"
         android:visible="true"
         app:showAsAction="never" />
 </menu>
