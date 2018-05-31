@@ -74,6 +74,10 @@ public class WordNetTest {
         List<String> words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
         assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "inventory");
 
+        input = "what are the contents of my inventory";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "inventory");
+
         input = "what actions can i do";
         words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
         assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "actions");
@@ -87,6 +91,10 @@ public class WordNetTest {
         assertEquals(map.getSentenceMapper().checkSentenceMatch(words), null);
 
         input = "can you tell me what i can do please";
+        words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "actions");
+
+        input = "what commands can i do";
         words = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
         assertEquals(map.getSentenceMapper().checkSentenceMatch(words).second, "actions");
 
