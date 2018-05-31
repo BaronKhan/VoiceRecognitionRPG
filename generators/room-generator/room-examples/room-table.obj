@@ -1,0 +1,4 @@
+door|Door(new Troll(100), false)
+knife|Weapon("knife", "sharp", "short", "metal")
+fork|Weapon("fork")
+table|GlassTable()
