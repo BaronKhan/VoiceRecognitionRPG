@@ -14,6 +14,8 @@ public class GenerateRoom {
     public static Map<String, String> sObjectMap = new HashMap();
     public static List<String> sCreatedObjects = new ArrayList();
 
+    private static final double THRESHOLD = 0.8;
+
     public static void main(String args[]) throws IOException {
         WS4JConfiguration.getInstance().setMFS(false);
 
@@ -128,6 +130,22 @@ public class GenerateRoom {
                 return;
             }
             //Search using semantic similarity
+            double bestScore = 0.0;
+            String bestObj = null;
+            for (String objWord : sObjectMap.keySet()) {
+                double score = Math.min(sCalc.calcRelatednessOfWords(word, objWord),
+                                    1.0);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestObj = objWord;
+                }
+            }
+            if (bestScore > THRESHOLD) {
+                writer.write("        addDescriptionWithObject(\n            \""+
+                    prettySentence+"\",\n            new "+
+                    sObjectMap.get(bestObj)+");\n");
+                return;
+            }
         }
         //Third phase: just add sentence
         writer.write("        addDescription(\n            \""+
