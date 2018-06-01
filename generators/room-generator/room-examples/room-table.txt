@@ -1,4 +1,6 @@
 You are in a room with a single *door in front of you. 
-There is a glass *table in the middle of the room. 
-A *knife is on the table. 
+There is a glass *table in the middle of the room.
+A *knife is on the floor.
+A *spoon is with the knife.
+A *potion is on the table. 
 Another *utensil is also on the table.

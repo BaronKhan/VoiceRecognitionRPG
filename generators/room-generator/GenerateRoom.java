@@ -2,17 +2,28 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 import java.nio.file.*;
+
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.lexical_db.NictWordNet;
 import edu.cmu.lti.ws4j.RelatednessCalculator;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
 
+import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.OpenNlpSentenceChunker;
+import edu.washington.cs.knowitall.extractor.ReVerbExtractor;
+import edu.washington.cs.knowitall.extractor.conf.ConfidenceFunction;
+import edu.washington.cs.knowitall.extractor.conf.ReVerbOpenNlpConfFunction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
+
 public class GenerateRoom {
     private static ILexicalDatabase sDb = new NictWordNet();
     private static RelatednessCalculator sCalc = new WuPalmer(sDb);
     public static Map<String, String> sObjectMap = new HashMap();
     public static List<String> sCreatedObjects = new ArrayList();
+    public static ChunkedSentence sChunkedText;
+    private static ReVerbExtractor reverb = new ReVerbExtractor();
 
     private static final double THRESHOLD = 0.8;
 
@@ -98,6 +109,10 @@ public class GenerateRoom {
         String entireFileText = new Scanner(new File(txtFileName))
             .useDelimiter("\\A").next();
 
+        System.out.println("extracting binary relationships");
+        sChunkedText = (new OpenNlpSentenceChunker())
+            .chunkSentence(entireFileText);
+
         //Better sentence-breaking: https://stackoverflow.com/a/2687929/8919086
         BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.UK);
         String source = entireFileText;
@@ -116,6 +131,31 @@ public class GenerateRoom {
         throws IOException
     {
         //First phase: find binary relationships
+        boolean foundRel = false;
+        String relCond = "";
+        String altSentence = "";
+        for (ChunkedBinaryExtraction extr : reverb.extract(sChunkedText)) {
+            String arg1 = extr.getArgument1().toString();
+            String arg2 = extr.getArgument2().toString();
+            if (sentence.contains(arg1) && sentence.contains(arg2)) {
+                //If one of the relationships is a valid object (no *), then
+                //add with conditional
+                for (String objWord : sObjectMap.keySet()) {
+                    if ((!arg1.contains("*")) && (arg1.contains(objWord)) 
+                        || ((!arg2.contains("*")) && (arg2.contains(objWord))))
+                    {
+                        relCond = "() -> getRoomObjectCount(\""+objWord+"\") > 0";
+                        arg1 = arg1.replaceAll("\\*", "");
+                        altSentence = "\""+arg1.substring(0, 1).toUpperCase()
+                            +arg1.substring(1)+" is in the room.\"";
+                        foundRel = true;
+                        break;
+                    }
+                }
+                if (foundRel) { break; }
+            }
+        }
+        
         //Second phase: search for objects
         String[] words = sentence.replaceAll("[^a-zA-Z* ]", "").toLowerCase()
                             .split("\\s+");
@@ -124,9 +164,17 @@ public class GenerateRoom {
             if (!word.contains("*")) { continue; }
             word = word.replaceAll("\\*","");
             if (sObjectMap.keySet().contains(word)) {
-                writer.write("        addDescriptionWithObject(\n            \""+
-                    prettySentence+"\",\n            new "+
-                    sObjectMap.get(word)+");\n");
+                if (foundRel) {
+                    writer.write("        addDescriptionWithObjectCond(\n            \""+
+                        prettySentence+"\",\n            "+
+                        altSentence+",\n            new "+
+                        sObjectMap.get(word)+",\n            "+
+                        relCond+");\n");
+                } else {
+                    writer.write("        addDescriptionWithObject(\n            \""+
+                        prettySentence+"\",\n            new "+
+                        sObjectMap.get(word)+");\n");
+                }
                 return;
             }
             //Search using semantic similarity
@@ -141,15 +189,31 @@ public class GenerateRoom {
                 }
             }
             if (bestScore > THRESHOLD) {
-                writer.write("        addDescriptionWithObject(\n            \""+
-                    prettySentence+"\",\n            new "+
-                    sObjectMap.get(bestObj)+");\n");
+                if (foundRel) {
+                    writer.write("        addDescriptionWithObjectCond(\n            \""+
+                        prettySentence+"\",\n            "+
+                        altSentence+",\n            new "+
+                        sObjectMap.get(bestObj)+",\n            "+
+                        relCond+");\n");
+                } 
+                else {
+                    writer.write("        addDescriptionWithObject(\n            \""+
+                        prettySentence+"\",\n            new "+
+                        sObjectMap.get(bestObj)+");\n");
+                }
                 return;
             }
         }
+
         //Third phase: just add sentence
-        writer.write("        addDescription(\n            \""+
-            prettySentence+"\");\n");
+        if (foundRel) {
+            writer.write("        addDescription(\n            \""+
+                prettySentence+"\",\n            "+
+                relCond+");\n");
+        } else {
+            writer.write("        addDescription(\n            \""+
+                prettySentence+"\");\n");
+        }
     }
 
     public static void renderEnd(BufferedWriter writer)
