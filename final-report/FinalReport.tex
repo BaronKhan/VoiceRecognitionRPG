@@ -801,7 +801,7 @@ Finally, \texttt{Room} is an abstract class for generating new rooms for the gam
 Instead of forcing the developer to manually instantiate object within each room, a mechanism will be written that will allow a developer to generate a new room from just a description of it, using natural language processing techniques.
 \\
 \\
-A program has been created which takes as input a text file containing a description of a room
+A command-line program has been created which takes as input a text file containing a description of a room and generates a source file for a Room containing the objects mentioned in the description, and also handles object relations (e.g. whether a lamp is on the table or on the floor). This allows the developer to easily create new rooms for the game without having to manually add the objects to a room. See Section \ref{section:rooms} for the implementation.
 
 \newpage
 \section{Implementation}
@@ -1035,7 +1035,7 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 \item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps in words).
 \end{itemize}
 
-Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler). By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings.
+Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler RRR). By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings.
 
 \subsubsection{CustomLexicalDatabase.java}
 
@@ -1277,7 +1277,7 @@ In some cases, a word could become a synonym for multiple words. Take the follow
 
 In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See the Appendix \ref{appendix:utensil} for the room that demonstrates this scenario (as well as room with multiple utensils, in which case, all suggestions are displayed at the same time).
 
-\subsection{Role-playing Game Implementation}
+\subsection{Role-Playing Game Implementation}
 
 Simple rooms were created to demonstrate the system working with a typical text-based role-playing game. The first room of the game focuses on the \textit{Overworld} gameplay, and has a door which leads to a battle with an enemy (transitioning to the \textit{Battle} mode).
 
@@ -1311,7 +1311,7 @@ Weapons can be classified as either "sharp" or "blunt" based on whether they are
 Enemies are entities with their own health that the player fights. The enemy in the demo is a troll that can attack the enemy once the player has performed a successful action.
 \\
 \\
-See the Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode.
+See the Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode. Also see the Appendix \ref{appendix:battle-examples} for examples of commands that can be used during this mode.
 
 \subsubsection{Overworld Mode}
 
@@ -1330,9 +1330,12 @@ In the \textit{Overworld} mode, the player interacts with objects in order to so
 Objects in the room can inherit from the \texttt{PhysicalObject} class, and can have properties such as whether they are breakable, whether they can be cut or scratched, etc.
 \\
 \\
-See the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
+See the Appendix \ref{appendix:overworld-examples} for examples of commands that can be used during the \textit{Overworld} mode. Also see the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
 
 \subsubsection{Rooms}
+\label{section:rooms}
+
+
 
 \subsection{Settings Activity}
 
@@ -1340,7 +1343,57 @@ The application also has a settings activity, which allows the user to change va
 
 \subsection{Video Conferencing Demo}
 
-In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain.
+In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands.
+\\
+\\
+Figure \ref{fig:snapshot-calling} shows a screenshot of the video conferencing activity.
+
+\begin{center}
+\begin{figure}
+\begin{center}
+  \includegraphics[scale=0.3]{snapshot-calling.png}
+  \caption{A screenshot of the user interface for the video conferencing demo.}
+  \label{fig:snapshot-calling}
+  \end{center}
+\end{figure}
+\end{center}
+
+The user is able to call a contact and add more contacts to the current call. All participants are displayed on the screen and the user can choose to end a call with a specific person, or end all of the calls. The user can also choose to mute the audio of a certain participant, or mute their own video/audio (with the video/audio icons changing accordingly).
+\\
+\\
+Figure \ref{fig:call-context-action-map} shows the context-action 'table' for the video conferencing demo. See the Appendix \ref{appendix:call-context-action-map} for the full \texttt{CallContextActionMap} class. Also see the Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{call-context-action-map.png}
+  \caption{A snapshot of the context-action 'table' in \texttt{CallContextActionMap.java}.}
+  \label{fig:call-context-action-map}
+  \end{center}
+\end{figure}
+\end{center}
+
+The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, "Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an an ambiguous contact is called.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1499,6 +1552,21 @@ Below is a screenshot of the graphical user interface for the settings.
   \includegraphics[scale=0.25]{settings.png}
   \caption{A snapshot of the settings activity.}
   \label{fig:snapshot-settings}
+  \end{center}
+\end{figure}
+\end{center}
+
+\newpage
+\subsubsection{Duplicate Contacts}
+\label{appendix:duplicate-contacts}
+Below is a screenshot of the video conferencing demo when an ambiguous contact is called. The user would reply with the surname of the correct contact.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{duplicate-contacts.png}
+  \caption{A snapshot of scenario involving duplicate contacts.}
+  \label{fig:snapshot-duplicate-contacts}
   \end{center}
 \end{figure}
 \end{center}
@@ -1961,6 +2029,32 @@ public class BattleContextActionMap extends ContextActionMap {
 \end{lstlisting}
 
 \newpage
+\subsection{Battle Mode Example Commands}
+\label{appendix:battle-examples}
+
+Below is a table of some of the example commands that can be used in the \textit{Battle} mode of the role-playing game. Note that this is not an exhaustive list, and more commands are supported.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|}
+\hline
+"attack with a hammer"                    \\ \hline
+"punch the troll"   \\ \hline
+"launch an assult"           \\ \hline
+"heal with a potion"  \\ \hline
+"show my inventory"      \\ \hline
+"hit the troll with a bang"        \\ \hline
+"obliterate the troll with a sword and then recover using a potion" \\ \hline
+"fight with a sword and hammer"                      \\ \hline
+"use the sword to attack"            \\ \hline
+"what actions can i do"                \\ \hline
+"what is in my bag"                    \\ \hline
+"use a heavy attack"              \\ \hline
+"launch an assault towards the troll using something sharp"             \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
 \subsection{OverworldContextActionMap.java}
 \label{appendix:overworld-context-action-map}
 \begin{lstlisting}[language=Java, caption=OverworldContextActionMap]
@@ -1996,6 +2090,95 @@ public class OverworldContextActionMap extends ContextActionMap {
     }
 }
 \end{lstlisting}
+
+\newpage
+\subsection{Overworld Mode Example Commands}
+\label{appendix:overworld-examples}
+
+Below is a table of some of the example commands that can be used in the \textit{Overworld} mode of the role-playing game. Note that this is not an exhaustive list.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|}
+\hline
+"look around the room"                    \\ \hline
+"observe the surroundings"   \\ \hline
+"slash the door using a knife"           \\ \hline
+"break the table"  \\ \hline
+"cut the painting"      \\ \hline
+"pick up the potion"        \\ \hline
+"grab the knife" \\ \hline
+"scratch the door with the knife and then with the sword"                      \\ \hline
+"use the knife to cut the table and the door"            \\ \hline
+"use the key to open the door"                \\ \hline
+"unlock the door"                    \\ \hline
+"smash the table with the hammer"              \\ \hline
+"look at the painting"             \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
+\subsection{CallContextActionMap.java}
+\label{appendix:call-context-action-map}
+\begin{lstlisting}[language=Java, caption=CallContextActionMap]
+public class CallContextActionMap extends ContextActionMap {
+    public CallContextActionMap(GlobalState state) {
+        super(state);
+        setActionList(               "phone",                   "stop",                 "mute",         "increase");
+        addDefaultContextActions(    new PhoneContact(),         new StopCall(),         new Mute(),    new Unmute());
+        addContextActions("video",   new PhoneContact(),         null,                   null,          null);
+        addContextActions("audio",   new PhoneContactAudio(),    null,                   null,          null);
+        addContextActions("contact", null,                       new StopCallContact(),  null,          null);
+
+        addSynonym("call", "phone");
+        addSynonym("contact", "phone");
+        addSynonym("end", "stop");
+        addSynonym("finish", "stop");
+        addSynonym("hang", "stop");
+        addSynonym("unmute", "increase");
+        addSynonym("silence", "mute");
+    }
+}
+\end{lstlisting}
+
+\newpage
+\subsection{Video Conferencing Example Commands}
+\label{appendix:call-examples}
+
+Below is a table of some of the example commands that can be used in the video conferencing demo within the application. As above, this is not an exhaustive list.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|}
+\hline
+"call fred"                    \\ \hline
+"phone jane with audio only"   \\ \hline
+"call fred and jane"           \\ \hline
+"use video only to call jane"  \\ \hline
+"stop the call with fred"      \\ \hline
+"stop all of the calls"        \\ \hline
+"end all of the conversations" \\ \hline
+"hang up"                      \\ \hline
+"hang up with fred"            \\ \hline
+"mute my video"                \\ \hline
+"mute fred"                    \\ \hline
+"unmute my audio"              \\ \hline
+"silence my audio"             \\ \hline
+\end{tabular}
+\end{table}
+
+Below is a table of all the available contacts in the demo:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\textbf{First Name} & \textbf{Second Name} \\
+Fred                & N/A                  \\
+Jane                & N/A                  \\
+Baron               & First                \\
+Baron               & Second              
+\end{tabular}
+\end{table}
 
 \newpage
 \addcontentsline{toc}{section}{References}
