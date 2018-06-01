@@ -136,6 +136,7 @@ public class GenerateRoom {
         String altSentence = "";
         for (ChunkedBinaryExtraction extr : reverb.extract(sChunkedText)) {
             String arg1 = extr.getArgument1().toString();
+            String rel = extr.getRelation().toString();
             String arg2 = extr.getArgument2().toString();
             if (sentence.contains(arg1) && sentence.contains(arg2)) {
                 //If one of the relationships is a valid object (no *), then
@@ -146,8 +147,13 @@ public class GenerateRoom {
                     {
                         relCond = "() -> getRoomObjectCount(\""+objWord+"\") > 0";
                         arg1 = arg1.replaceAll("\\*", "");
-                        altSentence = "\""+arg1.substring(0, 1).toUpperCase()
-                            +arg1.substring(1)+" is in the room.\"";
+                        if (rel.contains("on")) {
+                            altSentence = "\""+arg1.substring(0, 1).toUpperCase()
+                                +arg1.substring(1)+" is now on the floor.\"";
+                        } else {
+                            altSentence = "\""+arg1.substring(0, 1).toUpperCase()
+                                +arg1.substring(1)+" is in the room.\"";
+                        }
                         foundRel = true;
                         break;
                     }
