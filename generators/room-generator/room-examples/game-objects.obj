@@ -1,6 +1,6 @@
 door|Door(new Troll(100), false)
 knife|Weapon("knife")
-fork|Weapon("fork")
 spoon|Weapon("spoon")
+fork|Weapon("fork")
 table|GlassTable()
 potion|Potion("potion")

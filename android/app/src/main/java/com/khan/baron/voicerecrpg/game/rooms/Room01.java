@@ -26,7 +26,7 @@ public class Room01 extends Room {
                 new GlassTable());
         addDescriptionWithObjectCond(
                 "A potion has been placed on the table.",
-                "A potion lays on the floor with the broken table",
+                "A potion lays on the floor with the broken table.",
                 new Potion("potion"),
                 () -> getRoomObjectCount("table") > 0);
         addDescriptionWithObject(

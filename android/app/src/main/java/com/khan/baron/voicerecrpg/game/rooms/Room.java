@@ -92,22 +92,21 @@ public abstract class Room extends Entity {
         this.mRoomState = mRoomState;
     }
 
-    //TODO: better room generation
     protected void addDescription(String text) {
         addDescription(text, () -> true);
     }
 
-    protected void addDescription(String text, BooleanSupplier cond) {
-        addDescriptionCond(text, null, cond);
-    }
+protected void addDescription(String text, BooleanSupplier cond) {
+    addDescriptionCond(text, null, cond);
+}
 
-    protected void addDescriptionCond(String textTrue, String textFalse, BooleanSupplier cond) {
-        addDescriptionWithObjectCond(textTrue, textFalse, null, cond);
-    }
+protected void addDescriptionCond(String textTrue, String textFalse, BooleanSupplier cond) {
+    addDescriptionWithObjectCond(textTrue, textFalse, null, cond);
+}
 
-    protected void addDescriptionWithObject(String text, Entity object) {
-        addDescriptionWithObjectCond(text, "", object, () -> true);
-    }
+protected void addDescriptionWithObject(String text, Entity object) {
+    addDescriptionWithObjectCond(text, "", object, () -> true);
+}
 
     protected void addDescriptionWithObjectCond(
             String textTrue, String textFalse, Entity obj, BooleanSupplier cond)
