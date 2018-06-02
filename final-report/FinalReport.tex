@@ -1335,7 +1335,58 @@ See the Appendix \ref{appendix:overworld-examples} for examples of commands that
 \subsubsection{Rooms}
 \label{section:rooms}
 
+Rooms contain the objects that the players interacts with during the \textit{Overworld} mode.
+\\
+\\
+Each room is a derived class from the \texttt{Room} abstract class. Objects in the room are added in the constructor of the room. Initially, objects were added manually to the constructor, and the description of the room (which is displayed when the player issues a command such as, "look around") was generated via a series of \texttt{if} and \texttt{else} statements in a \texttt{getRoomDescription()} method. However, this was too cumbersome for a developer to use as the if statements would become long and complicated, and was changed drastically. See the Appendix \ref{appendix:room-gen-v1} for an example of the first room in the game using this version of the room generation code (for comparison purposes).
+\\
+\\
+For the second iteration of the room generation structure, the TODO(descriptiosn tied to objects). See Listing \ref{lst:room01}.
 
+\begin{lstlisting}[language=Java, caption=Room01, label=lst:room01]
+public class Room01 extends Room {
+    public enum StateRoom01 {
+        START,
+        PAINTING_CUT,
+        END
+    }
+
+    public Room01() {
+        super();
+        setRoomState(StateRoom01.START.ordinal());
+        addDescriptionWithObject(
+                "You are in a room with a locked door in front of you.",
+                new Door(new Troll(100), true));
+        addDescriptionWithObject(
+                "There is a glass table in the middle of the room.",
+                new GlassTable());
+        addDescriptionWithObjectCond(
+                "A potion has been placed on the table.",
+                "A potion lays on the floor with the broken table",
+                new Potion("potion"),
+                () -> getRoomObjectCount("table") > 0);
+        addDescriptionWithObject(
+                "There is a knife on the floor.",
+                new Weapon("knife", "sharp", "short", "metal"));
+        addDescriptionWithObjectCond(
+                "A painting of a tree hangs by a string on the left wall.",
+                "The painting that was on the wall lies on the floor.",
+                new Painting(),
+                () -> getRoomState() == StateRoom01.START.ordinal());
+    }
+}
+\end{lstlisting}
+
+This is still quite difficult for a developer/designer to create new rooms. It would be ideal for a designer to just supply a text description of the room, with the room objects generated automatically.
+\\
+\\
+Finally, another standalone program was created which takes as input a text file containing a description of a room, and outputs a Java source file for that room will the objects added to the room (as well as any conditionals).
+
+TODO
+
+THe following command:
+
+See Listing for a text file and then Listing for the Java source file generated.
 
 \subsection{Settings Activity}
 
@@ -2179,6 +2230,54 @@ Baron               & First                \\
 Baron               & Second              
 \end{tabular}
 \end{table}
+
+\newpage
+\subsection{Room Generation Version 1}
+\label{appendix:room-gen-v1}
+
+The listing below shows the first version of \texttt{Room01} which is no longer used. This was used as a prototype for the room generation and is only shown for comparison purposes (compared to version 2 on page \pageref{lst:room01}).
+
+\begin{lstlisting}[language=Java, caption=Room01 (Version 1)]
+public class Room01 extends Room {
+
+    public enum StateRoom01 {
+        START,
+        PAINTING_CUT,
+        END
+    }
+
+    public Room01() {
+        super();
+        setRoomState(StateRoom01.START.ordinal());
+        addRoomObject(new Door());
+        addRoomObject(new Painting());
+        addRoomObject(new GlassTable());
+        addRoomObject(new Weapon("knife", "sharp", "short", "metal"));
+    }
+
+    @Override
+    public String getRoomDescription() {
+        String roomOutput = "";
+        roomOutput += "You are in a room with a locked door in front of you.";
+        if (getRoomObjectCount("table") > 0) {
+            roomOutput +=  "There is a glass table in the middle of the room.";
+        }
+        if (getRoomObjectCount("knife") > 0) {
+            if (getRoomObjectCount("table") > 0) {
+                roomOutput += " There is a knife on the table.";
+            } else {
+                roomOutput += " A knife lays on the floor with the broken table.";
+            }
+        }
+        if (getRoomState() == StateRoom01.START.ordinal()) {
+            roomOutput += " A painting of a tree hangs by a string on the wall to your left.";
+        } else {
+            roomOutput += " The painting that was on the wall lies on the floor.";
+        }
+        return roomOutput;
+    }
+}
+\end{lstlisting}
 
 \newpage
 \addcontentsline{toc}{section}{References}

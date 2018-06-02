@@ -94,6 +94,11 @@ settings"
 - Overworld impl (show map)
 -- Physical Objects
 -- Rooms and Room generation
+---- General
+---- room description (show previous versions in appendix)
+---- Add Roomobjects (lamda expressions, boolean suppliers)
+---- Example of room1
+---- Room generation
 
 
 
@@ -142,6 +147,7 @@ Limitations:
 - Lots of targets, few contexts? (ActionTargetMap)
 
 Contributions
+- euicker to add voice commands, no need to hard code
 - entirely offline, can be used with embedded systems or robots
 
 - Created GitHub gist (even if I can't get the Gloss working)
