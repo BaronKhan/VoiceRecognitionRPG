@@ -139,6 +139,10 @@ Evaluation of other extensions (multipe commands, confirmation, suggestions)
 
 Evaluate speed of recognition (pc, phone, raspberry pi)
 
+Evaluate ease of development (adding voice commands)
+
+Evaluate ease of room generation
+
 Limitations:
 - Only single-word actions, targets and contexts
 - Can't handle negatives (call dan with no audio)
