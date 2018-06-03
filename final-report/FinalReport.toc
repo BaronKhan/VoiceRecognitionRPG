@@ -69,31 +69,39 @@
 \contentsline {subsubsection}{\numberline {5.4.1}GameState.java}{46}
 \contentsline {subsubsection}{\numberline {5.4.2}Battle Mode}{46}
 \contentsline {subsubsection}{\numberline {5.4.3}Overworld Mode}{47}
-\contentsline {subsubsection}{\numberline {5.4.4}Room Generation}{47}
-\contentsline {subsection}{\numberline {5.5}Settings Activity}{51}
-\contentsline {subsection}{\numberline {5.6}Video Conferencing Demo}{52}
-\contentsline {section}{\numberline {6}Appendix}{54}
-\contentsline {subsection}{\numberline {6.1}Android Application Screenshots}{54}
-\contentsline {subsubsection}{\numberline {6.1.1}Battle Mode Example}{54}
-\contentsline {subsubsection}{\numberline {6.1.2}Overworld Mode Example}{56}
-\contentsline {subsubsection}{\numberline {6.1.3}Multiple Commands Example}{58}
-\contentsline {subsubsection}{\numberline {6.1.4}Ambiguous Utensil Example}{60}
-\contentsline {subsubsection}{\numberline {6.1.5}Settings User Interface}{62}
-\contentsline {subsubsection}{\numberline {6.1.6}Duplicate Contacts}{63}
-\contentsline {subsection}{\numberline {6.2}Skyrim Kinect Command List}{64}
-\contentsline {subsection}{\numberline {6.3}Penn Treebank Tagset}{66}
-\contentsline {subsection}{\numberline {6.4}System UML Class Diagram}{67}
-\contentsline {subsection}{\numberline {6.5}Game Design UML Class Diagram}{68}
-\contentsline {subsection}{\numberline {6.6}Choosing the Slot-filling Grammar}{69}
-\contentsline {subsection}{\numberline {6.7}Finding the Best Action in VoiceProcess.java}{70}
-\contentsline {subsection}{\numberline {6.8}JwiLexicalDatabase.java}{72}
-\contentsline {subsection}{\numberline {6.9}Action Class Example}{75}
-\contentsline {subsection}{\numberline {6.10}MultipleCommandProcess.executeCommand()}{76}
-\contentsline {subsection}{\numberline {6.11}BattleContextActionMap.java}{77}
-\contentsline {subsection}{\numberline {6.12}Battle Mode Example Commands}{78}
-\contentsline {subsection}{\numberline {6.13}OverworldContextActionMap.java}{79}
-\contentsline {subsection}{\numberline {6.14}Overworld Mode Example Commands}{80}
-\contentsline {subsection}{\numberline {6.15}CallContextActionMap.java}{81}
-\contentsline {subsection}{\numberline {6.16}Video Conferencing Example Commands}{82}
-\contentsline {subsection}{\numberline {6.17}Room Generation Version 1}{83}
-\contentsline {section}{References}{84}
+\contentsline {subsection}{\numberline {5.5}Room Generation Implementation}{47}
+\contentsline {subsubsection}{\numberline {5.5.1}Rooms}{47}
+\contentsline {subsubsection}{\numberline {5.5.2}Manual Room Generation}{48}
+\contentsline {subsubsection}{\numberline {5.5.3}Using BooleanSuppliers}{48}
+\contentsline {subsubsection}{\numberline {5.5.4}Room Generation Program}{50}
+\contentsline {subsubsection}{\numberline {5.5.5}Room Generation Example}{51}
+\contentsline {subsection}{\numberline {5.6}Settings Activity}{52}
+\contentsline {subsection}{\numberline {5.7}Video Conferencing Demo}{52}
+\contentsline {subsection}{\numberline {5.8}Multithreading the Application}{52}
+\contentsline {section}{\numberline {6}Evaluation}{54}
+\contentsline {section}{\numberline {7}Appendix}{55}
+\contentsline {subsection}{\numberline {7.1}Android Application Screenshots}{55}
+\contentsline {subsubsection}{\numberline {7.1.1}Battle Mode Example}{55}
+\contentsline {subsubsection}{\numberline {7.1.2}Overworld Mode Example}{57}
+\contentsline {subsubsection}{\numberline {7.1.3}Multiple Commands Example}{59}
+\contentsline {subsubsection}{\numberline {7.1.4}Ambiguous Utensil Example}{61}
+\contentsline {subsubsection}{\numberline {7.1.5}Settings User Interface}{63}
+\contentsline {subsubsection}{\numberline {7.1.6}Duplicate Contacts}{64}
+\contentsline {subsection}{\numberline {7.2}Skyrim Kinect Command List}{65}
+\contentsline {subsection}{\numberline {7.3}Penn Treebank Tagset}{67}
+\contentsline {subsection}{\numberline {7.4}System UML Class Diagram}{68}
+\contentsline {subsection}{\numberline {7.5}Game Design UML Class Diagram}{69}
+\contentsline {subsection}{\numberline {7.6}Choosing the Slot-filling Grammar}{70}
+\contentsline {subsection}{\numberline {7.7}Finding the Best Action in VoiceProcess.java}{71}
+\contentsline {subsection}{\numberline {7.8}JwiLexicalDatabase.java}{73}
+\contentsline {subsection}{\numberline {7.9}Action Class Example}{76}
+\contentsline {subsection}{\numberline {7.10}MultipleCommandProcess::executeCommand()}{77}
+\contentsline {subsection}{\numberline {7.11}BattleContextActionMap.java}{78}
+\contentsline {subsection}{\numberline {7.12}Battle Mode Example Commands}{79}
+\contentsline {subsection}{\numberline {7.13}OverworldContextActionMap.java}{80}
+\contentsline {subsection}{\numberline {7.14}Overworld Mode Example Commands}{81}
+\contentsline {subsection}{\numberline {7.15}CallContextActionMap.java}{82}
+\contentsline {subsection}{\numberline {7.16}Video Conferencing Example Commands}{83}
+\contentsline {subsection}{\numberline {7.17}Manual Room Generation (Obsolete)}{84}
+\contentsline {subsection}{\numberline {7.18}Retrieving a Room Description}{85}
+\contentsline {section}{References}{86}

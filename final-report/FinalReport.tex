@@ -801,7 +801,7 @@ Finally, \texttt{Room} is an abstract class for generating new rooms for the gam
 Instead of forcing the developer to manually instantiate object within each room, a mechanism will be written that will allow a developer to generate a new room from just a description of it, using natural language processing techniques.
 \\
 \\
-A command-line program has been created which takes as input a text file containing a description of a room and generates a source file for a Room containing the objects mentioned in the description, and also handles object relations (e.g. whether a lamp is on the table or on the floor). This allows the developer to easily create new rooms for the game without having to manually add the objects to a room. See Section \ref{section:rooms} for the implementation.
+A command-line program has been created which takes as input a text file containing a description of a room and generates a source file for a Room containing the objects mentioned in the description, and also handles object relations (e.g. whether a lamp is on the table or on the floor). This allows the developer to easily create new rooms for the game without having to manually add the objects to a room. See Section \ref{section:room-generation} for the implementation.
 
 \newpage
 \section{Implementation}
@@ -1332,10 +1332,13 @@ Objects in the room can inherit from the \texttt{PhysicalObject} class, and can 
 \\
 See the Appendix \ref{appendix:overworld-examples} for examples of commands that can be used during the \textit{Overworld} mode. Also see the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
 
-\subsubsection{Room Generation}
-\label{section:rooms}
+\subsection{Room Generation Implementation}
+\label{section:room-generation}
 
-Rooms contain the objects that the players interacts with during the \textit{Overworld} mode.
+The use of room generation in this project aims to decrease the workload of the developer and designer as much as possible, using NLP techniques discussed above.
+
+\subsubsection{Rooms}
+Rooms contain the objects that the player interacts with during the \textit{Overworld} mode.
 \\
 \\
 Each room is a derived class from the \texttt{Room} abstract class. Objects in the room are added in the constructor of the room. Objects were added to the room when it is instantiated, and a description of the room is displayed when the player issues a command such as, "look around". Listing \ref{lst:room01-description} shows an example of of the description that is output in the first room.
@@ -1349,12 +1352,14 @@ Each room is a derived class from the \texttt{Room} abstract class. Objects in t
 \end{lstlisting}
 
 This description will change dynamically as the player adds, removes or interacts with objects in the room. For example, if the player breaks the glass table, then the third sentence involving the potion would change to, "A potion lays on the floor with the broken table." Similarly, if the player cuts the painting down, then the last sentence would change to, "The painting that was on the wall now lies on the floor."
-\\
-\\
-Initially, objects were added manually to the constructor, and the description of the room was generated via a series of \texttt{if} and \texttt{else} statements in a \texttt{getRoomDescription()} method (based on the current state of the room when the method is called). However, this was too cumbersome for a developer to use as the if statements would become long and complicated, so the whole structure was changed. See the Appendix \ref{appendix:room-gen-v1} for an example of the first room in the game using this version of the room generation code (for comparison purposes).
-\\
-\\
-For the second iteration of the room generation structure, objects are added to the room alongside the sentence in the description that mentions the object. In order to dynamically change these sentences as the state of the room changes, \texttt{BooleanSupplier}s are used. This is a functional interface that allows a developer to store a lambda expression (e.g. a Boolean expression) and evaluate it later on using the \texttt{getAsBoolean()} member method RRR. For example, instead of writing an if statement for whether a table exists in the room or not, we can just create a lambda expression in the constructor \texttt{(() -> getRoomObjectCount("table") > 0)}, and evaluate it later. This prevents the need to write a series of \texttt{if} and \texttt{else} statements, or a \texttt{switch} statement.
+
+\subsubsection{Manual Room Generation}
+
+Initially, objects were added manually to the constructor of the room, and the description of the room was generated via a series of \texttt{if} and \texttt{else} statements in a \texttt{getRoomDescription()} method (based on the current state of the room when the method is called). However, this was too cumbersome for a developer/designer to use, as the if statements would become long and complicated, so the whole structure was changed. See the Appendix \ref{appendix:room-gen-v1} for an example of the first room in the game using this version of the room generation code (for comparison purposes).
+
+\subsubsection{Using BooleanSuppliers}
+
+For the second iteration of the room generation structure, objects are added to the room alongside the sentence in the description that mentions the object. In order to dynamically change these sentences as the state of the room changes, \texttt{BooleanSupplier}s are used. This is a functional interface that allows a developer to store a lambda expression (e.g. a Boolean expression) and evaluate it later on using the \texttt{getAsBoolean()} member method RRR. For example, instead of writing an if statement for whether a table exists in the room or not, we can just create a lambda expression in the constructor \texttt{(() -> getRoomObjectCount("table") > 0)}, and evaluate it later. This prevents the need to write a series of \texttt{if} and \texttt{else} statements when retrieving the room's description.
 \\
 \\
 The \texttt{Room} abstract class contains an \texttt{mDescriptionList} field. Each entry in this list represents a different sentence in the description and contains a triple of the following:
@@ -1362,7 +1367,7 @@ The \texttt{Room} abstract class contains an \texttt{mDescriptionList} field. Ea
 \begin{itemize}
 \item \texttt{Pair<String, String>} | a pair of sentences: one for when a conditional is \texttt{true} and the other for when it is \texttt{false}.
 
-\item \texttt{BooleanSupplier} | a lambda expression that denotes the existence of the object tied to the sentence. If no object is tied to the sentence, then it is set to null.
+\item \texttt{BooleanSupplier} | a lambda expression that denotes the existence of the object tied to the sentence. If no object is tied to the sentence, then it is set to \texttt{null}.
 
 \item \texttt{BooleanSupplier} | a lambda expression that represents the conditional which chooses the sentence the pair above that should be displayed.
 \end{itemize}
@@ -1380,7 +1385,7 @@ protected void addDescriptionWithObjectCond(String textTrue, String textFalse, E
 }
 \end{lstlisting}
 
-There are also wrappers for this method that constrain the functionality (e.g. if the user just wants to add a single sentence to the description without tying it to an object's existence in a room):
+There are also wrappers for this method that constrain the functionality (e.g. if the user just wants to add a single sentence to the description without connecting it to an object's existence in a room):
 
 \begin{lstlisting}[language=Java, caption=addDescriptionWithObjectCond() wrappers, label=lst:room-description-wrappers]
 //Only add a description that is always shown
@@ -1442,48 +1447,36 @@ public class Room01 extends Room {
 }
 \end{lstlisting}
 
-In the \texttt{getDescription()} method used for displaying the current description of the room to the player, we simply evaluate all the entries in the \texttt{mDescriptionList} field. Listing \ref{lst:get-description} shows the code for this.
+In the \texttt{getDescription()} method used for displaying the current description of the room to the player, we simply evaluate all the entries in the \texttt{mDescriptionList} field. See the Appendix \ref{appendix:get-description} for the method source code.
 
-\begin{lstlisting}[language=Java, caption=Room::getDescription(), label=lst:get-description]
-public String getRoomDescription() {
-    String roomOutput = "";
-    for (Triple<Pair<String, String>, BooleanSupplier, BooleanSupplier> description : mDescriptionList) {
-        boolean objectExists = true;
-        if (description.second != null) {
-            objectExists = description.second.getAsBoolean();
-        }
-        boolean cond = description.third.getAsBoolean();
-        if (objectExists) {
-            if (cond) {
-                roomOutput += " - "+description.first.first+"\n";
-            } else if (description.first.second != null) {
-                roomOutput += " - "+description.first.second+"\n";
-            }
-        }
-    }
-    return roomOutput;
-}
-\end{lstlisting}
+\subsubsection{Room Generation Program}
 
-It is still quite difficult for a developer/designer to create new rooms using this system. It would be ideal for a designer to just supply a text description of the room, with the room objects generated automatically.
+It is still quite difficult for a developer/designer to create new rooms using the system above. It would be ideal for a designer to just supply a text description of the room, with the room objects generated automatically.
 \\
 \\
-Finally, another standalone Java program was created which takes as input a text file containing a description of a room, and outputs a Java source file for that room with the objects added to the constructor (as well as any conditionals for the description).
+A standalone Java program was created which takes as input a text file containing a description of a room, and outputs a Java source file for that room with the objects added to the constructor (as well as any conditionals for the description).
 \\
 \\
-The program breaks the description down into sentences and parses each one to determine which objects should be added to the room, as well as any conditionals. Object creation is denoted using an asterisk (*) just before the object word.
+The program reads an object file containing the available objects that are in the game (and the corresponding class name in the project). It then takes the description in the input file and breaks it down into sentences and parses each one to determine which objects should be added to the room, as well as any conditionals. Object creation is denoted using an asterisk (*) just before the object word. The object must be in the object file for it to be added.
 \\
 \\
-Reusing the semantic similarity semantic similarity engine using the the voice recognition system, synonyms for objects can also be created (e.g. the sentence, "There is a utensil in the room" may add a fork to the room since "fork" is semantically similar to "utensil").
+The semantic similarity engine used in the voice recognition system is used again here to create objects using synonyms in the room description (e.g. the sentence, "There is a utensil in the room" may add a spoon to the room since "spoon" is semantically similar to "utensil", and spoon is in the object file).
 \\
 \\
-TODO: ReVerb
+More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, "There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
 \\
 \\
-For convenience when building, the Java program is wrapped around a Bash script, \texttt{generateRoom.sh}, which builds the source code and executes it.
+\textit{ReVerb} is a Java library that extracts binary classifications in sentences RRR, and is used in the Java program for generating a room source file. The as input raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, "The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
 \\
 \\
-Listing \ref{lst:room-table-txt} shows an example of a text file for a room.
+These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, "A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
+\\
+\\
+See the project's repository for the full Java program source code (\texttt{GenerateRoom.java}). For convenience when building, the Java program is wrapped around a Bash script, \texttt{generateRoom.sh}, which builds the source code and executes it.
+
+\subsubsection{Room Generation Example}
+
+Listing \ref{lst:room-table-txt} shows an example of a text file for a room with various objects in it.
 
 \begin{lstlisting}[caption=room-table.txt, label=lst:room-table-txt]
 You are in a large room. There is a single *door in front of you. There is a glass
@@ -1536,7 +1529,7 @@ public class RoomTable extends Room {
 }
 \end{lstlisting}
 
-The developer can still edit this source file to add more complex functionality that was not added by the program. See the project's repository for the full Java program source code (\texttt{GenerateRoom.java}).
+The developer can still edit this source file to add more complex functionality that was not added by the program.
 
 \subsection{Settings Activity}
 
@@ -1544,10 +1537,7 @@ The application also has a settings activity, which allows the user to change va
 
 \subsection{Video Conferencing Demo}
 
-In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands.
-\\
-\\
-Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the video conferencing activity.
+In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands. Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the video conferencing activity.
 
 \begin{center}
 \begin{figure}
@@ -1574,11 +1564,12 @@ Figure \ref{fig:call-context-action-map} shows the context-action 'table' for th
 \end{figure}
 \end{center}
 
-The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, "Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an an ambiguous contact is called.
+The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, "Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
 
+\subsection{Multithreading the Application}
 
-
-
+\newpage
+\section{Evaluation}
 
 
 
@@ -2150,7 +2141,7 @@ public class OpenObject extends Action {
 \end{lstlisting}
 
 \newpage
-\subsection{MultipleCommandProcess.executeCommand()}
+\subsection{MultipleCommandProcess::executeCommand()}
 \label{appendix:multiple-commands-execute}
 \begin{lstlisting}[language=Java, caption=MultipleCommandProcess.executeCommand()]
 public Object executeCommand(Queue<String> queue) {
@@ -2382,10 +2373,10 @@ Baron               & Second
 \end{table}
 
 \newpage
-\subsection{Room Generation Version 1}
+\subsection{Manual Room Generation (Obsolete)}
 \label{appendix:room-gen-v1}
 
-The listing below shows the first version of \texttt{Room01} which is no longer used. This was used as a prototype for the room generation and is only shown for comparison purposes (compared to version 2 on page \pageref{lst:room01}).
+The listing below shows the first version of \texttt{Room01} which is no longer used. Lines 22-36 demonstrate how the use of if statements for generating room descriptions can become too complex. This code is only shown for comparison purposes (compared to version 2 on page \pageref{lst:room01}).
 
 \begin{lstlisting}[language=Java, caption=Room01.java (Version 1)]
 public class Room01 extends Room {
@@ -2426,6 +2417,33 @@ public class Room01 extends Room {
         }
         return roomOutput;
     }
+}
+\end{lstlisting}
+
+\newpage
+\subsection{Retrieving a Room Description}
+\label{appendix:get-description}
+
+Listing \ref{lst:get-description} shows the method for getting the description of a room. It reads each entry in the \texttt{mDescriptionList} field and evaluates the \texttt{BooleanSupplier}s to determine which sentence to output.
+
+\begin{lstlisting}[language=Java, caption=Room::getDescription(), label=lst:get-description]
+public String getRoomDescription() {
+    String roomOutput = "";
+    for (Triple<Pair<String, String>, BooleanSupplier, BooleanSupplier> description : mDescriptionList) {
+        boolean objectExists = true;
+        if (description.second != null) {
+            objectExists = description.second.getAsBoolean();
+        }
+        boolean cond = description.third.getAsBoolean();
+        if (objectExists) {
+            if (cond) {
+                roomOutput += " - "+description.first.first+"\n";
+            } else if (description.first.second != null) {
+                roomOutput += " - "+description.first.second+"\n";
+            }
+        }
+    }
+    return roomOutput;
 }
 \end{lstlisting}
 
