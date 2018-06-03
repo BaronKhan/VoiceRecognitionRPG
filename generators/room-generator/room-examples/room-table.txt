@@ -1,4 +1,5 @@
-You are in a large room. There is a single *door in front of you. 
+You are in a large room. 
+There is a single *door in front of you. 
 There is a glass *table in the middle of the room.
 A *knife is on the floor.
 A *fork is with the knife.
