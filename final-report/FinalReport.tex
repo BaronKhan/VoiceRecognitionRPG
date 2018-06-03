@@ -1,4 +1,5 @@
 \documentclass[11pt]{article}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage{blindtext}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
@@ -20,6 +21,7 @@
 \setlength{\parindent}{0pt}
 \bibliographystyle{IEEEtran}
 \captionsetup{justification=centering}
+
 
 \lstset{language=Java,
 basicstyle=\ttfamily\scriptsize,
@@ -1610,17 +1612,129 @@ New tests were added frequently and were executed to ensure a new feature did no
 \\
 See the Appendix \ref{appendix:mock-tests} for a list of commands that are tested for correctness using the mock tests (note that not all tests are shown here). See the project's repository for the entire testing framework.
 
+\subsection{Evaluation of Semantic Similarity}
+
+The semantic similarity engine, on its own without any helper mechanisms (such as synonym-mapping, sentence-matching, match-ignoring, etc.), has been evaluated based on the number of different commands using different synonyms that it can detect.
+\\
+\\
+A separate Java project was created 
+
+The semantic similarity method that produced the highest score was the Wu and Palmer (WUP) method. Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation using this method.
+
+\begin{table}[H]
+\small
+\centering
+\caption{Game}
+\label{table:game-scores}
+\begin{tabular}{lll}
+\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
+\multicolumn{1}{l|}{attack}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{charge}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{hit}                            & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{tackle}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{fight}                          & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{assault}                        & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{battle}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{launch an assault}              & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{attack with a sword}            & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{attack with something sharp}    & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{attack with something pointy}   & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{attack with something long}     & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{attack with something metallic} & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heal}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{recover}                        & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{regenerate}                     & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{rest}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{heal with a potion}             & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heal with an elixer}            & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{heal with an healing drink}     & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{move forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{move straight}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{move backwards}                 & \multicolumn{1}{l|}{MOVE\_BACKWARDS}    & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{move in reverse}                & \multicolumn{1}{l|}{MOVE\_BACKWARDS}    & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{move ahead}                     & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{continue forwards}              & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{run forwards}                   & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{dash forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{75.00\%}            &                              \\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\small
+\centering
+\caption{Video Conferencing}
+\label{table:calling-scores}
+\begin{tabular}{lll}
+\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
+\multicolumn{1}{l|}{phone}                          & \multicolumn{1}{l|}{PHONE}              & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone fred}                     & \multicolumn{1}{l|}{PHONE\_FRED}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane}                     & \multicolumn{1}{l|}{PHONE\_JANE}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{ring jane}                      & \multicolumn{1}{l|}{PHONE\_JANE}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane with video}          & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane with webcam}         & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{use webcam to call jane}        & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{call jane with audio}           & \multicolumn{1}{l|}{PHONE\_JANE\_AUDIO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane with sound}          & \multicolumn{1}{l|}{PHONE\_JANE\_AUDIO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{contact jane with video}        & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stop call}                      & \multicolumn{1}{l|}{STOP}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stop call with fred}            & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{end call with fred}             & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{close}                          & \multicolumn{1}{l|}{STOP}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{finish call with fred}          & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{halt call with fred}            & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mute video}                     & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mute screen}                    & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mute jane}                      & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{silence jane}                   & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{80.00\%}            &                              \\
+\end{tabular}
+\end{table}
 
 
+\begin{table}[H]
+\small
+\centering
+\caption{Cooking}
+\label{table:cooking-scores}
+\begin{tabular}{lll}
+\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
+\multicolumn{1}{l|}{make egg}                       & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{make eggs}                      & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{make soup}                      & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{create soup}                    & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{produce soup}                   & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{cook egg}                       & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{make omelette}                  & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{make something liquid}          & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{boil egg}                       & \multicolumn{1}{l|}{BOIL\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heat egg}                       & \multicolumn{1}{l|}{BOIL\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{boil soup with cooker}          & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{boil soup with boiler}          & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{boil soup with stove}           & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{heat pottage with stove}        & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stir soup}                      & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mix soup}                       & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{blend soup}                     & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stir chowder}                   & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir pottage}                   & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with spoon}           & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with cutlery}         & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with utensil}         & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with tablespoon}      & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with teaspoon}        & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with soupspoon}       & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{blend chowder using soupspoon}  & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{76.92\%}            &                              \\
 
+\end{tabular}
+\end{table}
 
+\begin{center}
+\textbf{Final Score: 77.03\%}
+\end{center}
 
-
-
-
-
-
-
+Despite some of the tests failing, these can be resolved using the system's helper mechanisms (e.g. synonym-mapping).
 
 
 
@@ -2516,7 +2630,7 @@ public String getRoomDescription() {
 \subsection{List of Android Mock Tests}
 \label{appendix:mock-tests}
 
-Below is a list of most of the test suites containing commands that are tested for correctness in the Android application. Note that commands that are tested for in-correctness, or any tests that are not testing commands, are not shown here. Also note that some test suites in \texttt{BattleTest} are repeated in \texttt{OverworldTest} (as they modes use different \texttt{ContextActionMap}s), so are not shown again, and any commands that are tested multiple times in the same test class are only shown once. Please see the project's repository for the full test framework.
+Below is a list of most of the test suites containing commands that are tested for correctness in the Android application. Note that commands that are tested for incorrectness, or any tests that are not testing commands, are not shown here. Also note that some test suites in \texttt{BattleTest} are repeated in \texttt{OverworldTest} (as they modes use different \texttt{ContextActionMap}s), so are not shown again, and any commands that are tested multiple times in the same test class are only shown once. Please see the project's repository for the full test framework.
 
 \subsubsection{BattleTest}
 \begin{scriptsize}
@@ -2716,6 +2830,8 @@ Below is a list of most of the test suites containing commands that are tested f
 	\end{itemize}	
 \end{itemize}
 \end{scriptsize}
+
+Please see the project's repository for the full test framework.
 
 \newpage
 \addcontentsline{toc}{section}{References}
