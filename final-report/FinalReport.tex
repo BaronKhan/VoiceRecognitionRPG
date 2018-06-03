@@ -1589,7 +1589,7 @@ There a four test classes in the Android project, each containing several test s
 \item \texttt{WordNetTest.java} | tests the interaction with the WordNet database; also tests the \texttt{SentenceMapper} class. 
 \end{itemize}
 
-Listing \ref{lst:battle-test-inventory} shows an example of a test suite for testing commands that show the inventory in \texttt{BattleTest.java}. Note that some tests actually test for \textit{incorrectness} of a command (such as line 7) of the listing.
+Listing \ref{lst:battle-test-inventory} shows an example of a test suite for testing commands that show the inventory in \texttt{BattleTest.java}. Note that some tests actually test for \textit{incorrectness} of a command (such as line 7 of the listing).
 
 \begin{lstlisting}[language=Java, label=lst:battle-test-inventory]
 @Test
@@ -1608,6 +1608,44 @@ public void testInventorySuite() {
 New tests were added frequently and were executed to ensure a new feature did not break another feature. New features could not be committed to the project's repository unless every test in every test suite of every test class passed with no errors.
 \\
 \\
+See the Appendix \ref{appendix:mock-tests} for a list of commands that are tested for correctness using the mock tests (note that not all tests are shown here). See the project's repository for the entire testing framework.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2477,6 +2515,207 @@ public String getRoomDescription() {
 \newpage
 \subsection{List of Android Mock Tests}
 \label{appendix:mock-tests}
+
+Below is a list of most of the test suites containing commands that are tested for correctness in the Android application. Note that commands that are tested for in-correctness, or any tests that are not testing commands, are not shown here. Also note that some test suites in \texttt{BattleTest} are repeated in \texttt{OverworldTest} (as they modes use different \texttt{ContextActionMap}s), so are not shown again, and any commands that are tested multiple times in the same test class are only shown once. Please see the project's repository for the full test framework.
+
+\subsubsection{BattleTest}
+\begin{scriptsize}
+\begin{itemize}
+\item testAttackInputSuite
+	\begin{itemize}
+	\item "attack"
+	\item "attack with everything you have got"
+	\item "hit"
+	\item "hit the troll"
+	\item "punch the troll"
+	\item "launch an assault"
+	\item "charge at the troll"
+	\item "fight the troll"
+	\item "attack the troll"
+	\item "attack with the hammer"
+	\item "attack with the sledgehammer"
+	\item "attack the troll with the sledgehammer"
+	\item "use something to attack with"
+	\item "use a sword attack"
+	\end{itemize}
+\item testCorrectContexts
+	\begin{itemize}
+	\item "attack the troll with a sword"
+	\item "attack the troll with a hammer"
+	\end{itemize}
+\item testHealInputSuite
+	\begin{itemize}
+	\item "heal"
+	\item "use a potion to heal"
+	\item "heal with elixer"
+	\item "use an elixer right now before it is too late to heal"
+	\item "recover with an elixer"
+	\item "use something to heal with"
+	\item "heal myself with a potion"
+	\end{itemize}
+\item testDescriptions
+	\begin{itemize}
+	\item "attack with something blunt"
+	\item "hit the troll with something pointy please"
+	\item "launch an assault towards the troll using something sharp"
+	\item "use a heavy attack"
+	\end{itemize}
+\item testInventorySuite
+	\begin{itemize}
+	\item "show my inventory"
+	\item "show my bag"
+	\item "please show the contents of my possessions that I have"
+	\item "look at my inventory"
+	\end{itemize}
+\item testUseSuite
+	\begin{itemize}
+	\item "use the sword to attack"
+	\item "use something to attack with"
+	\item "use a potion"
+	\item "use something sharp"
+	\end{itemize}
+\item testLookAroundSuite
+	\begin{itemize}
+	\item "look around"
+	\item "look at the troll"
+	\end{itemize}
+\item testShowActionsSuite
+	\begin{itemize}
+	\item "show my commands"
+	\item "look at my actions"
+	\end{itemize}
+\item testLearningSuite
+	\begin{itemize}
+	\item "strike means attack"
+	\item "strike the troll"
+	\end{itemize}
+\item testConfirmation
+	\begin{itemize}
+	\item "obliterate the troll with the sword"
+	\item "kick the troll"
+	\item "regenerate using a potion"
+	\item "use something to regenerate with"
+	\item "attack with a bang"
+	\end{itemize}
+\item testMultipleCommandsSuite
+	\begin{itemize}
+	\item "obliterate the troll with the sword and then regenerate using a potion"
+	\item "attack with a sword and hammer"
+	\item "attack with a hammer and with a sword"
+	\end{itemize}
+\item testSentenceMatching
+	\begin{itemize}
+	\item "what are my actions"
+	\item "what actions can i do"
+	\item "what is in my bag"
+	\end{itemize}
+\end{itemize}
+\end{scriptsize}
+
+\subsubsection{OverworldTest}
+\begin{scriptsize}
+\begin{itemize}
+\item testLookSuite
+	\begin{itemize}
+	\item "look at my inventory"
+	\item "look inside the bag"
+	\item "look around"
+	\item "look at the surroundings"
+	\item "observe the room"
+	\end{itemize}
+\item testPickUpSuite
+	\begin{itemize}
+	\item "pick up the knife"
+	\item "grab the potion"
+	\end{itemize}
+\item testRoom01CutSuite
+	\begin{itemize}
+	\item "cut the painting"
+	\item "cut the table using the knife"
+	\item "slash the door using the knife"
+	\end{itemize}
+\item testBreakSuite
+	\begin{itemize}
+	\item "break the table"
+	\item "break the door"
+	\end{itemize}
+\item testOpenSuite
+	\begin{itemize}
+	\item "open the table"
+	\item "open the door"
+	\end{itemize}
+\item testUseSuite
+	\begin{itemize}
+	\item "use your hand to pick up the knife"
+	\item "use the knife to slash the door"
+	\item "use the knife to cut the glass table"
+	\item "use the knife to cut the painting"
+	\item "use the key to open the door"
+	\end{itemize}
+\item testMultipleCommandsSuite
+	\begin{itemize}
+	\item "grab the knife and cut the painting then unlock the door"
+	\end{itemize}
+\item testMultipleCommandsAndMultipleSuggestionsSuite
+	\begin{itemize}
+	\item "grab the utensil and then cut the painting with the knife"
+	\end{itemize}
+\item testMultipleTargetsSuite
+	\begin{itemize}
+	\item "pick up the knife and the potion"
+	\item "break the table and the door"
+	\end{itemize}
+\item testMultipleTargetsWithContextSuite
+	\begin{itemize}
+	\item "use the knife to cut the table and the door"
+	\item "cut the table with the knife and the door with the sword"
+	\item "cut the door with the knife and then with the sword"
+	\end{itemize}
+\item testMultipleSynonymMapping
+	\begin{itemize}
+	\item "grab the utensil"
+	\item "pick up the utensil"
+	\end{itemize}
+\end{itemize}
+\end{scriptsize}
+
+\subsubsection{CallTest}
+
+\begin{scriptsize}
+\begin{itemize}
+\item testCallingSuite
+	\begin{itemize}
+	\item "call fred"
+	\item "call jane"
+	\item "phone jane"
+	\item "contact fred"
+	\item "call fred with video"
+	\item "use audio to phone jane"
+	\item "call fred and jane"
+	\end{itemize}
+\item testStopCallsSuite
+	\begin{itemize}
+	\item "stop all the calls"
+	\item "end all of the conversations"
+	\item "stop call with jane"
+	\item "finish call with jane"
+	\item "hang up"
+	\item "hang up with fred"
+	\item "stop calling fred"
+	\end{itemize}
+\item testMutedSuite
+	\begin{itemize}
+	\item "mute my video"
+	\item "mute my audio"
+	\item "unmute my video"
+	\item "unmute my audio"
+	\item "silence my audio"
+	\item "increase my audio"
+	\item "mute fred"
+	\item "unmute fred"
+	\end{itemize}	
+\end{itemize}
+\end{scriptsize}
 
 \newpage
 \addcontentsline{toc}{section}{References}
