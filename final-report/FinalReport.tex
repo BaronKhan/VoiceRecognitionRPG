@@ -1057,13 +1057,13 @@ public interface ILexicalDatabase {
 }
 \end{lstlisting}
 
-The WS4J library is packaged with its own implementation of this interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet) RRR. Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used.
+The WS4J library is packaged with its own implementation of this interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet RRR). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used. Adding to this, even if the SQLite methods worked, it would still require a connection to the internet in order to access the WordNet database, which is undesirable for this project, as one of the goals is to create a system that works entirely offline.
 \\
 \\
-A new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with the Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
+Therefore, a new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with a local Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
 \\
 \\
-Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online that other developers may freely use \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation.
+Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online (renamed to \texttt{JwiLexicalDatabase.java}) that other developers may freely use \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation.
 
 
 \subsubsection{ContextActionMap.java}
@@ -1466,10 +1466,10 @@ The semantic similarity engine used in the voice recognition system is used agai
 More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, "There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
 \\
 \\
-\textit{ReVerb} is a Java library that extracts binary classifications in sentences RRR, and is used in the Java program for generating a room source file. The as input raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, "The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
+\textit{ReVerb} is a Java library that extracts binary classifications in sentences RRR. It takes as input the raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, "The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
 \\
 \\
-These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, "A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
+These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01} on page \pageref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, "A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
 \\
 \\
 See the project's repository for the full Java program source code (\texttt{GenerateRoom.java}). For convenience when building, the Java program is wrapped around a Bash script, \texttt{generateRoom.sh}, which builds the source code and executes it.
@@ -1566,21 +1566,48 @@ Figure \ref{fig:call-context-action-map} shows the context-action 'table' for th
 
 The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, "Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
 
-\subsection{Multithreading the Application}
-
 \newpage
 \section{Evaluation}
+\label{evaluation}
 
+This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the use of the systems (i.e. the voice recognition system, the room generation, etc.) and whether they are easy to use via anonymous surveys.
 
+\subsection{Mock Testing}
 
+Different systems in the Android application are tested for correctness using Android Instrumentation tests and the \textit{Android JUnit} framework. These tests run directly on the Android device without using the GUI; only the individual modules are tested in a closed environment.
+\\
+\\
+There a four test classes in the Android project, each containing several test suites that test certain functionalities (a test suite can have between 3-20 different tests):
 
+\begin{itemize}
+\item \texttt{BattleTest.java} | tests the correctness of commands during the \textit{Battle} mode.
 
+\item \texttt{OverworldTest.java} | tests the correctness of commands for the \textit{Overworld} mode.
 
+\item \texttt{CallTest.java} | tests the correctness of video conferencing commands.
 
+\item \texttt{WordNetTest.java} | tests the interaction with the WordNet database; also tests the \texttt{SentenceMapper} class. 
+\end{itemize}
 
+Listing \ref{lst:battle-test-inventory} shows an example of a test suite for testing commands that show the inventory in \texttt{BattleTest.java}. Note that some tests actually test for \textit{incorrectness} of a command (such as line 7) of the listing.
 
+\begin{lstlisting}[language=Java, label=lst:battle-test-inventory]
+@Test
+public void testInventorySuite() {
+    gameState.initBattleState(new Troll(9999999));
+    gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
+    gameState.getInventory().add(new Weapon("sword", "sharp", "metal", "pointy"));
+    testInventoryShown("show my inventory", true);
+    testInventoryShown("show my troll", false);
+    testInventoryShown("show my bag", true);
+    testInventoryShown("please show the contents of my possessions that I have", true);
+    testInventoryShown("look at my inventory", true);
+}
+\end{lstlisting}
 
-
+New tests were added frequently and were executed to ensure a new feature did not break another feature. New features could not be committed to the project's repository unless every test in every test suite of every test class passed with no errors.
+\\
+\\
 
 
 
@@ -2446,6 +2473,10 @@ public String getRoomDescription() {
     return roomOutput;
 }
 \end{lstlisting}
+
+\newpage
+\subsection{List of Android Mock Tests}
+\label{appendix:mock-tests}
 
 \newpage
 \addcontentsline{toc}{section}{References}

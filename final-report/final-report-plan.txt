@@ -119,6 +119,17 @@ __Evaluation__
 
 Mock testing
 
+Evaluation of semantic similarity
+(pick action maps to knife instead of grab!)
+Evaluation project details
+
+Evaluation of effectiveness of slot-filling (need sentence mapper)
+
+Evaluation of effectivenesss of learning mechanism
+
+Evaluation of other extensions (multipe commands, confirmation, suggestions)
+
+Evaluate speed of recognition, performance (pc, phone, raspberry pi)
 Number of tests:
 Overworld: 44
 Battle: 67
@@ -126,22 +137,11 @@ Total time for all tests: 3m 59s 113ms
 WordNet test time: 41s 9ms
 Time for other tests: 198104ms = 3m 18s 104ms
 Time for one test: 1785ms = 1s 784ms
+Speed tests in evaluation section
 
-Evaluation of effectiveness of slot-filling
+Evaluate ease of development (adding voice commands, survey)
 
-Evaluation of semantic similarity
-(pick action maps to knife instead of grab!)
-Evaluation project details
-
-Evaluation of effectivenesss of learning mechanism
-
-Evaluation of other extensions (multipe commands, confirmation, suggestions)
-
-Evaluate speed of recognition (pc, phone, raspberry pi)
-
-Evaluate ease of development (adding voice commands)
-
-Evaluate ease of room generation
+Evaluate ease of room generation (survey)
 
 Limitations:
 - Only single-word actions, targets and contexts
@@ -150,19 +150,22 @@ Limitations:
 - Ambiguous words (throw the match)
 - Lots of targets, few contexts? (ActionTargetMap)
 
+
+__Conclusion__
+
 Contributions
 - euicker to add voice commands, no need to hard code
 - entirely offline, can be used with embedded systems or robots
-
+- created library
 - Created GitHub gist (even if I can't get the Gloss working)
-
-__Conclusion and Future Work__
-
+- Explored ideas for ease of room development
+ 
+ Future Work
 - Mention language changes
-- Combining methods and getting weighting (use ML to find best ones)
+- Combining methods and getting weighting (use ML/deep learning to find best ones)
+    -- algoruthnm would leanr weightings for semantic similarities, RNNs
 - Multithreading for performance
-- Hand-free (wake-word detection)
-- Output nlp text based on description of room (alternative)
+- Hand-free (wake-word detection) and TTs output
 
 Appendix:
 Screeenshots of app
