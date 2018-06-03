@@ -111,8 +111,9 @@ public class VoiceProcess {
         List<String> tags = getTags(input);
         removeContractions(words, tags);
         if (words.size()!=tags.size()) {
-            throw new AssertionError("Error: no. of words("+words.size()
+            Log.e("VoiceProcess.java", "Error: no. of words("+words.size()
                     +") != no.of tags("+tags.size()+"), input = "+input);
+            return "Error occurred: see Android log of more details";
         }
 
         // Elements in the words list are removed during this method, so keep a copy

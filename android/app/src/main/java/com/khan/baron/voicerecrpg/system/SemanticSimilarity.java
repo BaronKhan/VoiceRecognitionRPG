@@ -104,20 +104,20 @@ public class SemanticSimilarity {
     }
 
     public double calculateScore(String word1, String word2) {
-        if (mDb == null) {
-            Log.e("SemanticSimilarity", "Error while parsing: ILexicalDatabase not loaded",
-                    new AssertionError());
-            return 0.0;
-        }
-
-        double score1=0.0, score2=0.0, score;
+        double score1=0.0, score2=0.0, score=0.0;
         try {
+            if (mDb == null) {
+                Log.e("SemanticSimilarity", "Error while parsing: ILexicalDatabase not loaded",
+                        new AssertionError());
+                return 0.0;
+            }
+
             if (mMethod1 != null) { score1 = mMethod1.calcRelatednessOfWords(word1, word2); }
             if (mMethod2 != null) { score2 = mMethod2.calcRelatednessOfWords(word1, word2); }
 
             //Normalise score
-            if (sCurrentMethod1 == SimilarityMethod.METHOD_LESK) { score1 = max(score1 / 80.0, 1.0); }
-            if (sCurrentMethod2 == SimilarityMethod.METHOD_LESK) { score2 = max(score2 / 80.0, 1.0); }
+            if (methodIsLesk(sCurrentMethod1)) { score1 = max(score1 / 80.0, 1.0); }
+            if (methodIsLesk(sCurrentMethod2)) { score2 = max(score2 / 80.0, 1.0); }
 
             if (score2 > 0) { score = (score1 * 0.5) + (score2 * 0.5); }
             else { score = score1; }
@@ -127,9 +127,12 @@ public class SemanticSimilarity {
 
             return score;
         } catch (Exception e) {
-            Log.e("SemanticSimilarity", "Error while parsing: "+e.getMessage(),
-                    new AssertionError());
+            Log.e("SemanticSimilarity", "Error while parsing: "+e.getMessage());
             return 0.0;
         }
+    }
+
+    private boolean methodIsLesk(SimilarityMethod method) {
+        return (method == SimilarityMethod.METHOD_LESK || method == SimilarityMethod.METHOD_FASTLESK);
     }
 }
