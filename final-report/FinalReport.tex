@@ -1779,7 +1779,37 @@ WUP             & \textbf{72.73\%}    & 80.00\%                     & 63.33\%   
 The LCH method has the highest final score, closely followed by the WUP method. However, since the WUP method produced a higher score for the game domain (72.73\% which is much higher than the LCH score of 66.67\%), it was chosen to be the default method used in the role-playing game demo.
 \\
 \\
+The results suggest that path-based methods perform better than methods which use information content or the definitions of the words. The exception to this is the PATH method (i.e. using the reciprocal of the distance between the word nodes in the tree) which performed very poorly with a final score of 42.17\%, perhaps because it is a very simplistic algorithm.
+\\
+\\
 These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. Though it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
+
+\subsubsection{Combining Similarity Methods}
+
+It is possible to combine two different semantic similarity methods and take the average confidence value when comparing the similarity of two words. The evaluation project also calculates the overall scores for different combinations of methods.
+\\
+\\
+Table \ref{table:hybrid-results} shows the final scores for the best combinations of methods. Note that not all combinations are shown; see the project's repository for every combination's final score.
+\\
+\begin{table}[]
+\centering
+\caption{Evaluation of Hybrid Methods}
+\label{table:hybrid-results}
+\begin{tabular}{l|l|l}
+\textbf{Method 1} & \textbf{Method 2} & \textbf{Final Score} \\ \hline
+LESK              & LCH               & \textbf{74.70\%}     \\ \hline
+COS               & LCH               & 73.49\%              \\ \hline
+WUP               & LESK              & 73.49\%              \\ \hline
+FASTLESK          & LCH               & 72.29\%              \\ \hline
+WUP               & FASTLESK          & 72.29\%              \\ \hline
+LCH               & WUP               & 71.08\%             
+\end{tabular}
+\end{table}
+
+The Leacock and Chodorow (LCH) method is involved in almost all of the top combinations, since it also has the highest individual final score.
+\\
+\\
+(Mention only small increase in improvement)
 
 \subsection{Evaluation of Slot-Filling Structures}
 
