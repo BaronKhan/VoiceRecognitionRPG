@@ -80,6 +80,7 @@
 \contentsline {section}{\numberline {6}Evaluation}{54}
 \contentsline {subsection}{\numberline {6.1}Mock Testing}{54}
 \contentsline {subsection}{\numberline {6.2}Evaluation of Semantic Similarity}{55}
+\contentsline {subsection}{\numberline {6.3}Evaluation of Slot-Filling Structures}{57}
 \contentsline {section}{\numberline {7}Appendix}{58}
 \contentsline {subsection}{\numberline {7.1}Android Application Screenshots}{58}
 \contentsline {subsubsection}{\numberline {7.1.1}Battle Mode Example}{58}

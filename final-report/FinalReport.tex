@@ -509,6 +509,7 @@ The software comes with two trained models. According to the software's \texttt{
 With the input string broken down into an array list of its words, each word is used as input to the POS tagger, and the word's tag (e.g. \textit{VB}, \textit{NN}, etc.) is added to a new list. Both lists will be used simultaneously in other processes.
 
 \subsubsection{Slot-filling Matching}
+\label{section:slot-filling}
 
 The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). It is assumed that the subject of the command (that is, the entity about whom the statement is made about RRR) is always the player (or the character that the player is controlling).
 \\
@@ -1019,6 +1020,7 @@ Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed 
 \end{center}
 
 \subsubsection{SemanticSimilarity.java}
+\label{section:semantic-impl}
 
 The semantic similarity engine is implemented as a singleton design pattern with a private constructor and a private instance of itself within the class. The main method of the class is the \texttt{calculateScore()} method which returns the semantic similarity score for two words.
 \\
@@ -1037,7 +1039,7 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 \item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps in words).
 \end{itemize}
 
-Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler RRR). By default, only the WUP method is used by the engine, though other methods can be chosen in the application's settings.
+Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler RRR). By default, only the WUP method is used by the system, though other methods can be chosen in the application's settings.
 
 \subsubsection{CustomLexicalDatabase.java}
 
@@ -1614,17 +1616,18 @@ See the Appendix \ref{appendix:mock-tests} for a list of commands that are teste
 
 \subsection{Evaluation of Semantic Similarity}
 
-The semantic similarity engine, on its own without any helper mechanisms (such as synonym-mapping, sentence-matching, match-ignoring, etc.), has been evaluated based on the number of different commands using different synonyms that it can detect.
+The semantic similarity engine, on its own without any helper mechanisms (such as synonym-mapping, sentence-matching, match-ignoring, etc.), has been evaluated based on the number of different commands that it can detect.
 \\
 \\
-A separate Java project was created 
-
-The semantic similarity method that produced the highest score was the Wu and Palmer (WUP) method. Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation using this method.
+A separate Java project was created that runs the system on a set of commands across three entirely different domains: commands that may be found in a game; video conferencing commands; and commands that may potentially be used in a cooking system/application. On each run, a different semantic similarity method is used. The number of tests passed for each domain is calculated as a percentage of the total tests, and a final score is calculated for that semantic similarity method (as an average of all three domain scores), with the results saved as a CSV file.
+\\
+\\
+The Wu and Palmer (WUP) method produced the joint highest score alongside the Leacock and Chodorow (LCH) method. Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation using the Wu an Palmer method.
 
 \begin{table}[H]
-\small
+\scriptsize
 \centering
-\caption{Game}
+\caption{Game Tests}
 \label{table:game-scores}
 \begin{tabular}{lll}
 \multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
@@ -1661,9 +1664,9 @@ The semantic similarity method that produced the highest score was the Wu and Pa
 \end{table}
 
 \begin{table}[H]
-\small
+\scriptsize
 \centering
-\caption{Video Conferencing}
+\caption{Video Conferencing Tests}
 \label{table:calling-scores}
 \begin{tabular}{lll}
 \multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
@@ -1693,9 +1696,9 @@ The semantic similarity method that produced the highest score was the Wu and Pa
 
 
 \begin{table}[H]
-\small
+\scriptsize
 \centering
-\caption{Cooking}
+\caption{Cooking Tests}
 \label{table:cooking-scores}
 \begin{tabular}{lll}
 \multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
@@ -1734,15 +1737,36 @@ The semantic similarity method that produced the highest score was the Wu and Pa
 \textbf{Final Score: 77.03\%}
 \end{center}
 
-Despite some of the tests failing, these can be resolved using the system's helper mechanisms (e.g. synonym-mapping).
+The failed commands can be resolved using helper mechanisms (e.g. synonym-mappings).
+\\
+\\
+Table \ref{table:method-results} below shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}. To see the full results for each semantic similarity method, see the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
 
+\begin{table}[H]
+\centering
+\caption{Evaluation of Similarity Methods}
+\label{table:method-results}
+\begin{tabular}{l|l}
+\textbf{Similarity Method} & \textbf{Final Score} \\ \hline
+COS                        & 55.41\%              \\ \hline
+FASTLESK                   & 45.95\%              \\ \hline
+\textbf{LCH}               & \textbf{77.03\%}     \\ \hline
+LESK                       & 51.35\%              \\ \hline
+LIN                        & 44.59\%              \\ \hline
+PATH                       & 44.59\%              \\ \hline
+RES                        & 40.54                \\ \hline
+\textbf{WUP}               & \textbf{77.03\%}     \\ \hline
+\end{tabular}
+\end{table}
 
+By pure coincidence, the WUP and LCH methods have the same final score. However, the LCH method resulted in different scores for the game and video conferencing domains (71.43\% and 85.00\%, respectively). Unfortunately, adding new test cases would still result in the same final scores for both methods, as the test case would either pass for both, or fail for both.
+\\
+\\
+Since the WUP method produced a higher score for the game domain (75.00\%), it was chosen to be the default method used in the role-playing game demo. These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. Though it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
 
+\subsection{Evaluation of Slot-Filling Structures}
 
-
-
-
-
+The system currently uses two separate slot-filling grammars as described in Section \ref{section:slot-filling}.
 
 
 

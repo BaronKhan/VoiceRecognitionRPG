@@ -122,6 +122,7 @@ Mock testing
 Evaluation of semantic similarity
 (pick action maps to knife instead of grab!)
 Evaluation project details
+Create table of scores of other methods, link to csvs in project
 
 Evaluation of effectiveness of slot-filling (need sentence mapper)
 
