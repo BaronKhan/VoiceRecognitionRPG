@@ -119,8 +119,9 @@ public class SemanticSimilarity {
             if (methodIsLesk(sCurrentMethod1)) { score1 = max(score1 / 80.0, 1.0); }
             if (methodIsLesk(sCurrentMethod2)) { score2 = max(score2 / 80.0, 1.0); }
 
-            if (score2 > 0) { score = (score1 * 0.5) + (score2 * 0.5); }
-            else { score = score1; }
+            if (score2 <= 0) { score = score1; }
+            else if (score1 <= 0) { score = score2; }
+            else { score = (score1 * 0.5) + (score2 * 0.5); }
 
             Log.d("SemanticSimilarity", "score("+word1+", "+word2+") = "+score);
 

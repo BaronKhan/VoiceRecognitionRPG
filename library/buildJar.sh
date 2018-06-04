@@ -35,6 +35,7 @@ do
     sed -i '/MakeToast/d' ./$PKGNAME/$FILE
     sed -i '/candidates = "/d' ./$PKGNAME/$FILE
     sed -i '/new AssertionError());/d' ./$PKGNAME/$FILE
+    sed -i '/tags.size()+"), input = "+input);/d' ./$PKGNAME/$FILE
     sed -i '/+"= "+totalScore);/d' ./$PKGNAME/$FILE
     sed -i '/android.os.Environment;/d' ./$PKGNAME/$FILE
     sed -i '/android.app.Activity;/d' ./$PKGNAME/$FILE
