@@ -4,3 +4,9 @@
 - edu.mit.jwi_2.4.0 (https://projects.csail.mit.edu/jwi/)
 - stanford-postagger (https://nlp.stanford.edu/software/tagger.shtml#Download)
 - ws4j-1.0.1 (https://code.google.com/archive/p/ws4j/downloads)
+
+# Changes required for the WS4J library
+
+In order to build the Android project with the WS4J library as a dependency,
+you must extract the archive (any unzipping program will work) and remove the
+`NictWordNet.class` file from it, then zip again into an archive file.
