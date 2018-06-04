@@ -21,6 +21,8 @@ public class Main {
     private static int scoreAllTests;
     private static URL sUrl;
 
+    private static final boolean sUseHybrids = false;
+
     public static void main(String[] args) throws IOException {
 
         loadWordNetAndPOSTagger();
@@ -44,6 +46,20 @@ public class Main {
             System.out.println("Running test suite using "+method.name()+" method...");
             runTestSuite(fileName, method, null);
             System.out.println("Finished test suite for "+method.name()+" method...");
+        }
+
+        if (sUseHybrids) {
+            //Run combinations of methods
+            for (SemanticSimilarity.SimilarityMethod method1: methods) {
+                for (SemanticSimilarity.SimilarityMethod method2: methods) {
+                    if (method1 == null || method2 == null || method1 == method2) { continue; }
+                    String fileName = "results"+(method1.name().replace("METHOD_",""))+"_"
+                            +(method2.name().replace("METHOD_",""))+".csv";
+                    System.out.println("Running test suite using "+method1.name()+" and "+method2.name()+" method...");
+                    runTestSuite(fileName, method1, method2);
+                    System.out.println("Finished test suite for "+method1.name()+" and "+method2.name()+" method...");
+                }
+            }
         }
     }
 
