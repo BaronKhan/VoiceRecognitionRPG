@@ -40,19 +40,23 @@ public class Main {
                 SemanticSimilarity.SimilarityMethod.METHOD_COS
         );
 
-        for (SemanticSimilarity.SimilarityMethod method: methods) {
-            if (method == null) { continue; }
-            String fileName = "results"+(method.name().replace("METHOD_",""))+".csv";
-            System.out.println("Running test suite using "+method.name()+" method...");
-            runTestSuite(fileName, method, null);
-            System.out.println("Finished test suite for "+method.name()+" method...");
-        }
+        if (!sUseHybrids) {
+            for (SemanticSimilarity.SimilarityMethod method : methods) {
+                if (method == null) {
+                    continue;
+                }
+                String fileName = "results" + (method.name().replace("METHOD_", "")) + ".csv";
+                System.out.println("Running test suite using " + method.name() + " method...");
+                runTestSuite(fileName, method, null);
+                System.out.println("Finished test suite for " + method.name() + " method...");
+            }
+        } else {
 
-        if (sUseHybrids) {
             //Run combinations of methods
             for (SemanticSimilarity.SimilarityMethod method1: methods) {
                 for (SemanticSimilarity.SimilarityMethod method2: methods) {
                     if (method1 == null || method2 == null || method1 == method2) { continue; }
+                    if (method1.ordinal() > method2.ordinal()) { continue; }
                     String fileName = "results"+(method1.name().replace("METHOD_",""))+"_"
                             +(method2.name().replace("METHOD_",""))+".csv";
                     System.out.println("Running test suite using "+method1.name()+" and "+method2.name()+" method...");
