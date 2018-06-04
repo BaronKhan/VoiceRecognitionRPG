@@ -130,6 +130,8 @@ Evaluation of effectivenesss of learning mechanism
 
 Evaluation of other extensions (multipe commands, confirmation, suggestions)
 
+(By end of Monday)
+
 Evaluate speed of recognition, performance (pc, phone, raspberry pi)
 Number of tests:
 Overworld: 44
@@ -140,17 +142,21 @@ Time for other tests: 198104ms = 3m 18s 104ms
 Time for one test: 1785ms = 1s 784ms
 Speed tests in evaluation section
 
+By end of Tuesday
+
 Evaluate ease of development (adding voice commands, survey)
 
 Evaluate ease of room generation (survey)
 
 Limitations:
+- Requires Java code/ Java inheritence hierarchy to be compatible
 - Only single-word actions, targets and contexts
 - Can't handle negatives (call dan with no audio)
 - Action cannot have the same string as target or context
 - Ambiguous words (throw the match)
 - Lots of targets, few contexts? (ActionTargetMap)
 
+By end of Thursday
 
 __Conclusion__
 

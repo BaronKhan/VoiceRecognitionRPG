@@ -1032,7 +1032,7 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 
 \item Path-based (PATH) - a simpler version of the WUP method which uses the reciprocal of the shortest path between the words in the WordNet database as the similarity score RRR.
 
-\item Leacock and Chodorow (LCH) - another path-based measure which uses the negaitve log of the shortest distance between the two words RRR.
+\item Leacock and Chodorow (LCH) - another path-based measure which uses the negative log of the shortest distance between the two words RRR.
 
 \item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' lowest common subsumer RRR.
 
@@ -1533,7 +1533,7 @@ public class RoomTable extends Room {
 }
 \end{lstlisting}
 
-The developer can still edit this source file to add more complex functionality that was not added by the program.
+The developer can still edit this source file to add more complex functionality that was not added by the program. This program was used to generate the tutorial rooms in the game (with some minor adjustments to determine which room a door leads to, as the program cannot handle that currently).
 
 \subsection{Settings Activity}
 
@@ -1541,7 +1541,7 @@ The application also has a settings activity, which allows the user to change va
 
 \subsection{Video Conferencing Demo}
 
-In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands. Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the video conferencing activity.
+In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands. Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the activity.
 
 \begin{center}
 \begin{figure}
@@ -1616,16 +1616,24 @@ See the Appendix \ref{appendix:mock-tests} for a list of commands that are teste
 
 \subsection{Evaluation of Semantic Similarity}
 
-The semantic similarity engine, on its own without any helper mechanisms (such as synonym-mapping, sentence-matching, match-ignoring, etc.), has been evaluated based on the number of different commands that it can detect.
+The semantic similarity engine | on its own without any helper mechanisms (such as synonym-mapping, sentence-matching, match-ignoring, etc.) | has been evaluated based on the number of different commands that it can detect.
 \\
 \\
-A separate Java project was created that runs the system on a set of commands across three entirely different domains: commands that may be found in a game; video conferencing commands; and commands that may potentially be used in a cooking system/application. On each run, a different semantic similarity method is used. The number of tests passed for each domain is calculated as a percentage of the total tests, and a final score is calculated for that semantic similarity method (as an average of all three domain scores), with the results saved as a CSV file.
+A separate Java project was created that runs the system on a set of commands across three entirely different domains: commands that may be found in a game; video conferencing commands; and commands that may potentially be used in a cooking system/application. On each run, a different semantic similarity method is used.
 \\
 \\
-The Wu and Palmer (WUP) method produced the joint highest score alongside the Leacock and Chodorow (LCH) method. Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation using the Wu an Palmer method.
+The number of tests passed for each domain is calculated as a percentage of the total tests, and a final score is calculated for that semantic similarity method (as an average of all three domain scores), with the results saved as a CSV file.
+\\
+\\
+In the evaluation project, the action methods do not perform any function; they simply return a string containing the output (e.g. "ATTACK\_WEAPON" for attacking with a  sword; "SERVE\_SOUP" for serving soup, etc). Each test case is a pair containing a string input (i.e. the user's utterance) and the expected output. For each test case, the string input is used to update the game/calling/cooking state. The output from the object is compared to the expected output, and the results are written to the CSV file. The time taken for a test suite is also recorded, as well as the average time taken for each test.
+\\
+\\
+The \texttt{ContextActionMap}s used in this evaluation project are not the same as the ones used in the Android application (they do not use any helper mechanisms). See the Appendix \ref{appendix:evaluation-context-action-maps} for the context-action mappings used in this evaluation projects.
+\\
+\\
+Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation using the Wu and Palmer (WUP) method.
 
-\begin{table}[H]
-\scriptsize
+\begin{table}[]
 \centering
 \caption{Game Tests}
 \label{table:game-scores}
@@ -1648,6 +1656,11 @@ The Wu and Palmer (WUP) method produced the joint highest score alongside the Le
 \multicolumn{1}{l|}{recover}                        & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{regenerate}                     & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{rest}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{restore}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{defend}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{guard}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{safeguard}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{shield}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{heal with a potion}             & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{heal with an elixer}            & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{FD6864}FAIL \\ \hline
 \multicolumn{1}{l|}{heal with an healing drink}     & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
@@ -1659,7 +1672,7 @@ The Wu and Palmer (WUP) method produced the joint highest score alongside the Le
 \multicolumn{1}{l|}{continue forwards}              & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{run forwards}                   & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{dash forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{75.00\%}            &                              \\
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{72.73\%}            &                              \\
 \end{tabular}
 \end{table}
 
@@ -1690,6 +1703,10 @@ The Wu and Palmer (WUP) method produced the joint highest score alongside the Le
 \multicolumn{1}{l|}{mute screen}                    & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{mute jane}                      & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{silence jane}                   & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{pour buttermilk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{discharge milk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{present eggs}                   & \multicolumn{1}{l|}{SERVE\_EGG}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{deliver soup}                   & \multicolumn{1}{l|}{SERVE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{80.00\%}            &                              \\
 \end{tabular}
 \end{table}
@@ -1728,16 +1745,16 @@ The Wu and Palmer (WUP) method produced the joint highest score alongside the Le
 \multicolumn{1}{l|}{stir soup with teaspoon}        & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{stir soup with soupspoon}       & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{blend chowder using soupspoon}  & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{76.92\%}            &                              \\
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{63.33\%}            &                              \\
 
 \end{tabular}
 \end{table}
 
 \begin{center}
-\textbf{Final Score: 77.03\%}
+\textbf{Final Score: 71.08\%}
 \end{center}
 
-The failed commands can be resolved using helper mechanisms (e.g. synonym-mappings).
+Note that the failed commands can be resolved using helper mechanisms (e.g. synonym-mappings).
 \\
 \\
 Table \ref{table:method-results} below shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}. To see the full results for each semantic similarity method, see the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
@@ -1746,23 +1763,23 @@ Table \ref{table:method-results} below shows the final scores for each semantic 
 \centering
 \caption{Evaluation of Similarity Methods}
 \label{table:method-results}
-\begin{tabular}{l|l}
-\textbf{Similarity Method} & \textbf{Final Score} \\ \hline
-COS                        & 55.41\%              \\ \hline
-FASTLESK                   & 45.95\%              \\ \hline
-\textbf{LCH}               & \textbf{77.03\%}     \\ \hline
-LESK                       & 51.35\%              \\ \hline
-LIN                        & 44.59\%              \\ \hline
-PATH                       & 44.59\%              \\ \hline
-RES                        & 40.54                \\ \hline
-\textbf{WUP}               & \textbf{77.03\%}     \\ \hline
+\begin{tabular}{l|l|l|l|l}
+\textbf{Method} & \textbf{Game Score} & \textbf{Video Call Score} & \textbf{Cooking Score} & \textbf{Final Score} \\ \hline
+COS             & 54.54\%             & 55.00\%                     & 43.33\%                & 50.60\%              \\ \hline
+FASTLESK        & 36.36\%             & 70.00\%                     & 33.00\%                & 43.37\%              \\ \hline
+LCH             & 66.67\%             & \textbf{85.00\%}            & \textbf{70.00\%}       & \textbf{72.29\%}     \\ \hline
+LESK            & 54.55\%             & 55.00\%                     & 33.33\%                & 46.99\%              \\ \hline
+LIN             & 33.33\%             & 70.00\%                     & 33.33\%                & 42.17\%              \\ \hline
+PATH            & 33.33\%             & 70.00\%                     & 33.33\%                & 42.17\%              \\ \hline
+RES             & 42.42\%             & 55.00\%                     & 20.00\%                & 37.25\%              \\ \hline
+WUP             & \textbf{72.73\%}    & 80.00\%                     & 63.33\%                & 71.08\%               
 \end{tabular}
 \end{table}
 
-By pure coincidence, the WUP and LCH methods have the same final score. However, the LCH method resulted in different scores for the game and video conferencing domains (71.43\% and 85.00\%, respectively). Unfortunately, adding new test cases would still result in the same final scores for both methods, as the test case would either pass for both, or fail for both.
+The LCH method has the highest final score, closely followed by the WUP method. However, since the WUP method produced a higher score for the game domain (72.73\% which is much higher than the LCH score of 66.67\%), it was chosen to be the default method used in the role-playing game demo.
 \\
 \\
-Since the WUP method produced a higher score for the game domain (75.00\%), it was chosen to be the default method used in the role-playing game demo. These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. Though it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
+These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. Though it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
 
 \subsection{Evaluation of Slot-Filling Structures}
 
@@ -2856,6 +2873,50 @@ Below is a list of most of the test suites containing commands that are tested f
 \end{scriptsize}
 
 Please see the project's repository for the full test framework.
+
+\newpage
+\subsection{Evaluation: Actions and Contexts}
+\label{appendix:evaluation-context-action-maps}
+
+Below are the \texttt{ContextActionMap} 'tables' used in the evaluation Java project for the three domains. See the project's repository for the full classes.
+
+\begin{table}[H]
+\centering
+\caption{GameContextActionMap}
+\label{evaluation-game-table}
+\begin{tabular}{l|l|l|l|l}
+                 & \textbf{attack} & \textbf{heal} & \textbf{move} & \textbf{defend} \\ \hline
+\textbf{default} & Attack          & Heal          & Move          & Defend          \\ \hline
+\textbf{weapon}  & AtkWeapon       &               &               &                 \\ \hline
+\textbf{potion}  &                 & HealPotion    &               &                 \\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{CallContextActionMap}
+\label{evaluation-call-table}
+\begin{tabular}{l|l|l|l}
+                 & \textbf{phone}    & \textbf{stop}   & \textbf{mute} \\ \hline
+\textbf{default} & PhoneContact      & StopCall        & Mute          \\ \hline
+\textbf{video}   & PhoneContactVideo &                 &               \\ \hline
+\textbf{audio}   & PhoneContactAudio &                 &               \\ \hline
+\textbf{contact} &                   & StopCallContact &               \\ 
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{CookingContextActionMap}
+\label{evaluation-cooking-table}
+\begin{tabular}{l|l|l|l|l|l}
+                 & \textbf{make} & \textbf{stir} & \textbf{boil} & \textbf{pour} & \textbf{serve} \\ \hline
+\textbf{default} & Make          & Stir          & Boil          & Pour          & Serve          \\ \hline
+\textbf{spoon}   & Make          & StirSpoon     &               &               &                \\ \hline
+\textbf{cooker}  & Make          &               & BoilCooker    &               &                \\ \hline
+\textbf{food}    & MakeFood      &               &               &               &                \\
+\end{tabular}
+\end{table}
 
 \newpage
 \addcontentsline{toc}{section}{References}
