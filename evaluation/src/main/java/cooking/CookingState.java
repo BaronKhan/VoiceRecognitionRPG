@@ -22,9 +22,10 @@ public class CookingState extends GlobalState {
     public CookingState() {
         Entity egg = new Food("egg");
         Entity soup = new Food("soup");
+        Entity milk = new Food("milk");
         Entity spoon = new Spoon();
         Entity cooker = new Cooker();
-        mMap.addPossibleTargets(Arrays.asList(egg, soup));
+        mMap.addPossibleTargets(Arrays.asList(egg, soup, milk));
         mMap.addPossibleContexts(Arrays.asList(egg, soup, spoon, cooker));
     }
 

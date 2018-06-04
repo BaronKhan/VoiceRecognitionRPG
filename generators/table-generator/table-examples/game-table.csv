@@ -1,4 +1,4 @@
-       , attack   , heal      , move
-default, Attack   , Heal      , Move
-weapon , AtkWeapon,           ,
-potion ,          , HealPotion,
+       , attack   , heal      , move, defend
+default, Attack   , Heal      , Move, Defend
+weapon , AtkWeapon,
+potion ,          , HealPotion

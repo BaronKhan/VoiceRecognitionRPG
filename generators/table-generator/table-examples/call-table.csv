@@ -1,0 +1,5 @@
+       , phone            , stop           , mute
+default, PhoneContact     , StopCall       , Mute
+video  , PhoneContactVideo
+audio  , PhoneContactAudio
+contact,                  , StopCallContact

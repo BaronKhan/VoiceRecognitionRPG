@@ -172,6 +172,11 @@ public class Main {
             new Pair<String, String>("recover", "HEAL"),
             new Pair<String, String>("regenerate", "HEAL"),
             new Pair<String, String>("rest", "HEAL"),
+            new Pair<String, String>("restore", "HEAL"),
+            new Pair<String, String>("defend", "DEFEND"),
+            new Pair<String, String>("guard", "DEFEND"),
+            new Pair<String, String>("safeguard", "DEFEND"),
+            new Pair<String, String>("shield", "DEFEND"),
             new Pair<String, String>("heal with a potion", "HEAL_POTION"),
             new Pair<String, String>("heal with an elixer", "HEAL_POTION"),
             new Pair<String, String>("heal with an healing drink", "HEAL_POTION"),
@@ -234,6 +239,10 @@ public class Main {
             new Pair<String, String>("stir soup with tablespoon", "STIR_SOUP_SPOON"),
             new Pair<String, String>("stir soup with teaspoon", "STIR_SOUP_SPOON"),
             new Pair<String, String>("stir soup with soupspoon", "STIR_SOUP_SPOON"),
-            new Pair<String, String>("blend chowder using soupspoon", "STIR_SOUP_SPOON")
+            new Pair<String, String>("blend chowder using soupspoon", "STIR_SOUP_SPOON"),
+            new Pair<String, String>("pour buttermilk", "POUR_MILK"),
+            new Pair<String, String>("discharge milk", "POUR_MILK"),
+            new Pair<String, String>("present eggs", "SERVE_EGG"),
+            new Pair<String, String>("deliver soup", "SERVE_SOUP")
     ));
 }
