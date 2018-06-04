@@ -1,0 +1,3 @@
+Welcome to this Voice Recognition RPG demo!.
+You are in a large room with a *door in front of you.
+Try clicking the blue button below and say, 'open the door'.

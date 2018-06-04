@@ -7,6 +7,7 @@
     <string name="action_goto_call">Calling Demo</string>
     <string name="action_goto_room_utensil">Utensil Demo</string>
     <string name="action_goto_room_more_utensils">More Utensils</string>
+    <string name="action_goto_room_tutorial">Tutorial</string>
     <string name="listening">Listening…</string>
     <string name="processing">Processing…</string>
     <string name="permissions_enable">Please enable permissions</string>
