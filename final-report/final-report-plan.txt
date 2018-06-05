@@ -124,15 +124,8 @@ Evaluation of semantic similarity
 Evaluation project details
 Create table of scores of other methods, link to csvs in project
 
-Evaluation of effectiveness of slot-filling (need sentence mapper)
-
-Evaluation of effectivenesss of learning mechanism
-
-Evaluation of other extensions (multipe commands, confirmation, suggestions)
-
-(By end of Monday)
-
 Evaluate speed of recognition, performance (pc, phone, raspberry pi)
+Niote differences in JVM and DVM for Android in performance (not considered)
 Number of tests:
 Overworld: 44
 Battle: 67
@@ -142,7 +135,17 @@ Time for other tests: 198104ms = 3m 18s 104ms
 Time for one test: 1785ms = 1s 784ms
 Speed tests in evaluation section
 
+(By end of Monday)
+
+Create evaluation sheet
+
 By end of Tuesday
+
+Evaluation of effectiveness of slot-filling (need sentence mapper)
+
+Evaluation of effectivenesss of learning mechanism
+
+Evaluation of other extensions (multipe commands, confirmation, suggestions)
 
 Evaluate ease of development (adding voice commands, survey)
 
@@ -173,6 +176,7 @@ Contributions
     -- algoruthnm would leanr weightings for semantic similarities, RNNs
 - Multithreading for performance
 - Hand-free (wake-word detection) and TTs output
+- JCN method - currently broken
 
 Appendix:
 Screeenshots of app

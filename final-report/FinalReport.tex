@@ -1615,6 +1615,7 @@ New tests were added frequently and were executed to ensure a new feature did no
 See the Appendix \ref{appendix:mock-tests} for a list of commands that are tested for correctness using the mock tests (note that not all tests are shown here). See the project's repository for the entire testing framework.
 
 \subsection{Evaluation of Semantic Similarity}
+\label{section:eval-similarity}
 
 The semantic similarity engine | on its own without any helper mechanisms (such as synonym-mapping, sentence-matching, match-ignoring, etc.) | has been evaluated based on the number of different commands that it can detect.
 \\
@@ -1703,10 +1704,6 @@ Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cookin
 \multicolumn{1}{l|}{mute screen}                    & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{mute jane}                      & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{silence jane}                   & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{pour buttermilk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{discharge milk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{present eggs}                   & \multicolumn{1}{l|}{SERVE\_EGG}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{deliver soup}                   & \multicolumn{1}{l|}{SERVE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{80.00\%}            &                              \\
 \end{tabular}
 \end{table}
@@ -1745,6 +1742,10 @@ Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cookin
 \multicolumn{1}{l|}{stir soup with teaspoon}        & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{stir soup with soupspoon}       & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{blend chowder using soupspoon}  & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{pour buttermilk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{discharge milk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{present eggs}                   & \multicolumn{1}{l|}{SERVE\_EGG}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{deliver soup}                   & \multicolumn{1}{l|}{SERVE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
 \multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{63.33\%}            &                              \\
 
 \end{tabular}
@@ -1797,19 +1798,46 @@ Table \ref{table:hybrid-results} shows the final scores for the best combination
 \label{table:hybrid-results}
 \begin{tabular}{l|l|l}
 \textbf{Method 1} & \textbf{Method 2} & \textbf{Final Score} \\ \hline
-LESK              & LCH               & \textbf{74.70\%}     \\ \hline
-COS               & LCH               & 73.49\%              \\ \hline
-WUP               & LESK              & 73.49\%              \\ \hline
-FASTLESK          & LCH               & 72.29\%              \\ \hline
-WUP               & FASTLESK          & 72.29\%              \\ \hline
-LCH               & WUP               & 71.08\%             
+FASTLESK              & LCH               & \textbf{74.70\%}     \\ \hline
+LESK               & LCH               & \textbf{74.70\%}              \\ \hline
+WUP               & COS              & 73.49\%              \\ \hline
+LCH          & PATH               & 72.29\%              \\ \hline
+WUP               & LCH          & 71.08\%            
 \end{tabular}
 \end{table}
 
-The Leacock and Chodorow (LCH) method is involved in almost all of the top combinations, since it also has the highest individual final score.
+The Leacock and Chodorow (LCH) and Wu and Palmer (WUP) methods are involved in almost all of the top combinations (since they also have the highest individual final scores). The best combination is the LCH method with either the LESK method or FASTLESK method, and since the FASTLESK method can be up to 10 times faster than the LESK method (see Section \ref{section:performance} below for performance details), it is the preferred combination.
 \\
 \\
-(Mention only small increase in improvement)
+It should be noted that there is only a slight increase from 72.29\% to 74.70\% when combining the LCH method with the FASTLESK method (as opposed to just using the LCH method on its own), so the improvement in recognition in not large with a hybrid method.
+
+\subsection{Performance of Semantic Similarity}
+\label{section:performance}
+
+One user requirement for the system for the voice recognition to be fast and responsive; the user does not want to wait a noticeable amount of time until their voice command has been processed. Therefore, a semantic similarity method which is fast is required.
+\\
+\\
+Using the evaluation project described in Section \ref{section:eval-similarity} above, the average time take to process one command was calculated for each semantic similarity method on three different machines:
+
+\begin{itemize}
+\item Desktop PC
+	\begin{itemize}
+	\item 4 x Intel Core i5-6600K quad-core CPU @ 3.5 GHz
+	\item 8 GB RAM
+	\end{itemize}
+\item Samsung Galaxy S7 Phone
+	\begin{itemize}
+	\item 4 x Exynos M1 Mongoose octa-core CPU @ 1.6 GHz RRR
+	\item 4 GB RAM
+	\end{itemize}
+\item Raspberry Pi 3
+	\begin{itemize}
+	\item 1 x ARMv8 quad-core CPU @ 1.2 GHz RRR
+	\item 1 GB RAM
+	\end{itemize}
+\end{itemize}
+
+Table below shows the average time per command for different semantic similarity methods, across three machines.
 
 \subsection{Evaluation of Slot-Filling Structures}
 
