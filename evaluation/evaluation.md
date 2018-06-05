@@ -16,6 +16,7 @@ returned
 - Cooking (MAKE, STIR, BOIL | EGGS, SOUP | SPOON, COOKER)
 - Video Conferencing (CALL, STOP, MUTE | PERSON | VIDEO, AUDIO)
 - No helpers allowed
+- Evaluate on PC, Android and Raspberry Pi
 
 
 Tests
