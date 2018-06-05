@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.evaluation;
 
 import android.os.Environment;
 import android.support.test.runner.AndroidJUnit4;
@@ -16,18 +16,16 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * Instrumentation test, which will execute on an Android device.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class CallTest {
+public class CallEval {
     private CallState callState;
 
-    public CallTest() {
+    public CallEval() {
         callState = new CallState(null);
         ContextActionMap.setRememberUserSynonyms(false);
         File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
@@ -46,52 +44,52 @@ public class CallTest {
 
     private void testCalled(String input, String contact, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains(contact), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains(contact), correctInput);
     }
 
     private void testCalledAudio(String input, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("audio only"), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("audio only"), correctInput);
     }
 
     private void testStoppedAllCalls(String input, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("end all"), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("end all"), correctInput);
     }
 
     private void testStoppedCall(String input, String contact, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Ended call with "+contact), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Ended call with "+contact), correctInput);
     }
 
     private void testMutedVideo(String input, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Video muted"), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Video muted"), correctInput);
     }
 
     private void testMutedAudio(String input, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Audio muted"), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Audio muted"), correctInput);
     }
 
     private void testMutedContact(String input, String contact, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Muted "+contact), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Muted "+contact), correctInput);
     }
 
     private void testUnmutedVideo(String input, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Video unmuted"), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Video unmuted"), correctInput);
     }
 
     private void testUnmutedAudio(String input, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Audio unmuted"), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Audio unmuted"), correctInput);
     }
 
     private void testUnmutedContact(String input, String contact, boolean correctInput) {
         String output = callState.updateState(input);
-        assertEquals(output, output.contains("Unmuted "+contact), correctInput);
+        EvaluateMechanisms.runTest(output, output.contains("Unmuted "+contact), correctInput);
     }
 
 

@@ -319,10 +319,19 @@ Video Conferencing example
 - "mute my video"
 - "silence my audio"
 
+System Toggles
+-----------------
+
+- 
+
+Evaluation Sheet
+-----------------
+
+- Voice Recognition System
+- 
+- Room Generation
+
 TODO
 -----------------
 
-- Need to add weightings to the synonyms
 - Add match ignore code to target and context
-- Use different similarity methods for action, target and context
-- Better room generation from description

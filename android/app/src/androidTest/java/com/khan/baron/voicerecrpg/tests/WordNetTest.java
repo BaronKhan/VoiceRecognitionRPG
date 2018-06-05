@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.tests;
 
 import android.content.Context;
 import android.os.Environment;

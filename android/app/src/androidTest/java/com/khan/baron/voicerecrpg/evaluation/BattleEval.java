@@ -1,4 +1,4 @@
-package com.khan.baron.voicerecrpg;
+package com.khan.baron.voicerecrpg.evaluation;
 
 import android.os.Environment;
 import android.support.test.runner.AndroidJUnit4;
@@ -23,10 +23,10 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class BattleTest {
+public class BattleEval {
     private GameState gameState;
 
-    public BattleTest() {
+    public BattleEval() {
         gameState = new GameState(null);
         ContextActionMap.setRememberUserSynonyms(false);
         File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
@@ -44,28 +44,28 @@ public class BattleTest {
     }
 
     private void testAttackedTroll(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input).contains("attacked the troll"), correctInput);
+        EvaluateMechanisms.runTest(gameState.updateState(input).contains("attacked the troll"), correctInput);
     }
 
     private void testAttackedWithHammer(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input).contains("hammer"), correctInput);
+        EvaluateMechanisms.runTest(gameState.updateState(input).contains("hammer"), correctInput);
     }
 
     private void testAttackedWithSword(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input).contains("sword"), correctInput);
+        EvaluateMechanisms.runTest(gameState.updateState(input).contains("sword"), correctInput);
     }
 
     @Test
     public void testAttackInputSuite() {
         gameState.initBattleState(new Troll(9999999));
         testAttackedTroll("attack", true);
-        assertEquals(gameState.updateState("attack").contains("hands"), true);
+        EvaluateMechanisms.runTest(gameState.updateState("attack").contains("hands"), true);
         testAttackedTroll("attack with everything you have got", true);
         testAttackedTroll("use", false);
         testAttackedTroll("hit", true);
         testAttackedTroll("hit the troll", true);
         testAttackedTroll("punch the troll", true);
-        assertEquals(gameState.updateState("heal").contains("attacked"), false);
+        EvaluateMechanisms.runTest(gameState.updateState("heal").contains("attacked"), false);
         testAttackedTroll("heal", false);
         testAttackedTroll("launch an assault", true);
         testAttackedTroll("charge at the troll", true);
@@ -73,7 +73,7 @@ public class BattleTest {
         testAttackedTroll("fight the troll", true);
         gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
         testAttackedTroll("attack the troll", true);
-        assertEquals(gameState.updateState("hit the troll")
+        EvaluateMechanisms.runTest(gameState.updateState("hit the troll")
                 .contains("You attacked the troll"), true);
         testAttackedTroll("attack", true);
         testAttackedWithHammer("attack with the hammer", true);
@@ -96,15 +96,15 @@ public class BattleTest {
     }
 
     private void testHealed(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input).contains("healed"), correctInput);
+        EvaluateMechanisms.runTest(gameState.updateState(input).contains("healed"), correctInput);
     }
 
     private void testInventoryShown(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input).contains("your inventory"), correctInput);
+        EvaluateMechanisms.runTest(gameState.updateState(input).contains("your inventory"), correctInput);
     }
 
     private void testLookAround(String input, boolean correctInput) {
-        assertEquals(gameState.updateState(input).contains("in battle"), correctInput);
+        EvaluateMechanisms.runTest(gameState.updateState(input).contains("in battle"), correctInput);
     }
 
     @Test
@@ -163,9 +163,9 @@ public class BattleTest {
         testAttackedWithSword("use the sword to attack", true);
         testHealed("use a potion to attack", false);
         testAttackedTroll("use something to attack with", true);
-        assertEquals(gameState.updateState("use a potion")
+        EvaluateMechanisms.runTest(gameState.updateState("use a potion")
                 .contains("want to use the potion"), true);
-        assertEquals(gameState.updateState("use something sharp")
+        EvaluateMechanisms.runTest(gameState.updateState("use something sharp")
                 .contains("want to use the sword"), true);
     }
 
@@ -179,15 +179,15 @@ public class BattleTest {
     @Test
     public void testShowActionsSuite() {
         gameState.initBattleState(new Troll(9999999));
-        assertEquals(gameState.updateState("show my commands").contains("following actions"), true);
-        assertEquals(gameState.updateState("look at my actions")
+        EvaluateMechanisms.runTest(gameState.updateState("show my commands").contains("following actions"), true);
+        EvaluateMechanisms.runTest(gameState.updateState("look at my actions")
                 .contains("following actions"), true);
     }
 
     @Test
     public void testLearningSuite() {
         gameState.initBattleState(new Troll(9999999));
-        assertEquals(gameState.updateState("strike means attack").contains("synonym"), true);
+        EvaluateMechanisms.runTest(gameState.updateState("strike means attack").contains("synonym"), true);
         testAttackedTroll("strike the troll", true);
     }
 
@@ -196,19 +196,19 @@ public class BattleTest {
         gameState.initBattleState(new Troll(9999999));
         gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
         for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
-        assertEquals(gameState.updateState("obliterate the troll with the sword")
+        EvaluateMechanisms.runTest(gameState.updateState("obliterate the troll with the sword")
                 .contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
-        assertEquals(gameState.updateState("kick the troll").contains("you mean, \"attack"), true);
+        EvaluateMechanisms.runTest(gameState.updateState("kick the troll").contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
-        assertEquals(gameState.updateState("kick").contains("you mean, \"attack"), true);
+        EvaluateMechanisms.runTest(gameState.updateState("kick").contains("you mean, \"attack"), true);
         testAttackedWithSword("yeah", true);
         // kick added as synonym
         testAttackedWithSword("kick the troll", true);
-        assertEquals(gameState.updateState("regenerate using a potion")
+        EvaluateMechanisms.runTest(gameState.updateState("regenerate using a potion")
                 .contains("you mean, \"heal"), true);
         testHealed("yes", true);
-        assertEquals(gameState.updateState("use something to regenerate with")
+        EvaluateMechanisms.runTest(gameState.updateState("use something to regenerate with")
                 .contains("you mean"), true);
         testHealed("yes", true);
         //regenerate added as synonym
@@ -224,7 +224,7 @@ public class BattleTest {
         gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
         gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
         for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
-        assertEquals(gameState.updateState("obliterate the troll with the sword and then " +
+        EvaluateMechanisms.runTest(gameState.updateState("obliterate the troll with the sword and then " +
                 "regenerate using a potion").contains("you mean, \"attack"), true);
         testAttackedWithSword("yes", true);
         testHealed("yeah", true);
@@ -236,9 +236,9 @@ public class BattleTest {
     public void testSentenceMatching() {
         gameState.initBattleState(new Troll(9999999));
         gameState.getInventory().add(new Weapon("sword", "sharp", "long", "metallic"));
-        assertEquals(gameState.updateState("what are my actions")
+        EvaluateMechanisms.runTest(gameState.updateState("what are my actions")
                 .contains("following actions"), true);
-        assertEquals(gameState.updateState("what actions can i do")
+        EvaluateMechanisms.runTest(gameState.updateState("what actions can i do")
                 .contains("following actions"), true);
         testInventoryShown("what is in my bag", true);
         testInventoryShown("hello world", false);
