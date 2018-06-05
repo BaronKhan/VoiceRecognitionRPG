@@ -81,36 +81,37 @@
 \contentsline {subsection}{\numberline {6.1}Mock Testing}{54}
 \contentsline {subsection}{\numberline {6.2}Evaluation of Semantic Similarity}{55}
 \contentsline {subsubsection}{\numberline {6.2.1}Combining Similarity Methods}{58}
-\contentsline {subsection}{\numberline {6.3}Performance of Semantic Similarity}{59}
-\contentsline {subsection}{\numberline {6.4}Evaluation of Slot-Filling Structures}{60}
-\contentsline {section}{\numberline {7}Appendix}{61}
-\contentsline {subsection}{\numberline {7.1}Android Application Screenshots}{61}
-\contentsline {subsubsection}{\numberline {7.1.1}Battle Mode Example}{61}
-\contentsline {subsubsection}{\numberline {7.1.2}Overworld Mode Example}{63}
-\contentsline {subsubsection}{\numberline {7.1.3}Multiple Commands Example}{65}
-\contentsline {subsubsection}{\numberline {7.1.4}Ambiguous Utensil Example}{67}
-\contentsline {subsubsection}{\numberline {7.1.5}Settings User Interface}{69}
-\contentsline {subsubsection}{\numberline {7.1.6}Duplicate Contacts}{70}
-\contentsline {subsection}{\numberline {7.2}Skyrim Kinect Command List}{71}
-\contentsline {subsection}{\numberline {7.3}Penn Treebank Tagset}{73}
-\contentsline {subsection}{\numberline {7.4}System UML Class Diagram}{74}
-\contentsline {subsection}{\numberline {7.5}Game Design UML Class Diagram}{75}
-\contentsline {subsection}{\numberline {7.6}Choosing the Slot-filling Grammar}{76}
-\contentsline {subsection}{\numberline {7.7}Finding the Best Action in VoiceProcess.java}{77}
-\contentsline {subsection}{\numberline {7.8}JwiLexicalDatabase.java}{79}
-\contentsline {subsection}{\numberline {7.9}Action Class Example}{82}
-\contentsline {subsection}{\numberline {7.10}MultipleCommandProcess::executeCommand()}{83}
-\contentsline {subsection}{\numberline {7.11}BattleContextActionMap.java}{84}
-\contentsline {subsection}{\numberline {7.12}Battle Mode Example Commands}{85}
-\contentsline {subsection}{\numberline {7.13}OverworldContextActionMap.java}{86}
-\contentsline {subsection}{\numberline {7.14}Overworld Mode Example Commands}{87}
-\contentsline {subsection}{\numberline {7.15}CallContextActionMap.java}{88}
-\contentsline {subsection}{\numberline {7.16}Video Conferencing Example Commands}{89}
-\contentsline {subsection}{\numberline {7.17}Manual Room Generation (Obsolete)}{90}
-\contentsline {subsection}{\numberline {7.18}Retrieving a Room Description}{91}
-\contentsline {subsection}{\numberline {7.19}List of Android Mock Tests}{92}
-\contentsline {subsubsection}{\numberline {7.19.1}BattleTest}{92}
-\contentsline {subsubsection}{\numberline {7.19.2}OverworldTest}{94}
-\contentsline {subsubsection}{\numberline {7.19.3}CallTest}{95}
-\contentsline {subsection}{\numberline {7.20}Evaluation: Actions and Contexts}{96}
-\contentsline {section}{References}{97}
+\contentsline {subsection}{\numberline {6.3}Performance of Semantic Similarity Methods}{59}
+\contentsline {subsection}{\numberline {6.4}Evaluation of System Features}{61}
+\contentsline {subsection}{\numberline {6.5}Evaluation of Slot-Filling Structures}{61}
+\contentsline {section}{\numberline {7}Appendix}{62}
+\contentsline {subsection}{\numberline {7.1}Android Application Screenshots}{62}
+\contentsline {subsubsection}{\numberline {7.1.1}Battle Mode Example}{62}
+\contentsline {subsubsection}{\numberline {7.1.2}Overworld Mode Example}{64}
+\contentsline {subsubsection}{\numberline {7.1.3}Multiple Commands Example}{66}
+\contentsline {subsubsection}{\numberline {7.1.4}Ambiguous Utensil Example}{68}
+\contentsline {subsubsection}{\numberline {7.1.5}Settings User Interface}{70}
+\contentsline {subsubsection}{\numberline {7.1.6}Duplicate Contacts}{71}
+\contentsline {subsection}{\numberline {7.2}Skyrim Kinect Command List}{72}
+\contentsline {subsection}{\numberline {7.3}Penn Treebank Tagset}{74}
+\contentsline {subsection}{\numberline {7.4}System UML Class Diagram}{75}
+\contentsline {subsection}{\numberline {7.5}Game Design UML Class Diagram}{76}
+\contentsline {subsection}{\numberline {7.6}Choosing the Slot-filling Grammar}{77}
+\contentsline {subsection}{\numberline {7.7}Finding the Best Action in VoiceProcess.java}{78}
+\contentsline {subsection}{\numberline {7.8}JwiLexicalDatabase.java}{80}
+\contentsline {subsection}{\numberline {7.9}Action Class Example}{83}
+\contentsline {subsection}{\numberline {7.10}MultipleCommandProcess::executeCommand()}{84}
+\contentsline {subsection}{\numberline {7.11}BattleContextActionMap.java}{85}
+\contentsline {subsection}{\numberline {7.12}Battle Mode Example Commands}{86}
+\contentsline {subsection}{\numberline {7.13}OverworldContextActionMap.java}{87}
+\contentsline {subsection}{\numberline {7.14}Overworld Mode Example Commands}{88}
+\contentsline {subsection}{\numberline {7.15}CallContextActionMap.java}{89}
+\contentsline {subsection}{\numberline {7.16}Video Conferencing Example Commands}{90}
+\contentsline {subsection}{\numberline {7.17}Manual Room Generation (Obsolete)}{91}
+\contentsline {subsection}{\numberline {7.18}Retrieving a Room Description}{92}
+\contentsline {subsection}{\numberline {7.19}List of Android Mock Tests}{93}
+\contentsline {subsubsection}{\numberline {7.19.1}BattleTest}{93}
+\contentsline {subsubsection}{\numberline {7.19.2}OverworldTest}{95}
+\contentsline {subsubsection}{\numberline {7.19.3}CallTest}{96}
+\contentsline {subsection}{\numberline {7.20}Evaluation: Actions and Contexts}{97}
+\contentsline {section}{References}{98}

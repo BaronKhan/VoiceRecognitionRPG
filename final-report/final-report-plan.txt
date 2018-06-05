@@ -141,11 +141,16 @@ Create evaluation sheet
 
 By end of Tuesday
 
+Evaluation of Helper Mechanisms:
+- Evaluation of effectivenesss of learning mechanism
+- Evaluation of other extensions (multipe commands, confirmation, suggestions)
+
+These should be quantitative, accumative results
+Use accumulate bar chart on number of tests to see how the pass rate increases
+with each mechanism activiated.
+
+Qualititative
 Evaluation of effectiveness of slot-filling (need sentence mapper)
-
-Evaluation of effectivenesss of learning mechanism
-
-Evaluation of other extensions (multipe commands, confirmation, suggestions)
 
 Evaluate ease of development (adding voice commands, survey)
 

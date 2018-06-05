@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[table,xcdraw]{xcolor}
+\usepackage{multirow}
 \usepackage{blindtext}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
@@ -1755,7 +1756,7 @@ Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cookin
 \textbf{Final Score: 71.08\%}
 \end{center}
 
-Note that the failed commands can be resolved using helper mechanisms (e.g. synonym-mappings).
+Note that any failed test cases above can be resolved using helper mechanisms (e.g. synonym-mappings, match-ignores, sentence-matching, etc), which have been removed from the evaluation project.
 \\
 \\
 Table \ref{table:method-results} below shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}. To see the full results for each semantic similarity method, see the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
@@ -1811,13 +1812,24 @@ The Leacock and Chodorow (LCH) and Wu and Palmer (WUP) methods are involved in a
 \\
 It should be noted that there is only a slight increase from 72.29\% to 74.70\% when combining the LCH method with the FASTLESK method (as opposed to just using the LCH method on its own), so the improvement in recognition in not large with a hybrid method.
 
-\subsection{Performance of Semantic Similarity}
+\subsection{Performance of Semantic Similarity Methods}
 \label{section:performance}
 
 One user requirement for the system for the voice recognition to be fast and responsive; the user does not want to wait a noticeable amount of time until their voice command has been processed. Therefore, a semantic similarity method which is fast is required.
 \\
 \\
-Using the evaluation project described in Section \ref{section:eval-similarity} above, the average time take to process one command was calculated for each semantic similarity method on three different machines:
+According, Jakob Nielson of the Nielson Norman Group RRR, there are three main response limits determined by human perceptual abilities that should be noted when optimising application performance:
+
+\begin{itemize}
+\item 0.1 seconds | the limit for which the user feels the system is instantaneous.
+\item 1.0 seconds | the user will notice the delay, but will feel they are not unduly waiting.
+\item 10 seconds | the limit for keeping the user's attention; anything longer requires a progress indicator (e.g. progress bar).
+\end{itemize}
+
+Ideally, command processing should be limited to 0.1 seconds, with 1 second being the limit for processing commands involving multiple intents, targets or contexts (e.g. "attack the troll with a sword and with a hammer and then heal using a potion", as the intent would be broken down and processed separately, so may require more processing time).
+\\
+\\
+Using the evaluation project described in Section \ref{section:eval-similarity} above, the average time taken to process one command was calculated for each semantic similarity method on three different machines. Note that the Java program is single-threaded, so multi-core processors are not fully utilised.
 
 \begin{itemize}
 \item Desktop PC
@@ -1837,7 +1849,37 @@ Using the evaluation project described in Section \ref{section:eval-similarity} 
 	\end{itemize}
 \end{itemize}
 
-Table below shows the average time per command for different semantic similarity methods, across three machines.
+Table \ref{table:perf} below shows the average time taken to process a command (in seconds) for different semantic similarity methods, across three machines. See the results in the project's repository for the average times for each domain.
+
+\begin{table}[H]
+\centering
+\caption{Average Time Taken to Process a Command}
+\label{table:perf}
+\begin{tabular}{l|l|l|l}
+\multirow{2}{*}{\textbf{Method}} & \multicolumn{3}{l}{\textbf{Average Time per Command / s}} \\ \cline{2-4} 
+                                 & \textit{PC}   & \textit{Phone}   & \textit{Raspberry Pi}   \\ \hline
+COS                              & 0.023         & 0.85             & 6.40                    \\ \hline
+FASTLESK                         & 0.012         & 1.5              & 5.00                    \\ \hline
+LCH                              & 0.004         & 0.099            & 3.29                    \\ \hline
+LESK                             & 1.35          & 280.02           & 2068.81 \\ \hline
+LIN                              & 0.009         & 0.29             & 5.19                    \\ \hline
+PATH                             & 0.004         & 0.088            & 2.96                    \\ \hline
+RES                              & 0.007         & 0.12             & 3.29                    \\ \hline
+WUP                              & 0.015         & 0.16             & 5.15                   
+\end{tabular}
+\end{table}
+
+On the Desktop PC, all methods except the LESK method are below the 0.1 seconds limit, so would all be feasible to use. For the Android phone, only the LCH, PATH, RES and WUP methods are close to, or fall below, the 0.1 seconds limit. Unfortunately, all methods take longer than 0.1 seconds on the Raspberry Pi, but all methods fall below the 10 seconds limit (except LESK).
+\\
+\\
+Clearly, the LESK method is not feasible on any machine, with the FASTLESK method being manyfold faster . This suggests that the use of definitions from the meronyms and holonyms of the words to calculate the similarity between two words (and any formatting to remove punctuation from the definitions) is not worthwhile in terms of speed (and given that the accuracy of both methods are very similar as seen in Section \ref{section:eval-similarity}, the FASTLESK method is unanimously the preferred method).
+\\
+\\
+Fortunately, methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application.
+
+\subsection{Evaluation of System Features}
+
+As mentioned previously, the system features mechanisms that the developer can use to improve the recognition of various commands.
 
 \subsection{Evaluation of Slot-Filling Structures}
 
