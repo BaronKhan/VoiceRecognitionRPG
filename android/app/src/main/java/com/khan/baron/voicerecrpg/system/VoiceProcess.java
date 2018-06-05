@@ -30,12 +30,12 @@ public class VoiceProcess {
     //Made static to avoid out-of-space GC allocation errors
     private static MaxentTagger sTagger = null;
 
-    private static boolean sUsingSemanticSimilarity = true;
-    private static boolean sUsingAltGrammar = true;
-    private static boolean sUsingSynonyms = true;
-    private static boolean sUsingMatchIgnore = true;
-    private static boolean sUsingSuggestions = true;
-    private static boolean sUsingSentenceMatching = true;
+    private static final boolean sUsingSemanticSimilarity = true;
+    private static final boolean sUsingAltGrammar = true;
+    private static final boolean sUsingSynonyms = true;
+    private static final boolean sUsingMatchIgnore = true;
+    private static final boolean sUsingSuggestions = true;
+    private static final boolean sUsingSentenceMatching = true;
 
     private boolean mUsingAltSFS;
 

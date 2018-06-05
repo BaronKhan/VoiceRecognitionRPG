@@ -330,8 +330,3 @@ Evaluation Sheet
 - Voice Recognition System
 - 
 - Room Generation
-
-TODO
------------------
-
-- Add match ignore code to target and context
