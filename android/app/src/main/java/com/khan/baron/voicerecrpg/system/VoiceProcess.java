@@ -30,6 +30,13 @@ public class VoiceProcess {
     //Made static to avoid out-of-space GC allocation errors
     private static MaxentTagger sTagger = null;
 
+    private static boolean sUsingSemanticSimilarity = true;
+    private static boolean sUsingAltGrammar = true;
+    private static boolean sUsingSynonyms = true;
+    private static boolean sUsingMatchIgnore = true;
+    private static boolean sUsingSuggestions = true;
+    private static boolean sUsingSentenceMatching = true;
+
     private boolean mUsingAltSFS;
 
     private AmbiguousHandler mAmbiguousHandler;
@@ -90,7 +97,7 @@ public class VoiceProcess {
         String actionOutput = "";
         if (mDict == null) { return "Error: WordNet not loaded."; }
 
-        if (mAmbiguousHandler.isExpectingReply()) {
+        if (sUsingSuggestions && mAmbiguousHandler.isExpectingReply()) {
             return mAmbiguousHandler.processPendingIntent(input, mState, mContextActionMap);
         }
 
@@ -120,7 +127,7 @@ public class VoiceProcess {
         List<String> wordsCopy = new CopyOnWriteArrayList<>(words);
 
         // Check for learning phrase ("___ means ___")
-        if (words.size() == 3 && words.contains("means")) {
+        if (words.size() == 3 && words.contains("means") && sUsingSynonyms) {
             String firstWord = getFirstAction(words, tags);
             removeWordAtIndex(words, tags, words.indexOf("means"));
             String secondWord = getFirstAction(words, tags);
@@ -135,7 +142,7 @@ public class VoiceProcess {
                 }
             } else {
                 String sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                if (sentenceMatchResult != null) { return sentenceMatchResult; }
+                if (sUsingSentenceMatching && sentenceMatchResult != null) { return sentenceMatchResult; }
                 return "Intent not understood";
             }
         }
@@ -183,9 +190,9 @@ public class VoiceProcess {
             } else {
                 mCurrentAction = mContextActionMap.get(chosenContext).get(chosenAction);
                 //Check for ambiguous intent
-                if (mAmbiguousHandler.isAmbiguous()) {
+                if (sUsingSuggestions && mAmbiguousHandler.isAmbiguous()) {
                     String sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                    if (sentenceMatchResult != null) { return sentenceMatchResult; }
+                    if (sUsingSentenceMatching && sentenceMatchResult != null) { return sentenceMatchResult; }
 
                     actionOutput += mAmbiguousHandler.initSuggestion(
                             chosenAction, currentTarget, chosenContext);
@@ -199,8 +206,8 @@ public class VoiceProcess {
             List<String> oldWords = new CopyOnWriteArrayList<>(words);
             List<String> oldTags = new CopyOnWriteArrayList<>(tags);
 
-            if (words.contains("use") || words.contains("with") || words.contains("using") ||
-                    words.contains("utilise"))
+            if ((words.contains("use") || words.contains("with") || words.contains("using") ||
+                    words.contains("utilise")) && sUsingAltGrammar)
             {
                 String output = checkForAnotherTarget(words, tags);
                 if (!output.equals("")) {
@@ -222,7 +229,7 @@ public class VoiceProcess {
                             actionOutput = "What do you want to use the " + getActionContext().getName() + " for?";
                         } else {
                             String sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                            if (sentenceMatchResult != null) {
+                            if (sUsingSentenceMatching && sentenceMatchResult != null) {
                                 return sentenceMatchResult;
                             }
                             actionOutput = "Intent not understood.";
@@ -250,7 +257,7 @@ public class VoiceProcess {
                     } else {
                         // Perform sentence matching as last resort
                         String sentenceMatchResult = checkMatchingSentence(wordsCopy);
-                        if (sentenceMatchResult != null) {
+                        if (sUsingSentenceMatching && sentenceMatchResult != null) {
                             return sentenceMatchResult;
                         }
                         actionOutput = "Intent not understood.";
@@ -335,7 +342,7 @@ public class VoiceProcess {
             //ignore with/use words
             if (!(word.equals("use") || word.equals("with") || word.equals("using") ||
                     words.contains("utilise"))) {
-                if (mContextActionMap.hasSynonym(word)) {
+                if (sUsingSynonyms && mContextActionMap.hasSynonym(word)) {
                     if (deleteWord) { removeWordAtIndex(words, tags, i); }
                     List<String> synonyms = mContextActionMap.getSynonymMapping(word);
                     if (synonyms.size() > 1){
@@ -349,7 +356,7 @@ public class VoiceProcess {
                     return new Pair<>(i, synonyms.get(0));
                 }
                 for (String action : actionsList) {
-                    if (mContextActionMap.wordIsIgnored(word, action)) {
+                    if (sUsingMatchIgnore&& mContextActionMap.wordIsIgnored(word, action)) {
                         continue;
                     }
                     if (word.equals(action)) {
@@ -358,10 +365,11 @@ public class VoiceProcess {
                     }
                 }
                 for (String action : actionsList) {
-                    if (mContextActionMap.wordIsIgnored(word, action) ||
+                    if (sUsingMatchIgnore && mContextActionMap.wordIsIgnored(word, action) ||
                             mContextActionMap.hasPossibleTarget(word) ||
                             mContextActionMap.hasPossibleContext(word))
                     { continue; }
+                    if (!sUsingSemanticSimilarity) { continue; }
                     double score = SemanticSimilarity.getInstance().calculateScore(action, word);
                     if (score > ACTION_MIN && score < ACTION_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousActionCandidate(
@@ -417,7 +425,7 @@ public class VoiceProcess {
         Entity bestTarget = null;
         for (int i: candidateTargets) {
             String word = words.get(i);
-            if (mContextActionMap.hasSynonym(word)) {
+            if (sUsingSynonyms && mContextActionMap.hasSynonym(word)) {
                 List<String> targetNames = mContextActionMap.getSynonymMapping(word);
                 if (targetNames.size() > 1) {
                     //Ambiguous - ask user about all the targets
@@ -440,7 +448,7 @@ public class VoiceProcess {
             }
             for (Entity target : possibleTargetList) {
                 String targetName = target.getName();
-                if (mContextActionMap.wordIsIgnored(word, targetName)) { continue; }
+                if (sUsingMatchIgnore && mContextActionMap.wordIsIgnored(word, targetName)) { continue; }
                 if (word.equals(targetName)) {
                     removeWordAtIndex(words, tags, i);
                     return target;
@@ -449,6 +457,7 @@ public class VoiceProcess {
                         removeWordAtIndex(words, tags, i);
                         return target;
                     }
+                    if (!sUsingSemanticSimilarity) { continue; }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, targetName);
                     if (score > TARGET_MIN && score < TARGET_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousTargetCandidate(
@@ -488,7 +497,7 @@ public class VoiceProcess {
         //Find best word
         for (int i : candidateContext) {
             String word = words.get(i);
-            if (mContextActionMap.hasSynonym(word)) {
+            if (sUsingSynonyms && mContextActionMap.hasSynonym(word)) {
                 List<String> contextNames = mContextActionMap.getSynonymMapping(word);
                 if (contextNames.size() > 1) {
                     for (String targetName : contextNames) {
@@ -512,7 +521,7 @@ public class VoiceProcess {
             }
             for (Entity context : possibleContextList) {
                 String contextName = context.getName();
-                if (mContextActionMap.wordIsIgnored(word, contextName)
+                if (sUsingMatchIgnore && mContextActionMap.wordIsIgnored(word, contextName)
                         || mContextActionMap.getActions().contains(word)) { continue; }
                 if (word.equals(contextName)) {
                     bestScore = 1.0;
@@ -528,6 +537,7 @@ public class VoiceProcess {
                         bestIndex = i;
                         break;
                     }
+                    if (!sUsingSemanticSimilarity) { continue; }
                     double score = SemanticSimilarity.getInstance().calculateScore(word, contextName);
                     if (score > CONTEXT_MIN && score < CONTEXT_CONFIDENT) {
                         mAmbiguousHandler.addAmbiguousContextCandidate(
