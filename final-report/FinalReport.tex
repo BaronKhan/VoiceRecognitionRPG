@@ -1578,6 +1578,7 @@ The system can also handle duplicate contacts if they exist (e.g. if there are m
 This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the use of the systems (i.e. the voice recognition system, the room generation, etc.) and whether they are easy to use via anonymous surveys.
 
 \subsection{Mock Testing}
+\label{section:mock-testing}
 
 Different systems in the Android application are tested for correctness using Android Instrumentation tests and the \textit{Android JUnit} framework. These tests run directly on the Android device without using the GUI; only the individual modules are tested in a closed environment.
 \\
@@ -1849,7 +1850,7 @@ Using the evaluation project described in Section \ref{section:eval-similarity} 
 	\end{itemize}
 \end{itemize}
 
-Table \ref{table:perf} below shows the average time taken to process a command (in seconds) for different semantic similarity methods, across three machines. See the results in the project's repository for the average times for each domain.
+Table \ref{table:perf} below shows the average time taken to process a command (in seconds) for different semantic similarity methods, across three machines.\footnote{The LESK method is taken over the average of six commands on the phone, and three commands on the Raspberry Pi, due to time constraints.} See the results in the project's repository for the average times for each domain.
 
 \begin{table}[H]
 \centering
@@ -1875,15 +1876,71 @@ On the Desktop PC, all methods except the LESK method are below the 0.1 seconds 
 Clearly, the LESK method is not feasible on any machine, with the FASTLESK method being manyfold faster . This suggests that the use of definitions from the meronyms and holonyms of the words to calculate the similarity between two words (and any formatting to remove punctuation from the definitions) is not worthwhile in terms of speed (and given that the accuracy of both methods are very similar as seen in Section \ref{section:eval-similarity}, the FASTLESK method is unanimously the preferred method).
 \\
 \\
-Fortunately, methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application.
+Fortunately, methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application. It should also be noted that multi-threading the system may be to at least double the speed of processing.
 
 \subsection{Evaluation of System Features}
 
-As mentioned previously, the system features mechanisms that the developer can use to improve the recognition of various commands.
+As mentioned previously, the system features mechanisms that the developer can use to improve the recognition of various commands. The following is an evaluation of the effectiveness of the helper mechanisms in increasing the number of commands that the system can process correctly.
+\\
+\\
+The system supports the following features that can be toggled in the \texttt{VoiceProcess} class:
 
-\subsection{Evaluation of Slot-Filling Structures}
+\begin{itemize}
+\item Using the semantic similarity engine to detect similar words.
+\item An alternative slot-filling grammar, \texttt{\{WITH CONTEXT ACTION TARGET\}}, when needed.
+\item Creating a mapping of synonyms to their actions, targets or contexts.
+\item Ignoring matches for false similarities between two words.
+\item Handling ambiguous intents with a suggestion and confirmation.
+\item Performing sentence matching.
+\end{itemize}
 
-The system currently uses two separate slot-filling grammars as described in Section \ref{section:slot-filling}.
+Using the test cases from the Android mock testing (see the Appendix \ref{appendix:mock-tests} for the list of commands that are tested), the number of tests that pass are calculated while gradually activating more features. It is not possible to test the features separately as some are dependent on others being enabled (e.g. the suggestions mechanism requires the semantic similarity engine to be enabled).
+\\
+\\
+The graph on page \pageref{fig:line-chart-features} shows a cumulative line chart of the number of tests that pass as more features are enabled, starting with no features, followed by adding the semantic similarity engine, and so on. There are a total of 158 tests, and with all features enabled, all of the tests pass.
+
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{feature-evaluation.pdf}
+  \label{fig:line-chart-features}
+  \end{center}
+\end{figure}
+\end{center}
+
+The large increases in the number of tests that pass when adding the semantic similarity or the suggestions mechanism suggest that have a more sizeable impact compared to the other features. More variations of commands can only be detected if these features are enabled.
+
+
+\subsection{Usability of Voice Recognition System}
+
+It is difficult to quantitatively measure how easy it is to use this voice recognition system compared to more traditional methods. One method is to compare the number of lines of code required for a developer to write in order to implement the same number of voice commands in their application.
+\\
+\\
+(Sentence matching related to survey result on types of commands)
+
+\subsection{System Limitations}
+
+
+\newpage
+\section{Conclusion}
+
+\subsection{Contributions}
+
+\subsection{Future Work}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

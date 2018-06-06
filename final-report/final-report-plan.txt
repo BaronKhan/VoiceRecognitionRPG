@@ -144,15 +144,34 @@ By end of Tuesday
 Evaluation of Helper Mechanisms:
 - Evaluation of effectivenesss of learning mechanism
 - Evaluation of other extensions (multipe commands, confirmation, suggestions)
+- Evaluation of effectiveness of slot-filling (need sentence mapper)
+
+Toggles:
+- All features
+- semantic similarity + suggestions
+- synonym mapping
+- match ignore
+- sentence matching
+Create cummulative line graph
+no features -> semantic -> etc.
 
 These should be quantitative, accumative results
 Use accumulate bar chart on number of tests to see how the pass rate increases
 with each mechanism activiated.
 
 Qualititative
-Evaluation of effectiveness of slot-filling (need sentence mapper)
+Diffiult to measure ease of sue quantitavely
+Create flow diagrams of process
+
+hard-coded but 100% correct
+easy and flexible, but may incorrectly detect some commands
+
+Give estimate example of number of lines
+Ask question
 
 Evaluate ease of development (adding voice commands, survey)
+
+TODO: create user guide for adding commands. Evaluate eas of use with it.
 
 Evaluate ease of room generation (survey)
 
