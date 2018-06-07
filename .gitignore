@@ -74,3 +74,5 @@ generators/*.java
 *.jar
 
 generators/room-generator/*.java
+
+english-left3words-distsim.tagger
