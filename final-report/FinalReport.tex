@@ -23,7 +23,6 @@
 \bibliographystyle{IEEEtran}
 \captionsetup{justification=centering}
 
-
 \lstset{language=Java,
 basicstyle=\ttfamily\scriptsize,
 keywordstyle=\color{javapurple}\bfseries,
@@ -225,6 +224,7 @@ While this tool is not directly integrated into games by the developer, it has t
 The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, $<digit> <operation> <digit>$. This will accept input such as, "three add five", "six minus four", "two times twelve", and so on.
 
 \subsubsection{Houndify}
+\label{section:houndify}
 
 Houndify is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, "ATTACK".
 \\
@@ -1575,7 +1575,7 @@ The system can also handle duplicate contacts if they exist (e.g. if there are m
 \section{Evaluation}
 \label{evaluation}
 
-This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the use of the systems (i.e. the voice recognition system, the room generation, etc.) and whether they are easy to use via anonymous surveys.
+This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the voice recognition system and whether it is easy to use via anonymous surveys.
 
 \subsection{Mock Testing}
 \label{section:mock-testing}
@@ -1782,10 +1782,13 @@ WUP             & \textbf{72.73\%}    & 80.00\%                     & 63.33\%   
 The LCH method has the highest final score, closely followed by the WUP method. However, since the WUP method produced a higher score for the game domain (72.73\% which is much higher than the LCH score of 66.67\%), it was chosen to be the default method used in the role-playing game demo.
 \\
 \\
-The results suggest that path-based methods perform better than methods which use information content or the definitions of the words. The exception to this is the PATH method (i.e. using the reciprocal of the distance between the word nodes in the tree) which performed very poorly with a final score of 42.17\%, perhaps because it is a very simplistic algorithm.
+The results suggest that path-based methods perform better than methods which use information content or the definitions of the words. This could be because words which are close in proximity in the WordNet database tend to be very similar. The exception to this is the PATH method (i.e. using the reciprocal of the distance between the word nodes in the tree) which performed very poorly with a final score of 42.17\%, perhaps because it is a very simplistic algorithm.
 \\
 \\
 These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. Though it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
+\\
+\\
+It should be noted that the performance of the methods could also be dependent on the confidence thresholds that have been set in \texttt{VoiceProcess.java}; adjusting these thresholds could affect the accuracy of the methods either positively or negatively.
 
 \subsubsection{Combining Similarity Methods}
 
@@ -1870,7 +1873,7 @@ WUP                              & 0.015         & 0.16             & 5.15
 \end{tabular}
 \end{table}
 
-On the Desktop PC, all methods except the LESK method are below the 0.1 seconds limit, so would all be feasible to use. For the Android phone, only the LCH, PATH, RES and WUP methods are close to, or fall below, the 0.1 seconds limit. Unfortunately, all methods take longer than 0.1 seconds on the Raspberry Pi, but all methods fall below the 10 seconds limit (except LESK).
+On the Desktop PC, all methods except the LESK method are below the 0.1 seconds limit, so would all be feasible to use. For the Android phone, only the LCH, PATH, RES and WUP methods are close to, or fall below, the 0.1 seconds limit. Unfortunately, all methods take longer than 0.1 seconds on the Raspberry Pi, but all methods fall below the 10 seconds limit (except LESK). This slow speeds on the Raspberry Pi suggests the system is not suitable for low-power processors, such as embedded systems, or remote robots.
 \\
 \\
 Clearly, the LESK method is not feasible on any machine, with the FASTLESK method being manyfold faster . This suggests that the use of definitions from the meronyms and holonyms of the words to calculate the similarity between two words (and any formatting to remove punctuation from the definitions) is not worthwhile in terms of speed (and given that the accuracy of both methods are very similar as seen in Section \ref{section:eval-similarity}, the FASTLESK method is unanimously the preferred method).
@@ -1910,17 +1913,51 @@ The graph on page \pageref{fig:line-chart-features} shows a cumulative line char
 \end{center}
 
 The large increases in the number of tests that pass when adding the semantic similarity or the suggestions mechanism suggest that have a more sizeable impact compared to the other features. More variations of commands can only be detected if these features are enabled.
-
-
-\subsection{Usability of Voice Recognition System}
-
-It is difficult to quantitatively measure how easy it is to use this voice recognition system compared to more traditional methods. One method is to compare the number of lines of code required for a developer to write in order to implement the same number of voice commands in their application.
 \\
 \\
 (Sentence matching related to survey result on types of commands)
 
-\subsection{System Limitations}
+\subsection{Usability of the Voice Recognition System}
 
+It is difficult to quantitatively measure how easy it is to use this voice recognition system compared to more traditional methods. One method is to compare the number of lines of code required for a developer to write in order to implement the same number of voice commands in their application.
+\\
+\\
+The voice recognition system implementation will be compared to two na\"ive/traditional systems for adding voice commands to an application.
+
+\begin{description}
+\item[Hard-coding Strings] \hfill \\ Adding every possible command as a string and comparing the user's input to them using a series of \texttt{if} and \texttt{else} blocks, or a \texttt{switch} statement.
+\item[Regex-style Matching] \hfill \\ Write a word-based regular expression to describe the structure of acceptable commands (see Section \ref{section:houndify} on page \pageref{section:houndify} for an example using Houndify).
+\end{description}
+
+Consider the following scenario where the user wants
+\\
+\\
+In order to qualitatively evaluate the usability of the system, a standalone Java library was created, and the process of using the library in order to add voice commands to a Java application is outlined in a user guide for the library (see the Contribution section for more information). After studying the guide, developers were asked about the ease of using the library via an anonymous survey.
+
+\subsection{Voice Recognition System Limitations}
+
+Several limitations of the voice recognition system were identified over the course of this project, and are described below:
+
+\begin{description}
+\item[Only works for Java] \hfill
+	\\ The system relies heavily on OOP inheritance, as well as Java-based libraries such as JWI and WS4J. While it may be possible to port the system to another language, it would require a lot of work and re-writing of the source code.
+\item[Cannot handle negatives in intents] \hfill
+	\\ The system currently cannot handle negatives in a user's utterance. For example, in the video conferencing example, if the user says, "call Dan with no audio", the "no" will be ignored and the system will create a call with Dan using audio. It may be possible to fix this by searching for any negatives and altering the intent as needed, but due to time constraints this could not be implemented and tested.
+\item[Only single-word actions, targets and contexts are allowed] \hfill
+	\\ The voice recognition system scans the input word-by-word, searching for the action, target and context (if they exist). Therefore, it currently cannot identify open compound words such as "ice cream" or "full moon", or hyphenated compound words such as "well-being", "merry-go-round" or "on-site" RRR. It may be possible to fix this by implementing a lookahead mechanism which looks at the next word in the input and decides whether it is part of the current word.
+\item[Not designed for many different targets per action] \hfill
+	\\ The use of a \texttt{ContextActionMap} is to handle many different contexts that the action can be performed with. For example, an attack using a blunt weapon may crush the enemy, but an attack from a sharp weapon may slice the enemy. However, in situations where an action is applied differently to many different types of targets, a large block of \texttt{if} and \texttt{else} statements or a \texttt{switch} statement is required to perform different things for different targets within an \texttt{Action} class (e.g. writing a series of \texttt{if (currentTarget instanceof ...) \{...\} else if ...}).
+	
+	This may be resolved by having a \texttt{TargetActionMap} instead of a \texttt{ContextActionMap}, which indexes the 'table' using the target 'type' instead. However, this would mean that the same issue will occur when having multiple contexts perform different actions.
+\item[Actions cannot have the same string as target] \hfill
+	\\ There is a bug where an action cannot have the same name as a target, as the system becomes confused when parsing and may think the target is actually the action (if the word for the target is a better match than the word of the action in the input).
+	
+	For example, in the video conferencing example, there may be two actions, "call" and "stop". If the user intent is, "finish the call" where "call" is the target entity, the system will think that "call" is a better match to the "call" action than "finish" is to the "stop" action, and will invoke the "call" action instead. This can easily be fixed by checking the ordering of the matches to see if the action precedes the target.
+\item[Cannot handle fully ambiguous inputs] \hfill
+	\\ This occurs when a user's intent can be mapped to two completely different actions in the application and both would be valid due to the ambiguity of the intent. For instance, take the phrase, "throw the match": it could refer to giving up in a competitive competition, or throwing a matchstick.
+\end{description}
+
+Many of these limitations are quite severe and hamper the usability of the system under certain circumstances, particularly the restriction to single-word actions, targets and contexts, which would mean actions such as, "show off" or "show up" cannot be disambiguated. However, many are relatively easy fixes, and almost all of them could be fixed over time, without breaking any existing functionality.
 
 \newpage
 \section{Conclusion}
