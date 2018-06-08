@@ -1255,6 +1255,8 @@ private double calculateCosScore(List<String> words1, String sentence) {
 }
 \end{lstlisting}
 
+A disadvantage to running the sentence-matching at the very end is that the input may accidentally match to the slot-filling grammar. For example, if the user says, "what can i cut?", and "cut" is an action in the game, then it may map to the cut action, and not reach the \texttt{SentenceMapper}.
+
 \subsubsection{Synonym Mapping Implementation}
 
 Synonyms are used to aid the \texttt{VoiceProcess} system to match more words that the semantic similarity engine does not match automatically (due to a low similarity score). For example, the word, 'obliterate' has a low similarity score to 'attack' (below the threshold) even though they are very similar. Therefore, either the player or developer can add this mapping such that 'obliterate' maps to 'attack'.
@@ -1575,7 +1577,7 @@ The system can also handle duplicate contacts if they exist (e.g. if there are m
 \section{Evaluation}
 \label{evaluation}
 
-This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the voice recognition system and whether it is easy to use via anonymous surveys.
+This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the voice recognition system and whether it is easy to use via an anonymous survey\footnote{https://goo.gl/forms/8byr4MKo56bqJMvk2}. It should be noted that the results use a small sample size of eight, and are only supplementary to this section.
 
 \subsection{Mock Testing}
 \label{section:mock-testing}
@@ -1913,9 +1915,25 @@ The graph on page \pageref{fig:line-chart-features} shows a cumulative line char
 \end{center}
 
 The large increases in the number of tests that pass when adding the semantic similarity or the suggestions mechanism suggest that have a more sizeable impact compared to the other features. More variations of commands can only be detected if these features are enabled.
+
+\subsection{Evaluation of Slot-Filling Grammar}
+
+The sentence-matching mechanism was added to compensate for commands that do not have an imperative structure (which is what the current clot-filling grammars detect; see Section \ref{section:slot-filling} on page \pageref{section:slot-filling}). These include intents that are styled as questions, or greetings.
 \\
 \\
-(Sentence matching related to survey result on types of commands)
+Using the anonymous survey, participants were asked what kind of phrases they would say in a role-playing game. Figure \ref{fig:survey-commands} shows the results for this from eight responses. The question posed was, "If you were playing a role-playing video game (e.g. Pokemon, Final Fantasy, Elder Scrolls) that supported voice commands, what type of commands are you likely to eventually say?"
+
+\begin{center}
+\begin{figure}[]
+\begin{center}
+  \includegraphics[width=\linewidth]{survey-commands}
+  \caption{A bar chart showing the responses for types of commands that users would eventually say in a role-playing game.}
+  \label{fig:survey-commands}
+  \end{center}
+\end{figure}
+\end{center}
+
+While the system covers imperative commands and requests, it does not cover questions and greeting (for which 37.5\% of respondents  would eventually say). Therefore, the sentence-matching mechanism would need to be used to satisfy these users. Unfortunately, since questions and greetings can vary greatly in structure, it is not easy to fit them to a slot-filling grammar.
 
 \subsection{Usability of the Voice Recognition System}
 
@@ -1929,10 +1947,23 @@ The voice recognition system implementation will be compared to two na\"ive/trad
 \item[Regex-style Matching] \hfill \\ Write a word-based regular expression to describe the structure of acceptable commands (see Section \ref{section:houndify} on page \pageref{section:houndify} for an example using Houndify).
 \end{description}
 
-Consider the following scenario where the user wants
-\\
-\\
-In order to qualitatively evaluate the usability of the system, a standalone Java library was created, and the process of using the library in order to add voice commands to a Java application is outlined in a user guide for the library (see the Contribution section for more information). After studying the guide, developers were asked about the ease of using the library via an anonymous survey.
+
+
+Users perffered. Asee appendix fgor results
+
+In order to qualitatively evaluate the usability of the system further, a standalone Java library was created, and the process of using the library in order to add voice commands to a Java application is outlined in a user guide for the library (see the Contribution section for more information). After studying the guide, developers were asked about the ease of integrating the library into a project via the anonymous survey. Figure \ref{fig:survey-ease} shows the responses to this question.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{survey-ease}
+  \caption{A bar chart showing the responses for how easy it is to use the voice recognition system in a project on a scale of 1-10, with 1 being "not complex at all" and 10 being "extremely complex"}
+  \label{fig:survey-ease}
+  \end{center}
+\end{figure}
+\end{center}
+
+Despite the small sample size, the majority of respondents found the system was not that complex to use. However, a couple of respondents found the system to be very complex to use. This could be because the system requires a lot of dependencies and models to be loaded in order to work, or because the
 
 \subsection{Voice Recognition System Limitations}
 
@@ -1948,7 +1979,7 @@ Several limitations of the voice recognition system were identified over the cou
 \item[Not designed for many different targets per action] \hfill
 	\\ The use of a \texttt{ContextActionMap} is to handle many different contexts that the action can be performed with. For example, an attack using a blunt weapon may crush the enemy, but an attack from a sharp weapon may slice the enemy. However, in situations where an action is applied differently to many different types of targets, a large block of \texttt{if} and \texttt{else} statements or a \texttt{switch} statement is required to perform different things for different targets within an \texttt{Action} class (e.g. writing a series of \texttt{if (currentTarget instanceof ...) \{...\} else if ...}).
 	
-	This may be resolved by having a \texttt{TargetActionMap} instead of a \texttt{ContextActionMap}, which indexes the 'table' using the target 'type' instead. However, this would mean that the same issue will occur when having multiple contexts perform different actions.
+	This may be resolved by having a \texttt{TargetActionMap} instead of a \texttt{ContextActionMap}, which indexes the 'table' using the target 'type' instead. However, this would mean that the same issue will occur when having multiple contexts perform different actions (unless both a \texttt{TargetActionMap} and a \texttt{ContextActionMap} can be used together).
 \item[Actions cannot have the same string as target] \hfill
 	\\ There is a bug where an action cannot have the same name as a target, as the system becomes confused when parsing and may think the target is actually the action (if the word for the target is a better match than the word of the action in the input).
 	
@@ -3111,6 +3142,42 @@ Below are the \texttt{ContextActionMap} 'tables' used in the evaluation Java pro
 \textbf{food}    & MakeFood      &               &               &               &                \\
 \end{tabular}
 \end{table}
+
+\newpage
+\subsection{Other Survey Results}
+\label{appendix:survey-results}
+
+This section presents the other results from the anonymous survey given to developers. It should be noted that the same size for the survey is only eight participants, and the survey is intended to be supplementary information.
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{survey-important}
+  \caption{A bar chart showing the responses when asking developers what are the most important aspects of a system for adding voice commands to an application.}
+  \label{fig:survey-important}
+  \end{center}
+\end{figure}
+\end{center}
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{survey-tradeoff}
+  \caption{A pie chart showing the responses to a question asking a developer about which type of voice recognition system they would prefer.}
+  \label{fig:survey-tradeoff}
+  \end{center}
+\end{figure}
+\end{center}
+
+\begin{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{survey-readme}
+  \caption{A pie chart showing the responses to a question asking a developer if they understood the purpose of the voice recognition system in making it easier to add voice commands.}
+  \label{fig:survey-readme}
+  \end{center}
+\end{figure}
+\end{center}
 
 \newpage
 \addcontentsline{toc}{section}{References}

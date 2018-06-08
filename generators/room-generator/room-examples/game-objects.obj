@@ -1,4 +1,4 @@
-door|Door(new Troll(100), false)
+door|Door(new Room01(), false)
 knife|Weapon("knife")
 spoon|Weapon("spoon")
 fork|Weapon("fork")

@@ -179,7 +179,7 @@ Limitations:
 - Requires Java code/ Java inheritence hierarchy to be compatible
 - Only single-word actions, targets and contexts
 - Can't handle negatives (call dan with no audio)
-- Action cannot have the same string as target or context
+- Action cannot have thesame string as target or context
 - Ambiguous words (throw the match)
 - Lots of targets, few contexts? (ActionTargetMap)
 
@@ -189,7 +189,8 @@ __Conclusion__
 
 Contributions
 - euicker to add voice commands, no need to hard code
-- entirely offline, can be used with embedded systems or robots
+- entirely offline, can be used with embedded systems or robots,
+privacy concerns with other services
 - created library
 - Created GitHub gist (even if I can't get the Gloss working)
 - Explored ideas for ease of room development
