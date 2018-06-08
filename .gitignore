@@ -76,3 +76,5 @@ generators/*.java
 generators/room-generator/*.java
 
 english-left3words-distsim.tagger
+
+android/app/release/
