@@ -12,13 +12,6 @@ Bibliography
 
 ---
 
-Background:
-
-Cosine similarity of definitions
-Deep parsing in Watson
-
----
-
 __Design__
 - Platform choice
 - System UML Overview
@@ -186,14 +179,18 @@ Limitations:
 By end of Thursday
 
 __Conclusion__
-
-Contributions
+Deliverables
+- Created an RPG by applying systems
 - euicker to add voice commands, no need to hard code
 - entirely offline, can be used with embedded systems or robots,
 privacy concerns with other services
 - created library
-- Created GitHub gist (even if I can't get the Gloss working)
-- Explored ideas for ease of room development
+
+Contributions
+
+- Created GitHub gist
+- Evaluation for best semantic similiarty methods, performance
+- Explored ideas for ease of room development, assigning properties
  
  Future Work
 - Mention language changes
@@ -208,7 +205,9 @@ Screeenshots of app
 Include github statistics
 Other evaluation tests
 
+TODO: evaluation for room generation (create complex room and diff)
 Note: RRR is a reference location
 Don't forget to add references in!!!!!!!!!!!!
+Add page references and links for easier navigation
 
 Fix double quotes

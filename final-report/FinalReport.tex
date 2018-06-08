@@ -85,7 +85,10 @@ frame=single}
 This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases, and with no cloud processing required.
 \\
 \\
-Various methods for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.}
+Various methods for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.
+\\
+\\
+This project also explores other areas for easing the development of the RPG, such as assigning object properties and room generation from text descriptions.}
 
 \newpage
 
@@ -125,9 +128,9 @@ Note that this project is not concerned with the real time digital processing re
 \\
 The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
-\item Allow a developer to add voice recognition to their game with little effort.
-\item Create a simple natural language processing system that can work offline.
+\item Allow a developer to add voice recognition to their game with little effort, using a system which works completely offline with near-instantaneous processing.
 \item Evaluate the effectiveness of using different semantic similarity methods for mapping voice commands to actions.
+\item Apply the semantic similarity engine to other areas for improving the development of the RPG, including automatically generating rooms from text descriptions.
 \end{itemize}
 
 \newpage
@@ -1339,6 +1342,15 @@ Objects in the room can inherit from the \texttt{PhysicalObject} class, and can 
 \\
 See the Appendix \ref{appendix:overworld-examples} for examples of commands that can be used during the \textit{Overworld} mode. Also see the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
 
+\subsection{Object Properties with WordNet}
+
+Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, "attack with something sharp", the sword will be selected because the adjective, "sharp" has a high similarity score to "sword". Similarly, the word, "heavy" has a high similarity to score to "hammer", so if the player says, "hit with something heavy", the hammer will be used.
+\\
+\\
+In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified. Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay.
+
+\label{section:obj-properties-wordnet}
+
 \subsection{Room Generation Implementation}
 \label{section:room-generation}
 
@@ -1918,7 +1930,7 @@ The large increases in the number of tests that pass when adding the semantic si
 
 \subsection{Evaluation of Slot-Filling Grammar}
 
-The sentence-matching mechanism was added to compensate for commands that do not have an imperative structure (which is what the current clot-filling grammars detect; see Section \ref{section:slot-filling} on page \pageref{section:slot-filling}). These include intents that are styled as questions, or greetings.
+The sentence-matching mechanism was added to compensate for commands that do not have an imperative structure (which is what the current slot-filling grammars detect; see Section \ref{section:slot-filling} on page \pageref{section:slot-filling}). These include intents that are styled as questions, or greetings.
 \\
 \\
 Using the anonymous survey, participants were asked what kind of phrases they would say in a role-playing game. Figure \ref{fig:survey-commands} shows the results for this from eight responses. The question posed was, "If you were playing a role-playing video game (e.g. Pokemon, Final Fantasy, Elder Scrolls) that supported voice commands, what type of commands are you likely to eventually say?"
@@ -1933,7 +1945,7 @@ Using the anonymous survey, participants were asked what kind of phrases they wo
 \end{figure}
 \end{center}
 
-While the system covers imperative commands and requests, it does not cover questions and greeting (for which 37.5\% of respondents  would eventually say). Therefore, the sentence-matching mechanism would need to be used to satisfy these users. Unfortunately, since questions and greetings can vary greatly in structure, it is not easy to fit them to a slot-filling grammar.
+While the system covers imperative commands and requests, it does not cover questions and greeting (for which 37.5\% of respondents  would eventually say). Therefore, the sentence-matching mechanism would need to be used to satisfy these users. Unfortunately, since questions and greetings can vary greatly in structure, it is not possible to fit them to a single slot-filling grammar.
 
 \subsection{Usability of the Voice Recognition System}
 
@@ -1947,11 +1959,13 @@ The voice recognition system implementation will be compared to two na\"ive/trad
 \item[Regex-style Matching] \hfill \\ Write a word-based regular expression to describe the structure of acceptable commands (see Section \ref{section:houndify} on page \pageref{section:houndify} for an example using Houndify).
 \end{description}
 
-
-
-Users perffered. Asee appendix fgor results
-
-In order to qualitatively evaluate the usability of the system further, a standalone Java library was created, and the process of using the library in order to add voice commands to a Java application is outlined in a user guide for the library (see the Contribution section for more information). After studying the guide, developers were asked about the ease of integrating the library into a project via the anonymous survey. Figure \ref{fig:survey-ease} shows the responses to this question.
+When mapping a large number of commands, both of the above methods become increasingly complex and infeasible. With the system presented in this project, only a few lines of code need to be written to map the same number of commands, and more. See the Appendix \ref{appendix:comparison} for a comparison of the methods with an example.
+\\
+\\
+According to the anonymous survey, developers also preferred a system where they only have to write a few lines of code to implement countless voice commands. See the Appendix \ref{appendix:survey-results} for these results.
+\\
+\\
+In order to qualitatively evaluate the usability of the system further, a standalone Java library was created, and the process of using the library in order to add voice commands to a Java application is outlined in a user guide for the library. After studying the guide, developers were asked about the ease of integrating the library into a project via the anonymous survey. Figure \ref{fig:survey-ease} shows the responses to this question.
 
 \begin{center}
 \begin{figure}[H]
@@ -1976,6 +1990,8 @@ Several limitations of the voice recognition system were identified over the cou
 	\\ The system currently cannot handle negatives in a user's utterance. For example, in the video conferencing example, if the user says, "call Dan with no audio", the "no" will be ignored and the system will create a call with Dan using audio. It may be possible to fix this by searching for any negatives and altering the intent as needed, but due to time constraints this could not be implemented and tested.
 \item[Only single-word actions, targets and contexts are allowed] \hfill
 	\\ The voice recognition system scans the input word-by-word, searching for the action, target and context (if they exist). Therefore, it currently cannot identify open compound words such as "ice cream" or "full moon", or hyphenated compound words such as "well-being", "merry-go-round" or "on-site" RRR. It may be possible to fix this by implementing a lookahead mechanism which looks at the next word in the input and decides whether it is part of the current word.
+	
+	This also includes instances where two words are used to describe an action. For example, in the phrase, "take a look around", the word, "take" will map to the "grab" action first, so the system thinks the player wants to grab the surroundings which is not correct.
 \item[Not designed for many different targets per action] \hfill
 	\\ The use of a \texttt{ContextActionMap} is to handle many different contexts that the action can be performed with. For example, an attack using a blunt weapon may crush the enemy, but an attack from a sharp weapon may slice the enemy. However, in situations where an action is applied differently to many different types of targets, a large block of \texttt{if} and \texttt{else} statements or a \texttt{switch} statement is required to perform different things for different targets within an \texttt{Action} class (e.g. writing a series of \texttt{if (currentTarget instanceof ...) \{...\} else if ...}).
 	
@@ -1993,7 +2009,35 @@ Many of these limitations are quite severe and hamper the usability of the syste
 \newpage
 \section{Conclusion}
 
+This section summarises the findings of this report, as well as the deliverables and contributions of this project. The project work can be found in the project's main repository \footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}.
+
+\subsection{Deliverables}
+\label{section:deliverables}
+
+A prototype for a text-based role-playing game has been created on Android which uses the new voice recognition system to process commands. The system makes it easier for developers to detect a wide variety of commands without the developer needing to hard-code any of the phrases (or specify the structure of acceptable phrases); they only have to create the table of context-action mappings, and use the system features, to process commands.
+\\
+\\
+Unlike paid voice recognition services such as IBM's Watson Conversation, Houndify or DialogFlow, this project's voice recognition system is able to work completely offline (and therefore protects the user's privacy) and the processing time per command on an Android device is within an acceptable limit (close to 0.1 seconds).
+\\
+\\
+While there are some limitations to the system, using the WordNet database to calculate semantic similarities between words has produced a working foundation for the system that can be improved, and the system has been applied to other domains such as a video conferencing application.
+\\
+\\
+A separate standalone Java library has been created for the voice recognition system that is open-source for developers to explore, called \textit{Voice Commands with WordNet} \footnote{https://github.com/BaronKhan/voice-commands-with-wordnet}. It includes a user guide explaining how to integrate the library into other Java projects.
+
 \subsection{Contributions}
+\label{section:contributions}
+
+This project also explored and evaluated different semantic similarity methods in terms of accuracy and performance, with path-based methods such as the Leacock and Chodorow (LCH), and Wu an Palmer (WUP) methods performing the best.
+\\
+\\
+A new interface for the WS4J library was created which uses MIT's JWI API to access the WordNet database \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. This interface has been made public and may be useful to other developers in the future.
+\\
+\\
+Finally, the semantic similarity engine created for the voice recognition system has also been applied to other areas of development for the RPG. For instance, a room generation program has been created which takes as input a text description of the room, and generates a source file for the room, making it easier to create more complex rooms for the game.
+\\
+\\
+Ideas and techniques used in the room generation program, such as identifying binary relationships between objects and using the semantic similarity engine for object creation, may be useful for other systems in the future.
 
 \subsection{Future Work}
 
@@ -3142,6 +3186,89 @@ Below are the \texttt{ContextActionMap} 'tables' used in the evaluation Java pro
 \textbf{food}    & MakeFood      &               &               &               &                \\
 \end{tabular}
 \end{table}
+
+\newpage
+\subsection{Comparison of Usability}
+\label{appendix:comparison}
+
+This section outlines a comparison between the usability of the voice recognition system implemented in this project, and other na\"ive/traditional systems. The example below is the same one used in the \texttt{README} file of the library's repository\footnote{https://github.com/BaronKhan/voice-commands-with-wordnet/blob/master/README.md}
+\\
+\\
+If the user wished to map the following commands to an intent which attacked with a sword:
+
+\begin{itemize}
+\item "attack with a sword"
+\item "hit with something sharp"
+\item "use a blade to fight"
+\item "launch an assault using the sword"
+\item "obliterate the enemy with a pointy weapon"
+\end{itemize}
+
+Or commands which mapped to healing with a potion:
+
+\begin{itemize}
+\item "heal"
+\item "recover"
+\item "rest"
+\item "heal with a potion"
+\item "regenerate using a healing drink"
+\end{itemize}
+
+A na\"ive approach would be to use a switch statement\footnote{Strings can be evaluated with a \texttt{switch} statement since Java 7.} and add every possible variation of the command.
+
+\begin{lstlisting}[language=Java]
+switch(input) {
+  case "attack with a sword":
+  case "hit with something sharp":
+  //...
+  case "obliterate the enemy with a pointy weapon":
+     attackWithWeapon();
+     break;
+  case "heal":
+  case "recover":
+  //...
+  case "rest":
+     heal();
+     break;
+  case "heal with a potion":
+  case "recover with a potion":
+  //...
+  case "regenerate using an elixer":
+     healWithPotion();
+     break;
+  //...
+}
+\end{lstlisting}
+
+However, this misses out on other variations of the commands that would be acceptable (e.g. "fight using a sword").
+\\
+\\
+Another method is to create a regex-like expression to decribe the structure of acceptable inputs:
+
+\begin{lstlisting}
+("attack" | "hit") . "with" . ["a"] . ("sword" | "blade")
+\end{lstlisting}
+
+However, this can also become quite complex, and still doesn't cover a wide variety of commands.
+
+\begin{lstlisting}
+("attack" | "hit" | "obliterate" | ("launch" . "an" . "assault")) . ("with" | "using") . ["a"] . ("sword" | "blade" | ("something" . ("pointy" | "sharp")))
+\end{lstlisting}
+
+With the system proposed in this project, the developer only has to create the following table of mappings in order to map all of the above commands and much more.
+
+\begin{table}[H]
+\centering
+\label{comparison-table}
+\begin{tabular}{l|l|l|l}
+                 & \textbf{attack} & \textbf{heal} & \textbf{move} \\ \hline
+\textbf{default} & Attack          & Heal          & Move          \\ \hline
+\textbf{weapon}  & AtkWeapon       &               &                 \\ \hline
+\textbf{potion}  &                 & HealPotion    & \\
+\end{tabular}
+\end{table}
+
+Therefore, the number of lines needed to add the above voice commands and can be considered reduced using this method compared to the other two methods.
 
 \newpage
 \subsection{Other Survey Results}
