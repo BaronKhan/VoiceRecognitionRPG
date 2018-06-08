@@ -27,6 +27,7 @@ public class OverworldContextActionMap extends ContextActionMap {
         addSynonym("observe", "look");
         addSynonym("reveal", "show");
         addSynonym("pick", "grab");
+        addSynonym("take", "grab");
 
         addMatchIgnore("jump", "look");
         addMatchIgnore("do", "cut");
