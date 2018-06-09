@@ -123,14 +123,14 @@ Another motivation for this project is to explore how voice controls can allow g
 A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses.
 \\
 \\
-Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of voice control schemes.
+Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of systems to process user commands.
 \\
 \\
 The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
 \item Allow a developer to add voice recognition to their game with little effort, using a system which works completely offline with near-instantaneous processing.
 \item Evaluate the effectiveness of using different semantic similarity methods for mapping voice commands to actions.
-\item Apply the semantic similarity engine to other areas for improving the development of the RPG, including automatically generating rooms from text descriptions.
+\item Apply semantic similarity methods to other areas for improving the development of the RPG, including automatically generating rooms from text descriptions.
 \end{itemize}
 
 \newpage
@@ -406,14 +406,18 @@ The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically 
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
-\subsubsection{Generating Objects from Descriptions}
+\subsection{WordNet}
+
+Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets, or \textit{synonym sets}), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
+
+\subsection{Generating Objects from Descriptions}
 
 One feature for the proposed design of the RPG is to prevent the developer from manually placing objects in a room/environment within the game. A designer may want to just provide a description of the room without having to program anything. A simple solution to this would be to perform noun extraction on the description to extract the objects that should be in the room. However, it would also be useful to extract relations of objects to other objects as well. For instance, if a lamp should only be on a table if a table exists in the room; if the table is removed/broken by the player, then the lamp should now be on the floor. This would allow for more information to be extracted about the objects in the room, as opposed to simply their existence.
 \\
 \\
 Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships RRR. They created a tool for this called \textit{ReVerb} RRR. Taking the sentence, "A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship ("be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
 
-\subsubsection{Generating Descriptions from Objects}
+\subsection{Generating Descriptions from Objects}
 
 The opposite to the above is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the above, where the object of a sentence/phrase is extracted; developers may want to go in the opposite direction.
 \\
@@ -425,10 +429,6 @@ Another group of researchers proposed a method of sentence generation which invo
 \\
 \\
 One possible solution would be to only hard-code the general sentence structure of the description of rooms, and then insert the appropriate adjectives and nouns of the items, which is given as input in the form of a vector of strings.
-
-\subsection{WordNet}
-
-Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets, or \textit{synonym sets}), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
 
 \subsection{Object Properties}
 
@@ -851,7 +851,7 @@ All UI elements are accessed in the \texttt{MainActivity} and are separate from 
 
 \subsection{Voice Recognition System Implementation}
 
-\subsubsection{GlobalState.java}
+\subsubsection{\texttt{GlobalState}}
 
 The \texttt{GlobalState} class is an abstract interface that sends the string input to a \texttt{VoiceProcess} instance via the \texttt{updateState} method. Derived classes (e.g. \texttt{GameState} for a game, \texttt{KitchenState} for a cooking application, etc.) contain the application-specific logic and environment that can be accessed by the action methods. Listing \ref{lst:global-state} shows the code for the \texttt{GlobalState} class.
 
@@ -877,7 +877,7 @@ In some scenarios, a follow-up action may only take place if the user's action w
 \\
 To support this scenario, there is a Boolean field called \texttt{mActionSucceeded}, which is set within the action methods that are executed to tell the system whether the action has succeeded, and the developer can choose what happens next.
 
-\subsubsection{VoiceProcess.java}
+\subsubsection{\texttt{VoiceProcess}}
 
 \texttt{VoiceProcess.java} is the main class that performs all the processing on the text string input (of the user's utterance). The main method is the \texttt{processInput} method that takes the string input and returns the response. Listing \ref{lst:voice-process-pseudo} show the pseudocode for the method, with most of the details ignored (as it is a relatively long method). For the full Java method, refer to the source code in the project's repository.
 
@@ -1006,7 +1006,7 @@ def getBestAction(words, tags):
 
 On line 11 of Listing \ref{lst:bestAction}, the same for loop over \texttt{actionList} is split into two: the first loop checks for direct matches, and the second loop runs the semantic similarity engine. The reason for the separation is so that, if there is a direct match with any of the words, then there is no need to run the similarity engine at all, and therefore the intent is processed faster.
 
-\subsubsection{AmbiguousHandler.java}
+\subsubsection{\texttt{AmbiguousHandler}}
 
 As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say "no" or something similar), then the next suggestion is given, until no more suggestions are available.
 \\
@@ -1023,7 +1023,7 @@ Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed 
 \end{figure}
 \end{center}
 
-\subsubsection{SemanticSimilarity.java}
+\subsubsection{\texttt{SemanticSimilarity}}
 \label{section:semantic-impl}
 
 The semantic similarity engine is implemented as a singleton design pattern with a private constructor and a private instance of itself within the class. The main method of the class is the \texttt{calculateScore()} method which returns the semantic similarity score for two words.
@@ -1045,7 +1045,7 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 
 Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler RRR). By default, only the WUP method is used by the system, though other methods can be chosen in the application's settings.
 
-\subsubsection{CustomLexicalDatabase.java}
+\subsubsection{\texttt{CustomLexicalDatabase}}
 
 Despite the WS4J library providing implementations of the algorithms for most of the semantic similarity methods used in this project, they require an interface to be implemented in order to access a WordNet database. Listing \ref{lst:ilexicaldatabase} shows the interface that needs to be implemented and used as an input to the WS4J methods.
 
@@ -1074,7 +1074,7 @@ Therefore, a new implementation of the \texttt{ILexicalDatabase} interface was c
 Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online (renamed to \texttt{JwiLexicalDatabase.java}) that other developers may freely use \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation.
 
 
-\subsubsection{ContextActionMap.java}
+\subsubsection{\texttt{ContextActionMap}}
 \label{section:context-action-map}
 
 The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context. The entries in the 'table' are either null or inherit from the \texttt{Action} class (see Section \ref{section:action}).
@@ -1120,7 +1120,7 @@ See the source code in the project's repository for the full Python script.
 
 In the \texttt{ContextActionMap} class, there are two member fields that the developer must build in their application: the \texttt{mPossibleTargets} and \texttt{mPossibleContexts} lists. These are lists of objects that extend the abstract \texttt{Entity} class (described in Section \ref{section:entity}). Only entities in these lists are used in the target/context matching (when finding the best match).
 
-\subsubsection{Entity.java}
+\subsubsection{\texttt{Entity}}
 \label{section:entity}
 
 \texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, "sword", "potion", etc), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
@@ -1128,7 +1128,7 @@ In the \texttt{ContextActionMap} class, there are two member fields that the dev
 \\
 Once a match for a context is found, its \texttt{mContext} string value is used to index the \texttt{ContextActionMap}, along with the best action.
 
-\subsubsection{Action.java}
+\subsubsection{\texttt{Action}}
 \label{section:action}
 
 The \texttt{Action} class is an abstract class that is used to wrap the methods that should be executed in the \texttt{ContextActionMap}. Listing \ref{lst:action} shows the source code for the class.
@@ -1182,7 +1182,7 @@ public class HealItem extends Action {
 
 Some methods may wish to ask the user for confirmation before executing (e.g. "Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said "yes"/"no", etc). See the Appendix \ref{appendix:open-object} for an example of an Action class (\texttt{OpenObject}) which overrides the \texttt{processReply()} method and asks the player if they want to progress through a door.
 
-\subsubsection{MultipleCommandProcess.java}
+\subsubsection{\texttt{MultipleCommandProcess}}
 
 Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, "attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleProcessCommand} class.
 \\
@@ -1202,7 +1202,7 @@ while (!commandQueue.isEmpty()) {
 return overworldOutput;
 \end{lstlisting}
 
-\subsubsection{SentenceMapper.java}
+\subsubsection{\texttt{SentenceMapper}}
 
 The \texttt{SentenceMapper} is used to match sentences provided by the developer which do not fit the default slot-filling structures (e.g. question-based intents). Each instance of \texttt{ContextActionMap} holds a reference to an instance of a \texttt{SentenceMapper}. Invoking the \texttt{addSentenceMatch()} in the \texttt{ContextActionMap} class will add a map of several example utterances to an action and target. The following code block shows an example in the \texttt{BattleContextActionMap} class for showing the inventory.
 
@@ -1347,7 +1347,7 @@ See the Appendix \ref{appendix:overworld-examples} for examples of commands that
 Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, "attack with something sharp", the sword will be selected because the adjective, "sharp" has a high similarity score to "sword". Similarly, the word, "heavy" has a high similarity to score to "hammer", so if the player says, "hit with something heavy", the hammer will be used.
 \\
 \\
-In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified. Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay.
+In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified. Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable).
 
 \label{section:obj-properties-wordnet}
 
@@ -2006,15 +2006,17 @@ Several limitations of the voice recognition system were identified over the cou
 
 Many of these limitations are quite severe and hamper the usability of the system under certain circumstances, particularly the restriction to single-word actions, targets and contexts, which would mean actions such as, "show off" or "show up" cannot be disambiguated. However, many are relatively easy fixes, and almost all of them could be fixed over time, without breaking any existing functionality.
 
+\subsection{Room Generation Evaluation}
+
 \newpage
 \section{Conclusion}
 
-This section summarises the findings of this report, as well as the deliverables and contributions of this project. The project work can be found in the project's main repository \footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}.
+This section summarises the findings of this report, as well as the deliverables and contributions of this project. The project work can be found in the main repository \footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}.
 
 \subsection{Deliverables}
 \label{section:deliverables}
 
-A prototype for a text-based role-playing game has been created on Android which uses the new voice recognition system to process commands. The system makes it easier for developers to detect a wide variety of commands without the developer needing to hard-code any of the phrases (or specify the structure of acceptable phrases); they only have to create the table of context-action mappings, and use the system features, to process commands.
+A prototype for a text-based role-playing game has been created on Android which uses the new voice recognition system to process commands, and is available to download \footnote{https://play.google.com/store/apps/details?id=com.khan.baron.voicerecrpg}. The system makes it easier for developers to detect a wide variety of commands without the developer needing to hard-code any of the phrases (or specify the structure of acceptable phrases); they only have to create the table of context-action mappings, and use the system features, to process commands.
 \\
 \\
 Unlike paid voice recognition services such as IBM's Watson Conversation, Houndify or DialogFlow, this project's voice recognition system is able to work completely offline (and therefore protects the user's privacy) and the processing time per command on an Android device is within an acceptable limit (close to 0.1 seconds).
@@ -2037,11 +2039,65 @@ A new interface for the WS4J library was created which uses MIT's JWI API to acc
 Finally, the semantic similarity engine created for the voice recognition system has also been applied to other areas of development for the RPG. For instance, a room generation program has been created which takes as input a text description of the room, and generates a source file for the room, making it easier to create more complex rooms for the game.
 \\
 \\
-Ideas and techniques used in the room generation program, such as identifying binary relationships between objects and using the semantic similarity engine for object creation, may be useful for other systems in the future.
+Ideas and techniques used in the room generation program, such as identifying binary relationships between objects and using the semantic similarity engine for object creation, may be useful for other systems and projects.
 
 \subsection{Future Work}
 
+This section outlines any future work that may be done as a result of the work already done in this project.
 
+\subsubsection{Support for more Languages}
+
+The voice recognition system components | from the slot-filling grammar structure to the WordNet database | only work for the English language, and will need to be adjusted for other languages.
+\\
+\\
+While approximately 42\% of the world's language use a \textit{subject-verb-object} sentence structure (e.g. "He hits the goblin"), such as English, Mandarin and Spanish, approximately 45\% of languages use a \textit{subject-object-verb} sentence structure (e.g. "He the goblin hits"), such as Bengali, Greek and Japanese RRR. Therefore, the target would precede the object, so the voice recognition system's slot-filling grammar needs to be rearranged.
+\\
+\\
+The Princeton University WordNet database only supports English words. While there are WordNet databases for most of the world's languages RRR, each database requires a new interface to be implemented (although most of them are SQL databases which can be queried), and not all languages have a WordNet database currently.
+
+\subsubsection{Deep Learning}
+
+This project has used classical natural language processing techniques, but it may be possible to use deep learning to improve the accuracy and usability of the voice recognition system, such as using recurrent neural networks (RNN). While deep learning requires a large amount of processing and would not be feasible to train offline, models can be trained by the developer and included in the application, with updates to the model included with updates to the application or game.
+\\
+\\
+One use for deep learning is to be able to choose the most appropriate semantic similarity methods to use for a specific domain. As shown in Section \ref{section:performance} on page \pageref{section:eval-similarity}, different methods perform better for different domains. Currently, only a combination of upto two methods can used, with each method having a 50\% weighting. Using deep learning, the best weightings for several methods can be trained to produce the most accurate and best performing combination.
+\\
+\\
+Another area where deep learning (or classical machine learning) techniques can be used is the suggestions mechanism. A global model can be trained whenever an ambiguous intent is spoken, so that the system learns that the user meant another intent instantly (instead of constantly asking them for confirmation of their intent).
+
+
+\subsubsection{Multi-threading}
+
+During this project, an attempt to multi-thread the application was made, but was unable to achieve a sizeable improvement in performance. Multiple processors could be used to fork and join tasks instead of executing them sequentially. This can be achieved using Java 8's parallel streams.
+\\
+\\
+For example, in the \texttt{SentenceMapper} class, instead of iterating through a \texttt{Collection} of \texttt{sentences} to calculate their cosine similarity score, and then reducing the output sequentially:
+
+\begin{lstlisting}[language=Java, label=lst:loop-seq]
+for (String sentence : sentences) {
+    totalScore += calculateCosScore(words, sentence);
+}
+\end{lstlisting}
+
+A parallel stream can be used instead:
+
+\begin{lstlisting}[language=Java, label=lst:loop-stream]
+totalScore = sentences.parallelStream()
+        .mapToDouble((sentence) -> calculateCosScore(words, sentence))
+        .sum();
+\end{lstlisting}
+
+Most of the multi-threading can be performed in the \texttt{VoiceProcess} class, where words are currently processed sequentially.
+
+\subsubsection{Hands-Free UI}
+
+One of the novelties of voice controls is that the user doesn't have to touch any physical buttons or screens in order to execute commands in the application. The interface of the role-playing game in this project requires the player to push a blue button in order to start a voice intent.
+\\
+\\
+It may be possible to replace the button with a wake word detection mechanism. This is a phrase that the user says to indicate the start of a voice intent (such as saying, "Hi Siri" or "Ok, Google"). This requires the microphone to always be listening and consume more power, but it will work offline and there are open-source APIs available that offer this, such as \textit{Snowboy} RRR.
+\\
+\\
+It is also possible to turn the output text into audio, using text-to-speech (TTS) API such as Google's TTS engine. Combining these two features would make the application completely hands-free, and could be beneficial to some players.
 
 
 

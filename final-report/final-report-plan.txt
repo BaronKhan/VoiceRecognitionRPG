@@ -194,7 +194,7 @@ Contributions
  
  Future Work
 - Mention language changes
-- Combining methods and getting weighting (use ML/deep learning to find best ones)
+- Combining methods and getting weighting (use ML/deep learning to find best methods)
     -- algoruthnm would leanr weightings for semantic similarities, RNNs
 - Multithreading for performance
 - Hand-free (wake-word detection) and TTs output
