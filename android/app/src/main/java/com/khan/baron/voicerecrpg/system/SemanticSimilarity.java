@@ -103,7 +103,7 @@ public class SemanticSimilarity {
         }
     }
 
-    public synchronized double calculateScore(String word1, String word2) {
+    public double calculateScore(String word1, String word2) {
         double score1=0.0, score2=0.0, score=0.0;
         try {
             if (mDb == null) {
@@ -112,8 +112,16 @@ public class SemanticSimilarity {
                 return 0.0;
             }
 
-            if (mMethod1 != null) { score1 = mMethod1.calcRelatednessOfWords(word1, word2); }
-            if (mMethod2 != null) { score2 = mMethod2.calcRelatednessOfWords(word1, word2); }
+            if (mMethod1 != null) {
+                synchronized (this) {
+                    score1 = mMethod1.calcRelatednessOfWords(word1, word2);
+                }
+            }
+            if (mMethod2 != null) {
+                synchronized (this) {
+                    score2 = mMethod2.calcRelatednessOfWords(word1, word2);
+                }
+            }
 
             //Normalise score
             if (methodIsLesk(sCurrentMethod1)) { score1 = max(score1 / 80.0, 1.0); }
