@@ -103,7 +103,7 @@ public class SemanticSimilarity {
         }
     }
 
-    public double calculateScore(String word1, String word2) {
+    public synchronized double calculateScore(String word1, String word2) {
         double score1=0.0, score2=0.0, score=0.0;
         try {
             if (mDb == null) {
