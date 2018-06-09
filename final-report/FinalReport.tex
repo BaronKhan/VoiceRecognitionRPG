@@ -1939,7 +1939,7 @@ Using the anonymous survey, participants were asked what kind of phrases they wo
 \begin{figure}[]
 \begin{center}
   \includegraphics[width=\linewidth]{survey-commands}
-  \caption{A bar chart showing the responses for types of commands that users would eventually say in a role-playing game.}
+  \caption{A bar chart showing the number of users that would eventually say certain types of commands in a role-playing game.}
   \label{fig:survey-commands}
   \end{center}
 \end{figure}
@@ -2008,6 +2008,16 @@ Many of these limitations are quite severe and hamper the usability of the syste
 
 \subsection{Room Generation Evaluation}
 
+Since the semantic similarity engine used in the room generation program has already been evaluated above, only the effectiveness of the object relationship mechanism needs to be evaluated. This can be done by creating a complex description of a room with all but the first sentence containing a different relation between two objects, and seeing if the system detects the relationship. See the Appendix \ref{appendix:room-generation-results} for the full results.
+\\
+\\
+While the program can detect relations in sentences such as, "A letter sits upon the table" or, "A potion is underneath the table", it cannot detect some simple relations such as, "There is a chair under the table" or "A fork lays on the table". This could be because the \textit{Reverb} library does not understand the relations, "lays on" and "under". However, the majority of relations are detected by the program, and only a few conditionals have to be added manually by the developer.
+\\
+\\
+The room generation structure currently cannot handle multiple objects being created in the same sentence, so only one object creation can be associated to each sentence in the room description.
+
+
+
 \newpage
 \section{Conclusion}
 
@@ -2045,7 +2055,7 @@ Ideas and techniques used in the room generation program, such as identifying bi
 
 This section outlines any future work that may be done as a result of the work already done in this project.
 
-\subsubsection{Support for more Languages}
+\subsubsection{Language Support}
 
 The voice recognition system components | from the slot-filling grammar structure to the WordNet database | only work for the English language, and will need to be adjusted for other languages.
 \\
@@ -2068,7 +2078,7 @@ Another area where deep learning (or classical machine learning) techniques can 
 
 \subsubsection{Multi-threading}
 
-During this project, an attempt to multi-thread the application was made, but was unable to achieve a sizeable improvement in performance. Multiple processors could be used to fork and join tasks instead of executing them sequentially. This can be achieved using Java 8's parallel streams.
+During this project, an attempt to multi-thread the application was made, but was unable to achieve a sizeable improvement in performance. Multiple processors could be used to fork and join tasks instead of executing them sequentially. This can be achieved using Java 8's parallel streams RRR.
 \\
 \\
 For example, in the \texttt{SentenceMapper} class, instead of iterating through a \texttt{Collection} of \texttt{sentences} to calculate their cosine similarity score, and then reducing the output sequentially:
@@ -2087,7 +2097,7 @@ totalScore = sentences.parallelStream()
         .sum();
 \end{lstlisting}
 
-Most of the multi-threading can be performed in the \texttt{VoiceProcess} class, where words are currently processed sequentially.
+Most of the multi-threading can be performed in the \texttt{VoiceProcess} class, where words are currently processed sequentially, although a lot of re-factoring is required to make loop iterations independent within the class.
 
 \subsubsection{Hands-Free UI}
 
@@ -3361,6 +3371,67 @@ This section presents the other results from the anonymous survey given to devel
   \end{center}
 \end{figure}
 \end{center}
+
+\newpage
+\subsection{Room Generation Evaluation Results}
+\label{appendix:room-generation-results}
+
+The following is a text file for a room description (with each sentence contain an object relation), followed by the methods in the constructor from the output of the program:
+\\
+\\
+"There is a *table in the room. A *knife is on the table. There is a *spoon on top of the table. A *fork lays on the table. There is a *chair under the table. A *letter sits upon the table. A *key is placed above the letter. A *sword is next to the table. A *hammer is with the sword. There is a *potion is underneath the table. An *elixer is beside the potion."
+
+\begin{lstlisting}[language=Java]
+addDescriptionWithObject(
+    "There is a table in the room.",
+    new GlassTable());
+addDescriptionWithObjectCond(
+    "A knife is on the table.",
+    "A knife is now on the floor.",
+    new Weapon("knife"),
+    () -> getRoomObjectCount("table") > 0);
+addDescriptionWithObject(
+    "There is a spoon on top of the table.",
+    new Weapon("spoon"));
+addDescriptionWithObject(
+    "A fork lays on the table.",
+    new Weapon("fork"));
+addDescriptionWithObject(
+    "There is a chair under the table.",
+    new Chair());
+addDescriptionWithObjectCond(
+    "A letter sits upon the table.",
+    "A letter is now on the floor.",
+    new Item("letter", Item.ItemType.ITEM_KEY, "document"),
+    () -> getRoomObjectCount("table") > 0);
+addDescriptionWithObjectCond(
+    "A key is placed above the letter.",
+    "A key is in the room.",
+    new Item("key", Item.ItemType.ITEM_KEY, "access"),
+    () -> getRoomObjectCount("letter") > 0);
+addDescriptionWithObjectCond(
+    "A sword is next to the table.",
+    "A sword is in the room.",
+    new Weapon("sword"),
+    () -> getRoomObjectCount("table") > 0);
+addDescriptionWithObjectCond(
+    "A hammer is with the sword.",
+    "A hammer is in the room.",
+    new Weapon("hammer"),
+    () -> getRoomObjectCount("sword") > 0);
+addDescriptionWithObjectCond(
+    "There is a potion is underneath the table.",
+    "A potion is in the room.",
+    new Potion("potion"),
+    () -> getRoomObjectCount("table") > 0);
+addDescriptionWithObjectCond(
+    "An elixer is beside the potion.",
+    "An elixer is in the room.",
+    new Potion("elixer"),
+    () -> getRoomObjectCount("potion") > 0);
+\end{lstlisting}
+
+Out of the 10 relations in the description, 7 of them are extracted by the program.
 
 \newpage
 \addcontentsline{toc}{section}{References}

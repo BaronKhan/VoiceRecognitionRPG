@@ -87,11 +87,12 @@
 \contentsline {subsection}{\numberline {6.5}Evaluation of Slot-Filling Grammar}{63}
 \contentsline {subsection}{\numberline {6.6}Usability of the Voice Recognition System}{64}
 \contentsline {subsection}{\numberline {6.7}Voice Recognition System Limitations}{65}
+\contentsline {subsection}{\numberline {6.8}Room Generation Evaluation}{67}
 \contentsline {section}{\numberline {7}Conclusion}{68}
 \contentsline {subsection}{\numberline {7.1}Deliverables}{68}
 \contentsline {subsection}{\numberline {7.2}Contributions}{68}
 \contentsline {subsection}{\numberline {7.3}Future Work}{69}
-\contentsline {subsubsection}{\numberline {7.3.1}Support for more Languages}{69}
+\contentsline {subsubsection}{\numberline {7.3.1}Language Support}{69}
 \contentsline {subsubsection}{\numberline {7.3.2}Deep Learning}{69}
 \contentsline {subsubsection}{\numberline {7.3.3}Multi-threading}{70}
 \contentsline {subsubsection}{\numberline {7.3.4}Hands-Free UI}{70}
@@ -127,4 +128,5 @@
 \contentsline {subsection}{\numberline {8.20}Evaluation: Actions and Contexts}{106}
 \contentsline {subsection}{\numberline {8.21}Comparison of Usability}{107}
 \contentsline {subsection}{\numberline {8.22}Other Survey Results}{109}
-\contentsline {section}{References}{111}
+\contentsline {subsection}{\numberline {8.23}Room Generation Evaluation Results}{111}
+\contentsline {section}{References}{112}

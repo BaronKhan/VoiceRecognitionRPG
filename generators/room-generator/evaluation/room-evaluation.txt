@@ -1,0 +1,10 @@
+There is a *table in the room.
+A *knife is on the table.
+There is a *spoon on top of the table.
+A *fork lays on the table.
+There is a *chair under the table.
+A *letter sits upon the table.
+A *key is placed above the letter.
+A *sword is next to the table.
+A *hammer is with the sword.
+There is a *potion is underneath the table and an *elixer is beside the potion.

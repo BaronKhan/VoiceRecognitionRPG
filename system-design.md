@@ -235,6 +235,7 @@ Generate room based on description
 - Make a Java program which uses semantic similarity library!
 - https://github.com/knowitall/reverb
 - Use asterik in text to denote something (if object is new).
+- Evaluation: evaluate relationships
 
 Multiple targets
 -----------------

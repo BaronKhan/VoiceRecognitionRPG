@@ -131,7 +131,7 @@ public class GenerateRoom {
         throws IOException
     {
         //First phase: find binary relationships
-        boolean foundRel = false;
+        int foundRel = false;
         String relCond = "";
         String altSentence = "";
         for (ChunkedBinaryExtraction extr : reverb.extract(sChunkedText)) {
