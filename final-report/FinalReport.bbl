@@ -23,8 +23,8 @@
 
 \bibitem{RefWorks:21}
 \BIBentryALTinterwordspacing
-{Marco Tabini}, ``{Inside Siri's brain: The challenges of extending Apple's
-  virtual assistant},'' {2013, April 8}. [Online]. Available:
+M.~Tabini, ``{Inside Siri's brain: The challenges of extending Apple's virtual
+  assistant},'' {2013, April 8}. [Online]. Available:
   \url{{https://www.macworld.com/article/2033073/inside-siris-brain-the-challenges-of-extending-apples-virtual-assistant.html}}
 \BIBentrySTDinterwordspacing
 
@@ -56,7 +56,7 @@
 
 \bibitem{RefWorks:25}
 \BIBentryALTinterwordspacing
-{Chris Watters}, ``{Star Trek: Bridge Crew Integrates IBM Watson For Voice
+C.~Watters, ``{Star Trek: Bridge Crew Integrates IBM Watson For Voice
   Commands},'' {2017, June 22}. [Online]. Available:
   \url{{https://news.ubisoft.com/article/star-trek-bridge-crew-integrates-ibm-watson-voice-commands}}
 \BIBentrySTDinterwordspacing
@@ -70,22 +70,22 @@
 
 \bibitem{RefWorks:35}
 \BIBentryALTinterwordspacing
-{Rob Lammle}, ``{Eaten by a Grue: A Brief History of Zork},'' {June} {2014}.
+R.~Lammle, ``{Eaten by a Grue: A Brief History of Zork},'' {June} {2014}.
   [Online]. Available:
   \url{{http://mentalfloss.com/article/29885/eaten-grue-brief-history-zork}}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:37}
 \BIBentryALTinterwordspacing
-{Jacob Foster and Matt Thompson and Myles Loffler}, ``{Classic Zork on
-  Alexa},'' {Dec} {2016}. [Online]. Available:
+J.~Foster, M.~Thompson, and M.~Loffler, ``{Classic Zork on Alexa},'' {Dec}
+  {2016}. [Online]. Available:
   \url{{https://www.hackster.io/devops-dungeoneers/classic-zork-494ff1}}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:36}
 \BIBentryALTinterwordspacing
-{Dave Lebling and Marc Blank}, \emph{{Zork Trilogy Instruction Manual}}.\hskip
-  1em plus 0.5em minus 0.4em\relax {InfoCom}, {1984}. [Online]. Available:
+D.~Lebling and M.~Blank, \emph{{Zork Trilogy Instruction Manual}}.\hskip 1em
+  plus 0.5em minus 0.4em\relax {InfoCom}, {1984}. [Online]. Available:
   \url{{http://infodoc.plover.net/manuals/zork1.pdf}}
 \BIBentrySTDinterwordspacing
 
@@ -146,38 +146,46 @@
   \url{{https://conversation-demo.ng.bluemix.net/}}
 \BIBentrySTDinterwordspacing
 
+\bibitem{RefWorks:112}
+\BIBentryALTinterwordspacing
+M.~McCord, J.~Murdock, and B.~Boguraev, ``{Deep parsing in Watson},'' \emph{IBM
+  Journal of Research and Development}, vol.~56, no. 3.4, pp. 3:1--3:15, Apr
+  2012. [Online]. Available:
+  \url{https://ieeexplore.ieee.org/document/6177729/}
+\BIBentrySTDinterwordspacing
+
 \bibitem{RefWorks:106}
 \BIBentryALTinterwordspacing
-``Dialogflow.'' [Online]. Available: \url{https://dialogflow.com/}
+``{Dialogflow}.'' [Online]. Available: \url{https://dialogflow.com/}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:38}
-{Nitin Indurkha and Fred Damerau}, \emph{{Classical Approaches to Natural
-  Language Processing}}, {2}~ed., ser. {Handbook of Natrual Language
-  Processing}.\hskip 1em plus 0.5em minus 0.4em\relax {United States}: Chapman
-  and Hall, {2010}, pp. {4--6}.
+N.~Indurkha and F.~Damerau, \emph{{Classical Approaches to Natural Language
+  Processing}}, {2}~ed., ser. {Handbook of Natural Language Processing}.\hskip
+  1em plus 0.5em minus 0.4em\relax {United States}: Chapman and Hall, {2010},
+  pp. {4--6}.
 
 \bibitem{RefWorks:39}
 \BIBentryALTinterwordspacing
-{Craig Trim}, ``{The Art of Tokenization},'' {Jan} {2013}. [Online]. Available:
+C.~Trim, ``{The Art of Tokenization},'' {Jan} {2013}. [Online]. Available:
   \url{{https://ibm.com/developerworks/community/blogs/nlp/entry/tokenization}}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:40}
-{Nitin Indurkha and Fred Damerau}, \emph{{Classical Approaches to Natural
-  Language Processing}}, {2}~ed., ser. {Handbook of Natrual Language
-  Processing}.\hskip 1em plus 0.5em minus 0.4em\relax {United States}: Chapman
-  and Hall, {2010}, p.~{61}.
+N.~Indurkha and F.~Damerau, \emph{{Classical Approaches to Natural Language
+  Processing}}, {2}~ed., ser. {Handbook of Natural Language Processing}.\hskip
+  1em plus 0.5em minus 0.4em\relax {United States}: Chapman and Hall, {2010},
+  p.~{61}.
 
 \bibitem{RefWorks:41}
-------, \emph{{Part-of-Speech Tagging}}, {2}~ed., ser. {Handbook of Natrual
+------, \emph{{Part-of-Speech Tagging}}, {2}~ed., ser. {Handbook of Natural
   Language Processing}.\hskip 1em plus 0.5em minus 0.4em\relax {United States}:
   Chapman and Hall, {2010}, pp. {205--206}.
 
 \bibitem{RefWorks:43}
 \BIBentryALTinterwordspacing
-{Dictionary.com2018}, ``{The Dictionary of American Slang},'' {2018, January
-  18}. [Online]. Available: \url{{http://www.dictionary.com/browse/can}}
+{Dictionary.com}, ``{The Dictionary of American Slang},'' {2018, January 18}.
+  [Online]. Available: \url{{http://www.dictionary.com/browse/can}}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:107}
@@ -201,16 +209,15 @@ D.~Jurasky and J.~Martin, \emph{{Dialog Systems and Chatbots}}, ser. {Speech
 
 \bibitem{RefWorks:46}
 \BIBentryALTinterwordspacing
-{Bridget McInnes and Ted Pedersen}, ``{Evaluating measures of semantic
-  similarity and relatedness to disambiguate terms in biomedical text},''
-  \emph{{Journal of Biomedical Informatics}}, {2013, Sep} {2013}. [Online].
-  Available:
+B.~McInnes and T.~Pedersen, ``Evaluating measures of semantic similarity and
+  relatedness to disambiguate terms in biomedical text,'' \emph{{Journal of
+  Biomedical Informatics}}, {2013, Sep} {2013}. [Online]. Available:
   \url{{https://www.sciencedirect.com/science/article/pii/S1532046413001238}}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:49}
 \BIBentryALTinterwordspacing
-{Sagar Gole}, ``{Words similarity/relatedness using WuPalmer Algorithm - Sagar
+S.~Gole, ``{Words similarity/relatedness using WuPalmer Algorithm - Sagar
   Gole's Blog},'' {Jun} {2015}. [Online]. Available:
   \url{{http://blog.thedigitalgroup.com/sagarg/2015/06/10/words-similarityrelatedness-using-wupalmer-algorithm/}}
 \BIBentrySTDinterwordspacing
@@ -221,27 +228,197 @@ D.~Jurasky and J.~Martin, \emph{{Dialog Systems and Chatbots}}, ser. {Speech
   Available: \url{http://ws4jdemo.appspot.com}
 \BIBentrySTDinterwordspacing
 
-\bibitem{RefWorks:55}
-{Mohit Iyyer and Jordan Boyd-Graber and Hal Daume III}, ``{Generating Sentences
-  from Semantic Vector Space Representations},'' {2014}.
-
-\bibitem{RefWorks:54}
-{L. White and R. Togneri and W. Liu and M. Bennamoun}, ``{Modelling Sentence
-  Generation from Sum of Word Embedding Vectors as a Mixed Integer Programming
-  Problem},'' in \emph{{2016 IEEE 16th International Conference on Data Mining
-  Workshops (ICDMW)}}, {2016}, pp. {770--777}, {ID: 1}.
-
 \bibitem{RefWorks:20}
 \BIBentryALTinterwordspacing
 {Princeton University}, ``{About WordNet},'' {2013, January 9} {2013}.
   [Online]. Available: \url{{http://wordnet.princeton.edu}}
 \BIBentrySTDinterwordspacing
 
+\bibitem{ReVerb2011}
+A.~Fader, S.~Soderland, and O.~Etzioni, ``Identifying relations for open
+  information extraction,'' in \emph{Proceedings of the Conference of Empirical
+  Methods in Natural Language Processing ({EMNLP} '11)}, Edinburgh, Scotland,
+  UK, July 27-31 2011.
+
+\bibitem{RefWorks:55}
+\BIBentryALTinterwordspacing
+M.~Iyyer, J.~Boyd-Graber, and H.~Daume, ``Generating sentences from semantic
+  vector space representations,'' \emph{NIPS Workshop on Learning Semantics},
+  2014. [Online]. Available:
+  \url{https://www.cs.umd.edu/~miyyer/pubs/2014\_nips\_generation.pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:54}
+L.~White, R.~Togneri, W.~Liu, and M.~Bennamoun, ``{Modelling Sentence
+  Generation from Sum of Word Embedding Vectors as a Mixed Integer Programming
+  Problem},'' in \emph{{2016 IEEE 16th International Conference on Data Mining
+  Workshops (ICDMW)}}, {2016}, pp. {770--777}, {ID: 1}.
+
 \bibitem{RefWorks:48}
 \BIBentryALTinterwordspacing
-{Mark Bozon}, ``{World Debut: Scribblenauts},'' {2008, December 5}. [Online].
+M.~Bozon, ``{World Debut: Scribblenauts},'' {2008, December 5}. [Online].
   Available:
   \url{{http://uk.ign.com/articles/2008/12/05/world-debut-scribblenauts}}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:109}
+\BIBentryALTinterwordspacing
+G.~Escofet, ``Mobile games market forecast report: 2017–22,'' Ovum, Tech.
+  Rep., Dec 2017. [Online]. Available:
+  \url{https://ovum.informa.com/resources/product-content/ces003-000052}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:110}
+\BIBentryALTinterwordspacing
+{Android Developers}, ``{SpeechRecognizer}.'' [Online]. Available:
+  \url{https://developer.android.com/reference/android/speech/SpeechRecognizer.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:111}
+\BIBentryALTinterwordspacing
+V.~Arputharaj, ``{How to enable offline Speech To Text in Android},'' May 2015.
+  [Online]. Available:
+  \url{https://stackandroid.com/tutorial/how-to-enable-offline-speech-to-text-in-android/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:113}
+\BIBentryALTinterwordspacing
+{The Stanford Natural Language Processing Group}, ``{Stanford Log-linear
+  Part-Of-Speech Tagger}.'' [Online]. Available:
+  \url{https://nlp.stanford.edu/software/tagger.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:114}
+\BIBentryALTinterwordspacing
+J.~McNamara, ``Sentence subjects.'' [Online]. Available:
+  \url{http://grammar.ccc.commnet.edu/grammar/subjects.htm}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:115}
+\BIBentryALTinterwordspacing
+M.~Lesk, ``Automatic sense disambiguation using machine readable dictionaries:
+  How to tell a pine cone from an ice cream cone.'' [Online]. Available:
+  \url{citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.178.2744\&rep=rep1\&type=pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:117}
+\BIBentryALTinterwordspacing
+P.~T. and B.~S, ``Extended gloss overlaps as a measure of semantic
+  relatedness,'' in \emph{Proceedings of the 18th international joint
+  conference on AI}, 2003, pp. 805--810. [Online]. Available:
+  \url{http://www.d.umn.edu/~tpederse/Pubs/ijcai03.pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:121}
+\BIBentryALTinterwordspacing
+R.~Nordquist, ``Definition and examples of meronyms and holonyms,'' Mar 2018.
+  [Online]. Available:
+  \url{https://www.thoughtco.com/what-is-a-meronym-1691308}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:118}
+\BIBentryALTinterwordspacing
+M.~A. Finlayson, ``{ Java Libraries for Accessing the Princeton Wordnet:
+  Comparison and Evaluation},'' in \emph{Proceedings of the 7th International
+  Global WordNet Conference}, 2014, pp. 78--85. [Online]. Available:
+  \url{https://projects.csail.mit.edu/jwi/download.php?f=finlayson.2014.procgwc.7.78.pdf}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:116}
+\BIBentryALTinterwordspacing
+H.~Shima, ``{WS4J},'' Apr 2013. [Online]. Available:
+  \url{https://code.google.com/archive/p/ws4j/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:119}
+\BIBentryALTinterwordspacing
+C.~S. Perone, ``Machine learning: Cosine similarity for vector space,'' March
+  2018. [Online]. Available:
+  \url{http://blog.christianperone.com/2013/09/machine-learning-cosine-similarity-for-vector-space-models-part-iii/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:120}
+\BIBentryALTinterwordspacing
+G.~Sidorov, A.~Gelbukh, H.~Gomez-Adorno, and D.~Pinto, ``Soft similarity and
+  soft cosine measure: Similarity of features in vector space model,''
+  \emph{Computacion y Sistemas}, vol.~18, no.~3, pp. 491--504, 2014. [Online].
+  Available:
+  \url{http://www.cys.cic.ipn.mx/ojs/index.php/CyS/article/view/2043}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:124}
+\BIBentryALTinterwordspacing
+{JetBrains}, ``Fernflower,'' 2017. [Online]. Available:
+  \url{https://github.com/JetBrains/intellij-community/tree/master/plugins/java-decompiler/engine}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:122}
+\BIBentryALTinterwordspacing
+{National Institute of Information and Communications Technology}, ``{Japanese
+  Wordnet},'' 2006. [Online]. Available:
+  \url{http://compling.hss.ntu.edu.sg/wnja/index.en.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:125}
+\BIBentryALTinterwordspacing
+{Oracle}, ``{BooleanSupplier (Java Platform SE 8)}.'' [Online]. Available:
+  \url{https://docs.oracle.com/javase/8/docs/api/java/util/function/BooleanSupplier.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:128}
+\BIBentryALTinterwordspacing
+J.~Nielson, ``Response times: The three important limits,'' Jan 1993. [Online].
+  Available:
+  \url{https://www.nngroup.com/articles/response-times-3-important-limits/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:127}
+\BIBentryALTinterwordspacing
+{DeviceSpecifications}, ``{Samsung Galaxy S7 Exynos - Specifications}.''
+  [Online]. Available:
+  \url{https://www.devicespecifications.com/en/model/63063a47}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:126}
+\BIBentryALTinterwordspacing
+{SocialCompare}, ``{Raspberry Pi 3},'' 2018, March 14. [Online]. Available:
+  \url{http://socialcompare.com/en/review/raspberry-pi-3}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:129}
+\BIBentryALTinterwordspacing
+{Grammarly}, ``Compound words: Open, closed or hyphenated?'' [Online].
+  Available:
+  \url{https://www.grammarly.com/blog/open-and-closed-compound-words/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:130}
+\BIBentryALTinterwordspacing
+C.~F. Meyer, \emph{{Typological Classification of Languages}}, {International
+  Student}~ed., ser. {Introducing English Linguistics}.\hskip 1em plus 0.5em
+  minus 0.4em\relax Cambridge, UK: {Cambridge University Press}, 2010, p.~36.
+  [Online]. Available:
+  \url{https://books.google.co.uk/books?id=MWbrvUiYzSkC\&pg=PA36}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:131}
+\BIBentryALTinterwordspacing
+S.~Chong, ``{A Complete Multilingual WordNet List by Language},'' 2015,
+  February 6. [Online]. Available:
+  \url{https://www.certifiedchinesetranslation.com/openaccess/WordNet/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:132}
+\BIBentryALTinterwordspacing
+E.~Bamberg, ``{Parallel stream processing in Java 8 - performance of sequential
+  vs parallel stream processing},'' Jan 2016. [Online]. Available:
+  \url{https://blog.oio.de/2016/01/22/parallel-stream-processing-in-java-8-performance-of-sequential-vs-parallel-stream-processing/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:133}
+\BIBentryALTinterwordspacing
+{KITT.AI}, ``{Snowboy Hotword Detection},'' Feb 2018. [Online]. Available:
+  \url{https://github.com/Kitt-AI/snowboy}
 \BIBentrySTDinterwordspacing
 
 \bibitem{RefWorks:42}
@@ -249,6 +426,12 @@ D.~Jurasky and J.~Martin, \emph{{Dialog Systems and Chatbots}}, ser. {Speech
 {University of Pennsylvania}, ``{Penn Treebank P.O.S. Tags},'' {2018}.
   [Online]. Available:
   \url{https://ling.upenn.edu/courses/Fall\_2003/ling001/penn\_treebank\_pos.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{RefWorks:108}
+\BIBentryALTinterwordspacing
+M.~Schmid, ``{simpleUMLCE},'' Apr 24 2010. [Online]. Available:
+  \url{https://plugins.jetbrains.com/plugin/4946-simpleumlce}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}

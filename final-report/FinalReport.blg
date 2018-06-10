@@ -9,11 +9,13 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
 Warning--I'm ignoring RefWorks:38's extra "edition" field
---line 132 of file references.bib
+--line 143 of file references.bib
 Warning--I'm ignoring RefWorks:40's extra "edition" field
---line 151 of file references.bib
+--line 162 of file references.bib
 Warning--I'm ignoring RefWorks:41's extra "edition" field
---line 163 of file references.bib
+--line 174 of file references.bib
+Warning--I'm ignoring RefWorks:130's extra "edition" field
+--line 417 of file references.bib
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
@@ -37,50 +39,54 @@ Warning--there's a month but no year in RefWorks:43
 Warning--missing publisher in RefWorks:107
 Warning--there's a month but no year in RefWorks:45
 Warning--there's a month but no year in RefWorks:47
-Warning--empty journal in RefWorks:55
 Warning--there's a month but no year in RefWorks:48
+Warning--empty journal in RefWorks:115
+Warning--empty year in RefWorks:115
+Warning--there's a month but no year in RefWorks:126
+Warning--edition ordinal word "{International Student}" may be too high (or improper) for conversion in RefWorks:130
+Warning--there's a month but no year in RefWorks:131
 Warning--there's a month but no year in RefWorks:42
 
 Done.
-You've used 36 entries,
+You've used 62 entries,
             4087 wiz_defined-function locations,
-            1028 strings with 12399 characters,
-and the built_in function-call counts, 14873 in all, are:
-= -- 1176
-> -- 172
-< -- 33
-+ -- 86
-- -- 35
-* -- 616
-:= -- 2656
-add.period$ -- 71
-call.type$ -- 36
-change.case$ -- 37
-chr.to.int$ -- 87
-cite$ -- 59
-duplicate$ -- 1182
-empty$ -- 1447
-format.name$ -- 36
-if$ -- 3303
+            1209 strings with 17096 characters,
+and the built_in function-call counts, 27299 in all, are:
+= -- 2158
+> -- 397
+< -- 71
++ -- 199
+- -- 81
+* -- 1171
+:= -- 4797
+add.period$ -- 123
+call.type$ -- 62
+change.case$ -- 64
+chr.to.int$ -- 174
+cite$ -- 89
+duplicate$ -- 2153
+empty$ -- 2580
+format.name$ -- 94
+if$ -- 6088
 int.to.chr$ -- 0
-int.to.str$ -- 36
-missing$ -- 246
-newline$ -- 193
-num.names$ -- 34
-pop$ -- 759
+int.to.str$ -- 62
+missing$ -- 453
+newline$ -- 323
+num.names$ -- 60
+pop$ -- 1359
 preamble$ -- 1
 purify$ -- 0
-quote$ -- 8
-skip$ -- 1134
+quote$ -- 10
+skip$ -- 2066
 stack$ -- 0
-substring$ -- 208
-swap$ -- 699
-text.length$ -- 4
+substring$ -- 427
+swap$ -- 1339
+text.length$ -- 13
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 36
-warning$ -- 23
-while$ -- 44
-width$ -- 38
-write$ -- 373
-(There were 26 warnings)
+type$ -- 62
+warning$ -- 27
+while$ -- 83
+width$ -- 64
+write$ -- 644
+(There were 31 warnings)

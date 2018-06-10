@@ -88,7 +88,7 @@ This project presents a text-based role-playing game (RPG) on Android which allo
 Various methods for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.
 \\
 \\
-This project also explores other areas for easing the development of the RPG, such as assigning object properties and room generation from text descriptions.}
+This project also explores other areas for easing the development of the RPG, such as assigning object properties, and room generation from text descriptions.}
 
 \newpage
 
@@ -277,7 +277,7 @@ Once the classifier is trained, it will be able to use the examples of intents p
 This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
 \\
 \\
-According to a research paper by McCord, Murdok and Boguraev on \textit{Deep Parsing in Watson} RRR, the engine consists of two deep parsing components: an English Slot Grammar (ESG) parser and a a predicate-argument structure (PAS) builder. These allow Watson to produce parse trees of a sentence and extract pattern-based relations from it, such as question decomposition, hypothesis generation, and evidence scoring.
+According to a research paper by McCord, Murdok and Boguraev on \textit{Deep Parsing in Watson} \cite{RefWorks:112}, the engine consists of two deep parsing components: an English Slot Grammar (ESG) parser and a a predicate-argument structure (PAS) builder. These allow Watson to produce parse trees of a sentence and extract pattern-based relations from it, such as question decomposition, hypothesis generation, and evidence scoring.
 \\
 \\
 There is a similar API called DialogFlow \cite{RefWorks:106}, which works very similarly to IMB's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
@@ -415,7 +415,7 @@ Princeton University created a large lexical database for the English language \
 One feature for the proposed design of the RPG is to prevent the developer from manually placing objects in a room/environment within the game. A designer may want to just provide a description of the room without having to program anything. A simple solution to this would be to perform noun extraction on the description to extract the objects that should be in the room. However, it would also be useful to extract relations of objects to other objects as well. For instance, if a lamp should only be on a table if a table exists in the room; if the table is removed/broken by the player, then the lamp should now be on the floor. This would allow for more information to be extracted about the objects in the room, as opposed to simply their existence.
 \\
 \\
-Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships RRR. They created a tool for this called \textit{ReVerb} RRR. Taking the sentence, "A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship ("be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
+Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships. They created a tool for this called \textit{ReVerb} \cite{ReVerb2011}. Taking the sentence, "A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship ("be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
 
 \subsection{Generating Descriptions from Objects}
 
@@ -444,7 +444,7 @@ By assigning items different properties, the actions that the user can perform f
 \section{Design}
 \subsection{Target Platform}
 
-According to Ovum's Mobile Games Market forecast for 2017-2022 RRR, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.  It also allows for hands-free input as a future extension.
+According to Ovum's Mobile Games Market forecast for 2017-2022 \cite{RefWorks:109}, mobile games continue to increase their market share as they grow in popularity, and in two year's time almost half of the total video game revenue generated will come from mobile games. Therefore, it makes sense to design a system for a mobile platform such as iOS or Android.  It also allows for hands-free input as a future extension.
 \\
 \\
 The chosen platform to develop the voice recognition system and game will be Android mobile devices, as the availability of the open-source Google Speech-to-Text API means that less effort is required to get the text input from the user's utterance.
@@ -494,7 +494,7 @@ The steps are briefly described here and explained in more detail later on.
 
 \subsubsection{Speech-to-Text}
 
-Android features a built-in speech recognition service, via its \texttt{SpeechRecognizer} class RRR, and this is used for the speech-to-text engine. While the API's primary method of speech recognition is via remote server communication, there is an option with the Android OS settings to perform offline speech recognition instead, by downloading the language data RRR.
+Android features a built-in speech recognition service, via its \texttt{SpeechRecognizer} class \cite{RefWorks:110}, and this is used for the speech-to-text engine. While the API's primary method of speech recognition is via remote server communication, there is an option with the Android OS settings to perform offline speech recognition instead, by downloading the language data \cite{RefWorks:111}.
 \\
 \\
 Using this API, the player's utterance is transformed into a text string, which is then processed by the rest of the voice recognition system. Using an existing speech-to-text API means that less time is spent trying to get the player's utterance from the microphone input.
@@ -504,7 +504,7 @@ In terms of user interface, the application features an on-screen button contain
 
 \subsubsection{POS Tagging}
 
-For the Part-Of-Speech (POS) tagging of the input, the open-source Log-linear Part-Of-Speech Tagger provided by The Stanford Natural Language Processing Group will be used RRR. It is a Java archive file so can easily be imported and used in an Android Java project. It is a flexible API that handles all the POS tagging so no time needs to be spent implementing a POS tagging system. 
+For the Part-Of-Speech (POS) tagging of the input, the open-source Log-linear Part-Of-Speech Tagger provided by The Stanford Natural Language Processing Group will be used \cite{RefWorks:113}. It is a Java archive file so can easily be imported and used in an Android Java project. It is a flexible API that handles all the POS tagging so no time needs to be spent implementing a POS tagging system. 
 \\
 \\
 The software comes with two trained models. According to the software's \texttt{README} file, the first model uses a bidirectional architecture and includes training data using word shapes and distributional similarities. The second model uses a \textit{left3words} architecture, includes words shapes, and uses the Penn Treebank tagset. According to the developers, the bidirectional model is "slightly more accurate" with a correctness score of 97.28\%, but is much slower to tag with than the \textit{left3words} model. Therefore, the \textit{left3words} model was chosen to be used in the application. (It still features a performance correctness score of 96.97\% which is not that different to the bidirectional model's performance.)
@@ -515,7 +515,7 @@ With the input string broken down into an array list of its words, each word is 
 \subsubsection{Slot-filling Matching}
 \label{section:slot-filling}
 
-The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). It is assumed that the subject of the command (that is, the entity about whom the statement is made about RRR) is always the player (or the character that the player is controlling).
+The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). It is assumed that the subject of the command (that is, the entity about whom the statement is made about \cite{RefWorks:114}) is always the player (or the character that the player is controlling).
 \\
 \\
 Generally, commands will have an imperative verb (e.g. "attack", "grab", "look"), optionally followed by the target entity for which the imperative verb should be applied towards, as well as an optional context entity for which the imperative verb should be applied with.
@@ -584,16 +584,16 @@ Lin used IC to define a similarity measure similar to the Wu and Palmer method, 
 
 $$sim_{lin} = \frac{2*IC(LCS(w_1,w_2))}{IC(w_1)+IC(w_2)}$$
 
-Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions RRR. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, it can be deduced that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information RRR.
+Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions \cite{RefWorks:115}. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, it can be deduced that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information \cite{RefWorks:117}.
 \\
 \\
-As well as using the definitions of the synonyms, hypernyms and hyponyms of the word, this method also uses the definitions of the word's meronyms and holonyms. Meronyms are words that represent part of something else RRR. For example, 'face' would be a meronym of 'person'. Holonyms are words that represent the whole of several parts, so a 'body' would be a holoynm for words such as 'arm', 'leg' and 'torso' RRR. Using these definitions as well make the Lesk method more accurate, but also add more processing time for each calculation.
+As well as using the definitions of the synonyms, hypernyms and hyponyms of the word, this method also uses the definitions of the word's meronyms and holonyms. Meronyms are words that represent part of something else \cite{RefWorks:121}. For example, 'face' would be a meronym of 'person'. Holonyms are words that represent the whole of several parts, so a 'body' would be a holoynm for words such as 'arm', 'leg' and 'torso' \cite{RefWorks:121}. Using these definitions as well make the Lesk method more accurate, but also add more processing time for each calculation.
 \\
 \\
-The WordNet database is accessed and traversed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database RRR. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
+The WordNet database is accessed and traversed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database \cite{RefWorks:118}. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
 \\
 \\
-Implementations for most of the similarity methods are provided by another open-source Java library, \textit{WS4J} RRR. While this library provides the methods for doing the calculations (such as the WUP, LIN and LESK formulas), the methods for the navigation and analysis of the WordNet database (e.g. getting hypernyms, synsets, glosses, etc.) must be implemented from scratch (see Implementation for details).
+Implementations for most of the similarity methods are provided by another open-source Java library, \textit{WS4J} \cite{RefWorks:116}. While this library provides the methods for doing the calculations (such as the WUP, LIN and LESK formulas), the methods for the navigation and analysis of the WordNet database (e.g. getting hypernyms, synsets, glosses, etc.) must be implemented from scratch (see Implementation for details).
 
 \subsubsection{Context-Action Mapping}
 
@@ -704,7 +704,7 @@ The core mechanism of the system is the slot-filling structure described above. 
 The proposed solution is to perform sentence matching on these phrases. The developer specifies an intent followed by several example sentences that a user would say to execute the intent. For example, if the intent is to show the player the items they possess, example sentences include: "What is in my bag?", "What items do I have?", "What are the contents of my inventory?", and so on. When parsing a new utterance from the player (e.g. "what items are in my bag"), if the phrase fails the slot-filling stage, then the similarity of the sentence is calculated compared to the example sentences.
 \\
 \\
-The calculation involves using a slightly altered cosine similarity method. Based on the formula for the cosine of an angle between two vectors, the cosine  similarity method measures uses the cosine of the angle as a measure of similarity, using a vector space model RRR (the vector of a sentence is represented by its word frequencies). The similarity between two vectors, $a$ and $b$ is:
+The calculation involves using a slightly altered cosine similarity method. Based on the formula for the cosine of an angle between two vectors, the cosine  similarity method measures uses the cosine of the angle as a measure of similarity, using a vector space model \cite{RefWorks:119} (the vector of a sentence is represented by its word frequencies). The similarity between two vectors, $a$ and $b$ is:
 
 $$similarity = \cos \theta = \frac{a \cdot b}{\lvert a\rvert\lvert b\rvert}$$
 
@@ -720,7 +720,7 @@ The cosine similarity of these sentences is therefore:
 
 $$\frac{a \cdot b}{\lvert a\rvert\lvert b\rvert} = \frac{6}{2\sqrt{3} \cdot \sqrt{5}} = 0.77$$
 
-The definition for cosine similarity has been altered to form a "soft cosine measure" RRR. This uses the semantic similarity between the two words (when the dot product is calculated) as a weighting: if a word only appears in one sentence and not he other, then the scores of its semantic similarity to the words in the other sentence are added to the numerator.
+The definition for cosine similarity has been altered to form a "soft cosine measure" \cite{RefWorks:120}. This uses the semantic similarity between the two words (when the dot product is calculated) as a weighting: if a word only appears in one sentence and not he other, then the scores of its semantic similarity to the words in the other sentence are added to the numerator.
 \\
 \\
 While the cosine similarity is not ideal for all situations (e.g. it ignores word order so may match two sentences which are not similar at all).
@@ -1034,16 +1034,16 @@ The engine uses up to two semantic similarity methods, and if two are chosen, th
 \begin{itemize}
 \item Fast Lesk (FASTLESK) - a faster implementation of the Lesk method, that removes definition string formatting and ignores meronym and holonym definitions of the words.
 
-\item Path-based (PATH) - a simpler version of the WUP method which uses the reciprocal of the shortest path between the words in the WordNet database as the similarity score RRR.
+\item Path-based (PATH) - a simpler version of the WUP method which uses the reciprocal of the shortest path between the words in the WordNet database as the similarity score \cite{RefWorks:46}.
 
-\item Leacock and Chodorow (LCH) - another path-based measure which uses the negative log of the shortest distance between the two words RRR.
+\item Leacock and Chodorow (LCH) - another path-based measure which uses the negative log of the shortest distance between the two words \cite{RefWorks:46}.
 
-\item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' lowest common subsumer RRR.
+\item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' lowest common subsumer \cite{RefWorks:46}.
 
 \item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps in words).
 \end{itemize}
 
-Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler RRR). By default, only the WUP method is used by the system, though other methods can be chosen in the application's settings.
+Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler \cite{RefWorks:124}). By default, only the WUP method is used by the system, though other methods can be chosen in the application's settings.
 
 \subsubsection{\texttt{CustomLexicalDatabase}}
 
@@ -1065,7 +1065,7 @@ public interface ILexicalDatabase {
 }
 \end{lstlisting}
 
-The WS4J library is packaged with its own implementation of this interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet RRR). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used. Adding to this, even if the SQLite methods worked, it would still require a connection to the internet in order to access the WordNet database, which is undesirable for this project, as one of the goals is to create a system that works entirely offline.
+The WS4J library is packaged with its own implementation of this interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet \cite{RefWorks:122}). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used. Adding to this, even if the SQLite methods worked, it would still require a connection to the internet in order to access the WordNet database, which is undesirable for this project, as one of the goals is to create a system that works entirely offline.
 \\
 \\
 Therefore, a new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with a local Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
@@ -1378,7 +1378,7 @@ Initially, objects were added manually to the constructor of the room, and the d
 
 \subsubsection{Using BooleanSuppliers}
 
-For the second iteration of the room generation structure, objects are added to the room alongside the sentence in the description that mentions the object. In order to dynamically change these sentences as the state of the room changes, \texttt{BooleanSupplier}s are used. This is a functional interface that allows a developer to store a lambda expression (e.g. a Boolean expression) and evaluate it later on using the \texttt{getAsBoolean()} member method RRR. For example, instead of writing an if statement for whether a table exists in the room or not, we can just create a lambda expression in the constructor \texttt{(() -> getRoomObjectCount("table") > 0)}, and evaluate it later. This prevents the need to write a series of \texttt{if} and \texttt{else} statements when retrieving the room's description.
+For the second iteration of the room generation structure, objects are added to the room alongside the sentence in the description that mentions the object. In order to dynamically change these sentences as the state of the room changes, \texttt{BooleanSupplier}s are used. This is a functional interface that allows a developer to store a lambda expression (e.g. a Boolean expression) and evaluate it later on using the \texttt{getAsBoolean()} member method \cite{RefWorks:125}. For example, instead of writing an if statement for whether a table exists in the room or not, we can just create a lambda expression in the constructor \texttt{(() -> getRoomObjectCount("table") > 0)}, and evaluate it later. This prevents the need to write a series of \texttt{if} and \texttt{else} statements when retrieving the room's description.
 \\
 \\
 The \texttt{Room} abstract class contains an \texttt{mDescriptionList} field. Each entry in this list represents a different sentence in the description and contains a triple of the following:
@@ -1485,7 +1485,7 @@ The semantic similarity engine used in the voice recognition system is used agai
 More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, "There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
 \\
 \\
-\textit{ReVerb} is a Java library that extracts binary classifications in sentences RRR. It takes as input the raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, "The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
+\textit{ReVerb} is a Java library that extracts binary classifications in sentences \cite{ReVerb2011}. It takes as input the raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, "The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
 \\
 \\
 These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01} on page \pageref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, "A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
@@ -1836,7 +1836,7 @@ It should be noted that there is only a slight increase from 72.29\% to 74.70\% 
 One user requirement for the system for the voice recognition to be fast and responsive; the user does not want to wait a noticeable amount of time until their voice command has been processed. Therefore, a semantic similarity method which is fast is required.
 \\
 \\
-According, Jakob Nielson of the Nielson Norman Group RRR, there are three main response limits determined by human perceptual abilities that should be noted when optimising application performance:
+According, Jakob Nielson of the Nielson Norman Group \cite{RefWorks:128}, there are three main response limits determined by human perceptual abilities that should be noted when optimising application performance:
 
 \begin{itemize}
 \item 0.1 seconds | the limit for which the user feels the system is instantaneous.
@@ -1857,12 +1857,12 @@ Using the evaluation project described in Section \ref{section:eval-similarity} 
 	\end{itemize}
 \item Samsung Galaxy S7 Phone
 	\begin{itemize}
-	\item 4 x Exynos M1 Mongoose octa-core CPU @ 1.6 GHz RRR
+	\item 4 x Exynos M1 Mongoose octa-core CPU @ 1.6 GHz \cite{RefWorks:127}
 	\item 4 GB RAM
 	\end{itemize}
 \item Raspberry Pi 3
 	\begin{itemize}
-	\item 1 x ARMv8 quad-core CPU @ 1.2 GHz RRR
+	\item 1 x ARMv8 quad-core CPU @ 1.2 GHz \cite{RefWorks:126}
 	\item 1 GB RAM
 	\end{itemize}
 \end{itemize}
@@ -1989,7 +1989,7 @@ Several limitations of the voice recognition system were identified over the cou
 \item[Cannot handle negatives in intents] \hfill
 	\\ The system currently cannot handle negatives in a user's utterance. For example, in the video conferencing example, if the user says, "call Dan with no audio", the "no" will be ignored and the system will create a call with Dan using audio. It may be possible to fix this by searching for any negatives and altering the intent as needed, but due to time constraints this could not be implemented and tested.
 \item[Only single-word actions, targets and contexts are allowed] \hfill
-	\\ The voice recognition system scans the input word-by-word, searching for the action, target and context (if they exist). Therefore, it currently cannot identify open compound words such as "ice cream" or "full moon", or hyphenated compound words such as "well-being", "merry-go-round" or "on-site" RRR. It may be possible to fix this by implementing a lookahead mechanism which looks at the next word in the input and decides whether it is part of the current word.
+	\\ The voice recognition system scans the input word-by-word, searching for the action, target and context (if they exist). Therefore, it currently cannot identify open compound words such as "ice cream" or "full moon", or hyphenated compound words such as "well-being", "merry-go-round" or "on-site" \cite{RefWorks:129}. It may be possible to fix this by implementing a lookahead mechanism which looks at the next word in the input and decides whether it is part of the current word.
 	
 	This also includes instances where two words are used to describe an action. For example, in the phrase, "take a look around", the word, "take" will map to the "grab" action first, so the system thinks the player wants to grab the surroundings which is not correct.
 \item[Not designed for many different targets per action] \hfill
@@ -2060,10 +2060,10 @@ This section outlines any future work that may be done as a result of the work a
 The voice recognition system components | from the slot-filling grammar structure to the WordNet database | only work for the English language, and will need to be adjusted for other languages.
 \\
 \\
-While approximately 42\% of the world's language use a \textit{subject-verb-object} sentence structure (e.g. "He hits the goblin"), such as English, Mandarin and Spanish, approximately 45\% of languages use a \textit{subject-object-verb} sentence structure (e.g. "He the goblin hits"), such as Bengali, Greek and Japanese RRR. Therefore, the target would precede the object, so the voice recognition system's slot-filling grammar needs to be rearranged.
+While approximately 42\% of the world's language use a \textit{subject-verb-object} sentence structure (e.g. "He hits the goblin"), such as English, Mandarin and Spanish, approximately 45\% of languages use a \textit{subject-object-verb} sentence structure (e.g. "He the goblin hits"), such as Bengali, Greek and Japanese \cite{RefWorks:130}. Therefore, the target would precede the object, so the voice recognition system's slot-filling grammar needs to be rearranged.
 \\
 \\
-The Princeton University WordNet database only supports English words. While there are WordNet databases for most of the world's languages RRR, each database requires a new interface to be implemented (although most of them are SQL databases which can be queried), and not all languages have a WordNet database currently.
+The Princeton University WordNet database only supports English words. While there are WordNet databases for most of the world's languages \cite{RefWorks:131}, each database requires a new interface to be implemented (although most of them are SQL databases which can be queried), and not all languages have a WordNet database currently.
 
 \subsubsection{Deep Learning}
 
@@ -2078,7 +2078,7 @@ Another area where deep learning (or classical machine learning) techniques can 
 
 \subsubsection{Multi-threading}
 
-During this project, an attempt to multi-thread the application was made, but was unable to achieve a sizeable improvement in performance. Multiple processors could be used to fork and join tasks instead of executing them sequentially. This can be achieved using Java 8's parallel streams RRR.
+During this project, an attempt to multi-thread the application was made, but was unable to achieve a sizeable improvement in performance. Multiple processors could be used to fork and join tasks instead of executing them sequentially. This can be achieved using Java 8's parallel streams \cite{RefWorks:132}.
 \\
 \\
 For example, in the \texttt{SentenceMapper} class, instead of iterating through a \texttt{Collection} of \texttt{sentences} to calculate their cosine similarity score, and then reducing the output sequentially:
@@ -2104,7 +2104,7 @@ Most of the multi-threading can be performed in the \texttt{VoiceProcess} class,
 One of the novelties of voice controls is that the user doesn't have to touch any physical buttons or screens in order to execute commands in the application. The interface of the role-playing game in this project requires the player to push a blue button in order to start a voice intent.
 \\
 \\
-It may be possible to replace the button with a wake word detection mechanism. This is a phrase that the user says to indicate the start of a voice intent (such as saying, "Hi Siri" or "Ok, Google"). This requires the microphone to always be listening and consume more power, but it will work offline and there are open-source APIs available that offer this, such as \textit{Snowboy} RRR.
+It may be possible to replace the button with a wake word detection mechanism. This is a phrase that the user says to indicate the start of a voice intent (such as saying, "Hi Siri" or "Ok, Google"). This requires the microphone to always be listening and consume more power, but it will work offline and there are open-source APIs available that offer this, such as \textit{Snowboy} \cite{RefWorks:133}.
 \\
 \\
 It is also possible to turn the output text into audio, using text-to-speech (TTS) API such as Google's TTS engine. Combining these two features would make the application completely hands-free, and could be beneficial to some players.
@@ -2361,7 +2361,7 @@ $$
 \newpage
 \subsection{System UML Class Diagram}
 \label{appendix:system-uml}
-Below is the UML class diagram for the voice recognition system used in the Android app. This was automatically generated using the third-party \textit{simpleUML} plugin for Android Studio.
+Below is the UML class diagram for the voice recognition system used in the Android app. This was automatically generated using the third-party \textit{simpleUML} plugin for Android Studio \cite{RefWorks:108}.
 \\
 \\
 \includegraphics[scale=0.37]{system-uml.png}
