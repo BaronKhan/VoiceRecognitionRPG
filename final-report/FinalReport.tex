@@ -46,6 +46,10 @@ frame=single}
 \definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
 \definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
 
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
 \thispagestyle{empty}
 
 \date{16 March 2017}
@@ -79,16 +83,25 @@ frame=single}
 \setcounter{page}{1}
 \section{Abstract}
 
-\textbf{When adding voice commands to a video game, a developer may find themselves hard-coding text strings for phrases that a player can say, and mapping them to intents within the game. It becomes more work to include varying versions of the same intent as the developer would have to include every permutation of the phrase (for which there could be infinitely many).
+\textbf{When adding voice commands to a video game, a developer may find themselves hard-coding text strings for phrases that a player can say, and mapping them to intents within the game. It becomes more work to include varying phrases of the same intent as the developer would have to include every permutation of the phrase (for which there could be infinitely many).
 \\
 \\
 This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases, and with no cloud processing required.
 \\
 \\
-Various methods for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other NLP techniques. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.
+Various methods for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other techniques. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.
 \\
 \\
 This project also explores other areas for easing the development of the RPG, such as assigning object properties, and room generation from text descriptions.}
+
+\newpage
+
+\section{Acknowledgements}
+
+With thanks to Dr. Mark J. Wheelhouse of the Department of Computing at Imperial College London, for his guidance and supervision over this project.
+\\
+\\
+Also many thanks to my family and friends for all their support.
 
 \newpage
 
@@ -96,28 +109,28 @@ This project also explores other areas for easing the development of the RPG, su
 In recent years, video games have explored various forms of input that diverge from the traditional control schemes of a keyboard and mouse, or an analogue stick and buttons on a controller. Touch-screen controls and motion controls have had varying degrees of success over the years, and provide new forms of interactions with games. A recent form of input used in video games has been voice controls; a user utters a sentence or phrase and this would execute an action or intent within the game.
 \\
 \\
-Voice recognition and control schemes have been used in various ways in the medium, whether in tandem with traditional control schemes, or as the only form of input. Most games which feature a voice control scheme are typically programmed to work with a specific set of keywords or phrases, hard-coded by the developer. This is usually the case with games where the voice control interface is entirely optional to user, as it requires little to no input from the programmer; if the speech processing is handled by a separate library, the developer just has to map a text string (e.g. "open the door") to the function that executes the intent (e.g. the function that opens a nearby door in the game).
+Voice recognition and control schemes have been used in various ways in the medium, whether in tandem with traditional control schemes, or as the only form of input. Most games which feature a voice control scheme are typically programmed to work with a specific set of keywords or phrases, hard-coded by the developer. This is usually the case with games where the voice control interface is entirely optional to the user, as it requires little to no input from the programmer; if the speech processing is handled by a separate library, the developer just has to map a text string (e.g. ``open the door'') to the function that executes the intent (e.g. the function that opens a nearby door in the game).
 \\
 \\
-It becomes increasingly difficult for the developer to add more phrases that can be accepted in the game and map to the same intent (e.g. "push the door open") as they would have to hard-code each possible input that the user could possibly say: having too few phrases would mean that the user could become frustrated when their preferred way of stating an intent is not accepted by the game, while adding too many acceptable phrases would increase development time.
+It becomes increasingly difficult for the developer to add more phrases that can be accepted in the game and map to the same intent (e.g. when the user says, ``push the door open'' instead) as they would have to hard-code each possible input that the user could possibly say: having too few phrases would mean that the user could become frustrated when their preferred way of stating an intent is not accepted by the game, while adding too many acceptable phrases would increase development time.
 \\
 \\
-Natural Language Processing (NLP, also referred to as Natural Language Understanding) has been used to improve inference of what users were trying to say, and to extract meaning from the user's phrases and sentences. For instance, if the user says, "push the door open", NLP can be used to infer that the user's intent is to open a door. Using NLP, several user phrases can be mapped to the same intent without having to hard-code each possible phrase.
+Natural Language Processing (NLP) has been used to attempt to understand what users have said, and to extract meaning from the user's phrases and sentences. For instance, if the user says, ``push the door open'', NLP can be used to infer that the user's intent is to open a door. Using NLP, several user phrases can be mapped to the same intent without having to hard-code each possible phrase.
 \\
 \\
-NLP is already used to improve voice recognition in popular personal assistants such as Siri, but these systems offload the NLP workload to the server to reduce the amount of local processing required, as NLP requires a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}. Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition to games. In other applications such as embedded systems or remote robotics, no internet connection can be established, so the only option is to hard-code the acceptable phrases.
+NLP is already used to improve voice recognition in popular personal assistants such as Siri or Alexa, but these systems offload the NLP workload to the server in order to reduce the amount of local processing required, as modern NLP techniques require a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}. Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition to games. In other applications such as embedded systems or remote robotics, no internet connection can be established, so the only option is to hard-code the acceptable voice commands. There may also be privacy concerns when sending audio recordings to an external server.
 \\
 \\
 The goal of this project is to apply NLP to a voice control scheme used within a role-playing game (RPG), in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
 \\
 \\
-Role-playing games are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities or items as the game progresses. These include turn-based games such as Pokemon and Final Fantasy, or more action-based games such as Dark Souls or Skyrim. In these games, the player possesses several items that they acquire during the game, and accesses them by navigating menus.
+Role-playing games are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities or items as the game progresses. These include turn-based games such as Pok\'emon and Final Fantasy, or more action-based games such as Dark Souls or The Elder Scrolls.
 \\
 \\
-If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the "Attack" button over and over again with no variation in the attack used. Using voice recognition and NLP, a player could just simply say a phrase such as, "use a potion" or, "attack with axe", and the item will be used without having the player navigate several menu screens.
+In RPGs, the player usually possesses several items that they acquire during the game, and accesses them by navigating menus. If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the ``Attack'' button over and over again with no variation in the attack used. Using voice recognition and NLP, a player could just simply say a phrase such as, ``use a potion'' or, ``attack with axe'', and the item will be used without having the player navigate several menu screens.
 \\
 \\
-Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevent them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it is consoles, PC or mobile.
+Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevent them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it is on consoles, PC or mobile.
 \\
 \\
 A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses.
@@ -126,10 +139,13 @@ A text-based RPG will be created that will use a flexible voice control interfac
 Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of systems to process user commands.
 \\
 \\
+As well as being designed to easily add voice commands, the RPG will be designed such that other areas of development are made easier, such as assigning object properties and easily creating new rooms, although the main focus will be on the voice recognition system.
+\\
+\\
 The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
-\item Allow a developer to add voice recognition to their game with little effort, using a system which works completely offline with near-instantaneous processing.
-\item Evaluate the effectiveness of using different semantic similarity methods for mapping voice commands to actions.
+\item Allow a developer to add voice commands with little effort, using a system which works completely offline with near-instantaneous processing.
+\item Evaluate the effectiveness (including accuracy and performance) of using different semantic similarity methods with WordNet for mapping voice commands to actions.
 \item Apply semantic similarity methods to other areas for improving the development of the RPG, including automatically generating rooms from text descriptions.
 \end{itemize}
 
@@ -139,13 +155,13 @@ The proposed design for the RPG and system aims to achieve the following goals:
 \subsection{Voice Recognition in Games}
 Below is a list of notable recent games that have incorporated voice control functionality as a major component of the interaction experience.
 \subsubsection{In Verbis Virtus}
-In Verbis Virtus \cite{RefWorks:22} is an independent 3D fantasy adventure game developed by Indomitus Games for Windows. It requires the player to solve puzzles in a 3D environment and battle enemies using magic.
+In Verbis Virtus is an independent 3D fantasy adventure game developed by Indomitus Games for Windows \cite{RefWorks:22}. It requires the player to solve puzzles in a 3D environment and battle enemies using magic.
 \\
 \\
-When a microphone is connected, the player is able to cast spells using their voice by saying specific phrases defined by the game. For example, to cast a spell that produces a floating light source to brighten a room, a user must say, "let there be light", or if the user wishes to shoot an energy beam from their hand, they must say, "Beam of Light", and so. These phrases appear to be hard-coded into the game.
+When a microphone is connected, the player is able to cast spells using their voice by saying specific phrases defined by the game. For example, to cast a spell that produces a floating light source to brighten a room, a user must say, ``let there be light'', or if the user wishes to shoot an energy beam from their hand, they must say, ``Beam of Light'', and so. These phrases appear to be hard-coded into the game.
 \\
 \\
-There are several limitations with this implementation of voice control. Firstly, since the phrases are hard-coded, there is no lenience in variations of the phrases, e.g. "create a light" or "Laser of Light", etc. This can seem mundane and no different to a user pressing the same button repeatedly to cast a spell.
+There are several limitations with this implementation of voice control. Firstly, since the phrases are hard-coded, there is no lenience in variations of the phrases, e.g. ``create a light'' or ``Laser of Light'', etc. This can seem mundane and no different to a user pressing the same button repeatedly to cast a spell.
 \\
 \\
 Another limitation is that the user is still required to use a keyboard and mouse to perform other actions in the game, such as moving around, looking around, and navigating menus and message boxes. The voice control interface cannot be used to perform these actions. The voice control interface itself does not seem integral to the experience, as the user could just simply press a key that performs the spell instead of saying the same phrase over and over again.
@@ -153,11 +169,11 @@ Another limitation is that the user is still required to use a keyboard and mous
 \\
 This voice recognition interface could be improved by allowing the player to perform any action within the game using their voice, as well as allowing for more variation in what the user can say for each action.
 
-\subsubsection{Skyrim Kinect}
-The Elders Scrolls V: Skyrim is first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
+\subsubsection{Skyrim with Kinect}
+The Elders Scrolls \rom{5}: Skyrim is a first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
 \\
 \\
-There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, "quick items" to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as "potions", "books", etc. However, it doesn't seem to be possible to actually use any of the items selected with only a voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, "assign health potion" once you have highlighted a potion item), and then saying "equip health potion" during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to actually use any of the items selected with only a voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{skyrim-item-commands.png}
@@ -168,14 +184,14 @@ This system, despite being optional to the player, helps to reduce the time spen
 
 \subsubsection{Star Trek Bridge Crew}
 
-Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, "show me the ship's status report" or they could say something drastically different such as "damage report" to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a "new level of sense of presence" \cite{RefWorks:26}. IBM's Watson API is described in more detail later in this section.
+Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, ``show me the ship's status report'' or they could say something drastically different such as ``damage report'' to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a ``new level of sense of presence'' \cite{RefWorks:26}. IBM's Watson API is described in more detail later in this section.
 \\
 \\
 The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; so the game requires a constant internet connection to play.
 
 \subsubsection{Classic Zork on Alexa}
 
-Zork is a trilogy of classic text-based role-playing games that support a free-form style of input. The player is provided with an input scenario (e.g. "You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here."), and then types commands that they want to execute (e.g. "open mailbox" or "attack troll with sword") \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
+Zork is a trilogy of classic text-based role-playing games that support a free-form style of input. The player is provided with an input scenario (e.g. ``You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here.''), and then types commands that they want to execute (e.g. ``open mailbox'' or ``attack troll with sword'') \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
 \\
 \\
 These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:37}. This allows the player to deliver commands using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input.
@@ -185,23 +201,23 @@ These commands could be delivered using a speech-to-text interface to add voice 
 The exploration mechanics of the proposed design in this report will be based on Zork's general gameplay of interacting with objects in the environment to solve puzzles, and the limitations of Zork's free-form input are discussed here.
 \\
 \\
-Zork supports a number of text commands, which usually take the form of a verb-noun structure, such as "use $<$noun$>$" or "take $<$noun$>$", but it also supports some more sophisticated commands with complex structures, such as "give all but the pencil to the nymph" or "drop all except the dart gun" \cite{RefWorks:36}.
+Zork supports a number of text commands, which usually take the form of a verb-noun structure, such as ``use $<$noun$>$'' or ``take $<$noun$>$'', but it also supports some more sophisticated commands with complex structures, such as ``give all but the pencil to the nymph'' or ``drop all except the dart gun'' \cite{RefWorks:36}.
 \\
 \\
 Zork's free-form input still has some limitations. For example, it still cannot accept all variations of specific intents. For instance, below is a list of accepted and rejected commands if the user wishes to open a mailbox in front of them:
 \begin{itemize}
-	\item "open mailbox" - Accepted
-	\item "open the small mailbox" - Accepted
-	\item "can i open the mailbox" - Rejected
-	\item "check the mailbox" - Rejected
-	\item "find out what's in the mailbox" - Rejected
+	\item ``open mailbox'' - Accepted
+	\item ``open the small mailbox'' - Accepted
+	\item ``can i open the mailbox'' - Rejected
+	\item ``check the mailbox'' - Rejected
+	\item ``find out what's in the mailbox'' - Rejected
 \end{itemize}
 Below is a list of results for closing the mailbox:
 \begin{itemize}
-	\item "close mailbox" - Accepted
-	\item "shut mailbox" - Rejected
-	\item "closing mailbox" - Rejected
-	\item "close the red mailbox" - Rejected
+	\item ``close mailbox'' - Accepted
+	\item ``shut mailbox'' - Rejected
+	\item ``closing mailbox'' - Rejected
+	\item ``close the red mailbox'' - Rejected
 \end{itemize}
 Clearly the rejected text commands could be valid phrases that express an intent to open some sort of mailbox. Zork has a pre-defined list of verbs and sentence structures that it can accept, and sticks to those without much flexibility.
 \\
@@ -214,22 +230,22 @@ There are many tools and services available that allow developers and users to a
 
 \subsubsection{Tazti - Speech Recognition for PC Games}
 
-Tazti is a keyboard mapping tool available to players to be used with any type of PC game that uses the keyboard \cite{RefWorks:28}. The user sets up a profile for each game separately by mapping speech commands to one or more keys. For instance, the user could say "fire" or "shoot fire" and this would map to the keystrokes required to cast a fire spell.
+Tazti is a keyboard mapping tool available to players to be used with any type of PC game that uses the keyboard \cite{RefWorks:28}. The user sets up a profile for each game separately by mapping speech commands to one or more keys. For instance, the user could say ``fire'' or ``shoot fire'' and this would map to the keystrokes required to cast a fire spell.
 \\
 \\
 While this tool is not directly integrated into games by the developer, it has the advantage of being able to work with almost any PC game that uses a keyboard, such as role-playing games, first-person shooter games, and even platforming games. However, the voice commands are limited to being hard-coded, so there is no way of varying the speech commands slightly, even if the meaning is the same. It is also not freely available and requires a license to be purchased.
 
 \subsubsection{PocketSphinx for Unreal Engine 4}
 
-\textit{Sphinx-UE4} is a speech recognition plugin for the Unreal Engine 4 game engine \cite{RefWorks:104}, based on the PocketSphinx library which provides offline speech-to-text \cite{RefWorks:105}. The plugin allows the developer to specify keywords and the commands that they map to (e.g. "turn right", "enable sprint", "kick the ball", etc).
+\textit{Sphinx-UE4} is a speech recognition plugin for the Unreal Engine 4 game engine \cite{RefWorks:104}, based on the PocketSphinx library which provides offline speech-to-text \cite{RefWorks:105}. The plugin allows the developer to specify keywords and the commands that they map to (e.g. ``turn right'', ``enable sprint'', ``kick the ball'', etc).
 \\
 \\
-The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, $<digit> <operation> <digit>$. This will accept input such as, "three add five", "six minus four", "two times twelve", and so on.
+The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, $<digit> <operation> <digit>$. This will accept input such as, ``three add five'', ``six minus four'', ``two times twelve'', and so on.
 
 \subsubsection{Houndify}
 \label{section:houndify}
 
-Houndify is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, "ATTACK".
+Houndify is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, ``ATTACK''.
 \\
 \\
 As well as having built-in voice commands already for specific domains (such as all weather commands or sports update commands), Houndify also supports the creation of custom voice commands by the developer. To create a custom command, the expression to be said by the user is specified using a syntax similar to regular expressions, but instead specifies the general phrase structure (and with very different syntax), and is mapped to an intent \cite{RefWorks:33}.
@@ -237,7 +253,7 @@ As well as having built-in voice commands already for specific domains (such as 
 \\
 Below is an example of a possible expression for attacking a troll:
 \begin{center}
-"attack" . "troll"
+``attack'' . ``troll''
 \end{center}
 Here, the player would have to say, "attack troll" to execute the intent. This can be expanded to have more variation in how the user can say this command:
 \begin{center}

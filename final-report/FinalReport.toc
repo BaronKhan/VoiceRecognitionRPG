@@ -1,132 +1,133 @@
 \contentsline {section}{\numberline {1}Abstract}{1}
-\contentsline {section}{\numberline {2}Introduction}{2}
-\contentsline {section}{\numberline {3}Background}{4}
-\contentsline {subsection}{\numberline {3.1}Voice Recognition in Games}{4}
-\contentsline {subsubsection}{\numberline {3.1.1}In Verbis Virtus}{4}
-\contentsline {subsubsection}{\numberline {3.1.2}Skyrim Kinect}{4}
-\contentsline {subsubsection}{\numberline {3.1.3}Star Trek Bridge Crew}{5}
-\contentsline {subsubsection}{\numberline {3.1.4}Classic Zork on Alexa}{6}
-\contentsline {subsection}{\numberline {3.2}Limitations of Zork}{6}
-\contentsline {subsection}{\numberline {3.3}Voice Recognition Implementations}{7}
-\contentsline {subsubsection}{\numberline {3.3.1}Tazti - Speech Recognition for PC Games}{7}
-\contentsline {subsubsection}{\numberline {3.3.2}PocketSphinx for Unreal Engine 4}{7}
-\contentsline {subsubsection}{\numberline {3.3.3}Houndify}{8}
-\contentsline {subsubsection}{\numberline {3.3.4}Watson Conversation Engine}{8}
-\contentsline {subsection}{\numberline {3.4}Natural Language Processing}{10}
-\contentsline {subsubsection}{\numberline {3.4.1}Stages of Natural Language Processing}{11}
-\contentsline {subsubsection}{\numberline {3.4.2}Part-of-Speech Tagging}{12}
-\contentsline {subsubsection}{\numberline {3.4.3}Slot Filling}{13}
-\contentsline {subsubsection}{\numberline {3.4.4}Synonyms and Hypernyms}{13}
-\contentsline {subsubsection}{\numberline {3.4.5}Semantic Similarity}{14}
-\contentsline {subsection}{\numberline {3.5}WordNet}{15}
-\contentsline {subsection}{\numberline {3.6}Generating Objects from Descriptions}{15}
-\contentsline {subsection}{\numberline {3.7}Generating Descriptions from Objects}{16}
-\contentsline {subsection}{\numberline {3.8}Object Properties}{17}
-\contentsline {section}{\numberline {4}Design}{18}
-\contentsline {subsection}{\numberline {4.1}Target Platform}{18}
-\contentsline {subsection}{\numberline {4.2}Java Programming Language}{18}
-\contentsline {subsection}{\numberline {4.3}System Overview}{18}
-\contentsline {subsubsection}{\numberline {4.3.1}Speech-to-Text}{19}
-\contentsline {subsubsection}{\numberline {4.3.2}POS Tagging}{20}
-\contentsline {subsubsection}{\numberline {4.3.3}Slot-filling Matching}{20}
-\contentsline {subsubsection}{\numberline {4.3.4}Semantic Similarity}{22}
-\contentsline {subsubsection}{\numberline {4.3.5}Context-Action Mapping}{23}
-\contentsline {subsubsection}{\numberline {4.3.6}Intent Execution}{24}
-\contentsline {subsection}{\numberline {4.4}System UML Class Diagram}{24}
-\contentsline {subsubsection}{\numberline {4.4.1}\texttt {MainActivity} Class}{25}
-\contentsline {subsubsection}{\numberline {4.4.2}\texttt {VoiceControl} Class}{26}
-\contentsline {subsubsection}{\numberline {4.4.3}\texttt {VoiceProcess} Class}{26}
-\contentsline {subsubsection}{\numberline {4.4.4}\texttt {GlobalState} Class}{26}
-\contentsline {subsubsection}{\numberline {4.4.5}\texttt {ContextActionMap} Class}{26}
-\contentsline {subsubsection}{\numberline {4.4.6}\texttt {SemanticSimilarity} Class}{26}
-\contentsline {subsection}{\numberline {4.5}System Features}{27}
-\contentsline {subsubsection}{\numberline {4.5.1}Synonym Mapping}{27}
-\contentsline {subsubsection}{\numberline {4.5.2}Ignoring Incorrect Matches}{27}
-\contentsline {subsubsection}{\numberline {4.5.3}Confirmation and Suggestions}{27}
-\contentsline {subsubsection}{\numberline {4.5.4}Multiple Commands}{27}
-\contentsline {subsubsection}{\numberline {4.5.5}Multiple Targets}{27}
-\contentsline {subsubsection}{\numberline {4.5.6}Sentence Mapping}{28}
-\contentsline {subsection}{\numberline {4.6}Game Design Overview}{29}
-\contentsline {subsubsection}{\numberline {4.6.1}Game Flow}{29}
-\contentsline {subsection}{\numberline {4.7}Game Design UML Class Diagram}{30}
-\contentsline {subsection}{\numberline {4.8}Room Generation}{32}
-\contentsline {section}{\numberline {5}Implementation}{33}
-\contentsline {subsection}{\numberline {5.1}Voice Recognition Interface}{33}
-\contentsline {subsection}{\numberline {5.2}Graphical User Interface}{33}
-\contentsline {subsection}{\numberline {5.3}Voice Recognition System Implementation}{35}
-\contentsline {subsubsection}{\numberline {5.3.1}\texttt {GlobalState}}{35}
-\contentsline {subsubsection}{\numberline {5.3.2}\texttt {VoiceProcess}}{35}
-\contentsline {subsubsection}{\numberline {5.3.3}\texttt {AmbiguousHandler}}{38}
-\contentsline {subsubsection}{\numberline {5.3.4}\texttt {SemanticSimilarity}}{38}
-\contentsline {subsubsection}{\numberline {5.3.5}\texttt {CustomLexicalDatabase}}{40}
-\contentsline {subsubsection}{\numberline {5.3.6}\texttt {ContextActionMap}}{41}
-\contentsline {subsubsection}{\numberline {5.3.7}\texttt {Entity}}{42}
-\contentsline {subsubsection}{\numberline {5.3.8}\texttt {Action}}{42}
-\contentsline {subsubsection}{\numberline {5.3.9}\texttt {MultipleCommandProcess}}{43}
-\contentsline {subsubsection}{\numberline {5.3.10}\texttt {SentenceMapper}}{44}
-\contentsline {subsubsection}{\numberline {5.3.11}Synonym Mapping Implementation}{45}
-\contentsline {subsection}{\numberline {5.4}Role-Playing Game Implementation}{46}
-\contentsline {subsubsection}{\numberline {5.4.1}GameState.java}{46}
-\contentsline {subsubsection}{\numberline {5.4.2}Battle Mode}{46}
-\contentsline {subsubsection}{\numberline {5.4.3}Overworld Mode}{47}
-\contentsline {subsection}{\numberline {5.5}Object Properties with WordNet}{47}
-\contentsline {subsection}{\numberline {5.6}Room Generation Implementation}{48}
-\contentsline {subsubsection}{\numberline {5.6.1}Rooms}{48}
-\contentsline {subsubsection}{\numberline {5.6.2}Manual Room Generation}{48}
-\contentsline {subsubsection}{\numberline {5.6.3}Using BooleanSuppliers}{48}
-\contentsline {subsubsection}{\numberline {5.6.4}Room Generation Program}{50}
-\contentsline {subsubsection}{\numberline {5.6.5}Room Generation Example}{51}
-\contentsline {subsection}{\numberline {5.7}Settings Activity}{52}
-\contentsline {subsection}{\numberline {5.8}Video Conferencing Demo}{52}
-\contentsline {section}{\numberline {6}Evaluation}{55}
-\contentsline {subsection}{\numberline {6.1}Mock Testing}{55}
-\contentsline {subsection}{\numberline {6.2}Evaluation of Semantic Similarity}{56}
-\contentsline {subsubsection}{\numberline {6.2.1}Combining Similarity Methods}{60}
-\contentsline {subsection}{\numberline {6.3}Performance of Semantic Similarity Methods}{60}
-\contentsline {subsection}{\numberline {6.4}Evaluation of System Features}{62}
-\contentsline {subsection}{\numberline {6.5}Evaluation of Slot-Filling Grammar}{63}
-\contentsline {subsection}{\numberline {6.6}Usability of the Voice Recognition System}{64}
-\contentsline {subsection}{\numberline {6.7}Voice Recognition System Limitations}{65}
-\contentsline {subsection}{\numberline {6.8}Room Generation Evaluation}{67}
-\contentsline {section}{\numberline {7}Conclusion}{68}
-\contentsline {subsection}{\numberline {7.1}Deliverables}{68}
-\contentsline {subsection}{\numberline {7.2}Contributions}{68}
-\contentsline {subsection}{\numberline {7.3}Future Work}{69}
-\contentsline {subsubsection}{\numberline {7.3.1}Language Support}{69}
-\contentsline {subsubsection}{\numberline {7.3.2}Deep Learning}{69}
-\contentsline {subsubsection}{\numberline {7.3.3}Multi-threading}{70}
-\contentsline {subsubsection}{\numberline {7.3.4}Hands-Free UI}{70}
-\contentsline {section}{\numberline {8}Appendix}{71}
-\contentsline {subsection}{\numberline {8.1}Android Application Screenshots}{71}
-\contentsline {subsubsection}{\numberline {8.1.1}Battle Mode Example}{71}
-\contentsline {subsubsection}{\numberline {8.1.2}Overworld Mode Example}{73}
-\contentsline {subsubsection}{\numberline {8.1.3}Multiple Commands Example}{75}
-\contentsline {subsubsection}{\numberline {8.1.4}Ambiguous Utensil Example}{77}
-\contentsline {subsubsection}{\numberline {8.1.5}Settings User Interface}{79}
-\contentsline {subsubsection}{\numberline {8.1.6}Duplicate Contacts}{80}
-\contentsline {subsection}{\numberline {8.2}Skyrim Kinect Command List}{81}
-\contentsline {subsection}{\numberline {8.3}Penn Treebank Tagset}{83}
-\contentsline {subsection}{\numberline {8.4}System UML Class Diagram}{84}
-\contentsline {subsection}{\numberline {8.5}Game Design UML Class Diagram}{85}
-\contentsline {subsection}{\numberline {8.6}Choosing the Slot-filling Grammar}{86}
-\contentsline {subsection}{\numberline {8.7}Finding the Best Action in VoiceProcess.java}{87}
-\contentsline {subsection}{\numberline {8.8}JwiLexicalDatabase.java}{89}
-\contentsline {subsection}{\numberline {8.9}Action Class Example}{92}
-\contentsline {subsection}{\numberline {8.10}MultipleCommandProcess::executeCommand()}{93}
-\contentsline {subsection}{\numberline {8.11}BattleContextActionMap.java}{94}
-\contentsline {subsection}{\numberline {8.12}Battle Mode Example Commands}{95}
-\contentsline {subsection}{\numberline {8.13}OverworldContextActionMap.java}{96}
-\contentsline {subsection}{\numberline {8.14}Overworld Mode Example Commands}{97}
-\contentsline {subsection}{\numberline {8.15}CallContextActionMap.java}{98}
-\contentsline {subsection}{\numberline {8.16}Video Conferencing Example Commands}{99}
-\contentsline {subsection}{\numberline {8.17}Manual Room Generation (Obsolete)}{100}
-\contentsline {subsection}{\numberline {8.18}Retrieving a Room Description}{101}
-\contentsline {subsection}{\numberline {8.19}List of Android Mock Tests}{102}
-\contentsline {subsubsection}{\numberline {8.19.1}BattleTest}{102}
-\contentsline {subsubsection}{\numberline {8.19.2}OverworldTest}{104}
-\contentsline {subsubsection}{\numberline {8.19.3}CallTest}{105}
-\contentsline {subsection}{\numberline {8.20}Evaluation: Actions and Contexts}{106}
-\contentsline {subsection}{\numberline {8.21}Comparison of Usability}{107}
-\contentsline {subsection}{\numberline {8.22}Other Survey Results}{109}
-\contentsline {subsection}{\numberline {8.23}Room Generation Evaluation Results}{111}
-\contentsline {section}{References}{112}
+\contentsline {section}{\numberline {2}Acknowledgements}{2}
+\contentsline {section}{\numberline {3}Introduction}{3}
+\contentsline {section}{\numberline {4}Background}{5}
+\contentsline {subsection}{\numberline {4.1}Voice Recognition in Games}{5}
+\contentsline {subsubsection}{\numberline {4.1.1}In Verbis Virtus}{5}
+\contentsline {subsubsection}{\numberline {4.1.2}Skyrim with Kinect}{5}
+\contentsline {subsubsection}{\numberline {4.1.3}Star Trek Bridge Crew}{6}
+\contentsline {subsubsection}{\numberline {4.1.4}Classic Zork on Alexa}{7}
+\contentsline {subsection}{\numberline {4.2}Limitations of Zork}{7}
+\contentsline {subsection}{\numberline {4.3}Voice Recognition Implementations}{8}
+\contentsline {subsubsection}{\numberline {4.3.1}Tazti - Speech Recognition for PC Games}{8}
+\contentsline {subsubsection}{\numberline {4.3.2}PocketSphinx for Unreal Engine 4}{8}
+\contentsline {subsubsection}{\numberline {4.3.3}Houndify}{9}
+\contentsline {subsubsection}{\numberline {4.3.4}Watson Conversation Engine}{9}
+\contentsline {subsection}{\numberline {4.4}Natural Language Processing}{11}
+\contentsline {subsubsection}{\numberline {4.4.1}Stages of Natural Language Processing}{12}
+\contentsline {subsubsection}{\numberline {4.4.2}Part-of-Speech Tagging}{13}
+\contentsline {subsubsection}{\numberline {4.4.3}Slot Filling}{14}
+\contentsline {subsubsection}{\numberline {4.4.4}Synonyms and Hypernyms}{14}
+\contentsline {subsubsection}{\numberline {4.4.5}Semantic Similarity}{15}
+\contentsline {subsection}{\numberline {4.5}WordNet}{16}
+\contentsline {subsection}{\numberline {4.6}Generating Objects from Descriptions}{16}
+\contentsline {subsection}{\numberline {4.7}Generating Descriptions from Objects}{17}
+\contentsline {subsection}{\numberline {4.8}Object Properties}{18}
+\contentsline {section}{\numberline {5}Design}{19}
+\contentsline {subsection}{\numberline {5.1}Target Platform}{19}
+\contentsline {subsection}{\numberline {5.2}Java Programming Language}{19}
+\contentsline {subsection}{\numberline {5.3}System Overview}{19}
+\contentsline {subsubsection}{\numberline {5.3.1}Speech-to-Text}{20}
+\contentsline {subsubsection}{\numberline {5.3.2}POS Tagging}{21}
+\contentsline {subsubsection}{\numberline {5.3.3}Slot-filling Matching}{21}
+\contentsline {subsubsection}{\numberline {5.3.4}Semantic Similarity}{23}
+\contentsline {subsubsection}{\numberline {5.3.5}Context-Action Mapping}{24}
+\contentsline {subsubsection}{\numberline {5.3.6}Intent Execution}{25}
+\contentsline {subsection}{\numberline {5.4}System UML Class Diagram}{25}
+\contentsline {subsubsection}{\numberline {5.4.1}\texttt {MainActivity} Class}{26}
+\contentsline {subsubsection}{\numberline {5.4.2}\texttt {VoiceControl} Class}{27}
+\contentsline {subsubsection}{\numberline {5.4.3}\texttt {VoiceProcess} Class}{27}
+\contentsline {subsubsection}{\numberline {5.4.4}\texttt {GlobalState} Class}{27}
+\contentsline {subsubsection}{\numberline {5.4.5}\texttt {ContextActionMap} Class}{27}
+\contentsline {subsubsection}{\numberline {5.4.6}\texttt {SemanticSimilarity} Class}{27}
+\contentsline {subsection}{\numberline {5.5}System Features}{28}
+\contentsline {subsubsection}{\numberline {5.5.1}Synonym Mapping}{28}
+\contentsline {subsubsection}{\numberline {5.5.2}Ignoring Incorrect Matches}{28}
+\contentsline {subsubsection}{\numberline {5.5.3}Confirmation and Suggestions}{28}
+\contentsline {subsubsection}{\numberline {5.5.4}Multiple Commands}{28}
+\contentsline {subsubsection}{\numberline {5.5.5}Multiple Targets}{28}
+\contentsline {subsubsection}{\numberline {5.5.6}Sentence Mapping}{29}
+\contentsline {subsection}{\numberline {5.6}Game Design Overview}{30}
+\contentsline {subsubsection}{\numberline {5.6.1}Game Flow}{30}
+\contentsline {subsection}{\numberline {5.7}Game Design UML Class Diagram}{31}
+\contentsline {subsection}{\numberline {5.8}Room Generation}{33}
+\contentsline {section}{\numberline {6}Implementation}{34}
+\contentsline {subsection}{\numberline {6.1}Voice Recognition Interface}{34}
+\contentsline {subsection}{\numberline {6.2}Graphical User Interface}{34}
+\contentsline {subsection}{\numberline {6.3}Voice Recognition System Implementation}{36}
+\contentsline {subsubsection}{\numberline {6.3.1}\texttt {GlobalState}}{36}
+\contentsline {subsubsection}{\numberline {6.3.2}\texttt {VoiceProcess}}{36}
+\contentsline {subsubsection}{\numberline {6.3.3}\texttt {AmbiguousHandler}}{39}
+\contentsline {subsubsection}{\numberline {6.3.4}\texttt {SemanticSimilarity}}{39}
+\contentsline {subsubsection}{\numberline {6.3.5}\texttt {CustomLexicalDatabase}}{41}
+\contentsline {subsubsection}{\numberline {6.3.6}\texttt {ContextActionMap}}{42}
+\contentsline {subsubsection}{\numberline {6.3.7}\texttt {Entity}}{43}
+\contentsline {subsubsection}{\numberline {6.3.8}\texttt {Action}}{43}
+\contentsline {subsubsection}{\numberline {6.3.9}\texttt {MultipleCommandProcess}}{44}
+\contentsline {subsubsection}{\numberline {6.3.10}\texttt {SentenceMapper}}{45}
+\contentsline {subsubsection}{\numberline {6.3.11}Synonym Mapping Implementation}{46}
+\contentsline {subsection}{\numberline {6.4}Role-Playing Game Implementation}{47}
+\contentsline {subsubsection}{\numberline {6.4.1}GameState.java}{47}
+\contentsline {subsubsection}{\numberline {6.4.2}Battle Mode}{47}
+\contentsline {subsubsection}{\numberline {6.4.3}Overworld Mode}{48}
+\contentsline {subsection}{\numberline {6.5}Object Properties with WordNet}{48}
+\contentsline {subsection}{\numberline {6.6}Room Generation Implementation}{49}
+\contentsline {subsubsection}{\numberline {6.6.1}Rooms}{49}
+\contentsline {subsubsection}{\numberline {6.6.2}Manual Room Generation}{49}
+\contentsline {subsubsection}{\numberline {6.6.3}Using BooleanSuppliers}{49}
+\contentsline {subsubsection}{\numberline {6.6.4}Room Generation Program}{51}
+\contentsline {subsubsection}{\numberline {6.6.5}Room Generation Example}{52}
+\contentsline {subsection}{\numberline {6.7}Settings Activity}{53}
+\contentsline {subsection}{\numberline {6.8}Video Conferencing Demo}{53}
+\contentsline {section}{\numberline {7}Evaluation}{56}
+\contentsline {subsection}{\numberline {7.1}Mock Testing}{56}
+\contentsline {subsection}{\numberline {7.2}Evaluation of Semantic Similarity}{57}
+\contentsline {subsubsection}{\numberline {7.2.1}Combining Similarity Methods}{61}
+\contentsline {subsection}{\numberline {7.3}Performance of Semantic Similarity Methods}{61}
+\contentsline {subsection}{\numberline {7.4}Evaluation of System Features}{63}
+\contentsline {subsection}{\numberline {7.5}Evaluation of Slot-Filling Grammar}{64}
+\contentsline {subsection}{\numberline {7.6}Usability of the Voice Recognition System}{65}
+\contentsline {subsection}{\numberline {7.7}Voice Recognition System Limitations}{66}
+\contentsline {subsection}{\numberline {7.8}Room Generation Evaluation}{68}
+\contentsline {section}{\numberline {8}Conclusion}{69}
+\contentsline {subsection}{\numberline {8.1}Deliverables}{69}
+\contentsline {subsection}{\numberline {8.2}Contributions}{69}
+\contentsline {subsection}{\numberline {8.3}Future Work}{70}
+\contentsline {subsubsection}{\numberline {8.3.1}Language Support}{70}
+\contentsline {subsubsection}{\numberline {8.3.2}Deep Learning}{70}
+\contentsline {subsubsection}{\numberline {8.3.3}Multi-threading}{71}
+\contentsline {subsubsection}{\numberline {8.3.4}Hands-Free UI}{71}
+\contentsline {section}{\numberline {9}Appendix}{72}
+\contentsline {subsection}{\numberline {9.1}Android Application Screenshots}{72}
+\contentsline {subsubsection}{\numberline {9.1.1}Battle Mode Example}{72}
+\contentsline {subsubsection}{\numberline {9.1.2}Overworld Mode Example}{74}
+\contentsline {subsubsection}{\numberline {9.1.3}Multiple Commands Example}{76}
+\contentsline {subsubsection}{\numberline {9.1.4}Ambiguous Utensil Example}{78}
+\contentsline {subsubsection}{\numberline {9.1.5}Settings User Interface}{80}
+\contentsline {subsubsection}{\numberline {9.1.6}Duplicate Contacts}{81}
+\contentsline {subsection}{\numberline {9.2}Skyrim Kinect Command List}{82}
+\contentsline {subsection}{\numberline {9.3}Penn Treebank Tagset}{84}
+\contentsline {subsection}{\numberline {9.4}System UML Class Diagram}{85}
+\contentsline {subsection}{\numberline {9.5}Game Design UML Class Diagram}{86}
+\contentsline {subsection}{\numberline {9.6}Choosing the Slot-filling Grammar}{87}
+\contentsline {subsection}{\numberline {9.7}Finding the Best Action in VoiceProcess.java}{88}
+\contentsline {subsection}{\numberline {9.8}JwiLexicalDatabase.java}{90}
+\contentsline {subsection}{\numberline {9.9}Action Class Example}{93}
+\contentsline {subsection}{\numberline {9.10}MultipleCommandProcess::executeCommand()}{94}
+\contentsline {subsection}{\numberline {9.11}BattleContextActionMap.java}{95}
+\contentsline {subsection}{\numberline {9.12}Battle Mode Example Commands}{96}
+\contentsline {subsection}{\numberline {9.13}OverworldContextActionMap.java}{97}
+\contentsline {subsection}{\numberline {9.14}Overworld Mode Example Commands}{98}
+\contentsline {subsection}{\numberline {9.15}CallContextActionMap.java}{99}
+\contentsline {subsection}{\numberline {9.16}Video Conferencing Example Commands}{100}
+\contentsline {subsection}{\numberline {9.17}Manual Room Generation (Obsolete)}{101}
+\contentsline {subsection}{\numberline {9.18}Retrieving a Room Description}{102}
+\contentsline {subsection}{\numberline {9.19}List of Android Mock Tests}{103}
+\contentsline {subsubsection}{\numberline {9.19.1}BattleTest}{103}
+\contentsline {subsubsection}{\numberline {9.19.2}OverworldTest}{105}
+\contentsline {subsubsection}{\numberline {9.19.3}CallTest}{106}
+\contentsline {subsection}{\numberline {9.20}Evaluation: Actions and Contexts}{107}
+\contentsline {subsection}{\numberline {9.21}Comparison of Usability}{108}
+\contentsline {subsection}{\numberline {9.22}Other Survey Results}{110}
+\contentsline {subsection}{\numberline {9.23}Room Generation Evaluation Results}{112}
+\contentsline {section}{References}{113}
