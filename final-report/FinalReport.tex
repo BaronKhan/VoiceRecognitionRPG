@@ -173,7 +173,7 @@ This voice recognition interface could be improved by allowing the player to per
 The Elders Scrolls \rom{5}: Skyrim is a first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
 \\
 \\
-There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to actually use any of the items selected with only a voice command from the menu; this is only possible if you assign the item to a 'hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to actually use any of the items selected with only a voice command from the menu; this is only possible if you assign the item to a `hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{skyrim-item-commands.png}
@@ -270,24 +270,24 @@ While this API would be useful for building a personal assistant similar to Appl
 
 \subsubsection{Watson Conversation Engine}
 
-IBM's Watson API features a Conversation service that allows developers to build voice recognition interfaces that understand natural language input \cite{RefWorks:27}. The developer defines the training data to be used by the API (in order to train a natural language classifier) using 'intents' and 'entities' \cite{RefWorks:31}.
+IBM's Watson API features a Conversation service that allows developers to build voice recognition interfaces that understand natural language input \cite{RefWorks:27}. The developer defines the training data to be used by the API (in order to train a natural language classifier) using `intents' and `entities' \cite{RefWorks:31}.
 \\
 \\
-'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as ``turn on the wipers", ``switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
+`Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be `wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as ``turn on the wipers", ``switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{intent-return.png}
   \caption{An example of an intent to return something, along with examples of phrases for the intent. Image re-used from an IBM blog post \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
-'Entities' are classes of objects that help to provide context to intents. For example, in the above example, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
+`Entities' are classes of objects that help to provide context to intents. For example, in the above example, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{returnitems.png}
   \caption{An example of entities for items that can be returned. Entities that have been grouped together (usually synonyms) are placed on the same row \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
-Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, ``activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above. A demo is available to test this \cite{RefWorks:32}.
+Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, ``activate the windscreen wipers at the front of the car", the classifier will return the `wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above. A demo is available to test this \cite{RefWorks:32}.
 \\
 \\
 This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
@@ -389,7 +389,7 @@ Synonyms and hypernyms could be used to determine the semantic similarity betwee
 
 \subsubsection{Semantic Similarity}
 
-There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a 'similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
+There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a `similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
 \\
 \\
 The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUP) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS) (that is, the most general hypernym that both words have in common) and compares it with the sum of the depths of each word. The formula for the similarity of words $w_1$ and $w_2$ is as follows:
@@ -454,7 +454,7 @@ One issue to note is when a user attempts to specify an item based on a descript
 A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as it can be inferred whether two objects would have the same properties instead of hard-coding each one.
 \\
 \\
-By assigning items different properties, the actions that the user can perform for each variation of items (e.g. sword, katana, knife, etc.) does not need to be hard-coded. Instead, there can be general objects which have certain properties, and then the actions for each general object can be coded. For example, there could be a general object with a 'sharpness' property, that would be able to, for example, cut something, and all swords and knifes would be of this type of general object.
+By assigning items different properties, the actions that the user can perform for each variation of items (e.g. sword, katana, knife, etc.) does not need to be hard-coded. Instead, there can be general objects which have certain properties, and then the actions for each general object can be coded. For example, there could be a general object with a `sharpness' property, that would be able to, for example, cut something, and all swords and knifes would be of this type of general object.
 \newpage
 
 \section{Design}
@@ -537,7 +537,7 @@ The next stage is to extract the important information from the input. In many a
 Generally, commands will have an imperative verb (e.g. ``attack", ``grab", ``look"), optionally followed by the target entity for which the imperative verb should be applied towards, as well as an optional context entity for which the imperative verb should be applied with.
 \\
 \\
-As an example, take the command, ``hit the rock with a spoon". Here, the word 'hit' is the imperative action and it is applied to the 'rock'. The 'hit' action is applied using the 'spoon' as the context. The target and context help to provide a clearer intent; the user could have just said, ``hit" without mentioning the target or context, and while the action to be performed is clear, it is ambiguous as to what should be hit and with what.
+As an example, take the command, ``hit the rock with a spoon". Here, the word `hit' is the imperative action and it is applied to the `rock'. The `hit' action is applied using the `spoon' as the context. The target and context help to provide a clearer intent; the user could have just said, ``hit" without mentioning the target or context, and while the action to be performed is clear, it is ambiguous as to what should be hit and with what.
 \\
 \\
 For this stage, slot-filling structures (SFS) are used to describe the grammar of the voice commands. The SFS grammar chosen is as follows:
@@ -590,7 +590,7 @@ List of possible actions, targets and contexts are created by the developer (spe
 \subsubsection{Semantic Similarity}
 \label{semantic-sim-design}
 
-During the slot-filling  matching stage, if a word does not match any of the possible list of actions/targets/contexts character-by-character, then semantic similarity methods are used to determine the whether the two words are similar. For example, if the possible list of actions are, 'attack', 'heal' or 'run', and the input is 'hit', then 'hit' is more similar to the 'attack' action, so the 'attack' action would be chosen.
+During the slot-filling  matching stage, if a word does not match any of the possible list of actions/targets/contexts character-by-character, then semantic similarity methods are used to determine the whether the two words are similar. For example, if the possible list of actions are, `attack', `heal' or `run', and the input is `hit', then `hit' is more similar to the `attack' action, so the `attack' action would be chosen.
 \\
 \\
 As mentioned before, there are many similarity methods that have been proposed. The first method to be used is the \textit{Wu and Palmer} method (WUP) described previously. Another method that is used is the \textit{Lin} method (LIN), that calculates the similarity of two words based on the information content of their lowest common subsumer (that is, their first common parent word in the WordNet hypernym tree) \cite{RefWorks:46}. Information content (IC) is defined as the negative log of the probability of a concept. The probability of a concept is based on the sense frequency of its synset.
@@ -600,10 +600,10 @@ Lin used IC to define a similarity measure similar to the Wu and Palmer method, 
 
 $$sim_{lin} = \frac{2*IC(LCS(w_1,w_2))}{IC(w_1)+IC(w_2)}$$
 
-Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions \cite{RefWorks:115}. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, 'combustible', 'burn' and 'solid' in their definitions. Therefore, it can be deduced that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information \cite{RefWorks:117}.
+Another method used is the \textit{Lesk} method. The method determines the similarity of two words based on the overlaps in their definitions \cite{RefWorks:115}. For instance, the definition for certain senses of the words, '\textit{ash}' and '\textit{coal}' (to describe a burnt substance) have the words, `combustible', `burn' and `solid' in their definitions. Therefore, it can be deduced that the words are semantically similar. In another paper, Banerjee and Pederson extended the Lesk method by using all the definitions of all the sense for both words in the calculation, as only using one sense definition did not give enough information \cite{RefWorks:117}.
 \\
 \\
-As well as using the definitions of the synonyms, hypernyms and hyponyms of the word, this method also uses the definitions of the word's meronyms and holonyms. Meronyms are words that represent part of something else \cite{RefWorks:121}. For example, 'face' would be a meronym of 'person'. Holonyms are words that represent the whole of several parts, so a 'body' would be a holoynm for words such as 'arm', 'leg' and 'torso' \cite{RefWorks:121}. Using these definitions as well make the Lesk method more accurate, but also add more processing time for each calculation.
+As well as using the definitions of the synonyms, hypernyms and hyponyms of the word, this method also uses the definitions of the word's meronyms and holonyms. Meronyms are words that represent part of something else \cite{RefWorks:121}. For example, `face' would be a meronym of `person'. Holonyms are words that represent the whole of several parts, so a `body' would be a holoynm for words such as `arm', `leg' and `torso' \cite{RefWorks:121}. Using these definitions as well make the Lesk method more accurate, but also add more processing time for each calculation.
 \\
 \\
 The WordNet database is accessed and traversed using the MIT Java WordNet Interface (JWI), which is an open-source library that interfaces with a WordNet database \cite{RefWorks:118}. A full English WordNet database is downloaded from Princeton's website, and the JWI API is loaded with it.
@@ -701,7 +701,7 @@ Semantic similarity matches can be ignored if they are incorrectly mapped by the
 If the user gives a command that has a confidence value just below the threshold, then the phrase is considered ambiguous and, using the possible candidate matches, suggestions are given to the user to confirm their intent. 
 \\
 \\
-For example, if the user's intent is to pick up a knife and they say, ``pick up the utensil", where the similarity score between ``utensil" and ``knife" is just below the threshold, the system will output, ``Did you mean, 'pick up the knife? (yes/no)'", and waits for the user to respond. If they say no, then the system may suggest another alternative using the next ambiguous candidate (e.g, ``Did you mean, 'pick up the plate?'", etc).
+For example, if the user's intent is to pick up a knife and they say, ``pick up the utensil", where the similarity score between ``utensil" and ``knife" is just below the threshold, the system will output, ``Did you mean, `pick up the knife? (yes/no)'", and waits for the user to respond. If they say no, then the system may suggest another alternative using the next ambiguous candidate (e.g, ``Did you mean, `pick up the plate?'", etc).
 
 \subsubsection{Multiple Commands}
 
@@ -1033,7 +1033,7 @@ Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed 
 \begin{figure}
 \begin{center}
   \includegraphics[scale=0.25]{Screenshot_20180522-183411.png}
-  \caption{A snapshot of the ambiguous user intent, ``obliterate the troll". Here, the word, 'obliterate' is most semantically similarity to the 'attack' action, but not enough to pass the threshold, so it is queried to the user.}
+  \caption{A snapshot of the ambiguous user intent, ``obliterate the troll". Here, the word, `obliterate' is most semantically similarity to the `attack' action, but not enough to pass the threshold, so it is queried to the user.}
   \label{fig:snapshot-suggestion}
   \end{center}
 \end{figure}
@@ -1093,7 +1093,7 @@ Since this implementation using the JWI library may be useful for others in the 
 \subsubsection{\texttt{ContextActionMap}}
 \label{section:context-action-map}
 
-The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a 'table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context. The entries in the 'table' are either null or inherit from the \texttt{Action} class (see Section \ref{section:action}).
+The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a `table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context. The entries in the `table' are either null or inherit from the \texttt{Action} class (see Section \ref{section:action}).
 \\
 \\
 There is also an \texttt{addDefaultContextActions()} method, which defines the actions to be called if no context is given in the input. A \texttt{null} entry means that the action is invalid for the given context (e.g. you cannot attack with a potion). In this case, the default context action is called instead.
@@ -1113,7 +1113,7 @@ public class GameContextActionMap extends ContextActionMap {
 }
 \end{lstlisting}
 
-In order to make it easier for the developer to create this 'table', a Python script was written called \texttt{generateTable.py} which takes as input a CSV file of a table, and generates a Java source file similar to Listing \ref{lst:game-context-action-map}. Table \ref{table:game-map-csv} shows the CSV table (where cells are separated by commas) that will generate the Java source file in Listing \ref{lst:game-context-action-map} using the command, 
+In order to make it easier for the developer to create this `table', a Python script was written called \texttt{generateTable.py} which takes as input a CSV file of a table, and generates a Java source file similar to Listing \ref{lst:game-context-action-map}. Table \ref{table:game-map-csv} shows the CSV table (where cells are separated by commas) that will generate the Java source file in Listing \ref{lst:game-context-action-map} using the command, 
 
 \begin{center}
 \texttt{python generateTable.py game-map.csv GameContextActionMap}
@@ -1278,7 +1278,7 @@ A disadvantage to running the sentence-matching at the very end is that the inpu
 
 \subsubsection{Synonym Mapping Implementation}
 
-Synonyms are used to aid the \texttt{VoiceProcess} system to match more words that the semantic similarity engine does not match automatically (due to a low similarity score). For example, the word, 'obliterate' has a low similarity score to 'attack' (below the threshold) even though they are very similar. Therefore, either the player or developer can add this mapping such that 'obliterate' maps to 'attack'.
+Synonyms are used to aid the \texttt{VoiceProcess} system to match more words that the semantic similarity engine does not match automatically (due to a low similarity score). For example, the word, `obliterate' has a low similarity score to `attack' (below the threshold) even though they are very similar. Therefore, either the player or developer can add this mapping such that `obliterate' maps to `attack'.
 \\
 \\
 The following are the possible ways of adding a synonym mapping:
@@ -1286,7 +1286,7 @@ The following are the possible ways of adding a synonym mapping:
 \begin{itemize}
 \item Add the synonym in the code (e.g. \texttt{addSynonym("obliterate", "attack")}).
 
-\item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, ``Did you mean, 'attack'?" twice, and the user replies with ``yes" twice).
+\item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, ``Did you mean, `attack'?" twice, and the user replies with ``yes" twice).
 
 \item The player defines the mapping as an intent (i.e. they say, ``obliterate means attack"). See line 17 of the pseudocode in Listing \ref{lst:voice-process-pseudo} on page \pageref{lst:voice-process-pseudo}.
 \end{itemize}
@@ -1309,7 +1309,7 @@ Simple rooms were created to demonstrate the system working with a typical text-
 
 \subsubsection{GameState.java}
 
-\texttt{GameState} is derived from \texttt{GlobalState} and acts as the 'environment' for the game; it contains all the game's objects and handles the current state.
+\texttt{GameState} is derived from \texttt{GlobalState} and acts as the `environment' for the game; it contains all the game's objects and handles the current state.
 \\
 \\
 Since there are two distinct modes of gameplay (the \textit{Battle} gameplay and the \textit{Overworld} gameplay), there is a \texttt{ContextActionMap} for each one in the \texttt{GameState} class. It also keeps track of various data such as the current game mode; the current room/enemy; and the player's health.
@@ -1319,13 +1319,13 @@ The \texttt{GameState} class also has an instance of the \texttt{Inventory} clas
 
 \subsubsection{Battle Mode}
 
-In the \textit{Battle} mode, the player is able to attack the enemy with a wepon in their inventory. If no weapon is specified in the intent (as the context), then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc), as well as look at their inventory or the available actions. Figure \ref{fig:battle-context-action-map} shows the 'table' of action mappings for the \textit{Battle} mode. See the Appendix \ref{appendix:battle-context-action-map} for the full \texttt{BattleContextActionMap} class (including the helper features such as synonym maps and sentence matches).
+In the \textit{Battle} mode, the player is able to attack the enemy with a wepon in their inventory. If no weapon is specified in the intent (as the context), then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc), as well as look at their inventory or the available actions. Figure \ref{fig:battle-context-action-map} shows the `table' of action mappings for the \textit{Battle} mode. See the Appendix \ref{appendix:battle-context-action-map} for the full \texttt{BattleContextActionMap} class (including the helper features such as synonym maps and sentence matches).
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{battle-context-action-map.png}
-  \caption{A snapshot of the context-action 'table' in \texttt{BattleContextActionMap.java}.}
+  \caption{A snapshot of the context-action `table' in \texttt{BattleContextActionMap.java}.}
   \label{fig:battle-context-action-map}
   \end{center}
 \end{figure}
@@ -1341,13 +1341,13 @@ See the Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examp
 
 \subsubsection{Overworld Mode}
 
-In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Figure \ref{fig:overworld-context-action-map} shows the 'table' of action mappings for the \textit{Overworld} mode. See the Appendix \ref{appendix:overworld-context-action-map} for the full \texttt{OverworldContextActionMap} class.
+In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Figure \ref{fig:overworld-context-action-map} shows the `table' of action mappings for the \textit{Overworld} mode. See the Appendix \ref{appendix:overworld-context-action-map} for the full \texttt{OverworldContextActionMap} class.
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{overworld-context-action-map.png}
-  \caption{A snapshot of the context-action 'table' in \texttt{OverworldContextActionMap.java}.}
+  \caption{A snapshot of the context-action `table' in \texttt{OverworldContextActionMap.java}.}
   \label{fig:overworld-context-action-map}
   \end{center}
 \end{figure}
@@ -1587,13 +1587,13 @@ In order to demonstrate the flexibility of the voice recognition system, it has 
 The user is able to call a contact and add more contacts to the current call. All participants are displayed on the screen and the user can choose to end a call with a specific person, or end all of the calls. The user can also choose to mute the audio of a certain participant, or mute their own video/audio (with the video/audio icons changing accordingly).
 \\
 \\
-Figure \ref{fig:call-context-action-map} shows the context-action 'table' for the video conferencing demo. See the Appendix \ref{appendix:call-context-action-map} for the full \texttt{CallContextActionMap} class. Also see the Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
+Figure \ref{fig:call-context-action-map} shows the context-action `table' for the video conferencing demo. See the Appendix \ref{appendix:call-context-action-map} for the full \texttt{CallContextActionMap} class. Also see the Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{call-context-action-map.png}
-  \caption{A snapshot of the context-action 'table' in \texttt{CallContextActionMap.java}.}
+  \caption{A snapshot of the context-action `table' in \texttt{CallContextActionMap.java}.}
   \label{fig:call-context-action-map}
   \end{center}
 \end{figure}
@@ -2011,7 +2011,7 @@ Several limitations of the voice recognition system were identified over the cou
 \item[Not designed for many different targets per action] \hfill
 	\\ The use of a \texttt{ContextActionMap} is to handle many different contexts that the action can be performed with. For example, an attack using a blunt weapon may crush the enemy, but an attack from a sharp weapon may slice the enemy. However, in situations where an action is applied differently to many different types of targets, a large block of \texttt{if} and \texttt{else} statements or a \texttt{switch} statement is required to perform different things for different targets within an \texttt{Action} class (e.g. writing a series of \texttt{if (currentTarget instanceof ...) \{...\} else if ...}).
 	
-	This may be resolved by having a \texttt{TargetActionMap} instead of a \texttt{ContextActionMap}, which indexes the 'table' using the target 'type' instead. However, this would mean that the same issue will occur when having multiple contexts perform different actions (unless both a \texttt{TargetActionMap} and a \texttt{ContextActionMap} can be used together).
+	This may be resolved by having a \texttt{TargetActionMap} instead of a \texttt{ContextActionMap}, which indexes the `table' using the target `type' instead. However, this would mean that the same issue will occur when having multiple contexts perform different actions (unless both a \texttt{TargetActionMap} and a \texttt{ContextActionMap} can be used together).
 \item[Actions cannot have the same string as target] \hfill
 	\\ There is a bug where an action cannot have the same name as a target, as the system becomes confused when parsing and may think the target is actually the action (if the word for the target is a better match than the word of the action in the input).
 	
@@ -3229,7 +3229,7 @@ Please see the project's repository for the full test framework.
 \subsection{Evaluation: Actions and Contexts}
 \label{appendix:evaluation-context-action-maps}
 
-Below are the \texttt{ContextActionMap} 'tables' used in the evaluation Java project for the three domains. See the project's repository for the full classes.
+Below are the \texttt{ContextActionMap} `tables' used in the evaluation Java project for the three domains. See the project's repository for the full classes.
 
 \begin{table}[H]
 \centering
