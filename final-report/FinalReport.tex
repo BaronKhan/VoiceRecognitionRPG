@@ -255,13 +255,13 @@ Below is an example of a possible expression for attacking a troll:
 \begin{center}
 ``attack'' . ``troll''
 \end{center}
-Here, the player would have to say, "attack troll" to execute the intent. This can be expanded to have more variation in how the user can say this command:
+Here, the player would have to say, ``attack troll" to execute the intent. This can be expanded to have more variation in how the user can say this command:
 \begin{center}
-("attack" $\vert$ "hit") . ["the"] . "troll"
+(``attack" $\vert$ ``hit") . [``the"] . ``troll"
 \end{center}
-Here, the player can say phrases such as, "attack the troll" or "hit troll". The expression can be further expanded. However, the expression will eventually become long and confusing:
+Here, the player can say phrases such as, ``attack the troll" or ``hit troll". The expression can be further expanded. However, the expression will eventually become long and confusing:
 \begin{center}
-("attack" $\vert$ "hit" $\vert$ "damage") . ["the"] . ["big" $\vert$ "large"] . "troll" . [("with" $\vert$ "using") . ["a"] . ("sword" $\vert$ "hammer" $\vert$ "axe")]
+(``attack" $\vert$ ``hit" $\vert$ ``damage") . [``the"] . [``big" $\vert$ ``large"] . ``troll" . [(``with" $\vert$ ``using") . [``a"] . (``sword" $\vert$ ``hammer" $\vert$ ``axe")]
 \end{center}
 Even though this expression allows for more variation in what the user can say, it still doesn't cover all the possible variations of specifying an attack, and this long expression is only for one intent; many more expressions would have to be written for other intents, and this can become tedious for the developer.
 \\
@@ -273,7 +273,7 @@ While this API would be useful for building a personal assistant similar to Appl
 IBM's Watson API features a Conversation service that allows developers to build voice recognition interfaces that understand natural language input \cite{RefWorks:27}. The developer defines the training data to be used by the API (in order to train a natural language classifier) using 'intents' and 'entities' \cite{RefWorks:31}.
 \\
 \\
-'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as "turn on the wipers", "switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
+'Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be 'wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as ``turn on the wipers", ``switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{intent-return.png}
@@ -287,7 +287,7 @@ IBM's Watson API features a Conversation service that allows developers to build
   \caption{An example of entities for items that can be returned. Entities that have been grouped together (usually synonyms) are placed on the same row \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
-Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, "activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above. A demo is available to test this \cite{RefWorks:32}.
+Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, ``activate the windscreen wipers at the front of the car", the classifier will return the 'wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above. A demo is available to test this \cite{RefWorks:32}.
 \\
 \\
 This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
@@ -314,7 +314,7 @@ Natural Language Processing (NLP) forms a major component of this project. This 
 NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenisation, where a raw text string is broken down into words (usually separated by spaces).
 \\
 \\
-The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. "what're" would tokenise to "what" and "are",. while "we're" would break down to "we" and "are"); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
+The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. ``what're" would tokenise to ``what" and ``are",. while ``we're" would break down to ``we" and ``are"); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
 \\
 \\
 The third stage is syntactic parsing, where the grammatical structure of the sentence is determined. This is usually achieved by generating a syntax tree of each sentence, where each word is broken down into a terminal from a given grammar (e.g. verbs, nouns, adjectives, determiners, etc.) \cite{RefWorks:40}.
@@ -323,12 +323,12 @@ The third stage is syntactic parsing, where the grammatical structure of the sen
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{syntax-tree.png}
-  \caption{An example of a syntax tree for the sentence. "the old man a ship". Diagram taken from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
+  \caption{An example of a syntax tree for the sentence. ``the old man a ship". Diagram taken from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
   \end{center}
 \end{figure}
 \end{center}
 
-In the example above for the sentence, "the old man a ship", the word, "man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship, and therefore, "man" is actually a verb here. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
+In the example above for the sentence, ``the old man a ship", the word, ``man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship, and therefore, ``man" is actually a verb here. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
 \\
 \\
 The final two stages are very similar and is difficult to separate them into separate stages. Both stages involve determining the meaning of the sentence. The fourth stage is often concerned with semantic analysis, whereas the last stage is more concerned with discourse analysis \cite{RefWorks:39}.
@@ -338,7 +338,7 @@ The final two stages are very similar and is difficult to separate them into sep
 A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset containing POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See the Appendix \ref{appendix:penn} for the full Penn Treebank tagset.
 \\
 \\
-There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, "can" can either be a verb ("I can..."), a noun ("a can of tuna"), or another verb with a completely different meaning to the previous ("can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its word senses.
+There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, ``can" can either be a verb (``I can..."), a noun (``a can of tuna"), or another verb with a completely different meaning to the previous (``can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its word senses.
 \\
 \\
 The second challenge is words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
@@ -368,10 +368,10 @@ A disadvantage to slot-filling using context-free grammar parsing is that not al
 
 \subsubsection{Synonyms and Hypernyms}
 
-Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word "dog" has seven word senses (different meanings), and for one of the word senses with a meaning of, "a member of the genus Canis", the synonyms would be, "domestic dog" and "Canis familiris" \cite{RefWorks:45}.
+Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word ``dog" has seven word senses (different meanings), and for one of the word senses with a meaning of, ``a member of the genus Canis", the synonyms would be, ``domestic dog" and ``Canis familiris" \cite{RefWorks:45}.
 \\
 \\
-A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, "instrument" is a hypernym of "guitar", because a guitar is a type of instrument. Similarly, the word "animal" is a hypernym of "cat" (or, at least, the sense which refers to the domestic animal, as "cat" can have several usages).
+A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, ``instrument" is a hypernym of ``guitar", because a guitar is a type of instrument. Similarly, the word ``animal" is a hypernym of ``cat" (or, at least, the sense which refers to the domestic animal, as ``cat" can have several usages).
 \\
 \\
 The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense. Note that a hyponym is the inverse relationship between a word and its hypernyms.
@@ -380,7 +380,7 @@ The synonyms and hypernyms of words and phrases can be represented as a hyper-tr
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{hypernym-tree.png}
-  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the senses of the noun, "attack". The "attack" verb sense (right) is a sibling node.}
+  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the senses of the noun, ``attack". The ``attack" verb sense (right) is a sibling node.}
   \end{center}
 \end{figure}
 \end{center}
@@ -396,7 +396,7 @@ The following are some examples of measures for semantic similarity \cite{RefWor
 
 $$sim_{wup} = \frac{2*depth(LCS(w_1,w_2))}{depth(w_1)+depth(w_2)}$$
 
-For example, the WUP score for the semantic similarity between "juice" and "water" is calculated as follows \cite{RefWorks:49}:
+For example, the WUP score for the semantic similarity between ``juice" and ``water" is calculated as follows \cite{RefWorks:49}:
 
 \begin{lstlisting}[frame=single]
 T1 = HypernymTree( juice ) =
@@ -417,7 +417,7 @@ Score = 2 * DepthLCS / ( Depth1 + Depth2 ) = 2 * 6 / (8 + 7)
 Score = 0.8
 \end{lstlisting}
 
-The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words "breathing" and "fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
+The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words ``breathing" and ``fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
 \\
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
@@ -431,11 +431,11 @@ Princeton University created a large lexical database for the English language \
 One feature for the proposed design of the RPG is to prevent the developer from manually placing objects in a room/environment within the game. A designer may want to just provide a description of the room without having to program anything. A simple solution to this would be to perform noun extraction on the description to extract the objects that should be in the room. However, it would also be useful to extract relations of objects to other objects as well. For instance, if a lamp should only be on a table if a table exists in the room; if the table is removed/broken by the player, then the lamp should now be on the floor. This would allow for more information to be extracted about the objects in the room, as opposed to simply their existence.
 \\
 \\
-Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships. They created a tool for this called \textit{ReVerb} \cite{ReVerb2011}. Taking the sentence, "A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship ("be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
+Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships. They created a tool for this called \textit{ReVerb} \cite{ReVerb2011}. Taking the sentence, ``A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship (``be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
 
 \subsection{Generating Descriptions from Objects}
 
-The opposite to the above is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, "You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the above, where the object of a sentence/phrase is extracted; developers may want to go in the opposite direction.
+The opposite to the above is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, ``You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the above, where the object of a sentence/phrase is extracted; developers may want to go in the opposite direction.
 \\
 \\
 This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) are used to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
@@ -448,7 +448,7 @@ One possible solution would be to only hard-code the general sentence structure 
 
 \subsection{Object Properties}
 
-One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, "attack the enemy with a sharp object"); players would like to be able to select an item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt, whether it can be thrown, and so on.
+One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, ``attack the enemy with a sharp object"); players would like to be able to select an item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt, whether it can be thrown, and so on.
 \\
 \\
 A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as it can be inferred whether two objects would have the same properties instead of hard-coding each one.
@@ -523,7 +523,7 @@ In terms of user interface, the application features an on-screen button contain
 For the Part-Of-Speech (POS) tagging of the input, the open-source Log-linear Part-Of-Speech Tagger provided by The Stanford Natural Language Processing Group will be used \cite{RefWorks:113}. It is a Java archive file so can easily be imported and used in an Android Java project. It is a flexible API that handles all the POS tagging so no time needs to be spent implementing a POS tagging system. 
 \\
 \\
-The software comes with two trained models. According to the software's \texttt{README} file, the first model uses a bidirectional architecture and includes training data using word shapes and distributional similarities. The second model uses a \textit{left3words} architecture, includes words shapes, and uses the Penn Treebank tagset. According to the developers, the bidirectional model is "slightly more accurate" with a correctness score of 97.28\%, but is much slower to tag with than the \textit{left3words} model. Therefore, the \textit{left3words} model was chosen to be used in the application. (It still features a performance correctness score of 96.97\% which is not that different to the bidirectional model's performance.)
+The software comes with two trained models. According to the software's \texttt{README} file, the first model uses a bidirectional architecture and includes training data using word shapes and distributional similarities. The second model uses a \textit{left3words} architecture, includes words shapes, and uses the Penn Treebank tagset. According to the developers, the bidirectional model is ``slightly more accurate" with a correctness score of 97.28\%, but is much slower to tag with than the \textit{left3words} model. Therefore, the \textit{left3words} model was chosen to be used in the application. (It still features a performance correctness score of 96.97\% which is not that different to the bidirectional model's performance.)
 \\
 \\
 With the input string broken down into an array list of its words, each word is used as input to the POS tagger, and the word's tag (e.g. \textit{VB}, \textit{NN}, etc.) is added to a new list. Both lists will be used simultaneously in other processes.
@@ -531,13 +531,13 @@ With the input string broken down into an array list of its words, each word is 
 \subsubsection{Slot-filling Matching}
 \label{section:slot-filling}
 
-The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, "do this", "attack that", etc.). It is assumed that the subject of the command (that is, the entity about whom the statement is made about \cite{RefWorks:114}) is always the player (or the character that the player is controlling).
+The next stage is to extract the important information from the input. In many applications, particularly in games, voice commands are usually given in the imperative form (such as, ``do this", ``attack that", etc.). It is assumed that the subject of the command (that is, the entity about whom the statement is made about \cite{RefWorks:114}) is always the player (or the character that the player is controlling).
 \\
 \\
-Generally, commands will have an imperative verb (e.g. "attack", "grab", "look"), optionally followed by the target entity for which the imperative verb should be applied towards, as well as an optional context entity for which the imperative verb should be applied with.
+Generally, commands will have an imperative verb (e.g. ``attack", ``grab", ``look"), optionally followed by the target entity for which the imperative verb should be applied towards, as well as an optional context entity for which the imperative verb should be applied with.
 \\
 \\
-As an example, take the command, "hit the rock with a spoon". Here, the word 'hit' is the imperative action and it is applied to the 'rock'. The 'hit' action is applied using the 'spoon' as the context. The target and context help to provide a clearer intent; the user could have just said, "hit" without mentioning the target or context, and while the action to be performed is clear, it is ambiguous as to what should be hit and with what.
+As an example, take the command, ``hit the rock with a spoon". Here, the word 'hit' is the imperative action and it is applied to the 'rock'. The 'hit' action is applied using the 'spoon' as the context. The target and context help to provide a clearer intent; the user could have just said, ``hit" without mentioning the target or context, and while the action to be performed is clear, it is ambiguous as to what should be hit and with what.
 \\
 \\
 For this stage, slot-filling structures (SFS) are used to describe the grammar of the voice commands. The SFS grammar chosen is as follows:
@@ -546,13 +546,13 @@ For this stage, slot-filling structures (SFS) are used to describe the grammar o
 \texttt{ACTION TARGET WITH CONTEXT}
 \end{center}
 
-Here, parts of the input will be mapped to a \textit{block} in the grammar. The \texttt{WITH} block represents words and phrases that signify using the context to perform the action (e.g. "with...", "using...", "with the power of the...", and so on). Figure \ref{fig:sfs-1} shows how parts of an example command are matched to the grammar.
+Here, parts of the input will be mapped to a \textit{block} in the grammar. The \texttt{WITH} block represents words and phrases that signify using the context to perform the action (e.g. ``with...", ``using...", ``with the power of the...", and so on). Figure \ref{fig:sfs-1} shows how parts of an example command are matched to the grammar.
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{sfs-1.pdf}
-  \caption{The slot-filling structure, \texttt{\{ACTION TARGET WITH CONTEXT\}} being applied to an example sentence, "attack the goblin using a sword". Generated using Graphviz.}
+  \caption{The slot-filling structure, \texttt{\{ACTION TARGET WITH CONTEXT\}} being applied to an example sentence, ``attack the goblin using a sword". Generated using Graphviz.}
   \label{fig:sfs-1}
   \end{center}
 \end{figure}
@@ -561,7 +561,7 @@ Here, parts of the input will be mapped to a \textit{block} in the grammar. The 
 Not all the slots have to be filled; the \texttt{WITH} and \texttt{CONTEXT} blocks are completely optional to fill, but they provide more information about the user's intent. Should this information be left out, the system will fall back on the defaults for each one.
 \\
 \\
-While this covers a large variety of commands that the user can give, such as, "attack the troll with a sword", "pick up the knife", or "look around the room using binoculars", it does not cover commands that have a completely different structure. For example, the phrases, "use a potion to heal" and "with a key open the door" are perfectly valid commands that a user can give, but the matching blocks are in completely different order (i.e. the \texttt{CONTEXT} comes before the \texttt{ACTION}), so would not be matched with the above SFS.
+While this covers a large variety of commands that the user can give, such as, ``attack the troll with a sword", ``pick up the knife", or ``look around the room using binoculars", it does not cover commands that have a completely different structure. For example, the phrases, ``use a potion to heal" and ``with a key open the door" are perfectly valid commands that a user can give, but the matching blocks are in completely different order (i.e. the \texttt{CONTEXT} comes before the \texttt{ACTION}), so would not be matched with the above SFS.
 \\
 \\
 An alternative SFS is applied when appropriate. The grammar is as follows:
@@ -570,13 +570,13 @@ An alternative SFS is applied when appropriate. The grammar is as follows:
 \texttt{WITH CONTEXT ACTION TARGET}
 \end{center}
 
-Using this slot-filling grammar, the aforementioned example commands ("use a potion to heal" and "with a key open the door") would be accepted. Figure \ref{fig:sfs-2} shows an example of the matching.
+Using this slot-filling grammar, the aforementioned example commands (``use a potion to heal" and ``with a key open the door") would be accepted. Figure \ref{fig:sfs-2} shows an example of the matching.
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{sfs-2.pdf}
-  \caption{The slot-filling structure, \texttt{\{WITH CONTEXT ACTION TARGET\}} being applied to an example sentence, "use a key to open the door".}
+  \caption{The slot-filling structure, \texttt{\{WITH CONTEXT ACTION TARGET\}} being applied to an example sentence, ``use a key to open the door".}
   \label{fig:sfs-2}
   \end{center}
 \end{figure}
@@ -613,10 +613,10 @@ Implementations for most of the similarity methods are provided by another open-
 
 \subsubsection{Context-Action Mapping}
 
-Once matches have been found from the slot-filling, they are mapped to the methods that should execute on that intent. If the player only specifies and action (and target) with no context, then a default action should be executed (the context itself defaults to a "default" context). If the player specifies a context (e.g. "...with a sword"), then a mapping is consulted to find the correct method that should be called. The different targets are handled within the method itself.
+Once matches have been found from the slot-filling, they are mapped to the methods that should execute on that intent. If the player only specifies and action (and target) with no context, then a default action should be executed (the context itself defaults to a ``default" context). If the player specifies a context (e.g. "...with a sword"), then a mapping is consulted to find the correct method that should be called. The different targets are handled within the method itself.
 \\
 \\
-Table \ref{action-context-ex-table} shows an example of what an Context-Action map would look like. Note the \textit{null} entries that indicate that the context is not compatible with the corresponding action (for example, it does not make sense from a player to "attack with a potion"), and the intent is therefore ignored.
+Table \ref{action-context-ex-table} shows an example of what an Context-Action map would look like. Note the \textit{null} entries that indicate that the context is not compatible with the corresponding action (for example, it does not make sense from a player to ``attack with a potion"), and the intent is therefore ignored.
 
 \begin{table}[H]
 \centering
@@ -678,7 +678,7 @@ The \texttt{GlobalState} class is a generic abstract class that can be derived f
 
 \subsubsection{\texttt{ContextActionMap} Class}
 
-The \texttt{ContextActionMap} class contains the mapping of contexts to actions. It is an abstract class that is overloaded by the developer to add mappings of different ways of performing actions based on the given context (e.g. "attack with a sword" versus "attack with a knife").
+The \texttt{ContextActionMap} class contains the mapping of contexts to actions. It is an abstract class that is overloaded by the developer to add mappings of different ways of performing actions based on the given context (e.g. ``attack with a sword" versus ``attack with a knife").
 
 \subsubsection{\texttt{SemanticSimilarity} Class}
 
@@ -690,7 +690,7 @@ In order to make the voice recognition system as as flexible as possible and abl
 
 \subsubsection{Synonym Mapping}
 
-The developer can map synonyms to actions if the words are not considered semantically similar by the system. For instance, if the word, "regenerate" has a low semantic similarity score when compared to the "heal" action, then the developer can create a map of "regenerate" $\rightarrow$ "heal" so the system performs the correct mapping.
+The developer can map synonyms to actions if the words are not considered semantically similar by the system. For instance, if the word, ``regenerate" has a low semantic similarity score when compared to the ``heal" action, then the developer can create a map of ``regenerate" $\rightarrow$ ``heal" so the system performs the correct mapping.
 
 \subsubsection{Ignoring Incorrect Matches}
 
@@ -701,30 +701,30 @@ Semantic similarity matches can be ignored if they are incorrectly mapped by the
 If the user gives a command that has a confidence value just below the threshold, then the phrase is considered ambiguous and, using the possible candidate matches, suggestions are given to the user to confirm their intent. 
 \\
 \\
-For example, if the user's intent is to pick up a knife and they say, "pick up the utensil", where the similarity score between "utensil" and "knife" is just below the threshold, the system will output, "Did you mean, 'pick up the knife? (yes/no)'", and waits for the user to respond. If they say no, then the system may suggest another alternative using the next ambiguous candidate (e.g, "Did you mean, 'pick up the plate?'", etc).
+For example, if the user's intent is to pick up a knife and they say, ``pick up the utensil", where the similarity score between ``utensil" and ``knife" is just below the threshold, the system will output, ``Did you mean, 'pick up the knife? (yes/no)'", and waits for the user to respond. If they say no, then the system may suggest another alternative using the next ambiguous candidate (e.g, ``Did you mean, 'pick up the plate?'", etc).
 
 \subsubsection{Multiple Commands}
 
-The user has the ability to execute a chain of several commands one after the other using just one utterance. For example, if the user says, "attack the enemy and then heal using a potion", this will execute two separate commands.
+The user has the ability to execute a chain of several commands one after the other using just one utterance. For example, if the user says, ``attack the enemy and then heal using a potion", this will execute two separate commands.
 
 \subsubsection{Multiple Targets}
 
-A user may want to execute a command that involves several targets. In this case, these are divided into several actions instead, with each action focused on one of the targets. For instance, if the user says, "attack the troll and the goblin", this will be split into two actions: one to attack the troll, followed by an attack on the goblin.
+A user may want to execute a command that involves several targets. In this case, these are divided into several actions instead, with each action focused on one of the targets. For instance, if the user says, ``attack the troll and the goblin", this will be split into two actions: one to attack the troll, followed by an attack on the goblin.
 
 \subsubsection{Sentence Mapping}
 \label{section:sentence-mapping}
 
-The core mechanism of the system is the slot-filling structure described above. This covers most of the forms of possible imperative commands that a user may utter to the system to execute an intent. However, one disadvantage of this system is that it will not detect phrases that do not map to the slot-filling grammar given (e.g. \{\texttt{ACTION TARGET WITH CONTEXT}\}), despite being a valid phrase. Such utterances are usually phrased as a question, such as, "what actions can i do", or , "what items are in my bag", etc. The system should still be able to detect these types of commands but prevent the developer from hard-coding each possible variation of the intents.
+The core mechanism of the system is the slot-filling structure described above. This covers most of the forms of possible imperative commands that a user may utter to the system to execute an intent. However, one disadvantage of this system is that it will not detect phrases that do not map to the slot-filling grammar given (e.g. \{\texttt{ACTION TARGET WITH CONTEXT}\}), despite being a valid phrase. Such utterances are usually phrased as a question, such as, ``what actions can i do", or , ``what items are in my bag", etc. The system should still be able to detect these types of commands but prevent the developer from hard-coding each possible variation of the intents.
 \\
 \\
-The proposed solution is to perform sentence matching on these phrases. The developer specifies an intent followed by several example sentences that a user would say to execute the intent. For example, if the intent is to show the player the items they possess, example sentences include: "What is in my bag?", "What items do I have?", "What are the contents of my inventory?", and so on. When parsing a new utterance from the player (e.g. "what items are in my bag"), if the phrase fails the slot-filling stage, then the similarity of the sentence is calculated compared to the example sentences.
+The proposed solution is to perform sentence matching on these phrases. The developer specifies an intent followed by several example sentences that a user would say to execute the intent. For example, if the intent is to show the player the items they possess, example sentences include: ``What is in my bag?", ``What items do I have?", ``What are the contents of my inventory?", and so on. When parsing a new utterance from the player (e.g. ``what items are in my bag"), if the phrase fails the slot-filling stage, then the similarity of the sentence is calculated compared to the example sentences.
 \\
 \\
 The calculation involves using a slightly altered cosine similarity method. Based on the formula for the cosine of an angle between two vectors, the cosine  similarity method measures uses the cosine of the angle as a measure of similarity, using a vector space model \cite{RefWorks:119} (the vector of a sentence is represented by its word frequencies). The similarity between two vectors, $a$ and $b$ is:
 
 $$similarity = \cos \theta = \frac{a \cdot b}{\lvert a\rvert\lvert b\rvert}$$
 
-Take two examples: "the apples are in the tree" and "the tree contains apples". The vectors for these sentences would be:
+Take two examples: ``the apples are in the tree" and ``the tree contains apples". The vectors for these sentences would be:
 
 \begin{center}
 a = \{the:2, apples:1, are:1, in:1, the:2, tree:1, contains:0\}
@@ -736,7 +736,7 @@ The cosine similarity of these sentences is therefore:
 
 $$\frac{a \cdot b}{\lvert a\rvert\lvert b\rvert} = \frac{6}{2\sqrt{3} \cdot \sqrt{5}} = 0.77$$
 
-The definition for cosine similarity has been altered to form a "soft cosine measure" \cite{RefWorks:120}. This uses the semantic similarity between the two words (when the dot product is calculated) as a weighting: if a word only appears in one sentence and not he other, then the scores of its semantic similarity to the words in the other sentence are added to the numerator.
+The definition for cosine similarity has been altered to form a ``soft cosine measure" \cite{RefWorks:120}. This uses the semantic similarity between the two words (when the dot product is calculated) as a weighting: if a word only appears in one sentence and not he other, then the scores of its semantic similarity to the words in the other sentence are added to the numerator.
 \\
 \\
 While the cosine similarity is not ideal for all situations (e.g. it ignores word order so may match two sentences which are not similar at all).
@@ -756,13 +756,13 @@ The focus of the project is not on the game itself, but rather on the power and 
 For the first room, the player is placed in a room where they are presented with a puzzle as part of the \textit{Overworld} mode. The room features the following description:
 
 \begin{itemize}
-\item "You are in a room with a locked door in front of you.
+\item ``You are in a room with a locked door in front of you.
 
-\item "There is a glass table in the middle of the room."
+\item ``There is a glass table in the middle of the room."
 
-\item "There is a knife on the table."
+\item ``There is a knife on the table."
 
-\item "A painting of a tree hangs by a string on the left wall."
+\item ``A painting of a tree hangs by a string on the left wall."
 \end{itemize}
 
 The player must obtain a key hidden behind the painting by cutting it down using the knife (or any other sharp item they may possess such as a sword), and then use the key to open the door.
@@ -774,7 +774,7 @@ During the overworld gameplay, the user is capable of performing the following a
 [look, show, grab, open, cut, break]
 \end{center}
 
-Example commands include, "show my inventory", "look around the room", "grab the knife", "cut the painting", and so on.
+Example commands include, ``show my inventory", ``look around the room", ``grab the knife", ``cut the painting", and so on.
 \\
 \\
 Each room in the game that features the overworld gameplay is represented by a finite state automaton. When the player performs certain actions (e.g. cutting the painting down), the state of the room will progress until the player has performed the correct  actions in the correct order and is able to progress to the next room. Figure \ref{fig:room1-fsa} show the state machine for the first room.
@@ -795,7 +795,7 @@ For the second room, the player is presented with a battle with an enemy (a \tex
 [attack, heal, show, look]
 \end{center}
 
-Examples include: "attack the troll" "heal with a potion", "look around", and so on.
+Examples include: ``attack the troll" ``heal with a potion", ``look around", and so on.
 
 \subsection{Game Design UML Class Diagram}
 
@@ -814,7 +814,7 @@ Figure \ref{fig:game-overview} shows a simplified UML class diagram for the game
 The \texttt{GameState} class (shown previously in the system UML class diagram, to aid explanations) contains two different instances of classes that override the voice recognition system's \texttt{ContextActionMap} class (which contain the voice command mappings): one for the overworld gameplay and the other for the battling gameplay.
 \\
 \\
-The \texttt{Entity} abstract class represents anything that can be considered a possible target or context for the slot-filling. Each entity is given a name and a context type (as a string) that is used to determine which context it maps to (e.g. "weapon", "key", etc). See Table \ref{action-context-ex-table} above for examples of these contexts. Each entity also contains a description field which is an array of words that describe the entity (e.g. a knife would be described as "sharp", "pointy", etc). These descriptions are optional but they aid the voice recognition system to help identify similar words (if the semantic similarity match fails).
+The \texttt{Entity} abstract class represents anything that can be considered a possible target or context for the slot-filling. Each entity is given a name and a context type (as a string) that is used to determine which context it maps to (e.g. ``weapon", ``key", etc). See Table \ref{action-context-ex-table} above for examples of these contexts. Each entity also contains a description field which is an array of words that describe the entity (e.g. a knife would be described as ``sharp", ``pointy", etc). These descriptions are optional but they aid the voice recognition system to help identify similar words (if the semantic similarity match fails).
 \\
 \\
 Finally, \texttt{Room} is an abstract class for generating new rooms for the game, each with their own objects.
@@ -979,7 +979,7 @@ See the Appendix \ref{appendix:useAltSlotFillingStructure} for the Java code of 
 For the \texttt{getBestAction()}, \texttt{getBestTarget()} and  \texttt{getBestContext()} methods, the words in the input are checked sequentially to determine the best match. For instance, in the \texttt{getBestAction()} method, the candidate actions are chosen from the input. For each candidate action, a score out of 1.0 is calculated against each possible action defined in the ContextActionMap: if the words match character-by-character or the the candidate is a synonym for one of the action, then the score is set to 1.0. Otherwise, the score is set to the semantic similarity score of the two words. The \texttt{getBestTarget()} and \texttt{getBestContext()} methods work similarly.
 \\
 \\
-The candidates are chosen using the POS tagging, to filter out words with no meaning such as "the", "it", etc. Words in the input are candidate actions if they are tagged as either a verb, adverb, or noun (as sometimes, the POS tagger incorrectly tags some imperative verbs as nouns). Listing \ref{lst:candidates} shows the method for finding candidate actions, which returns a list of the indices (positions) of the candidates in the \texttt{words} and \texttt{tags} lists.
+The candidates are chosen using the POS tagging, to filter out words with no meaning such as ``the", ``it", etc. Words in the input are candidate actions if they are tagged as either a verb, adverb, or noun (as sometimes, the POS tagger incorrectly tags some imperative verbs as nouns). Listing \ref{lst:candidates} shows the method for finding candidate actions, which returns a list of the indices (positions) of the candidates in the \texttt{words} and \texttt{tags} lists.
 \\
 \begin{lstlisting}[language=Java, caption=getCandidateActions(), label={lst:candidates}]
 private List<Integer> getCandidateActions(List<String> tags) {
@@ -1024,7 +1024,7 @@ On line 11 of Listing \ref{lst:bestAction}, the same for loop over \texttt{actio
 
 \subsubsection{\texttt{AmbiguousHandler}}
 
-As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say "no" or something similar), then the next suggestion is given, until no more suggestions are available.
+As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say ``no" or something similar), then the next suggestion is given, until no more suggestions are available.
 \\
 \\
 Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed to the user after an ambiguous intent. See the \texttt{AmbiguousHandler.java} file in the project's repository for the full code.
@@ -1033,7 +1033,7 @@ Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed 
 \begin{figure}
 \begin{center}
   \includegraphics[scale=0.25]{Screenshot_20180522-183411.png}
-  \caption{A snapshot of the ambiguous user intent, "obliterate the troll". Here, the word, 'obliterate' is most semantically similarity to the 'attack' action, but not enough to pass the threshold, so it is queried to the user.}
+  \caption{A snapshot of the ambiguous user intent, ``obliterate the troll". Here, the word, 'obliterate' is most semantically similarity to the 'attack' action, but not enough to pass the threshold, so it is queried to the user.}
   \label{fig:snapshot-suggestion}
   \end{center}
 \end{figure}
@@ -1139,7 +1139,7 @@ In the \texttt{ContextActionMap} class, there are two member fields that the dev
 \subsubsection{\texttt{Entity}}
 \label{section:entity}
 
-\texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, "sword", "potion", etc), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
+\texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, ``sword", ``potion", etc), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
 \\
 \\
 Once a match for a context is found, its \texttt{mContext} string value is used to index the \texttt{ContextActionMap}, along with the best action.
@@ -1160,7 +1160,7 @@ public abstract class Action {
     public void setWantsReply(boolean wantsReply) { mWantsReply = wantsReply; }
 
     public Object processReply(GlobalState state, String input) { 
-        return "Intent not understood.";
+        return ``Intent not understood.";
     }
 
     protected static Entity getCurrentContext() { return sCurrentContext; }
@@ -1196,14 +1196,14 @@ public class HealItem extends Action {
 }
 \end{lstlisting}
 
-Some methods may wish to ask the user for confirmation before executing (e.g. "Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said "yes"/"no", etc). See the Appendix \ref{appendix:open-object} for an example of an Action class (\texttt{OpenObject}) which overrides the \texttt{processReply()} method and asks the player if they want to progress through a door.
+Some methods may wish to ask the user for confirmation before executing (e.g. ``Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said ``yes"/``no", etc). See the Appendix \ref{appendix:open-object} for an example of an Action class (\texttt{OpenObject}) which overrides the \texttt{processReply()} method and asks the player if they want to progress through a door.
 
 \subsubsection{\texttt{MultipleCommandProcess}}
 
-Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, "attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleProcessCommand} class.
+Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, ``attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleProcessCommand} class.
 \\
 \\
-The \texttt{splitInput()} method splits the user's input using the words, "and" and "then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupt and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a partial queue, and then processed once the previous intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the Appendix \ref{appendix:multiple-commands-execute} for the Java code of the \texttt{executeCommand()} method.
+The \texttt{splitInput()} method splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupt and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a partial queue, and then processed once the previous intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the Appendix \ref{appendix:multiple-commands-execute} for the Java code of the \texttt{executeCommand()} method.
 \\
 \\
 The following is an example of using an instance of the \texttt{MultipleCommandProcess} class for the \textit{Overworld} gameplay.
@@ -1274,7 +1274,7 @@ private double calculateCosScore(List<String> words1, String sentence) {
 }
 \end{lstlisting}
 
-A disadvantage to running the sentence-matching at the very end is that the input may accidentally match to the slot-filling grammar. For example, if the user says, "what can i cut?", and "cut" is an action in the game, then it may map to the cut action, and not reach the \texttt{SentenceMapper}.
+A disadvantage to running the sentence-matching at the very end is that the input may accidentally match to the slot-filling grammar. For example, if the user says, ``what can i cut?", and ``cut" is an action in the game, then it may map to the cut action, and not reach the \texttt{SentenceMapper}.
 
 \subsubsection{Synonym Mapping Implementation}
 
@@ -1286,19 +1286,19 @@ The following are the possible ways of adding a synonym mapping:
 \begin{itemize}
 \item Add the synonym in the code (e.g. \texttt{addSynonym("obliterate", "attack")}).
 
-\item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, "Did you mean, 'attack'?" twice, and the user replies with "yes" twice).
+\item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, ``Did you mean, 'attack'?" twice, and the user replies with ``yes" twice).
 
-\item The player defines the mapping as an intent (i.e. they say, "obliterate means attack"). See line 17 of the pseudocode in Listing \ref{lst:voice-process-pseudo} on page \pageref{lst:voice-process-pseudo}.
+\item The player defines the mapping as an intent (i.e. they say, ``obliterate means attack"). See line 17 of the pseudocode in Listing \ref{lst:voice-process-pseudo} on page \pageref{lst:voice-process-pseudo}.
 \end{itemize}
 
 In some cases, a word could become a synonym for multiple words. Take the following scenario:
 
 \begin{itemize}
-\item The player is in a room with just a knife. The player utters, "pick up the utensil", and creates a mapping from "utensil" to "knife".
+\item The player is in a room with just a knife. The player utters, ``pick up the utensil", and creates a mapping from ``utensil" to ``knife".
 
-\item The player progresses to a room with just a fork. They create a mapping from "utensil" to "fork".
+\item The player progresses to a room with just a fork. They create a mapping from ``utensil" to ``fork".
 
-\item The player is now in a room with both a knife and a fork, and says, "pick up the utensil".
+\item The player is now in a room with both a knife and a fork, and says, ``pick up the utensil".
 \end{itemize}
 
 In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See the Appendix \ref{appendix:utensil} for the room that demonstrates this scenario (as well as room with multiple utensils, in which case, all suggestions are displayed at the same time).
@@ -1331,7 +1331,7 @@ In the \textit{Battle} mode, the player is able to attack the enemy with a wepon
 \end{figure}
 \end{center}
 
-Weapons can be classified as either "sharp" or "blunt" based on whether they are instantiated with a description containing one of those words - each type of weapon as has different multiplier for the damage caused to the enemy.
+Weapons can be classified as either ``sharp" or ``blunt" based on whether they are instantiated with a description containing one of those words - each type of weapon as has different multiplier for the damage caused to the enemy.
 \\
 \\
 Enemies are entities with their own health that the player fights. The enemy in the demo is a troll that can attack the enemy once the player has performed a successful action.
@@ -1360,7 +1360,7 @@ See the Appendix \ref{appendix:overworld-examples} for examples of commands that
 
 \subsection{Object Properties with WordNet}
 
-Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, "attack with something sharp", the sword will be selected because the adjective, "sharp" has a high similarity score to "sword". Similarly, the word, "heavy" has a high similarity to score to "hammer", so if the player says, "hit with something heavy", the hammer will be used.
+Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, ``attack with something sharp", the sword will be selected because the adjective, ``sharp" has a high similarity score to ``sword". Similarly, the word, ``heavy" has a high similarity to score to ``hammer", so if the player says, ``hit with something heavy", the hammer will be used.
 \\
 \\
 In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified. Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable).
@@ -1376,7 +1376,7 @@ The use of room generation in this project aims to decrease the workload of the 
 Rooms contain the objects that the player interacts with during the \textit{Overworld} mode.
 \\
 \\
-Each room is a derived class from the \texttt{Room} abstract class. Objects in the room are added in the constructor of the room. Objects were added to the room when it is instantiated, and a description of the room is displayed when the player issues a command such as, "look around". Listing \ref{lst:room01-description} shows an example of of the description that is output in the first room.
+Each room is a derived class from the \texttt{Room} abstract class. Objects in the room are added in the constructor of the room. Objects were added to the room when it is instantiated, and a description of the room is displayed when the player issues a command such as, ``look around". Listing \ref{lst:room01-description} shows an example of of the description that is output in the first room.
 
 \begin{lstlisting}[label=lst:room01-description]
  - You are in a room with a locked door in front of you.
@@ -1386,7 +1386,7 @@ Each room is a derived class from the \texttt{Room} abstract class. Objects in t
  - A painting of a tree hangs by a string on the left wall.
 \end{lstlisting}
 
-This description will change dynamically as the player adds, removes or interacts with objects in the room. For example, if the player breaks the glass table, then the third sentence involving the potion would change to, "A potion lays on the floor with the broken table." Similarly, if the player cuts the painting down, then the last sentence would change to, "The painting that was on the wall now lies on the floor."
+This description will change dynamically as the player adds, removes or interacts with objects in the room. For example, if the player breaks the glass table, then the third sentence involving the potion would change to, ``A potion lays on the floor with the broken table." Similarly, if the player cuts the painting down, then the last sentence would change to, ``The painting that was on the wall now lies on the floor."
 
 \subsubsection{Manual Room Generation}
 
@@ -1495,16 +1495,16 @@ A standalone Java program was created which takes as input a text file containin
 The program reads an object file containing the available objects that are in the game (and the corresponding class name in the project). It then takes the description in the input file and breaks it down into sentences and parses each one to determine which objects should be added to the room, as well as any conditionals. Object creation is denoted using an asterisk (*) just before the object word. The object must be in the object file for it to be added.
 \\
 \\
-The semantic similarity engine used in the voice recognition system is used again here to create objects using synonyms in the room description (e.g. the sentence, "There is a utensil in the room" may add a spoon to the room since "spoon" is semantically similar to "utensil", and spoon is in the object file).
+The semantic similarity engine used in the voice recognition system is used again here to create objects using synonyms in the room description (e.g. the sentence, ``There is a utensil in the room" may add a spoon to the room since ``spoon" is semantically similar to ``utensil", and spoon is in the object file).
 \\
 \\
-More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, "There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
+More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, ``There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
 \\
 \\
-\textit{ReVerb} is a Java library that extracts binary classifications in sentences \cite{ReVerb2011}. It takes as input the raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, "The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
+\textit{ReVerb} is a Java library that extracts binary classifications in sentences \cite{ReVerb2011}. It takes as input the raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, ``The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
 \\
 \\
-These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01} on page \pageref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, "A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
+These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01} on page \pageref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, ``A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
 \\
 \\
 See the project's repository for the full Java program source code (\texttt{GenerateRoom.java}). For convenience when building, the Java program is wrapped around a Bash script, \texttt{generateRoom.sh}, which builds the source code and executes it.
@@ -1599,7 +1599,7 @@ Figure \ref{fig:call-context-action-map} shows the context-action 'table' for th
 \end{figure}
 \end{center}
 
-The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, "Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
+The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, ``Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
 
 \newpage
 \section{Evaluation}
@@ -1658,7 +1658,7 @@ A separate Java project was created that runs the system on a set of commands ac
 The number of tests passed for each domain is calculated as a percentage of the total tests, and a final score is calculated for that semantic similarity method (as an average of all three domain scores), with the results saved as a CSV file.
 \\
 \\
-In the evaluation project, the action methods do not perform any function; they simply return a string containing the output (e.g. "ATTACK\_WEAPON" for attacking with a  sword; "SERVE\_SOUP" for serving soup, etc). Each test case is a pair containing a string input (i.e. the user's utterance) and the expected output. For each test case, the string input is used to update the game/calling/cooking state. The output from the object is compared to the expected output, and the results are written to the CSV file. The time taken for a test suite is also recorded, as well as the average time taken for each test.
+In the evaluation project, the action methods do not perform any function; they simply return a string containing the output (e.g. ``ATTACK\_WEAPON" for attacking with a  sword; ``SERVE\_SOUP" for serving soup, etc). Each test case is a pair containing a string input (i.e. the user's utterance) and the expected output. For each test case, the string input is used to update the game/calling/cooking state. The output from the object is compared to the expected output, and the results are written to the CSV file. The time taken for a test suite is also recorded, as well as the average time taken for each test.
 \\
 \\
 The \texttt{ContextActionMap}s used in this evaluation project are not the same as the ones used in the Android application (they do not use any helper mechanisms). See the Appendix \ref{appendix:evaluation-context-action-maps} for the context-action mappings used in this evaluation projects.
@@ -1860,7 +1860,7 @@ According, Jakob Nielson of the Nielson Norman Group \cite{RefWorks:128}, there 
 \item 10 seconds | the limit for keeping the user's attention; anything longer requires a progress indicator (e.g. progress bar).
 \end{itemize}
 
-Ideally, command processing should be limited to 0.1 seconds, with 1 second being the limit for processing commands involving multiple intents, targets or contexts (e.g. "attack the troll with a sword and with a hammer and then heal using a potion", as the intent would be broken down and processed separately, so may require more processing time).
+Ideally, command processing should be limited to 0.1 seconds, with 1 second being the limit for processing commands involving multiple intents, targets or contexts (e.g. ``attack the troll with a sword and with a hammer and then heal using a potion", as the intent would be broken down and processed separately, so may require more processing time).
 \\
 \\
 Using the evaluation project described in Section \ref{section:eval-similarity} above, the average time taken to process one command was calculated for each semantic similarity method on three different machines. Note that the Java program is single-threaded, so multi-core processors are not fully utilised.
@@ -1949,7 +1949,7 @@ The large increases in the number of tests that pass when adding the semantic si
 The sentence-matching mechanism was added to compensate for commands that do not have an imperative structure (which is what the current slot-filling grammars detect; see Section \ref{section:slot-filling} on page \pageref{section:slot-filling}). These include intents that are styled as questions, or greetings.
 \\
 \\
-Using the anonymous survey, participants were asked what kind of phrases they would say in a role-playing game. Figure \ref{fig:survey-commands} shows the results for this from eight responses. The question posed was, "If you were playing a role-playing video game (e.g. Pokemon, Final Fantasy, Elder Scrolls) that supported voice commands, what type of commands are you likely to eventually say?"
+Using the anonymous survey, participants were asked what kind of phrases they would say in a role-playing game. Figure \ref{fig:survey-commands} shows the results for this from eight responses. The question posed was, ``If you were playing a role-playing video game (e.g. Pokemon, Final Fantasy, Elder Scrolls) that supported voice commands, what type of commands are you likely to eventually say?"
 
 \begin{center}
 \begin{figure}[]
@@ -1987,7 +1987,7 @@ In order to qualitatively evaluate the usability of the system further, a standa
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{survey-ease}
-  \caption{A bar chart showing the responses for how easy it is to use the voice recognition system in a project on a scale of 1-10, with 1 being "not complex at all" and 10 being "extremely complex"}
+  \caption{A bar chart showing the responses for how easy it is to use the voice recognition system in a project on a scale of 1-10, with 1 being ``not complex at all" and 10 being ``extremely complex"}
   \label{fig:survey-ease}
   \end{center}
 \end{figure}
@@ -2003,11 +2003,11 @@ Several limitations of the voice recognition system were identified over the cou
 \item[Only works for Java] \hfill
 	\\ The system relies heavily on OOP inheritance, as well as Java-based libraries such as JWI and WS4J. While it may be possible to port the system to another language, it would require a lot of work and re-writing of the source code.
 \item[Cannot handle negatives in intents] \hfill
-	\\ The system currently cannot handle negatives in a user's utterance. For example, in the video conferencing example, if the user says, "call Dan with no audio", the "no" will be ignored and the system will create a call with Dan using audio. It may be possible to fix this by searching for any negatives and altering the intent as needed, but due to time constraints this could not be implemented and tested.
+	\\ The system currently cannot handle negatives in a user's utterance. For example, in the video conferencing example, if the user says, ``call Dan with no audio", the ``no" will be ignored and the system will create a call with Dan using audio. It may be possible to fix this by searching for any negatives and altering the intent as needed, but due to time constraints this could not be implemented and tested.
 \item[Only single-word actions, targets and contexts are allowed] \hfill
-	\\ The voice recognition system scans the input word-by-word, searching for the action, target and context (if they exist). Therefore, it currently cannot identify open compound words such as "ice cream" or "full moon", or hyphenated compound words such as "well-being", "merry-go-round" or "on-site" \cite{RefWorks:129}. It may be possible to fix this by implementing a lookahead mechanism which looks at the next word in the input and decides whether it is part of the current word.
+	\\ The voice recognition system scans the input word-by-word, searching for the action, target and context (if they exist). Therefore, it currently cannot identify open compound words such as ``ice cream" or ``full moon", or hyphenated compound words such as ``well-being", ``merry-go-round" or ``on-site" \cite{RefWorks:129}. It may be possible to fix this by implementing a lookahead mechanism which looks at the next word in the input and decides whether it is part of the current word.
 	
-	This also includes instances where two words are used to describe an action. For example, in the phrase, "take a look around", the word, "take" will map to the "grab" action first, so the system thinks the player wants to grab the surroundings which is not correct.
+	This also includes instances where two words are used to describe an action. For example, in the phrase, ``take a look around", the word, ``take" will map to the ``grab" action first, so the system thinks the player wants to grab the surroundings which is not correct.
 \item[Not designed for many different targets per action] \hfill
 	\\ The use of a \texttt{ContextActionMap} is to handle many different contexts that the action can be performed with. For example, an attack using a blunt weapon may crush the enemy, but an attack from a sharp weapon may slice the enemy. However, in situations where an action is applied differently to many different types of targets, a large block of \texttt{if} and \texttt{else} statements or a \texttt{switch} statement is required to perform different things for different targets within an \texttt{Action} class (e.g. writing a series of \texttt{if (currentTarget instanceof ...) \{...\} else if ...}).
 	
@@ -2015,19 +2015,19 @@ Several limitations of the voice recognition system were identified over the cou
 \item[Actions cannot have the same string as target] \hfill
 	\\ There is a bug where an action cannot have the same name as a target, as the system becomes confused when parsing and may think the target is actually the action (if the word for the target is a better match than the word of the action in the input).
 	
-	For example, in the video conferencing example, there may be two actions, "call" and "stop". If the user intent is, "finish the call" where "call" is the target entity, the system will think that "call" is a better match to the "call" action than "finish" is to the "stop" action, and will invoke the "call" action instead. This can easily be fixed by checking the ordering of the matches to see if the action precedes the target.
+	For example, in the video conferencing example, there may be two actions, ``call" and ``stop". If the user intent is, ``finish the call" where ``call" is the target entity, the system will think that ``call" is a better match to the ``call" action than ``finish" is to the ``stop" action, and will invoke the ``call" action instead. This can easily be fixed by checking the ordering of the matches to see if the action precedes the target.
 \item[Cannot handle fully ambiguous inputs] \hfill
-	\\ This occurs when a user's intent can be mapped to two completely different actions in the application and both would be valid due to the ambiguity of the intent. For instance, take the phrase, "throw the match": it could refer to giving up in a competitive competition, or throwing a matchstick.
+	\\ This occurs when a user's intent can be mapped to two completely different actions in the application and both would be valid due to the ambiguity of the intent. For instance, take the phrase, ``throw the match": it could refer to giving up in a competitive competition, or throwing a matchstick.
 \end{description}
 
-Many of these limitations are quite severe and hamper the usability of the system under certain circumstances, particularly the restriction to single-word actions, targets and contexts, which would mean actions such as, "show off" or "show up" cannot be disambiguated. However, many are relatively easy fixes, and almost all of them could be fixed over time, without breaking any existing functionality.
+Many of these limitations are quite severe and hamper the usability of the system under certain circumstances, particularly the restriction to single-word actions, targets and contexts, which would mean actions such as, ``show off" or ``show up" cannot be disambiguated. However, many are relatively easy fixes, and almost all of them could be fixed over time, without breaking any existing functionality.
 
 \subsection{Room Generation Evaluation}
 
 Since the semantic similarity engine used in the room generation program has already been evaluated above, only the effectiveness of the object relationship mechanism needs to be evaluated. This can be done by creating a complex description of a room with all but the first sentence containing a different relation between two objects, and seeing if the system detects the relationship. See the Appendix \ref{appendix:room-generation-results} for the full results.
 \\
 \\
-While the program can detect relations in sentences such as, "A letter sits upon the table" or, "A potion is underneath the table", it cannot detect some simple relations such as, "There is a chair under the table" or "A fork lays on the table". This could be because the \textit{Reverb} library does not understand the relations, "lays on" and "under". However, the majority of relations are detected by the program, and only a few conditionals have to be added manually by the developer.
+While the program can detect relations in sentences such as, ``A letter sits upon the table" or, ``A potion is underneath the table", it cannot detect some simple relations such as, ``There is a chair under the table" or ``A fork lays on the table". This could be because the \textit{Reverb} library does not understand the relations, ``lays on" and ``under". However, the majority of relations are detected by the program, and only a few conditionals have to be added manually by the developer.
 \\
 \\
 The room generation structure currently cannot handle multiple objects being created in the same sentence, so only one object creation can be associated to each sentence in the room description.
@@ -2076,7 +2076,7 @@ This section outlines any future work that may be done as a result of the work a
 The voice recognition system components | from the slot-filling grammar structure to the WordNet database | only work for the English language, and will need to be adjusted for other languages.
 \\
 \\
-While approximately 42\% of the world's language use a \textit{subject-verb-object} sentence structure (e.g. "He hits the goblin"), such as English, Mandarin and Spanish, approximately 45\% of languages use a \textit{subject-object-verb} sentence structure (e.g. "He the goblin hits"), such as Bengali, Greek and Japanese \cite{RefWorks:130}. Therefore, the target would precede the object, so the voice recognition system's slot-filling grammar needs to be rearranged.
+While approximately 42\% of the world's language use a \textit{subject-verb-object} sentence structure (e.g. ``He hits the goblin"), such as English, Mandarin and Spanish, approximately 45\% of languages use a \textit{subject-object-verb} sentence structure (e.g. ``He the goblin hits"), such as Bengali, Greek and Japanese \cite{RefWorks:130}. Therefore, the target would precede the object, so the voice recognition system's slot-filling grammar needs to be rearranged.
 \\
 \\
 The Princeton University WordNet database only supports English words. While there are WordNet databases for most of the world's languages \cite{RefWorks:131}, each database requires a new interface to be implemented (although most of them are SQL databases which can be queried), and not all languages have a WordNet database currently.
@@ -2120,7 +2120,7 @@ Most of the multi-threading can be performed in the \texttt{VoiceProcess} class,
 One of the novelties of voice controls is that the user doesn't have to touch any physical buttons or screens in order to execute commands in the application. The interface of the role-playing game in this project requires the player to push a blue button in order to start a voice intent.
 \\
 \\
-It may be possible to replace the button with a wake word detection mechanism. This is a phrase that the user says to indicate the start of a voice intent (such as saying, "Hi Siri" or "Ok, Google"). This requires the microphone to always be listening and consume more power, but it will work offline and there are open-source APIs available that offer this, such as \textit{Snowboy} \cite{RefWorks:133}.
+It may be possible to replace the button with a wake word detection mechanism. This is a phrase that the user says to indicate the start of a voice intent (such as saying, ``Hi Siri" or ``Ok, Google"). This requires the microphone to always be listening and consume more power, but it will work offline and there are open-source APIs available that offer this, such as \textit{Snowboy} \cite{RefWorks:133}.
 \\
 \\
 It is also possible to turn the output text into audio, using text-to-speech (TTS) API such as Google's TTS engine. Combining these two features would make the application completely hands-free, and could be beneficial to some players.
@@ -2264,7 +2264,7 @@ Below are screenshots of the first room in the game, and the actions required to
 \newpage
 \subsubsection{Multiple Commands Example}
 \label{appendix:multiple-commands-ex}
-The following is an example of a multiple-command intent being interrupted and then continued. In the first snapshot, the the system asks the user to resolve the first intent ("obliterate the troll using the sword"):
+The following is an example of a multiple-command intent being interrupted and then continued. In the first snapshot, the the system asks the user to resolve the first intent (``obliterate the troll using the sword"):
 
 \begin{center}
 \begin{figure}[H]
@@ -2276,7 +2276,7 @@ The following is an example of a multiple-command intent being interrupted and t
 \end{center}
 
 \newpage
-Once the user resolves the first intent, it executes it followed by the second intent ("heal with a potion"):
+Once the user resolves the first intent, it executes it followed by the second intent (``heal with a potion"):
 
 \begin{center}
 \begin{figure}[H]
@@ -2801,19 +2801,19 @@ Below is a table of some of the example commands that can be used in the \textit
 \centering
 \begin{tabular}{|c|}
 \hline
-"attack with a hammer"                    \\ \hline
-"punch the troll"   \\ \hline
-"launch an assult"           \\ \hline
-"heal with a potion"  \\ \hline
-"show my inventory"      \\ \hline
-"hit the troll with a bang"        \\ \hline
-"obliterate the troll with a sword and then recover using a potion" \\ \hline
-"fight with a sword and hammer"                      \\ \hline
-"use the sword to attack"            \\ \hline
-"what actions can i do"                \\ \hline
-"what is in my bag"                    \\ \hline
-"use a heavy attack"              \\ \hline
-"launch an assault towards the troll using something sharp"             \\ \hline
+``attack with a hammer"                    \\ \hline
+``punch the troll"   \\ \hline
+``launch an assult"           \\ \hline
+``heal with a potion"  \\ \hline
+``show my inventory"      \\ \hline
+``hit the troll with a bang"        \\ \hline
+``obliterate the troll with a sword and then recover using a potion" \\ \hline
+``fight with a sword and hammer"                      \\ \hline
+``use the sword to attack"            \\ \hline
+``what actions can i do"                \\ \hline
+``what is in my bag"                    \\ \hline
+``use a heavy attack"              \\ \hline
+``launch an assault towards the troll using something sharp"             \\ \hline
 \end{tabular}
 \end{table}
 
@@ -2864,19 +2864,19 @@ Below is a table of some of the example commands that can be used in the \textit
 \centering
 \begin{tabular}{|c|}
 \hline
-"look around the room"                    \\ \hline
-"observe the surroundings"   \\ \hline
-"slash the door using a knife"           \\ \hline
-"break the table"  \\ \hline
-"cut the painting"      \\ \hline
-"pick up the potion"        \\ \hline
-"grab the knife" \\ \hline
-"scratch the door with the knife and then with the sword"                      \\ \hline
-"use the knife to cut the table and the door"            \\ \hline
-"use the key to open the door"                \\ \hline
-"unlock the door"                    \\ \hline
-"smash the table with the hammer"              \\ \hline
-"look at the painting"             \\ \hline
+``look around the room"                    \\ \hline
+``observe the surroundings"   \\ \hline
+``slash the door using a knife"           \\ \hline
+``break the table"  \\ \hline
+``cut the painting"      \\ \hline
+``pick up the potion"        \\ \hline
+``grab the knife" \\ \hline
+``scratch the door with the knife and then with the sword"                      \\ \hline
+``use the knife to cut the table and the door"            \\ \hline
+``use the key to open the door"                \\ \hline
+``unlock the door"                    \\ \hline
+``smash the table with the hammer"              \\ \hline
+``look at the painting"             \\ \hline
 \end{tabular}
 \end{table}
 
@@ -2914,19 +2914,19 @@ Below is a table of some of the example commands that can be used in the video c
 \centering
 \begin{tabular}{|c|}
 \hline
-"call fred"                    \\ \hline
-"phone jane with audio only"   \\ \hline
-"call fred and jane"           \\ \hline
-"use video only to call jane"  \\ \hline
-"stop the call with fred"      \\ \hline
-"stop all of the calls"        \\ \hline
-"end all of the conversations" \\ \hline
-"hang up"                      \\ \hline
-"hang up with fred"            \\ \hline
-"mute my video"                \\ \hline
-"mute fred"                    \\ \hline
-"unmute my audio"              \\ \hline
-"silence my audio"             \\ \hline
+``call fred"                    \\ \hline
+``phone jane with audio only"   \\ \hline
+``call fred and jane"           \\ \hline
+``use video only to call jane"  \\ \hline
+``stop the call with fred"      \\ \hline
+``stop all of the calls"        \\ \hline
+``end all of the conversations" \\ \hline
+``hang up"                      \\ \hline
+``hang up with fred"            \\ \hline
+``mute my video"                \\ \hline
+``mute fred"                    \\ \hline
+``unmute my audio"              \\ \hline
+``silence my audio"             \\ \hline
 \end{tabular}
 \end{table}
 
@@ -3029,91 +3029,91 @@ Below is a list of most of the test suites containing commands that are tested f
 \begin{itemize}
 \item testAttackInputSuite
 	\begin{itemize}
-	\item "attack"
-	\item "attack with everything you have got"
-	\item "hit"
-	\item "hit the troll"
-	\item "punch the troll"
-	\item "launch an assault"
-	\item "charge at the troll"
-	\item "fight the troll"
-	\item "attack the troll"
-	\item "attack with the hammer"
-	\item "attack with the sledgehammer"
-	\item "attack the troll with the sledgehammer"
-	\item "use something to attack with"
-	\item "use a sword attack"
+	\item ``attack"
+	\item ``attack with everything you have got"
+	\item ``hit"
+	\item ``hit the troll"
+	\item ``punch the troll"
+	\item ``launch an assault"
+	\item ``charge at the troll"
+	\item ``fight the troll"
+	\item ``attack the troll"
+	\item ``attack with the hammer"
+	\item ``attack with the sledgehammer"
+	\item ``attack the troll with the sledgehammer"
+	\item ``use something to attack with"
+	\item ``use a sword attack"
 	\end{itemize}
 \item testCorrectContexts
 	\begin{itemize}
-	\item "attack the troll with a sword"
-	\item "attack the troll with a hammer"
+	\item ``attack the troll with a sword"
+	\item ``attack the troll with a hammer"
 	\end{itemize}
 \item testHealInputSuite
 	\begin{itemize}
-	\item "heal"
-	\item "use a potion to heal"
-	\item "heal with elixer"
-	\item "use an elixer right now before it is too late to heal"
-	\item "recover with an elixer"
-	\item "use something to heal with"
-	\item "heal myself with a potion"
+	\item ``heal"
+	\item ``use a potion to heal"
+	\item ``heal with elixer"
+	\item ``use an elixer right now before it is too late to heal"
+	\item ``recover with an elixer"
+	\item ``use something to heal with"
+	\item ``heal myself with a potion"
 	\end{itemize}
 \item testDescriptions
 	\begin{itemize}
-	\item "attack with something blunt"
-	\item "hit the troll with something pointy please"
-	\item "launch an assault towards the troll using something sharp"
-	\item "use a heavy attack"
+	\item ``attack with something blunt"
+	\item ``hit the troll with something pointy please"
+	\item ``launch an assault towards the troll using something sharp"
+	\item ``use a heavy attack"
 	\end{itemize}
 \item testInventorySuite
 	\begin{itemize}
-	\item "show my inventory"
-	\item "show my bag"
-	\item "please show the contents of my possessions that I have"
-	\item "look at my inventory"
+	\item ``show my inventory"
+	\item ``show my bag"
+	\item ``please show the contents of my possessions that I have"
+	\item ``look at my inventory"
 	\end{itemize}
 \item testUseSuite
 	\begin{itemize}
-	\item "use the sword to attack"
-	\item "use something to attack with"
-	\item "use a potion"
-	\item "use something sharp"
+	\item ``use the sword to attack"
+	\item ``use something to attack with"
+	\item ``use a potion"
+	\item ``use something sharp"
 	\end{itemize}
 \item testLookAroundSuite
 	\begin{itemize}
-	\item "look around"
-	\item "look at the troll"
+	\item ``look around"
+	\item ``look at the troll"
 	\end{itemize}
 \item testShowActionsSuite
 	\begin{itemize}
-	\item "show my commands"
-	\item "look at my actions"
+	\item ``show my commands"
+	\item ``look at my actions"
 	\end{itemize}
 \item testLearningSuite
 	\begin{itemize}
-	\item "strike means attack"
-	\item "strike the troll"
+	\item ``strike means attack"
+	\item ``strike the troll"
 	\end{itemize}
 \item testConfirmation
 	\begin{itemize}
-	\item "obliterate the troll with the sword"
-	\item "kick the troll"
-	\item "regenerate using a potion"
-	\item "use something to regenerate with"
-	\item "attack with a bang"
+	\item ``obliterate the troll with the sword"
+	\item ``kick the troll"
+	\item ``regenerate using a potion"
+	\item ``use something to regenerate with"
+	\item ``attack with a bang"
 	\end{itemize}
 \item testMultipleCommandsSuite
 	\begin{itemize}
-	\item "obliterate the troll with the sword and then regenerate using a potion"
-	\item "attack with a sword and hammer"
-	\item "attack with a hammer and with a sword"
+	\item ``obliterate the troll with the sword and then regenerate using a potion"
+	\item ``attack with a sword and hammer"
+	\item ``attack with a hammer and with a sword"
 	\end{itemize}
 \item testSentenceMatching
 	\begin{itemize}
-	\item "what are my actions"
-	\item "what actions can i do"
-	\item "what is in my bag"
+	\item ``what are my actions"
+	\item ``what actions can i do"
+	\item ``what is in my bag"
 	\end{itemize}
 \end{itemize}
 \end{scriptsize}
@@ -3123,64 +3123,64 @@ Below is a list of most of the test suites containing commands that are tested f
 \begin{itemize}
 \item testLookSuite
 	\begin{itemize}
-	\item "look at my inventory"
-	\item "look inside the bag"
-	\item "look around"
-	\item "look at the surroundings"
-	\item "observe the room"
+	\item ``look at my inventory"
+	\item ``look inside the bag"
+	\item ``look around"
+	\item ``look at the surroundings"
+	\item ``observe the room"
 	\end{itemize}
 \item testPickUpSuite
 	\begin{itemize}
-	\item "pick up the knife"
-	\item "grab the potion"
+	\item ``pick up the knife"
+	\item ``grab the potion"
 	\end{itemize}
 \item testRoom01CutSuite
 	\begin{itemize}
-	\item "cut the painting"
-	\item "cut the table using the knife"
-	\item "slash the door using the knife"
+	\item ``cut the painting"
+	\item ``cut the table using the knife"
+	\item ``slash the door using the knife"
 	\end{itemize}
 \item testBreakSuite
 	\begin{itemize}
-	\item "break the table"
-	\item "break the door"
+	\item ``break the table"
+	\item ``break the door"
 	\end{itemize}
 \item testOpenSuite
 	\begin{itemize}
-	\item "open the table"
-	\item "open the door"
+	\item ``open the table"
+	\item ``open the door"
 	\end{itemize}
 \item testUseSuite
 	\begin{itemize}
-	\item "use your hand to pick up the knife"
-	\item "use the knife to slash the door"
-	\item "use the knife to cut the glass table"
-	\item "use the knife to cut the painting"
-	\item "use the key to open the door"
+	\item ``use your hand to pick up the knife"
+	\item ``use the knife to slash the door"
+	\item ``use the knife to cut the glass table"
+	\item ``use the knife to cut the painting"
+	\item ``use the key to open the door"
 	\end{itemize}
 \item testMultipleCommandsSuite
 	\begin{itemize}
-	\item "grab the knife and cut the painting then unlock the door"
+	\item ``grab the knife and cut the painting then unlock the door"
 	\end{itemize}
 \item testMultipleCommandsAndMultipleSuggestionsSuite
 	\begin{itemize}
-	\item "grab the utensil and then cut the painting with the knife"
+	\item ``grab the utensil and then cut the painting with the knife"
 	\end{itemize}
 \item testMultipleTargetsSuite
 	\begin{itemize}
-	\item "pick up the knife and the potion"
-	\item "break the table and the door"
+	\item ``pick up the knife and the potion"
+	\item ``break the table and the door"
 	\end{itemize}
 \item testMultipleTargetsWithContextSuite
 	\begin{itemize}
-	\item "use the knife to cut the table and the door"
-	\item "cut the table with the knife and the door with the sword"
-	\item "cut the door with the knife and then with the sword"
+	\item ``use the knife to cut the table and the door"
+	\item ``cut the table with the knife and the door with the sword"
+	\item ``cut the door with the knife and then with the sword"
 	\end{itemize}
 \item testMultipleSynonymMapping
 	\begin{itemize}
-	\item "grab the utensil"
-	\item "pick up the utensil"
+	\item ``grab the utensil"
+	\item ``pick up the utensil"
 	\end{itemize}
 \end{itemize}
 \end{scriptsize}
@@ -3191,34 +3191,34 @@ Below is a list of most of the test suites containing commands that are tested f
 \begin{itemize}
 \item testCallingSuite
 	\begin{itemize}
-	\item "call fred"
-	\item "call jane"
-	\item "phone jane"
-	\item "contact fred"
-	\item "call fred with video"
-	\item "use audio to phone jane"
-	\item "call fred and jane"
+	\item ``call fred"
+	\item ``call jane"
+	\item ``phone jane"
+	\item ``contact fred"
+	\item ``call fred with video"
+	\item ``use audio to phone jane"
+	\item ``call fred and jane"
 	\end{itemize}
 \item testStopCallsSuite
 	\begin{itemize}
-	\item "stop all the calls"
-	\item "end all of the conversations"
-	\item "stop call with jane"
-	\item "finish call with jane"
-	\item "hang up"
-	\item "hang up with fred"
-	\item "stop calling fred"
+	\item ``stop all the calls"
+	\item ``end all of the conversations"
+	\item ``stop call with jane"
+	\item ``finish call with jane"
+	\item ``hang up"
+	\item ``hang up with fred"
+	\item ``stop calling fred"
 	\end{itemize}
 \item testMutedSuite
 	\begin{itemize}
-	\item "mute my video"
-	\item "mute my audio"
-	\item "unmute my video"
-	\item "unmute my audio"
-	\item "silence my audio"
-	\item "increase my audio"
-	\item "mute fred"
-	\item "unmute fred"
+	\item ``mute my video"
+	\item ``mute my audio"
+	\item ``unmute my video"
+	\item ``unmute my audio"
+	\item ``silence my audio"
+	\item ``increase my audio"
+	\item ``mute fred"
+	\item ``unmute fred"
 	\end{itemize}	
 \end{itemize}
 \end{scriptsize}
@@ -3279,21 +3279,21 @@ This section outlines a comparison between the usability of the voice recognitio
 If the user wished to map the following commands to an intent which attacked with a sword:
 
 \begin{itemize}
-\item "attack with a sword"
-\item "hit with something sharp"
-\item "use a blade to fight"
-\item "launch an assault using the sword"
-\item "obliterate the enemy with a pointy weapon"
+\item ``attack with a sword"
+\item ``hit with something sharp"
+\item ``use a blade to fight"
+\item ``launch an assault using the sword"
+\item ``obliterate the enemy with a pointy weapon"
 \end{itemize}
 
 Or commands which mapped to healing with a potion:
 
 \begin{itemize}
-\item "heal"
-\item "recover"
-\item "rest"
-\item "heal with a potion"
-\item "regenerate using a healing drink"
+\item ``heal"
+\item ``recover"
+\item ``rest"
+\item ``heal with a potion"
+\item ``regenerate using a healing drink"
 \end{itemize}
 
 A na\"ive approach would be to use a switch statement\footnote{Strings can be evaluated with a \texttt{switch} statement since Java 7.} and add every possible variation of the command.
@@ -3322,7 +3322,7 @@ switch(input) {
 }
 \end{lstlisting}
 
-However, this misses out on other variations of the commands that would be acceptable (e.g. "fight using a sword").
+However, this misses out on other variations of the commands that would be acceptable (e.g. ``fight using a sword").
 \\
 \\
 Another method is to create a regex-like expression to decribe the structure of acceptable inputs:
@@ -3395,7 +3395,7 @@ This section presents the other results from the anonymous survey given to devel
 The following is a text file for a room description (with each sentence contain an object relation), followed by the methods in the constructor from the output of the program:
 \\
 \\
-"There is a *table in the room. A *knife is on the table. There is a *spoon on top of the table. A *fork lays on the table. There is a *chair under the table. A *letter sits upon the table. A *key is placed above the letter. A *sword is next to the table. A *hammer is with the sword. There is a *potion is underneath the table. An *elixer is beside the potion."
+``There is a *table in the room. A *knife is on the table. There is a *spoon on top of the table. A *fork lays on the table. There is a *chair under the table. A *letter sits upon the table. A *key is placed above the letter. A *sword is next to the table. A *hammer is with the sword. There is a *potion is underneath the table. An *elixer is beside the potion."
 
 \begin{lstlisting}[language=Java]
 addDescriptionWithObject(
