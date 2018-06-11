@@ -6,7 +6,6 @@ public class GlassTable extends PhysicalObject {
     public GlassTable() {
         super("table", "drawer", "glass");
         setContext("table");
-        setBreakable(true);
-        setScratchable(true);
+        autoAssignProperties();
     }
 }

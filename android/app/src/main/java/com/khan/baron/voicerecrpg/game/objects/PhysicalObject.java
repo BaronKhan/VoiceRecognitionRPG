@@ -1,14 +1,23 @@
 package com.khan.baron.voicerecrpg.game.objects;
 
 
+import android.util.Log;
+
 import com.khan.baron.voicerecrpg.system.Entity;
 import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PhysicalObject extends Entity {
     //TODO: have chain of properties (e.g. if cuttable, it is also breakable, etc)
     protected boolean mIsBreakable = false;
     protected boolean mIsCuttable = false;
     protected boolean mIsScratchable = false;
+
+    private final double AUTOASSIGN_THRESHOLD = 0.65;
 
     public PhysicalObject(String name, String ... description) { super(name, description); }
 
@@ -59,5 +68,20 @@ public class PhysicalObject extends Entity {
 
     public void setScratchable(boolean mIsScratchable) {
         this.mIsScratchable = mIsScratchable;
+    }
+
+    protected void autoAssignProperties() {
+        String name = getName();
+        autoAssignProperty(name, "breakable", (x) -> mIsBreakable = x);
+        autoAssignProperty(name, "cut", (x) -> mIsCuttable = x);
+        autoAssignProperty(name, "scratch", (x) -> mIsScratchable = x);
+        Log.d("PhysicalObject", name+": breakble="+mIsBreakable+"; cuttable="+mIsCuttable+
+                "; scratchable="+mIsScratchable);
+    }
+
+    private void autoAssignProperty(String name, String adj, Consumer<Boolean> property) {
+        if (SemanticSimilarity.getInstance().calculateScore(name, adj) > AUTOASSIGN_THRESHOLD) {
+            property.accept(true);
+        }
     }
 }

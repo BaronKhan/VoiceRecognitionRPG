@@ -58,14 +58,13 @@ public class MainActivity extends AppCompatActivity {
         copyPosTaggerModel();
 
         mGameState = new GameState(this);
-        mGameState.initState();
 
         mVoiceControl = new VoiceControl(this,
                 (TextView) findViewById(R.id.txtInput),
                 (TextView) findViewById(R.id.txtOutput),
                 (TextView) findViewById(R.id.txtTimer),
                 mGameState, true);
-        mVoiceControl.setOutputText(mGameState.getInitOutput());
+        mVoiceControl.setOutputText("Loading...");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.microphoneButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
         if (foundWordNetDatabase) {
             URL url = new URL("file", null, dictFile.getPath());
             mGameState.addDictionary(url);
+            mGameState.initState();
+            mVoiceControl.setOutputText(mGameState.getInitOutput());
         }
     }
 

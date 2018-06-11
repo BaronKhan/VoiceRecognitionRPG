@@ -11,7 +11,8 @@ public class Painting extends PhysicalObject {
     public Painting() {
         super("painting", "drawing", "portrait");
         setContext("painting");
-        setCuttable(true);
+        autoAssignProperties();
+        setBreakable(false);    //for gameplay purposes
     }
 
     @Override
