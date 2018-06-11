@@ -1363,7 +1363,27 @@ See the Appendix \ref{appendix:overworld-examples} for examples of commands that
 Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, ``attack with something sharp", the sword will be selected because the adjective, ``sharp" has a high similarity score to ``sword". Similarly, the word, ``heavy" has a high similarity to score to ``hammer", so if the player says, ``hit with something heavy", the hammer will be used.
 \\
 \\
-In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified. Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable).
+In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified.
+\\
+\\
+Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable), although these physical properties can be automatically assigned using the \texttt{autoAssignProperties()} method, which uses the semantic similarity engine to compare the name of the object to words associated with the property. The methods that do this are shown below. Note that "scratchable" and "cuttable" are not words, so their root words are used instead.
+
+\begin{lstlisting}[language=Java, label=lst:auto-assign]
+protected void autoAssignProperties() {
+    String name = getName();
+    autoAssignProperty(name, "breakable", (x) -> mIsBreakable = x);
+    autoAssignProperty(name, "cut", (x) -> mIsCuttable = x);
+    autoAssignProperty(name, "scratch", (x) -> mIsScratchable = x);
+}
+
+private void autoAssignProperty(String name, String adj, Consumer<Boolean> prop) {
+    if (SemanticSimilarity.getInstance().calculateScore(name, adj) > THRESHOLD) {
+        prop.accept(true);
+    }
+}
+\end{lstlisting}
+
+This allows the user to create new objects without having to manually assign each property. See the \texttt{Chair} or \texttt{GlassTable} objects for examples of this. If the automatic assignment does not correctly assign a property, the user can manually add it for gameplay purposes. For example, we do not want the player to break the painting in the room, even though the method will automatically assign the painting to be breakable, so it is set manually to not be breakable.
 
 \label{section:obj-properties-wordnet}
 
@@ -3325,7 +3345,7 @@ switch(input) {
 However, this misses out on other variations of the commands that would be acceptable (e.g. ``fight using a sword").
 \\
 \\
-Another method is to create a regex-like expression to decribe the structure of acceptable inputs:
+Another method is to create a regex-like expression to describe the structure of acceptable inputs:
 
 \begin{lstlisting}
 ("attack" | "hit") . "with" . ["a"] . ("sword" | "blade")
