@@ -16,9 +16,12 @@ public class RoomTutorial2 extends Room {
                 "You see a key on the floor.",
                 new Item("key", Item.ItemType.ITEM_KEY, "access"));
         addDescription(
-                "Try saying, 'pick up the key' to acquire the key.",
+                "Try saying, 'grab the key' to acquire the key.",
                 () -> getRoomObjectCount("key") > 0);
         addDescription(
-                "Then try opening the door.");
+                "You can also say it in other ways, like, 'pick up the key' or 'take the key'.",
+                () -> getRoomObjectCount("key") > 0);
+        addDescription(
+                "Try opening the door with the key.");
     }
 }

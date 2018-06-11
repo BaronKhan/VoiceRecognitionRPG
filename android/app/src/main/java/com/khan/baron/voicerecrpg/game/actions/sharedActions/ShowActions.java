@@ -15,7 +15,8 @@ public class ShowActions extends Action {
             }
             actionsStr.append("}");
             return "The following actions are available:\n" +actionsStr
-                    +"\n\nGive commands such as \"look around\", \"show my inventory\", etc.";
+                    +"\n\nGive commands such as \"look around\", \"show my inventory\", etc. "
+                    +"You can also give variations of commands like, \"observe the surroundings\".";
         } else {
             return "Intent not understood.";
         }
