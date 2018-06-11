@@ -113,15 +113,17 @@ public class SemanticSimilarity {
             }
 
             if (mMethod1 != null) {
-                synchronized (this) {
-                    score1 = mMethod1.calcRelatednessOfWords(word1, word2);
-                }
+//                Log.d("SemanticSimilarity", "running calcRelatedNessOfWords");
+                score1 = mMethod1.calcRelatednessOfWords(word1, word2);
+//                Log.d("SemanticSimilarity", "finished calcRelatedNessOfWords");
             }
             if (mMethod2 != null) {
-                synchronized (this) {
-                    score2 = mMethod2.calcRelatednessOfWords(word1, word2);
-                }
+//                Log.d("SemanticSimilarity", "running calcRelatedNessOfWords");
+                score2 = mMethod2.calcRelatednessOfWords(word1, word2);
+//                Log.d("SemanticSimilarity", "finished calcRelatedNessOfWords");
             }
+
+
 
             //Normalise score
             if (methodIsLesk(sCurrentMethod1)) { score1 = max(score1 / 80.0, 1.0); }
@@ -131,12 +133,12 @@ public class SemanticSimilarity {
             else if (score1 <= 0) { score = score2; }
             else { score = (score1 * 0.5) + (score2 * 0.5); }
 
-            Log.d("SemanticSimilarity", "score("+word1+", "+word2+") = "+score);
+//            Log.d("SemanticSimilarity", "score("+word1+", "+word2+") = "+score);
 
 
             return score;
         } catch (Exception e) {
-            Log.e("SemanticSimilarity", "Error while parsing: "+e.getMessage());
+//            Log.e("SemanticSimilarity", "Error while parsing: "+e.getMessage());
             return 0.0;
         }
     }

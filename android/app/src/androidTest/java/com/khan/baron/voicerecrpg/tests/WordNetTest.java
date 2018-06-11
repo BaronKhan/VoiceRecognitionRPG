@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import com.khan.baron.voicerecrpg.game.BattleContextActionMap;
 import com.khan.baron.voicerecrpg.game.GameState;
@@ -48,15 +49,15 @@ public class WordNetTest {
         ContextActionMap.setRememberUserSynonyms(false);
         File dictFile = new File(Environment.getExternalStorageDirectory().getPath()+"/dict/");
         if (dictFile.exists()) {
-            System.out.println("Found WordNet database on phone");
+            Log.d("WordNetTest","Found WordNet database on phone");
             try {
                 URL url = new URL("file", null, dictFile.getPath());
                 gameState.addDictionary(url);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                Log.d("WordNetTest",e.getMessage());
             }
         } else {
-            System.out.println("Could not find WordNet database on phone");
+            Log.d("WordNetTest","Could not find WordNet database on phone");
         }
     }
 
@@ -65,6 +66,41 @@ public class WordNetTest {
         // Entity of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("com.khan.baron.voicerecrpg", appContext.getPackageName());
+    }
+
+    @Test
+    public void testMultithreading() {
+        int count = 0;
+        while (true) {
+            double score = 0.0;
+            List<String> sentences = Arrays.asList("2", "sentence", "lines", "words", "speech", "cuttable", "scratchable");
+            score = sentences.parallelStream()
+                    .mapToDouble((sentence) -> SemanticSimilarity.getInstance().calculateScore("words", sentence))
+                    .sum();
+            double temp = SemanticSimilarity.getInstance().calculateScore("words", "word");
+            double temp2 = SemanticSimilarity.getInstance().calculateScore("words", "12312987fh");
+            Log.d("Multithreading", count+". score = "+score+", "+temp+", "+temp2);
+            ++count;
+            if (count > 20) { break; }
+        }
+    }
+
+    @Test
+    public void testMultithreading2() {
+        ContextActionMap map = new BattleContextActionMap(null);
+        int count = 0;
+        while (true) {
+            double score = 0.0;
+            List<String> sentences = Arrays.asList("2", "sentence", "lines", "words", "speech", "cuttable", "scratchable");
+            score = sentences.parallelStream()
+                    .mapToDouble((sentence) -> map.getSentenceMapper().calculateCosScore(Arrays.asList("words", "sentences", "paragraphs", "2", "cuttable"), sentence))
+                    .sum();
+            double temp = SemanticSimilarity.getInstance().calculateScore("words", "word");
+            double temp2 = SemanticSimilarity.getInstance().calculateScore("words", "12312987fh");
+            Log.d("Multithreading", count+". score = "+score+", "+temp+", "+temp2);
+            ++count;
+            if (count > 20) { break; }
+        }
     }
 
     @Test
@@ -187,7 +223,7 @@ public class WordNetTest {
                     break;
                 }
             }
-            System.out.println(output);
+            Log.d("WordNetTest",output.toString());
         } catch (Exception e) {
             //If exception occurs, fail test
             assertEquals("Something went wrong when testing hypernyms: "+e.getMessage(), true, false);
@@ -211,7 +247,7 @@ public class WordNetTest {
                 }
             }
 
-            System.out.println(output);
+            Log.d("WordNetTest",output.toString());
         } catch(Exception e) {
             assertEquals("Something wrong with CustomLexicalDatabase", true, false);
         }
