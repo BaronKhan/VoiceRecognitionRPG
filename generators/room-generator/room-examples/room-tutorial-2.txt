@@ -1,4 +1,5 @@
 You are in a very small room. There is a locked *door on the opposite side.
 You see a *key on the floor.
-Try saying, 'pick up the key' to acquire the key.
-Then try opening the door.
+Try saying, 'grab the key' to acquire the key.
+You can also say it in other ways, like, 'pick up the key' or 'take the key'.
+Try opening the door with the key.
