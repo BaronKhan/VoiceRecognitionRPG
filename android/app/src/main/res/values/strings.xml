@@ -8,6 +8,7 @@
     <string name="action_goto_room_utensil">Utensil Demo</string>
     <string name="action_goto_room_more_utensils">More Utensils</string>
     <string name="action_goto_room_tutorial">Tutorial</string>
+    <string name="action_goto_battle">Battle</string>
     <string name="listening">Listening…</string>
     <string name="processing">Processing…</string>
     <string name="permissions_enable">Please enable permissions</string>
@@ -17,7 +18,7 @@
     <string name="method_wup">WUP</string>
     <string name="method_lin">LIN</string>
     <string name="method_lesk">LESK</string>
-    <string name="switch_battle">Initialize with Battle</string>
+    <string name="switch_battle">Use Simpler Battle Table</string>
     <string name="switch_mult_suggest">Suggest Multiple Commands</string>
     <string name="label_synonym_map">User Synonyms</string>
     <string name="delete">Delete</string>

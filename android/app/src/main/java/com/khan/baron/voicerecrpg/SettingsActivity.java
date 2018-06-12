@@ -1,7 +1,6 @@
 package com.khan.baron.voicerecrpg;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.khan.baron.voicerecrpg.game.BattleContextActionMap;
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.system.AmbiguousHandler;
 import com.khan.baron.voicerecrpg.system.ContextActionMap;
@@ -25,8 +25,6 @@ import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import javax.crypto.Cipher;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -40,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     private RadioButton mRadioButtonWUPLEACOCK;
     private RecyclerView mRecyclerViewSynonyms;
 
-    private Switch mSwitchOverworld;
+    private Switch mSwitchTable;
     private Switch mSwitchMultSuggest;
     private Button mButtonAddUtensil;
     private Button mButtonAddMoreUtensil;
@@ -89,11 +87,11 @@ public class SettingsActivity extends AppCompatActivity {
         mRadioButtonWUPLEACOCK = (RadioButton) findViewById(R.id.radioButtonWUPLEACOCK);
         setMethodRadioButton();
 
-        mSwitchOverworld = (Switch) findViewById(R.id.switchOverworld);
-        mSwitchOverworld.setChecked(!GameState.getStartOverworld());
-        mSwitchOverworld.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mSwitchTable = (Switch) findViewById(R.id.switchTable);
+        mSwitchTable.setChecked(BattleContextActionMap.isUsingSimplerBattleTable());
+        mSwitchTable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                GameState.setStartOverworld(!isChecked);
+                BattleContextActionMap.setUseSimplerBattleTable(isChecked);
             }
         });
 

@@ -29,4 +29,10 @@
         android:title="@string/action_goto_room_tutorial"
         android:visible="true"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_goto_battle"
+        android:title="@string/action_goto_battle"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

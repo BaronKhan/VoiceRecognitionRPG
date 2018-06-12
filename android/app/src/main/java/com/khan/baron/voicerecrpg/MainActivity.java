@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.khan.baron.voicerecrpg.game.GameState;
+import com.khan.baron.voicerecrpg.game.enemies.Troll;
 import com.khan.baron.voicerecrpg.game.rooms.RoomMoreUtensils;
 import com.khan.baron.voicerecrpg.game.rooms.RoomTutorial1;
 import com.khan.baron.voicerecrpg.game.rooms.RoomUtensil;
@@ -271,6 +272,9 @@ public class MainActivity extends AppCompatActivity {
             mVoiceControl.setOutputText(mGameState.getInitOutput());
         } else if (item.getItemId() == R.id.action_goto_room_tutorial) {
             mGameState.initOverworldState(new RoomTutorial1());
+            mVoiceControl.setOutputText(mGameState.getInitOutput());
+        } else if (item.getItemId() == R.id.action_goto_battle) {
+            mGameState.initBattleState(new Troll(100));
             mVoiceControl.setOutputText(mGameState.getInitOutput());
         }
         return super.onOptionsItemSelected(item);

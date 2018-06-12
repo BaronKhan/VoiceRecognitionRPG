@@ -14,6 +14,8 @@ import com.khan.baron.voicerecrpg.game.actions.sharedActions.ShowDefault;
 import java.util.Arrays;
 
 public class BattleContextActionMap extends ContextActionMap {
+    private static boolean sUseSimplerBattleTable = false;
+
     public BattleContextActionMap(GlobalState state) {
         super(state);
         setActionList(Arrays.asList(        "attack",                   "heal",             "show",             "look"));
@@ -23,28 +25,39 @@ public class BattleContextActionMap extends ContextActionMap {
         addContextActions("weapon-blunt",   new AttackWeaponBlunt(),    null,               null,               null);
         addContextActions("healing-item",   null,                       new HealItem(),     null,               null);
 
-        addSynonym("hit", "attack");
-        addSynonym("punch", "attack");
-        addSynonym("assault", "attack");
-        addSynonym("observe","look");
-        addSynonym("blade", "knife");
+        if (!sUseSimplerBattleTable) {
+            addSynonym("hit", "attack");
+            addSynonym("punch", "attack");
+            addSynonym("assault", "attack");
+            addSynonym("observe", "look");
+            addSynonym("blade", "knife");
 
-        addMatchIgnore("jump", "look");
-        addMatchIgnore("jump", "attack");
-        addMatchIgnore("bag", "attack");
+            addMatchIgnore("jump", "look");
+            addMatchIgnore("jump", "attack");
+            addMatchIgnore("bag", "attack");
 
-        addSentenceMatch(new ShowDefault(), "inventory",
-                "what is in my inventory",
-                "what are the contents of my bag",
-                "what items do i have"
-        );
+            addSentenceMatch(new ShowDefault(), "inventory",
+                    "what is in my inventory",
+                    "what are the contents of my bag",
+                    "what items do i have"
+            );
 
-        addSentenceMatch(new ShowDefault(), "actions",
-                "what can i do",
-                "what are my actions",
-                "what are the commands",
-                "what action can i do",
-                "what are my options"
-        );
+            addSentenceMatch(new ShowDefault(), "actions",
+                    "what can i do",
+                    "what are my actions",
+                    "what are the commands",
+                    "what action can i do",
+                    "what are my options"
+            );
+        }
+
+    }
+
+    public static boolean isUsingSimplerBattleTable() {
+        return sUseSimplerBattleTable;
+    }
+
+    public static void setUseSimplerBattleTable(boolean sUseSimplerBattleTable) {
+        BattleContextActionMap.sUseSimplerBattleTable = sUseSimplerBattleTable;
     }
 }
