@@ -111,14 +111,14 @@ public class BattleTest {
     public void testHealInputSuite() {
         gameState.initBattleState(new Troll(9999999));
         for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("potion")); }
-        for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("elixer")); }
+        for (int i = 0; i < 100; ++i) { gameState.getInventory().add(new Potion("elixir")); }
         gameState.getInventory().add(new Weapon("sword"));
         testHealed("heal", true);
         testHealed("use a potion to heal", true);
         testHealed("hit", false);
-        testHealed("heal with elixer", true);
-        testHealed("use an elixer right now before it is too late to heal", true);
-        testHealed("recover with an elixer", true);
+        testHealed("heal with elixir", true);
+        testHealed("use an elixir right now before it is too late to heal", true);
+        testHealed("recover with an elixir", true);
         testHealed("Use something to heal with", true);
         testHealed("heal myself with a potion", true);
     }
