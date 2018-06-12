@@ -1,7 +1,9 @@
 Title
 Abstract
 Introduction
-Motivation? (ASk first)
+- Problem Statement
+- Motivation? (ASk first)
+- Objective
 Background - http://www.speech.cs.cmu.edu/tools/lmtool-new.html
 The details (Implementation)
 Testing

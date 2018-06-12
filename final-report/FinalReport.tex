@@ -86,13 +86,13 @@ frame=single}
 \textbf{When adding voice commands to a video game, a developer may find themselves hard-coding text strings for phrases that a player can say, and mapping them to intents within the game. It becomes more work to include varying phrases of the same intent as the developer would have to include every permutation of the phrase (for which there could be infinitely many).
 \\
 \\
-This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases, and with no cloud processing required.
+This project presents a text-based role-playing game (RPG) on Android which allows the player to issue actions within the game using their voice. The game uses a new voice recognition system that aims to make it easier for the developer to add voice commands without hard-coding the phrases, and with no cloud processing required. The system uses the WordNet database created by Princeton University to process voice commands.
 \\
 \\
-Various methods for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, adaptive and user-controlled learning mechanisms, and various other techniques. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.
+Various techniques for improving the voice recognition system are explored and evaluated, with the aim of decreasing the developer workload. These include using semantic similarity methods, learning mechanisms, and more. The voice recognition system is also applied to other domains such as video conferencing solutions, and cooking applications.
 \\
 \\
-This project also explores other areas for easing the development of the RPG, such as assigning object properties, and room generation from text descriptions.}
+This project also explores other areas for easing the development of the RPG, such as automatically assigning properties to objects, and room generation from text descriptions.}
 
 \newpage
 
@@ -110,30 +110,40 @@ In recent years, video games have explored various forms of input that diverge f
 \\
 \\
 Voice recognition and control schemes have been used in various ways in the medium, whether in tandem with traditional control schemes, or as the only form of input. Most games which feature a voice control scheme are typically programmed to work with a specific set of keywords or phrases, hard-coded by the developer. This is usually the case with games where the voice control interface is entirely optional to the user, as it requires little to no input from the programmer; if the speech processing is handled by a separate library, the developer just has to map a text string (e.g. ``open the door'') to the function that executes the intent (e.g. the function that opens a nearby door in the game).
+
+\subsection{Role-Playing Games}
+
+Role-playing games (RPG) are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities or items as the game progresses. These include turn-based games such as Pok\'emon and Final Fantasy, or more action-based games such as Dark Souls and The Elder Scrolls.
 \\
 \\
-It becomes increasingly difficult for the developer to add more phrases that can be accepted in the game and map to the same intent (e.g. when the user says, ``push the door open'' instead) as they would have to hard-code each possible input that the user could possibly say: having too few phrases would mean that the user could become frustrated when their preferred way of stating an intent is not accepted by the game, while adding too many acceptable phrases would increase development time.
+In RPGs, the player usually possesses several items that they acquire during the game, and accesses them by navigating menus. If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the ``attack'' button over and over again with no variation in the attack used. Using voice commands, a player could just simply say a phrase such as, ``use a potion'' or, ``attack with an axe'', and the item will be used without having the player navigate several menu screens.
+
+\subsection{Problem Statement}
+
+It becomes increasingly difficult for a developer to add more phrases that can be accepted in the game and map to the same intent (e.g. when the user says, ``push the door open'' instead of, "open the door") as they would have to hard-code each possible input that the user could possibly say: having too few phrases would mean that the user could become frustrated when their preferred way of stating an intent is not accepted by the game, while adding too many acceptable phrases would increase development time.
 \\
 \\
 Natural Language Processing (NLP) has been used to attempt to understand what users have said, and to extract meaning from the user's phrases and sentences. For instance, if the user says, ``push the door open'', NLP can be used to infer that the user's intent is to open a door. Using NLP, several user phrases can be mapped to the same intent without having to hard-code each possible phrase.
 \\
 \\
-NLP is already used to improve voice recognition in popular personal assistants such as Siri or Alexa, but these systems offload the NLP workload to the server in order to reduce the amount of local processing required, as modern NLP techniques require a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}. Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition to games. In other applications such as embedded systems or remote robotics, no internet connection can be established, so the only option is to hard-code the acceptable voice commands. There may also be privacy concerns when sending audio recordings to an external server.
+This project will apply NLP to a voice control scheme used within a role-playing game, in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
+
+\subsection{Motivation}
+
+NLP is already used to improve voice recognition in popular personal assistants such as Siri or Alexa, but these systems offload the NLP workload to the server in order to reduce the amount of local processing required, as modern NLP techniques require a sizeable amount of machine learning and pattern recognition \cite{RefWorks:21}.
 \\
 \\
-The goal of this project is to apply NLP to a voice control scheme used within a role-playing game (RPG), in order to reduce the amount of work required by a developer to add a flexible voice control interface, and to give more freedom of expression to the player while they play the game.
+Most video games do not require an internet connection to play, and therefore can be played anywhere, so it may not be possible to use these cloud services for adding voice recognition systems to games. In other applications such as embedded systems or remote robotics, no internet connection can be established, so the only option is to hard-code the acceptable voice commands. There may also be privacy concerns when sending audio recordings to an external server.
 \\
 \\
-Role-playing games are a genre of video games that involve the player controlling a character in a world featuring exploration and/or battle mechanics, along with a progression system, where the character gains new abilities or items as the game progresses. These include turn-based games such as Pok\'emon and Final Fantasy, or more action-based games such as Dark Souls or The Elder Scrolls.
+The voice recognition system proposed in this project works completely offline, but also supports near-instantaneous processing on modern mobile devices, and can be applied to other applications as well as video games.
 \\
 \\
-In RPGs, the player usually possesses several items that they acquire during the game, and accesses them by navigating menus. If the player has many different items, they may need to spend a lot of time searching the menus for a specific item, which can be quite tedious. It can also become quite repetitive if the user is constantly only pushing the ``Attack'' button over and over again with no variation in the attack used. Using voice recognition and NLP, a player could just simply say a phrase such as, ``use a potion'' or, ``attack with axe'', and the item will be used without having the player navigate several menu screens.
-\\
-\\
-Another motivation for this project is to explore how voice controls can allow games to become more accessible to people with certain disabilities that prevent them from using traditional controllers or a keyboard and mouse. Very few popular games support voice recognition as a form of control, whether it is on consoles, PC or mobile.
-\\
-\\
-A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to play, as opposed to using traditional mouse clicks and button presses.
+Another motivation for this project is that very few popular games support voice recognition as a form of control, whether it is on consoles, PC or mobile. Voice controls allow games to become more accessible to people with certain disabilities that prevent them from using traditional controllers or a keyboard and mouse.
+
+\subsection{Objectives}
+
+A text-based RPG will be created that will use a flexible voice control interface. It will feature a simple exploration mechanic, with the user manipulating objects and environments using voice commands, and a simple battle mechanic. These will be designed to fully demonstrate the power of the voice-control system to make the game easier to develop, as well as easier to play (as opposed to using traditional mouse clicks and button presses).
 \\
 \\
 Note that this project is not concerned with the real time digital processing required to convert speech to text; it is assumed that the speech from the microphone is already converted to a text string using an existing tool such as Google's Speech-to-Text API. The focus is on the integration and usability of systems to process user commands.
@@ -144,9 +154,9 @@ As well as being designed to easily add voice commands, the RPG will be designed
 \\
 The proposed design for the RPG and system aims to achieve the following goals:
 \begin{itemize}
-\item Allow a developer to add voice commands with little effort, using a system which works completely offline with near-instantaneous processing.
-\item Evaluate the effectiveness (including accuracy and performance) of using different semantic similarity methods with WordNet for mapping voice commands to actions.
-\item Apply semantic similarity methods to other areas for improving the development of the RPG, including automatically generating rooms from text descriptions.
+\item Allow a developer to add voice commands with little effort, using a system which works completely offline with near-instantaneous processing on modern devices, and applying the system to different domains such as games and video conferencing solutions.
+\item Evaluate the effectiveness of using different semantic similarity methods with WordNet for mapping voice commands to actions, as well as evaluating the accuracy and performance of each method.
+\item Apply techniques used in the voice recognition system to other areas for improving the development of the RPG, including generating rooms from text descriptions, and automatically assigning properties to objects.
 \end{itemize}
 
 \newpage
@@ -473,7 +483,7 @@ The language used to develop the application is Java, which is an object-oriente
 A disadvantage to using Java is that it does not support multiple inheritance, unlike other languages with OOP constructs such as C++, due to methods such as \texttt{super()} having the same signature for all parent classes. For instance, a \texttt{Glass} class cannot inherit properties from both a \texttt{PhysicalObject} and a \texttt{BreakableObject} (i.e. they are both direct parents of the \texttt{Glass} class). Instead, this must be overcome by making the inheritance a single chain (e.g. \texttt{Glass} inherits from \texttt{BreakableObject} which inherits from \texttt{PhysicalObject}). While this can be considered a hindrance in some circumstances, it is not a major issue for the proposed design of the game.
 \\
 \\
-While Java applications - and therefore Android - support the invocation of native code such as C++ using the Java Native Interface (JNI) for improved performance, this will not be used due to time constraints for the project (as performance is not a major objective for this project).
+While Java applications - and therefore Android - support the invocation of native code such as C++ using the Java Native Interface (JNI) for improved performance, this will not be used due to time constraints for the project.
 
 \subsection{System Overview}
 
