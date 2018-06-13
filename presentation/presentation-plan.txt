@@ -1,2 +1,33 @@
+(Power-saving mode off)
+(Options > Settings > Simple Table)
+(Main > Options > Battle)
+
 Slide 1:
-Last summer I 
+Last summer would probably hard-code commands. Now just have to make this table
+(show on screen) and I can say all these commands.
+
+-"attack with a sword"
+-"hit the troll using something sharp"
+-"fight with a hammer and then heal with a potion"
+-"launch an assault using a sword and a hammer and then recover"
+
+(Remember to toggle complex battle table back on)
+
+So, what is my project?
+Project was to create a text-based role-playing game, but to decrease the
+workload as much as possible.
+
+...
+Three key areas for improving RPG development
+Obstacles that add to developer time
+avoid menus, voice commands mapping - main focus
+room gneration easier - minor exploration
+Other was oibject properties -minor exaploration
+
+What if want ot say commands in various ways, synonyms
+
+Show hard-coded, regex; online APIs need money
+
+Offline solution
+
+Heart of solution is semantic similairty with wordnet
