@@ -101,37 +101,29 @@
 \contentsline {subsubsection}{\numberline {8.3.2}Deep Learning}{71}
 \contentsline {subsubsection}{\numberline {8.3.3}Multi-threading}{72}
 \contentsline {subsubsection}{\numberline {8.3.4}Hands-Free UI}{72}
-\contentsline {section}{\numberline {9}Appendix}{73}
-\contentsline {subsection}{\numberline {9.1}Android Application Screenshots}{73}
-\contentsline {subsubsection}{\numberline {9.1.1}Battle Mode Example}{73}
-\contentsline {subsubsection}{\numberline {9.1.2}Overworld Mode Example}{75}
-\contentsline {subsubsection}{\numberline {9.1.3}Multiple Commands Example}{77}
-\contentsline {subsubsection}{\numberline {9.1.4}Ambiguous Utensil Example}{79}
-\contentsline {subsubsection}{\numberline {9.1.5}Settings User Interface}{81}
-\contentsline {subsubsection}{\numberline {9.1.6}Duplicate Contacts}{82}
-\contentsline {subsection}{\numberline {9.2}Skyrim Kinect Command List}{83}
-\contentsline {subsection}{\numberline {9.3}Penn Treebank Tagset}{85}
-\contentsline {subsection}{\numberline {9.4}System UML Class Diagram}{86}
-\contentsline {subsection}{\numberline {9.5}Game Design UML Class Diagram}{87}
-\contentsline {subsection}{\numberline {9.6}Choosing the Slot-filling Grammar}{88}
-\contentsline {subsection}{\numberline {9.7}Finding the Best Action in VoiceProcess.java}{89}
-\contentsline {subsection}{\numberline {9.8}JwiLexicalDatabase.java}{91}
-\contentsline {subsection}{\numberline {9.9}Action Class Example}{94}
-\contentsline {subsection}{\numberline {9.10}MultipleCommandProcess::executeCommand()}{95}
-\contentsline {subsection}{\numberline {9.11}BattleContextActionMap.java}{96}
-\contentsline {subsection}{\numberline {9.12}Battle Mode Example Commands}{97}
-\contentsline {subsection}{\numberline {9.13}OverworldContextActionMap.java}{98}
-\contentsline {subsection}{\numberline {9.14}Overworld Mode Example Commands}{99}
-\contentsline {subsection}{\numberline {9.15}CallContextActionMap.java}{100}
-\contentsline {subsection}{\numberline {9.16}Video Conferencing Example Commands}{101}
-\contentsline {subsection}{\numberline {9.17}Manual Room Generation (Obsolete)}{102}
-\contentsline {subsection}{\numberline {9.18}Retrieving a Room Description}{103}
-\contentsline {subsection}{\numberline {9.19}List of Android Mock Tests}{104}
-\contentsline {subsubsection}{\numberline {9.19.1}BattleTest}{104}
-\contentsline {subsubsection}{\numberline {9.19.2}OverworldTest}{106}
-\contentsline {subsubsection}{\numberline {9.19.3}CallTest}{107}
-\contentsline {subsection}{\numberline {9.20}Evaluation: Actions and Contexts}{108}
-\contentsline {subsection}{\numberline {9.21}Comparison of Usability}{109}
-\contentsline {subsection}{\numberline {9.22}Other Survey Results}{111}
-\contentsline {subsection}{\numberline {9.23}Room Generation Evaluation Results}{113}
-\contentsline {section}{References}{114}
+\contentsline {section}{Appendix \numberline {A}Android Application Screenshots}{73}
+\contentsline {subsection}{\numberline {A.1}Battle Mode Example}{73}
+\contentsline {subsection}{\numberline {A.2}Overworld Mode Example}{75}
+\contentsline {subsection}{\numberline {A.3}Multiple Commands Example}{77}
+\contentsline {subsection}{\numberline {A.4}Ambiguous Utensil Example}{79}
+\contentsline {subsection}{\numberline {A.5}Settings User Interface}{81}
+\contentsline {subsection}{\numberline {A.6}Duplicate Contacts}{82}
+\contentsline {section}{Appendix \numberline {B}Diagrams and Examples}{83}
+\contentsline {subsection}{\numberline {B.1}System UML Class Diagram}{83}
+\contentsline {subsection}{\numberline {B.2}Game Design UML Class Diagram}{84}
+\contentsline {subsection}{\numberline {B.3}Battle Mode Example Commands}{85}
+\contentsline {subsection}{\numberline {B.4}Overworld Mode Example Commands}{86}
+\contentsline {subsection}{\numberline {B.5}Video Conferencing Example Commands}{87}
+\contentsline {section}{Appendix \numberline {C}Testing and Evaluation}{88}
+\contentsline {subsection}{\numberline {C.1}List of Android Mock Tests}{88}
+\contentsline {subsubsection}{\numberline {C.1.1}BattleTest}{88}
+\contentsline {subsubsection}{\numberline {C.1.2}OverworldTest}{90}
+\contentsline {subsubsection}{\numberline {C.1.3}CallTest}{91}
+\contentsline {subsection}{\numberline {C.2}Actions and Contexts used in Evaluation}{92}
+\contentsline {subsection}{\numberline {C.3}Comparison of Usability}{93}
+\contentsline {subsection}{\numberline {C.4}Other Survey Results}{95}
+\contentsline {subsection}{\numberline {C.5}Room Generation Evaluation Results}{97}
+\contentsline {section}{Appendix \numberline {D}Other Information}{98}
+\contentsline {subsection}{\numberline {D.1}Skyrim Kinect Command List}{98}
+\contentsline {subsection}{\numberline {D.2}Penn Treebank Tagset}{100}
+\contentsline {section}{References}{101}

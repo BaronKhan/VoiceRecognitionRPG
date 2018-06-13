@@ -18,6 +18,7 @@
 \usepackage{tabu}
 \usepackage{bm}
 \usepackage{float}
+\usepackage[titletoc]{appendix}
 \usepackage{listings}             % Include the listings-package
 \setlength{\parindent}{0pt}
 \bibliographystyle{IEEEtran}
@@ -306,7 +307,7 @@ This API is very flexible and matches the first objective of this project; only 
 According to a research paper by McCord, Murdok and Boguraev on \textit{Deep Parsing in Watson} \cite{RefWorks:112}, the engine consists of two deep parsing components: an English Slot Grammar (ESG) parser and a a predicate-argument structure (PAS) builder. These allow Watson to produce parse trees of a sentence and extract pattern-based relations from it, such as question decomposition, hypothesis generation, and evidence scoring.
 \\
 \\
-There is a similar API called DialogFlow \cite{RefWorks:106}, which works very similarly to IMB's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
+There is a similar API called DialogFlow \cite{RefWorks:106}, which works very similarly to IBM's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
 
 \subsection{Natural Language Processing}
 
@@ -1420,7 +1421,9 @@ This description will change dynamically as the player adds, removes or interact
 
 \subsubsection{Manual Room Generation}
 
-Initially, objects were added manually to the constructor of the room, and the description of the room was generated via a series of \texttt{if} and \texttt{else} statements in a \texttt{getRoomDescription()} method (based on the current state of the room when the method is called). However, this was too cumbersome for a developer/designer to use, as the if statements would become long and complicated, so the whole structure was changed. See the Appendix \ref{appendix:room-gen-v1} for an example of the first room in the game using this version of the room generation code (for comparison purposes).
+Initially, objects were added manually to the constructor of the room, and the description of the room was generated via a series of \texttt{if} and \texttt{else} statements in a \texttt{getRoomDescription()} method (based on the current state of the room when the method is called). However, this was too cumbersome for a developer/designer to use, as the if statements would become long and complicated, so the whole structure was changed. See the source code from a previous commit for an example of the first room in the game using this version of the room generation code (for comparison purposes) \footnote{https://github.com/BaronKhan/VoiceRecognitionRPG/blob/d18851f61a655457d9b7e9b24e0e79e43ba9657a/
+
+android/app/src/main/java/com/khan/baron/voicerecrpg/rooms/Room01.java}.
 
 \subsubsection{Using BooleanSuppliers}
 
@@ -2262,11 +2265,11 @@ It is also possible to turn the output text into audio, using text-to-speech (TT
 
 
 \newpage
-\section{Appendix}
-\subsection{Android Application Screenshots}
+\begin{appendices}
+\section{Android Application Screenshots}
 This section contains snapshots of the Android application during different scenarios.
 \label{appendix:screenshots}
-\subsubsection{Battle Mode Example}
+\subsection{Battle Mode Example}
 \label{appendix:battle-mode-screenshots}
 Below are screenshots of actions performed as the player battles a troll enemy.
 
@@ -2279,7 +2282,7 @@ Below are screenshots of actions performed as the player battles a troll enemy.
 \end{center}
 
 \newpage
-\subsubsection{Overworld Mode Example}
+\subsection{Overworld Mode Example}
 \label{appendix:overworld-mode-screenshots}
 Below are screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
 
@@ -2292,7 +2295,7 @@ Below are screenshots of the first room in the game, and the actions required to
 \end{center}
 
 \newpage
-\subsubsection{Multiple Commands Example}
+\subsection{Multiple Commands Example}
 \label{appendix:multiple-commands-ex}
 The following is an example of a multiple-command intent being interrupted and then continued. In the first snapshot, the the system asks the user to resolve the first intent (``obliterate the troll using the sword"):
 
@@ -2318,7 +2321,7 @@ Once the user resolves the first intent, it executes it followed by the second i
 \end{center}
 
 \newpage
-\subsubsection{Ambiguous Utensil Example}
+\subsection{Ambiguous Utensil Example}
 \label{appendix:utensil}
 Below are screenshots of the room containing both a fork and a knife, with the synonym mapping of \texttt{utensil --> [fork, knife]} defined.
 
@@ -2335,7 +2338,7 @@ If there are multiple mappings for utensil to various objects (e.g. \texttt{uten
 \end{center}
 
 \newpage
-\subsubsection{Settings User Interface}
+\subsection{Settings User Interface}
 \label{appendix:settings}
 Below is a screenshot of the graphical user interface for the settings.
 
@@ -2350,7 +2353,7 @@ Below is a screenshot of the graphical user interface for the settings.
 \end{center}
 
 \newpage
-\subsubsection{Duplicate Contacts}
+\subsection{Duplicate Contacts}
 \label{appendix:duplicate-contacts}
 Below is a screenshot of the video conferencing demo when an ambiguous contact is called. The user would reply with the surname of the correct contact.
 
@@ -2365,46 +2368,7 @@ Below is a screenshot of the video conferencing demo when an ambiguous contact i
 \end{center}
 
 \newpage
-\subsection{Skyrim Kinect Command List}
-\label{appendix:skyrim}
-Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected \cite{RefWorks:24}.
-
-\includegraphics[scale=0.235]{skyrim-1.jpg}
-\includegraphics[scale=0.235]{skyrim-2.jpg}
-\newpage
-\includegraphics[scale=0.237]{skyrim-3.jpg}
-\includegraphics[scale=0.237]{skyrim-4.jpg}
-\newpage
-\subsection{Penn Treebank Tagset}
-\label{appendix:penn}
-
-Below is a table of the 32 tags from the Penn Treebank tagset, used for POS tagging. The 12 remaining tags for punctuation and other symbols have been left out \cite{RefWorks:42}.
-
-$$
-\begin{tabular}{ |p{3.25cm}|p{3.25cm}|p{3.25cm}|p{3.25cm}| }
-\hline
-	CC & Coordinating\ conjunction & TO & to \\ \hline
-	CD & Cardinal\ number & UH & Interjection \\ \hline
-	DT & Determiner & VB & Verb, base\ form \\ \hline
-	EX & Existential\ there & VBD & Verb, past\ tense \\ \hline
-	FW & Foreign\ word & VBG & Verb, gerund\ or\ present\ participle \\ \hline
-	IN & Preposition\ or\ subordinating conjunction & VBN & Verb, past\ participle \\ \hline
-	PRP\$ & Possessive\ pronoun & NNS & Noun,\ plural \\ \hline
-	RB & Adverb & NNP & Proper\ noun,\ singular \\ \hline
-	RBR & Adverb,\ comparative & NNPS & Proper\ noun, plural \\ \hline
-	RBS & Adverb,\ superlative & PDT & Predeterminer \\ \hline
-	RP & Particle & POS & Possessive\ ending \\ \hline
-	SYM & Symbol & PRP & Personal\ pronoun \\ \hline
-	JJ & Adjective & VBP & Verb, non-3rd\ person\ singular\ present \\ \hline
-	JJR & Adjective, comparative & VBZ & Verb, 3rd\ person\ singular\ present \\ \hline
-	JJS & Adjective,\ superlative & WDT & Wh-determiner \\ \hline
-	LS & List\ item\ marker & WP & Wh-pronoun \\ \hline
-	MD & Modal & WP\$ & Possessive\ wh-pronoun \\ \hline
-	NN & Noun,\ singular\ or\ mass & WRB & Wh-adverb \\ \hline
-\end{tabular}
-$$
-
-\newpage
+\section{Diagrams and Examples}
 \subsection{System UML Class Diagram}
 \label{appendix:system-uml}
 Below is the UML class diagram for the voice recognition system used in the Android app. This was automatically generated using the third-party \textit{simpleUML} plugin for Android Studio \cite{RefWorks:108}.
@@ -2419,407 +2383,6 @@ Below is the UML class diagram for the game mechanics - both the \textit{Overwor
 \\
 \\
 \includegraphics[width=\textwidth]{game-uml.png}
-
-\newpage
-\subsection{Choosing the Slot-filling Grammar}
-\label{appendix:useAltSlotFillingStructure}
-
-The code belows shows the method for choosing which slot-filling grammar to use.
-
-\begin{lstlisting}[language=Java, caption=useAltSlotFillingStructure()]
-private boolean useAltSlotFillingStructure(
-        List<String> words, List<String> tags, int bestActionIndex)
-{
-    List<String> keywords = Arrays.asList("use", "using", "with", "utilise");
-    for (String keyword : keywords) {
-        if (words.contains(keyword)) {
-            int keywordIndex = words.indexOf(keyword);
-            if (keywordIndex < bestActionIndex) {	//If WITH CONTEXT ACTION TARGET
-                removeWordAtIndex(words, tags, keywordIndex);
-                return true;
-            }
-        }
-    }
-    return false;
-}
-\end{lstlisting}
-
-\newpage
-\subsection{Finding the Best Action in VoiceProcess.java}
-\label{appendix:bestActionJava}
-\begin{lstlisting}[language=Java, caption=MainActivity.getBestAction()]
-private Pair<Integer, String> getBestAction(
-        List<String> words, List<String> tags, boolean deleteWord)
-{
-    mAmbiguousHandler.initAmbiguousActionCandidates();
-    List<Integer> candidateActions = getCandidateActions(tags);
-    double bestScore = ACTION_MIN;
-    int bestIndex = -1;
-    String bestAction = "<none>";
-    List<String> actionsList = mContextActionMap.getActions();
-    for (int i: candidateActions) {
-        String word = words.get(i);
-        //ignore with/use words
-        if (!(word.equals("use") || word.equals("with") || word.equals("using") ||
-                words.contains("utilise"))) {
-            if (mContextActionMap.hasSynonym(word)) {
-                if (deleteWord) { removeWordAtIndex(words, tags, i); }
-                List<String> synonyms = mContextActionMap.getSynonymMapping(word);
-                if (synonyms.size() > 1){
-                    //Ambiguous synoyms - ask user about each one
-                    for (String action : synonyms) {
-                        mAmbiguousHandler.setIsAmbiguous(true);
-                        mAmbiguousHandler.addAmbiguousActionCandidate(
-                                new Triple<>(word, action, 1.0), bestScore);
-                    }
-                }
-                return new Pair<>(i, synonyms.get(0));
-            }
-            for (String action : actionsList) {
-                if (mContextActionMap.wordIsIgnored(word, action)) {
-                    continue;
-                }
-                if (word.equals(action)) {
-                    if (deleteWord) { removeWordAtIndex(words, tags, i); }
-                    return new Pair<>(i, action);
-                }
-            }
-            for (String action : actionsList) {
-                if (mContextActionMap.wordIsIgnored(word, action) ||
-                        mContextActionMap.hasPossibleTarget(word) ||
-                        mContextActionMap.hasPossibleContext(word))
-                { continue; }
-                double score = SemanticSimilarity.getInstance().calculateScore(action, word);
-                if (score > ACTION_MIN && score < ACTION_CONFIDENT) {
-                    mAmbiguousHandler.addAmbiguousActionCandidate(
-                            new Triple<>(word, action, score), bestScore);
-                }
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestIndex = i;
-                    bestAction = action;
-                }
-            }
-        }
-    }
-
-    if (bestIndex > -1) {
-        if (bestScore > ACTION_MIN && bestScore < ACTION_CONFIDENT) {
-            mAmbiguousHandler.setIsAmbiguous(true);
-        }
-        else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
-        //Remove chosen action from list inputs
-        if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
-    } else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
-
-    return new Pair<>(bestIndex, bestAction);
-}
-\end{lstlisting}
-
-\newpage
-\subsection{JwiLexicalDatabase.java}
-\label{appendix:customLexDB}
-
-An implementation of ILexicalDatabase for the WS4J API, using MIT's JWI library.
-
-\begin{lstlisting}[language=Java]
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import edu.cmu.lti.jawjaw.pobj.Link;
-import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.lexical_db.data.Concept;
-import edu.cmu.lti.ws4j.util.PorterStemmer;
-import edu.cmu.lti.ws4j.util.WS4JConfiguration;
-import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.IIndexWord;
-import edu.mit.jwi.item.ISynset;
-import edu.mit.jwi.item.ISynsetID;
-import edu.mit.jwi.item.IWord;
-import edu.mit.jwi.item.IWordID;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.Pointer;
-import edu.mit.jwi.item.SynsetID;
-
-/**
- * Created by Baron on 20/01/2018.
- */
-
-// Alternative to the NictWordNet class, which is included in the WS4J library.
-// https://github.com/Sciss/ws4j/blob/master/src/main/java/edu/cmu/lti/lexical_db/NictWordNet.java
-// NictWordNet does not work because it uses some sqlite methods that do not work in Android.
-// This is a custom class that attempts to implement the same thing using MIT's JWI library.
-public class JwiLexicalDatabase implements ILexicalDatabase {
-    public IDictionary mDict;
-    public Map<String, ISynset> synsetMap = new HashMap<>();
-    private static PorterStemmer stemmer;
-
-    public static POS stringToTag(String posStr) {
-        if (posStr.equals("n")) { return POS.NOUN; }
-        else if (posStr.equals("v")) { return POS.VERB; }
-        else if (posStr.equals("r")) { return POS.ADVERB; }
-        else if (posStr.equals("a")) { return POS.ADJECTIVE; }
-        else { return POS.NOUN; }
-    }
-
-    public JwiLexicalDatabase(IDictionary dict) {
-        mDict = dict;
-    }
-
-    public Collection<Concept> getAllConcepts(String word, String pos) {
-        List<Concept> synsetStrings = new ArrayList<>();
-        IIndexWord idxWord = mDict.getIndexWord(word, stringToTag(pos));
-        if (idxWord != null) {
-            List<IWordID> wordIDs = idxWord.getWordIDs();
-            for (IWordID id : wordIDs) {
-                String synsetStr = id.getSynsetID().toString().replace("SID-", "").toLowerCase();
-                synsetStrings.add(new Concept(synsetStr, edu.cmu.lti.jawjaw.pobj.POS.valueOf(pos)));
-                IWord w = mDict.getWord(id);
-                synsetMap.put(synsetStr, w.getSynset());
-            }
-        }
-        return synsetStrings;
-    }
-
-    public Concept getMostFrequentConcept(String word, String pos) {
-        Collection<Concept> concepts = getAllConcepts(word, pos);
-        if (concepts.size() > 0) { return concepts.iterator().next(); }
-        return null;
-    }
-
-    public Collection<String> getHypernyms(String synsetStr) {
-        List<String> synsetStrings = new ArrayList<>();
-        ISynset synset = synsetMap.get(synsetStr);
-        if (synset != null) {
-            List<ISynsetID> hypernymsList = synset.getRelatedSynsets(Pointer.HYPERNYM);
-
-            for (ISynsetID id : hypernymsList) {
-                String hypernymStr = id.toString().replace("SID-", "").toLowerCase();
-                //Need to add this synset to the map
-                List<IWord> words = mDict.getSynset(id).getWords();
-                for (IWord w : words) {
-                    synsetMap.put(hypernymStr, w.getSynset());
-                }
-                synsetStrings.add(hypernymStr);
-            }
-        }
-        return synsetStrings;
-    }
-
-    public Concept findSynsetBySynset( String synset ) {
-        return null;
-    }
-
-    // To offset.
-    public String conceptToString( String synset ) {
-        return null;
-    }
-
-    // Note: most of this method is similar to the NictWordNet one, but using JWI instead
-    // https://github.com/Sciss/ws4j/blob/master/src/main/java/edu/cmu/lti/lexical_db/NictWordNet.java
-    public Collection<String> getGloss( Concept synset, String linkString ) {
-        String synsetStr = synset.getSynset();
-
-        char posTag = '*';
-        Pattern p = Pattern.compile("-[a-zA-Z]");
-        Matcher m = p.matcher(synsetStr.toLowerCase());
-        if (m.find()) { posTag = m.group(0).charAt(1); }
-
-        if (posTag == '*') { return new ArrayList<>(); }
-
-        int synsetOffset = Integer.parseInt(synsetStr.replaceAll("-[a-zA-Z]", ""));
-        SynsetID synsetID = new SynsetID(synsetOffset, POS.getPartOfSpeech(posTag));
-        ISynset synsetJWI = mDict.getSynset(synsetID);
-
-        //Build up pointer to synsets (link = pointer)
-        List<ISynsetID> linkedSynsets = new ArrayList<>();
-        Link link = null;
-        try {
-            link = Link.valueOf(linkString);
-            if (link.equals(Link.mero)) {
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_MEMBER));
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_SUBSTANCE));
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.MERONYM_PART));
-            } else if (link.equals(Link.holo)) {
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_MEMBER));
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_SUBSTANCE));
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets(Pointer.HOLONYM_PART));
-            } else if (link.equals(Link.syns)) {
-                linkedSynsets.add(synsetJWI.getID());
-            } else {
-                linkedSynsets.addAll(synsetJWI.getRelatedSynsets());
-            }
-        } catch (IllegalArgumentException e) { linkedSynsets.add(synsetJWI.getID()); }
-
-        List<String> glosses = new ArrayList<>();
-        for (ISynsetID linkedSynsetID : linkedSynsets) {
-            String gloss = null;
-            ISynset linkedSynsetJWI = mDict.getSynset(linkedSynsetID);
-            if (Link.syns.equals(link)) {
-                gloss = synset.getName();
-            } else {
-                gloss = linkedSynsetJWI.getGloss();
-            }
-
-            if (gloss == null) { continue; }
-
-            gloss = gloss.replaceAll("[.;:,?!(){}\"`$%@<>]", " ");
-            gloss = gloss.replaceAll("&", " and ");
-            gloss = gloss.replaceAll("_", " ");
-            gloss = gloss.replaceAll("[ ]+", " ");
-            gloss = gloss.replaceAll("(?<!\\w)'", " ");
-            gloss = gloss.replaceAll("'(?!\\w)", " ");
-            gloss = gloss.replaceAll("--", " ");
-            gloss = gloss.toLowerCase();
-
-            if ( WS4JConfiguration.getInstance().useStem() ) {
-                gloss = stemmer.stemSentence( gloss );
-            }
-
-            glosses.add( gloss );
-        }
-      
-        return glosses;
-    }
-
-    private List<String> clone( List<String> original ) {
-        return new ArrayList<String>( original );
-    }
-}
-\end{lstlisting}
-
-\newpage
-\subsection{Action Class Example}
-\label{appendix:open-object}
-
-Below is an example of an action class derived from the \texttt{Action} abstract class. The action involves opening certain objects, such as a door, or the drawer of a table, etc. Note the overriding of the \texttt{processReply()} method, for when the user is opening a door.
-
-\begin{lstlisting}[language=Java]
-public class OpenObject extends Action {
-    public String execute(GlobalState state, Entity currentTarget) {
-        if (state instanceof GameState) {
-            GameState gameState = (GameState) state;
-            if (gameState.getCurrentRoom().hasRoomObject(currentTarget.getName())) {
-                if (currentTarget instanceof Door) {
-                    state.actionSucceeded();
-                    mWantsReply = true;
-                    mCurrentTarget = currentTarget;
-                    return "Are you sure you want to leave this room? (yes/no)";
-                } else if (currentTarget instanceof GlassTable) {
-                    state.actionSucceeded();
-                    return "You opened the drawer of the glass table but nothing is inside. You"
-                            +" closed it again.";
-                } else {
-                    state.actionFailed();
-                    return "You cannot open the "+currentTarget.getName()+".";
-                }
-            } else {
-                state.actionFailed();
-                return "You cannot open the "+currentTarget.getName()+".";
-            }
-        }
-        state.actionFailed();
-        return "You can't do that right now";
-    }
-
-    @Override
-    public Object processReply(GlobalState state, String input) {
-        if (mCurrentTarget != null) {
-            if (VoiceProcess.replyIsYes(input) && mCurrentTarget instanceof Door) {
-                return ((Door) mCurrentTarget).onOpened((GameState) state);
-            }
-            return "You did not open the " + mCurrentTarget.getName()+".";
-        }
-        return "Intent not understand.";
-    }
-}
-
-\end{lstlisting}
-
-\newpage
-\subsection{MultipleCommandProcess::executeCommand()}
-\label{appendix:multiple-commands-execute}
-\begin{lstlisting}[language=Java, caption=MultipleCommandProcess.executeCommand()]
-public Object executeCommand(Queue<String> queue) {
-    if (queue == null || queue.size() <= 0) { return null; }
-
-    String command = queue.peek();
-    if (command != null) {
-        if (mVoiceProcess.isExpectingReply()) {
-            queue.clear();  //ignore the rest of the input
-            String result = "";
-            result += mVoiceProcess.processInput(command);    //process confirmation
-            if (!mVoiceProcess.isExpectingReply()) {
-                String nextCommand = mPartialQueue.peek();
-                if (nextCommand != null) {
-                    mPartialQueue.remove();
-                    result += "\n\n---\n\n" + "Found command: \"" + nextCommand + "\"\n"
-                            + mVoiceProcess.processInput(nextCommand);
-                    mVoiceProcess.setExpectingMoreInput(mPartialQueue.size() > 0);
-                }
-            }
-            return result;
-        }
-        else {
-            queue.remove();
-            Object result = "Found command: \"" + command + "\"\n"
-                    + mVoiceProcess.processInput(command);
-            if (mVoiceProcess.isExpectingReply()) {
-                mPartialQueue = new LinkedList<>(queue);
-                queue.clear();
-            }
-            mVoiceProcess.setExpectingMoreInput(queue.size() > 0
-                    || (mPartialQueue != null && mPartialQueue.size() > 0));
-            return result;
-        }
-    } else { return null; }
-}
-\end{lstlisting}
-
-\newpage
-\subsection{BattleContextActionMap.java}
-\label{appendix:battle-context-action-map}
-\begin{lstlisting}[language=Java, caption=BattleContextActionMap]
-public class BattleContextActionMap extends ContextActionMap {
-    public BattleContextActionMap(GlobalState state) {
-        super(state);
-        setActionList(Arrays.asList(        "attack",                   "heal",             "show",             "look"));
-        addDefaultContextActions(           new AttackDefault(),        new HealDefault(),  new ShowDefault(),  new LookDefault());
-        addContextActions("weapon",         new AttackWeapon(),         null,               null,               null);
-        addContextActions("weapon-sharp",   new AttackWeaponSharp(),    null,               null,               null);
-        addContextActions("weapon-blunt",   new AttackWeaponBlunt(),    null,               null,               null);
-        addContextActions("healing-item",   null,                       new HealItem(),     null,               null);
-
-        addSynonym("punch", "attack");
-        addSynonym("assault", "attack");
-        addSynonym("observe","look");
-        addSynonym("blade", "knife");
-
-        addMatchIgnore("jump", "look");
-        addMatchIgnore("jump", "attack");
-        addMatchIgnore("bag", "attack");
-
-        addSentenceMatch(new ShowDefault(), "inventory",
-                "what is in my inventory",
-                "what are the contents of my bag",
-                "what items do i have"
-        );
-
-        addSentenceMatch(new ShowDefault(), "actions",
-                "what can i do",
-                "what are my actions",
-                "what are the commands",
-                "what action can i do",
-                "what are my options"
-        );
-    }
-}
-\end{lstlisting}
 
 \newpage
 \subsection{Battle Mode Example Commands}
@@ -2848,43 +2411,6 @@ Below is a table of some of the example commands that can be used in the \textit
 \end{table}
 
 \newpage
-\subsection{OverworldContextActionMap.java}
-\label{appendix:overworld-context-action-map}
-\begin{lstlisting}[language=Java, caption=OverworldContextActionMap]
-public class OverworldContextActionMap extends ContextActionMap {
-    public OverworldContextActionMap(GlobalState state) {
-        super(state);
-        setActionList(Arrays.asList(        "look",             "show",             "grab",             "open",             "cut",                      "break"));
-        addDefaultContextActions(           new LookDefault(),  new ShowDefault(),  new GrabObject(),   new OpenObject(),   new CutDefault(),           new BreakDefault());
-        addContextActions("weapon",         null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponNotBlunt());
-        addContextActions("weapon-sharp",   null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponSharp(),       new BreakWeaponNotBlunt());
-        addContextActions("weapon-blunt",   null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponBlunt());
-
-        addSynonym("observe", "look");
-        addSynonym("reveal", "show");
-        addSynonym("pick", "grab");
-
-        addMatchIgnore("jump", "look");
-        addMatchIgnore("do", "cut");
-
-        addSentenceMatch(new ShowDefault(), "inventory",
-                "what is in my inventory",
-                "what are the contents of my bag",
-                "what items do i have"
-        );
-
-        addSentenceMatch(new ShowDefault(), "actions",
-                "what can i do",
-                "what are my actions",
-                "what are the commands",
-                "what action can i do",
-                "what are my options"
-        );
-    }
-}
-\end{lstlisting}
-
-\newpage
 \subsection{Overworld Mode Example Commands}
 \label{appendix:overworld-examples}
 
@@ -2909,30 +2435,6 @@ Below is a table of some of the example commands that can be used in the \textit
 ``look at the painting"             \\ \hline
 \end{tabular}
 \end{table}
-
-\newpage
-\subsection{CallContextActionMap.java}
-\label{appendix:call-context-action-map}
-\begin{lstlisting}[language=Java, caption=CallContextActionMap]
-public class CallContextActionMap extends ContextActionMap {
-    public CallContextActionMap(GlobalState state) {
-        super(state);
-        setActionList(               "phone",                   "stop",                 "mute",         "increase");
-        addDefaultContextActions(    new PhoneContact(),         new StopCall(),         new Mute(),    new Unmute());
-        addContextActions("video",   new PhoneContact(),         null,                   null,          null);
-        addContextActions("audio",   new PhoneContactAudio(),    null,                   null,          null);
-        addContextActions("contact", null,                       new StopCallContact(),  null,          null);
-
-        addSynonym("call", "phone");
-        addSynonym("contact", "phone");
-        addSynonym("end", "stop");
-        addSynonym("finish", "stop");
-        addSynonym("hang", "stop");
-        addSynonym("unmute", "increase");
-        addSynonym("silence", "mute");
-    }
-}
-\end{lstlisting}
 
 \newpage
 \subsection{Video Conferencing Example Commands}
@@ -2974,81 +2476,7 @@ Baron               & Second
 \end{table}
 
 \newpage
-\subsection{Manual Room Generation (Obsolete)}
-\label{appendix:room-gen-v1}
-
-The listing below shows the first version of \texttt{Room01} which is no longer used. Lines 22-36 demonstrate how the use of if statements for generating room descriptions can become too complex. This code is only shown for comparison purposes (compared to version 2 on page \pageref{lst:room01}).
-
-\begin{lstlisting}[language=Java, caption=Room01.java (Version 1)]
-public class Room01 extends Room {
-
-    public enum StateRoom01 {
-        START,
-        PAINTING_CUT,
-        END
-    }
-
-    public Room01() {
-        super();
-        setRoomState(StateRoom01.START.ordinal());
-        addRoomObject(new Door());
-        addRoomObject(new Painting());
-        addRoomObject(new GlassTable());
-        addRoomObject(new Weapon("knife", "sharp", "short", "metal"));
-    }
-
-    @Override
-    public String getRoomDescription() {
-        String roomOutput = "";
-        roomOutput += "You are in a room with a locked door in front of you.";
-        if (getRoomObjectCount("table") > 0) {
-            roomOutput +=  "There is a glass table in the middle of the room.";
-        }
-        if (getRoomObjectCount("knife") > 0) {
-            if (getRoomObjectCount("table") > 0) {
-                roomOutput += " There is a knife on the table.";
-            } else {
-                roomOutput += " A knife lays on the floor with the broken table.";
-            }
-        }
-        if (getRoomState() == StateRoom01.START.ordinal()) {
-            roomOutput += " A painting of a tree hangs by a string on the wall to your left.";
-        } else {
-            roomOutput += " The painting that was on the wall lies on the floor.";
-        }
-        return roomOutput;
-    }
-}
-\end{lstlisting}
-
-\newpage
-\subsection{Retrieving a Room Description}
-\label{appendix:get-description}
-
-Listing \ref{lst:get-description} shows the method for getting the description of a room. It reads each entry in the \texttt{mDescriptionList} field and evaluates the \texttt{BooleanSupplier}s to determine which sentence to output.
-
-\begin{lstlisting}[language=Java, caption=Room::getDescription(), label=lst:get-description]
-public String getRoomDescription() {
-    String roomOutput = "";
-    for (Triple<Pair<String, String>, BooleanSupplier, BooleanSupplier> description : mDescriptionList) {
-        boolean objectExists = true;
-        if (description.second != null) {
-            objectExists = description.second.getAsBoolean();
-        }
-        boolean cond = description.third.getAsBoolean();
-        if (objectExists) {
-            if (cond) {
-                roomOutput += " - "+description.first.first+"\n";
-            } else if (description.first.second != null) {
-                roomOutput += " - "+description.first.second+"\n";
-            }
-        }
-    }
-    return roomOutput;
-}
-\end{lstlisting}
-
-\newpage
+\section{Testing and Evaluation}
 \subsection{List of Android Mock Tests}
 \label{appendix:mock-tests}
 
@@ -3256,7 +2684,7 @@ Below is a list of most of the test suites containing commands that are tested f
 Please see the project's repository for the full test framework.
 
 \newpage
-\subsection{Evaluation: Actions and Contexts}
+\subsection{Actions and Contexts used in Evaluation}
 \label{appendix:evaluation-context-action-maps}
 
 Below are the \texttt{ContextActionMap} `tables' used in the evaluation Java project for the three domains. See the project's repository for the full classes.
@@ -3479,6 +2907,50 @@ addDescriptionWithObjectCond(
 
 Out of the 10 relations in the description, 7 of them are extracted by the program.
 
+\newpage
+\section{Other Information}
+\subsection{Skyrim Kinect Command List}
+\label{appendix:skyrim}
+Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected \cite{RefWorks:24}.
+
+\includegraphics[scale=0.235]{skyrim-1.jpg}
+\includegraphics[scale=0.235]{skyrim-2.jpg}
+\newpage
+\includegraphics[scale=0.237]{skyrim-3.jpg}
+\includegraphics[scale=0.237]{skyrim-4.jpg}
+\newpage
+\subsection{Penn Treebank Tagset}
+\label{appendix:penn}
+
+Below is a table of the 32 tags from the Penn Treebank tagset, used for POS tagging. The 12 remaining tags for punctuation and other symbols have been left out \cite{RefWorks:42}.
+
+$$
+\begin{tabular}{ |p{3.25cm}|p{3.25cm}|p{3.25cm}|p{3.25cm}| }
+\hline
+	CC & Coordinating\ conjunction & TO & to \\ \hline
+	CD & Cardinal\ number & UH & Interjection \\ \hline
+	DT & Determiner & VB & Verb, base\ form \\ \hline
+	EX & Existential\ there & VBD & Verb, past\ tense \\ \hline
+	FW & Foreign\ word & VBG & Verb, gerund\ or\ present\ participle \\ \hline
+	IN & Preposition\ or\ subordinating conjunction & VBN & Verb, past\ participle \\ \hline
+	PRP\$ & Possessive\ pronoun & NNS & Noun,\ plural \\ \hline
+	RB & Adverb & NNP & Proper\ noun,\ singular \\ \hline
+	RBR & Adverb,\ comparative & NNPS & Proper\ noun, plural \\ \hline
+	RBS & Adverb,\ superlative & PDT & Predeterminer \\ \hline
+	RP & Particle & POS & Possessive\ ending \\ \hline
+	SYM & Symbol & PRP & Personal\ pronoun \\ \hline
+	JJ & Adjective & VBP & Verb, non-3rd\ person\ singular\ present \\ \hline
+	JJR & Adjective, comparative & VBZ & Verb, 3rd\ person\ singular\ present \\ \hline
+	JJS & Adjective,\ superlative & WDT & Wh-determiner \\ \hline
+	LS & List\ item\ marker & WP & Wh-pronoun \\ \hline
+	MD & Modal & WP\$ & Possessive\ wh-pronoun \\ \hline
+	NN & Noun,\ singular\ or\ mass & WRB & Wh-adverb \\ \hline
+\end{tabular}
+$$
+
+\newpage
+
+\end{appendices}
 \newpage
 \addcontentsline{toc}{section}{References}
 \bibliography{references}
