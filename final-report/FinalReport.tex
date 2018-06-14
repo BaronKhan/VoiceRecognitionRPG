@@ -873,17 +873,34 @@ A command-line program has been created which takes as input a text file contain
 \newpage
 \section{Implementation}
 
-This section outlines the steps taken to implement the system and the game, mostly in chronological order where appropriate. For more details on the source code, please the corresponding GitHub repository containing this project's work.\footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}
+This section outlines the steps taken to implement the system and the game, mostly in chronological order where appropriate. For more details on the source code, please see the corresponding GitHub repository containing this project's work.\footnote{https://github.com/BaronKhan/VoiceRecognitionRPG}
+
+\subsection{System Architecture}
+
+Figure \ref{fig:component-diagram} shows a UML component diagram for the system architecture of the Android application. The front-end consists of three \texttt{Activity} classes. An \texttt{Activity} is the environment where the user interacts with the application.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{component-diagram.pdf}
+  \caption{A UML component diagram showing the components of the application.}
+  \label{fig:component-diagram}
+  \end{center}
+\end{figure}
+
+The \texttt{MainActivity} is where the role-playing game interactions will take place, while the \texttt{CallActivity} contains a demo of the system applied to a video conferencing example (see Section \ref{section:calling-demo}). There is also a \texttt{SettingsActivity} for setting the different parameters of the application (see Section \ref{section:settings}).
+\\
+\\
+The back-end accesses a WordNet database stored on the phone to perform similarity calculations through a \texttt{CustomLexicalDatabase} interface (see Section \ref{custom-lexical-database-impl} for more).
 
 \subsection{Voice Recognition Interface}
 
-The first step involved creating an Android project with a skeleton I/O to take as input the microphone audio, converts the speech to text, sends it to the voice recognition system for processing (initially just an empty class that pipes the input to output), before finally displaying the text on the screen.
+The first step in the implementation involved creating an Android project with a skeleton I/O to take as input the microphone audio, converts the speech to text, sends it to the voice recognition system for processing (initially just an empty class that pipes the input to output), before finally displaying the text on the screen.
 \\
 \\
-The interface is within an Android \texttt{Activity} class. When the activity is created, it also downloads a tar ball containing a WordNet database and unzips it on the device's local storage. While it is possible to package the database with the model, the code was originally written to download the database and, due to time constraints, could not be changed.
+The interface is within the \texttt{MainActivity} class. When the activity is created, it also downloads a tar ball containing a WordNet database and unzips it on the device's local storage. While it is possible to package the database with the model, the code was originally written to download the database and, due to time constraints, could not be changed.
 \\
 \\
-The \texttt{MainActivity} class contains a \texttt{VoiceControl} classes that  handles the speech-to-text (STT) I/O, and implements a \texttt{RecognizerIntent}. The \texttt{VoiceControl} object contains an instance of the \texttt{SpeechRecognizer} class that has a \texttt{startListening} method which invokes an \texttt{onResults()} method when finished. This method have a \texttt{results} parameter of type \texttt{Bundle}, containing the string result of the speech recognition. The string is then processed by an instance of the \texttt{VoiceProcess} class (described below).
+The \texttt{MainActivity} class contains a \texttt{VoiceControl} class that  handles the speech-to-text (STT) I/O, and implements a \texttt{RecognizerIntent}. The \texttt{VoiceControl} object contains an instance of the \texttt{SpeechRecognizer} class that has a \texttt{startListening()} method, which invokes an \texttt{onResults()} method when finished. This method has a \texttt{results} parameter of type \texttt{Bundle}, containing the string result of the speech recognition. The string is then processed by an instance of the \texttt{VoiceProcess} class (described below).
 
 \subsection{Graphical User Interface}
 
@@ -892,9 +909,9 @@ Figure \ref{fig:snapshot-ui} shows a snapshot of the UI for the game logic with 
 \begin{enumerate}
 	\item The player's input for the game as a string (i.e. it is the output of the speech-to-text API).
 	\item The cumulative output as the game processes each user input.
-	\item Pressing this button enables the microphone and starts a voice intent.
+	\item Pressing this button activates the microphone and starts a voice intent.
 	\item A timer used for debugging the time taken to process an intent by the system.
-	\item This drop-down list contains an option to open the settings menu.
+	\item This drop-down list contains various options (such as an option to open the settings menu).
 \end{enumerate}
 
 \begin{center}
@@ -909,7 +926,23 @@ Figure \ref{fig:snapshot-ui} shows a snapshot of the UI for the game logic with 
 
 All UI elements are accessed in the \texttt{MainActivity} and are separate from the voice recognition system.
 
+\subsection{User Flow Diagram}
+
+Figure \ref{fig:wireframe} shows a wireframe for the different screen transitions as the user interacts with the application.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{wireframe.pdf}
+  \caption{A wireframe showing the majority of transitions between activities as the user interacts with the application. The tails of the red arrows indicate where the user touches the screen (unless otherwise stated).}
+  \label{fig:wireframe}
+  \end{center}
+\end{figure}
+
 \subsection{Voice Recognition System Implementation}
+
+\subsubsection{Data Flow Diagram}
+
+TODO
 
 \subsubsection{\texttt{GlobalState}}
 
@@ -1632,11 +1665,8 @@ public class RoomTable extends Room {
 
 The developer can still edit this source file to add more complex functionality that was not added by the program. This program was used to generate the tutorial rooms in the game (with some minor adjustments to determine which room a door leads to, as the program cannot handle that currently).
 
-\subsection{Settings Activity}
-
-The application also has a settings activity, which allows the user to change various settings such as the current semantic similarity method used, as well as edit the user-defined synonym mappings. See the Appendix \ref{appendix:settings} for a screenshot of the settings activity.
-
 \subsection{Video Conferencing Demo}
+\label{section:calling-demo}
 
 In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands. Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the activity.
 
@@ -1666,6 +1696,11 @@ Figure \ref{fig:call-context-action-map} shows the context-action `table' for th
 \end{center}
 
 The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, ``Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
+
+\subsection{Settings Activity}
+\label{section:settings}
+
+The application also has a settings activity, which allows the user to change various settings such as the current semantic similarity method used, as well as edit the user-defined synonym mappings. See the Appendix \ref{appendix:settings} for a screenshot of the settings activity.
 
 \newpage
 \section{Evaluation}

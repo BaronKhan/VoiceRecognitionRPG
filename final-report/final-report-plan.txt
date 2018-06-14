@@ -59,7 +59,25 @@ Game Design Extensions:
 
 __Implementation__
 
+High Level System Diagram:
+
+- Front-end:
+-- Main Activity (VoiceControl)
+-- Settings Activity
+-- Video Conferencing Activity (VoiceControl)
+- Backend:
+-- GlobalState
+-- VoiceProcess
+-- Semantic Similarity
+- WordNet Database
+
+- Explain what an Activity is
+
+User Flow Diagram (Wireframes)
+
 UI:
+
+Data Flow Diagram (VoiceProcess class)
 
 General code
 - GlobalState
@@ -167,6 +185,9 @@ Ask question
 Evaluate ease of development (adding voice commands, survey)
 
 TODO: create user guide for adding commands. Evaluate eas of use with it.
+
+TODO: crate evaluation of automatically assigning phyiscal
+properties
 
 Evaluate ease of room generation (survey)
 
