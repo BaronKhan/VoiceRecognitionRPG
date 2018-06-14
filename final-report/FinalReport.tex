@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage[table,xcdraw]{xcolor}
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
 \usepackage{multirow}
 \usepackage{blindtext}
 \usepackage[utf8]{inputenc}
@@ -18,6 +18,8 @@
 \usepackage{tabu}
 \usepackage{bm}
 \usepackage{float}
+\usepackage[export]{adjustbox}
+\usepackage{wrapfig}
 \usepackage[titletoc]{appendix}
 \usepackage{listings}             % Include the listings-package
 \setlength{\parindent}{0pt}
@@ -164,9 +166,17 @@ The proposed design for the RPG and system aims to achieve the following goals:
 \section{Background}
 
 \subsection{Voice Recognition in Games}
-Below is a list of notable recent games that have incorporated voice control functionality as a major component of the interaction experience.
+Below is a list of notable and recent games that have incorporated voice control functionality as a major component of the interactive experience.
 \subsubsection{In Verbis Virtus}
-In Verbis Virtus is an independent 3D fantasy adventure game developed by Indomitus Games for Windows \cite{RefWorks:22}. It requires the player to solve puzzles in a 3D environment and battle enemies using magic.
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{verbis-virtus.png}
+  \end{center}
+  \caption{A screenshot of \textit{In Verbis Virtus}, where the player is casting a spell. Image taken from the Indiegogo web page \cite{RefWorks:134}.}
+\end{wrapfigure}
+
+\textit{In Verbis Virtus} is an independent 3D fantasy adventure game developed by Indomitus Games for Windows \cite{RefWorks:22}. It requires the player to solve puzzles in a 3D environment and battle enemies using magic.
 \\
 \\
 When a microphone is connected, the player is able to cast spells using their voice by saying specific phrases defined by the game. For example, to cast a spell that produces a floating light source to brighten a room, a user must say, ``let there be light'', or if the user wishes to shoot an energy beam from their hand, they must say, ``Beam of Light'', and so. These phrases appear to be hard-coded into the game.
@@ -180,32 +190,51 @@ Another limitation is that the user is still required to use a keyboard and mous
 \\
 This voice recognition interface could be improved by allowing the player to perform any action within the game using their voice, as well as allowing for more variation in what the user can say for each action.
 
+\newpage
 \subsubsection{Skyrim with Kinect}
-The Elders Scrolls \rom{5}: Skyrim is a first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{skyrim-overview-media--riverwood.jpg}
+  \end{center}
+  \caption{A screenshot from \textit{The Elders Scrolls \rom{5}: Skyrim}. Image taken from the game's official web page \cite{RefWorks:23}.}
+\end{wrapfigure}
+
+\textit{The Elders Scrolls \rom{5}: Skyrim} is a first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
 \\
 \\
-There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to actually use any of the items selected with only a voice command from the menu; this is only possible if you assign the item to a `hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to use any of the items selected from the menu within the game using only a voice command; this is only possible if you assign the item to a `hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{skyrim-item-commands.png}
   \caption{Voice commands that are available within the items menu in Skyrim.}
 \end{figure}
 \end{center}
-This system, despite being optional to the player, helps to reduce the time spent searching through the menu screens. However, it appears that this system also hard-codes the phrases that can be said by the player with no flexibility.
+This system, despite being optional to the player, helps to reduce the time spent searching through the menu screens. However, it appears that this system also hard-codes the phrases that can be said by the player with no flexibility in how the player can say the command.
 
-\subsubsection{Star Trek Bridge Crew}
+\subsubsection{Star Trek: Bridge Crew}
 
-Star Trek Bridge Crew is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities. This API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, ``show me the ship's status report'' or they could say something drastically different such as ``damage report'' to execute the same command \cite{RefWorks:25}. This gives the user more freedom in how they convey their request to the AI, giving the player a ``new level of sense of presence'' \cite{RefWorks:26}. IBM's Watson API is described in more detail later in this section.
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{star-trek.jpg}
+  \end{center}
+  \caption{A screenshot of \textit{Star Trek: Bridge Crew}. Image taken from the Steam web page \cite{RefWorks:135}.}
+\end{wrapfigure}
+
+\textit{Star Trek: Bridge Crew} is a virtual reality game developed by Ubisoft. This game allows the player to issue voice commands to AI crew members on a spaceship \cite{RefWorks:29}. In order to develop a more interactive and realistic experience, the development team used IBM Watson's interactive speech capabilities.
+\\
+\\
+The API allows commands to be delivered in a variety of ways, as the speech is parsed for its meaning using Watson's Conversation service. For example, a player could say, ``show me the ship's status report'', or they could say it in a different way such as, ``damage report'' to execute the same command \cite{RefWorks:25}. This provides the user with more freedom in how they convey their request to the AI, giving the player a ``new level of sense of presence'' \cite{RefWorks:26}. See Section \ref{section:watson} for more details on IBM's Watson API.
 \\
 \\
 The voice recognition design used in this game is similar to the proposed design outlined in this report. The user's intent should be extracted from the phrase that they speak, so similar phrases should map to the same intent. Unfortunately, Watson's API is a paid cloud service; so the game requires a constant internet connection to play.
 
 \subsubsection{Classic Zork on Alexa}
 
-Zork is a trilogy of classic text-based role-playing games that support a free-form style of input. The player is provided with an input scenario (e.g. ``You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here.''), and then types commands that they want to execute (e.g. ``open mailbox'' or ``attack troll with sword'') \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
+\textit{Zork} is a trilogy of classic text-based role-playing games that support a free-form style of input (e.g. in a terminal). The player is provided with an input scenario (e.g. ``You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here.''), and the user types commands that they want to execute (e.g. ``open mailbox'' or ``attack troll with sword'') \cite{RefWorks:35}. The exploration part of the proposed game in this report will be loosely based off Zork's exploration mechanics of interacting with objects in the surroundings.
 \\
 \\
-These commands could be delivered using a speech-to-text interface to add voice control to Zork. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:37}. This allows the player to deliver commands using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input.
+To add voice control to Zork, these commands could be delivered using a speech-to-text interface. A group of developers created a port of Zork running on Amazon's Alexa Skills Kit \cite{RefWorks:37}. This allows the player to deliver commands using their voice as if they were typing the phrases into a terminal. However, this implementation still suffers from the limitations of Zork's free-form input.
 
 \subsection{Limitations of Zork}
 
@@ -217,20 +246,21 @@ Zork supports a number of text commands, which usually take the form of a verb-n
 \\
 Zork's free-form input still has some limitations. For example, it still cannot accept all variations of specific intents. For instance, below is a list of accepted and rejected commands if the user wishes to open a mailbox in front of them:
 \begin{itemize}
-	\item ``open mailbox'' - Accepted
-	\item ``open the small mailbox'' - Accepted
-	\item ``can i open the mailbox'' - Rejected
-	\item ``check the mailbox'' - Rejected
-	\item ``find out what's in the mailbox'' - Rejected
+	\item ``open mailbox'' | \textcolor{ForestGreen}{Accepted}
+	\item ``open the small mailbox'' | \textcolor{ForestGreen}{Accepted}
+	\item ``can i open the mailbox'' | \textcolor{red}{Rejected}
+	\item ``check the mailbox'' | \textcolor{red}{Rejected}
+	\item ``find out what's in the mailbox'' | \textcolor{red}{Rejected}
 \end{itemize}
 Below is a list of results for closing the mailbox:
 \begin{itemize}
-	\item ``close mailbox'' - Accepted
-	\item ``shut mailbox'' - Rejected
-	\item ``closing mailbox'' - Rejected
-	\item ``close the red mailbox'' - Rejected
+	\item ``close mailbox'' | \textcolor{ForestGreen}{Accepted}
+	\item ``shut mailbox'' | \textcolor{red}{Rejected}
+	\item ``close the letterbox'' | \textcolor{red}{Rejected}
+	\item ``close the red mailbox'' |\textcolor{red}{ Rejected}
+	\item ``close the postbox'' |\textcolor{red}{ Rejected}
 \end{itemize}
-Clearly the rejected text commands could be valid phrases that express an intent to open some sort of mailbox. Zork has a pre-defined list of verbs and sentence structures that it can accept, and sticks to those without much flexibility.
+The rejected text commands could be valid phrases that express an intent to open some sort of mailbox. Zork has a pre-defined list of verbs and sentence structures that it can accept, and sticks to those without much flexibility.
 \\
 \\
 Since most of the supported commands take the form of a verb-noun structure, this could be used in the proposed design as the general structure of commands expected by the user.
@@ -241,25 +271,25 @@ There are many tools and services available that allow developers and users to a
 
 \subsubsection{Tazti - Speech Recognition for PC Games}
 
-Tazti is a keyboard mapping tool available to players to be used with any type of PC game that uses the keyboard \cite{RefWorks:28}. The user sets up a profile for each game separately by mapping speech commands to one or more keys. For instance, the user could say ``fire'' or ``shoot fire'' and this would map to the keystrokes required to cast a fire spell.
+\textit{Tazti} is a keyboard mapping tool available to players to be used with any type of PC game that uses the keyboard \cite{RefWorks:28}. The user sets up a profile for each game separately by mapping speech commands to one or more keys. For instance, the user could say ``fire'' or ``shoot fire'' and this would map to the keystrokes required to cast a fire spell.
 \\
 \\
-While this tool is not directly integrated into games by the developer, it has the advantage of being able to work with almost any PC game that uses a keyboard, such as role-playing games, first-person shooter games, and even platforming games. However, the voice commands are limited to being hard-coded, so there is no way of varying the speech commands slightly, even if the meaning is the same. It is also not freely available and requires a license to be purchased.
+While this tool is not directly integrated into games by the developer, it has the advantage of being able to work with almost any PC game that uses a keyboard, such as role-playing games, first-person shooter games, and action games. However, the voice commands are limited to being hard-coded, so there is no way of varying the speech commands slightly, even if the meaning is the same. It is also not freely available and a license needs to be purchased.
 
 \subsubsection{PocketSphinx for Unreal Engine 4}
 
-\textit{Sphinx-UE4} is a speech recognition plugin for the Unreal Engine 4 game engine \cite{RefWorks:104}, based on the PocketSphinx library which provides offline speech-to-text \cite{RefWorks:105}. The plugin allows the developer to specify keywords and the commands that they map to (e.g. ``turn right'', ``enable sprint'', ``kick the ball'', etc).
+\textit{Sphinx-UE4} is a speech recognition plugin for the game engine, Unreal Engine 4 \cite{RefWorks:104}, based on the PocketSphinx library which provides offline speech-to-text \cite{RefWorks:105}. The plugin allows the developer to specify keywords and the commands that they map to (e.g. ``turn right'', ``enable sprint'', ``kick the ball'', etc).
 \\
 \\
-The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, $<digit> <operation> <digit>$. This will accept input such as, ``three add five'', ``six minus four'', ``two times twelve'', and so on.
+The plugin also supports grammar files. A grammar contains the grammatical structure that an accepted input can take, such as, \texttt{<digit> <operation> <digit>}. This will accept input such as, ``three add five'', ``six minus four'', ``two times twelve'', and so on.
 
 \subsubsection{Houndify}
 \label{section:houndify}
 
-Houndify is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, ``ATTACK''.
+\textit{Houndify} is a paid cloud service developed by SoundHound that allows developers to add voice recognition and control to any application they wish \cite{RefWorks:30}. The API takes as input either a text string or audio samples and returns a JSON string containing the response to the input. This response can range from anything: from home automation control, to weather updates, and more. The response would be in the form of an intent - a single word representing the action to be executed. For example, any attacking phrase would map to an intent called, ``ATTACK''.
 \\
 \\
-As well as having built-in voice commands already for specific domains (such as all weather commands or sports update commands), Houndify also supports the creation of custom voice commands by the developer. To create a custom command, the expression to be said by the user is specified using a syntax similar to regular expressions, but instead specifies the general phrase structure (and with very different syntax), and is mapped to an intent \cite{RefWorks:33}.
+As well as having built-in voice commands already for specific domains (such as all weather commands or sports update commands), Houndify also supports the creation of custom voice commands by the developer. To create a custom command, the expression to be said by the user is specified using a syntax similar to regular expressions, but instead specifies the general phrase structure, and the expression is mapped to an intent \cite{RefWorks:33}.
 \\
 \\
 Below is an example of a possible expression for attacking a troll:
@@ -277,34 +307,35 @@ Here, the player can say phrases such as, ``attack the troll" or ``hit troll". T
 Even though this expression allows for more variation in what the user can say, it still doesn't cover all the possible variations of specifying an attack, and this long expression is only for one intent; many more expressions would have to be written for other intents, and this can become tedious for the developer.
 \\
 \\
-While this API would be useful for building a personal assistant similar to Apple's Siri or Amazon's Alexa, it does not seem feasible for this project due to the time required to create a flexible voice recognition scheme. This is also a paid service, so users are charged for each query they make.
+While this API would be useful for building a personal assistant similar to Apple's Siri or Amazon's Alexa, it does not seem feasible for this project due to the time required to write the expressions for different commands. This is also a paid service, so users are charged for each query they make. It also requires a constant Internet connection to use.
 
 \subsubsection{Watson Conversation Engine}
+\label{section:watson}
 
 IBM's Watson API features a Conversation service that allows developers to build voice recognition interfaces that understand natural language input \cite{RefWorks:27}. The developer defines the training data to be used by the API (in order to train a natural language classifier) using `intents' and `entities' \cite{RefWorks:31}.
 \\
 \\
-`Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be `wipers\textunderscore on', in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as ``turn on the wipers", ``switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
+`Intents' are the goals that a user will have as they interact with the application. For example, in a voice-controlled car, an intent could be \texttt{wipers\textunderscore on}, in order to activate the windscreen wipers. This intent would be paired with example utterances in the form of text strings, such as ``turn on the wipers", ``switch on the windscreen wipers", and so on. The more examples given, the more accurate the trained model will be.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{intent-return.png}
   \caption{An example of an intent to return something, along with examples of phrases for the intent. Image re-used from an IBM blog post \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
-`Entities' are classes of objects that help to provide context to intents. For example, in the above example, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
+`Entities' are classes of objects that help to provide context to intents. For example, with the \texttt{wipers\_on} commands above, it is not clear whether the user is referring to the wipers on the front of the car or the wipers on the back of the car (the API will assume the front by default). If the entity is included in the phrase spoken by the user, then the context of the intent becomes clear.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{returnitems.png}
   \caption{An example of entities for items that can be returned. Entities that have been grouped together (usually synonyms) are placed on the same row \cite{RefWorks:34}.}
 \end{figure}
 \end{center}
-Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, ``activate the windscreen wipers at the front of the car", the classifier will return the `wipers\textunderscore on' intent, even though this input is very different in structure to the examples provided above. A demo is available to test this \cite{RefWorks:32}.
+Once the classifier is trained, it will be able to use the examples of intents provided to classify whether new examples of phrases have the same meaning as those. For example, if the user says, ``activate the windscreen wipers at the front of the car", the classifier will return the \texttt{wipers\textunderscore on} intent, even though this input is very different in structure to the examples provided above. A demo is available to test this in a web browser \cite{RefWorks:32}.
 \\
 \\
-This API is very flexible and matches the first objective of this project; only a few example of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged per API call. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
+According to a research paper by McCord, Murdok and Boguraev on \textit{Deep Parsing in Watson} \cite{RefWorks:112}, the engine consists of two deep parsing components: an English Slot Grammar (ESG) parser and a predicate-argument structure (PAS) builder. These allow Watson to produce parse trees of a sentence and extract pattern-based relations from it, such as question decomposition, hypothesis generation, and evidence scoring.
 \\
 \\
-According to a research paper by McCord, Murdok and Boguraev on \textit{Deep Parsing in Watson} \cite{RefWorks:112}, the engine consists of two deep parsing components: an English Slot Grammar (ESG) parser and a a predicate-argument structure (PAS) builder. These allow Watson to produce parse trees of a sentence and extract pattern-based relations from it, such as question decomposition, hypothesis generation, and evidence scoring.
+This API is very flexible and matches the first objective of this project; only a few examples of possible inputs need to be provided for each intent, and then the classifier can infer whether any new input strings will match the same intent. Unfortunately, despite being a very powerful system, this still remains a paid cloud service, so users are charged for each API request. It also requires a lot of processing power (which is offloaded to a cloud server) for the many machine learning algorithms being used here. However, a simpler system may possibly be implemented that uses a similar concept to the intents and entities framework, and the proposed design in this report uses a similar concept that runs locally.
 \\
 \\
 There is a similar API called DialogFlow \cite{RefWorks:106}, which works very similarly to IBM's Watson Conversation engine. However, it suffers from the same issues as above (e.g. cloud-based, pay-per-request, etc).
@@ -322,10 +353,10 @@ Natural Language Processing (NLP) forms a major component of this project. This 
 \end{figure}
 \end{center}
 
-NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenisation, where a raw text string is broken down into words (usually separated by spaces).
+NLP can be broken down into six stages \cite{RefWorks:38}. The first stage is the tokenization, where a raw text string is broken down into words (usually separated by spaces).
 \\
 \\
-The second stage is the lexical analysis, where the output of the tokenisation process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. ``what're" would tokenise to ``what" and ``are",. while ``we're" would break down to ``we" and ``are"); removing end-of-line hyphens that split whole words into parts when using a justification alignment; and abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
+The second stage is the lexical analysis, where the output of the tokenization process is improved upon by looking at words that can be taken apart even further (or rejoined if needed) to uncover more information. These include words such as: clictic contractions (e.g. ``what're" would tokenise to ``what" and ``are",. while ``we're" would break down to ``we" and ``are"); end-of-line hyphens that split whole words into parts when using a justification alignment; and shortened titles or abbreviations (e.g. Dr., U.S.A., etc.) \cite{RefWorks:39}.
 \\
 \\
 The third stage is syntactic parsing, where the grammatical structure of the sentence is determined. This is usually achieved by generating a syntax tree of each sentence, where each word is broken down into a terminal from a given grammar (e.g. verbs, nouns, adjectives, determiners, etc.) \cite{RefWorks:40}.
@@ -334,12 +365,13 @@ The third stage is syntactic parsing, where the grammatical structure of the sen
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{syntax-tree.png}
-  \caption{An example of a syntax tree for the sentence. ``the old man a ship". Diagram taken from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
+  \caption{An example of a syntax tree for the sentence, ``the old man a ship". Diagram taken from the Handbook of Natural Language Processing  \cite{RefWorks:40}.}
+  \label{fig:old-man}
   \end{center}
 \end{figure}
 \end{center}
 
-In the example above for the sentence, ``the old man a ship", the word, ``man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship, and therefore, ``man" is actually a verb here. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
+In the example in Figure \ref{fig:old-man} for the sentence, ``the old man a ship", the word, ``man" could be mistaken to be a noun, but in this case, the sentence is implying that the elderly control a ship, and therefore, ``man" is actually a verb here. This meaning can be more easily inferred when the sentence is broken down using a syntax tree, as above.
 \\
 \\
 The final two stages are very similar and is difficult to separate them into separate stages. Both stages involve determining the meaning of the sentence. The fourth stage is often concerned with semantic analysis, whereas the last stage is more concerned with discourse analysis \cite{RefWorks:39}.
@@ -349,20 +381,20 @@ The final two stages are very similar and is difficult to separate them into sep
 A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset containing POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See the Appendix \ref{appendix:penn} for the full Penn Treebank tagset.
 \\
 \\
-There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, ``can" can either be a verb (``I can..."), a noun (``a can of tuna"), or another verb with a completely different meaning to the previous (``can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its word senses.
+There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, ``can" can either be a verb (``I can..."), a noun (``a can of tuna"), or another verb with a completely different meaning (``can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its \textit{word senses}.
 \\
 \\
-The second challenge is words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
+The second challenge involves words that are unknown to the tagger and cannot be tagged. A default tag is required for words which are unknown, but that could interfere with the rest of the POS-tagging process \cite{RefWorks:41}.
 \\
 \\
 The proposed design for this project will use an open-source POS tagger in order to identify specific words in the player's input, namely verbs and nouns.
 
 \subsubsection{Slot Filling}
 
-According to the authors of \textit{Speech and Language Processing} \cite{RefWorks:107}, three tasks need to be done to understand a user's utterance to a chatbot. The first is \textit{domain classification}, to determine the topic that the user is talking about (e.g. weather, sport, etc), although this is unnecessary for single-domain applications such as the environment of a video game. The second task is \textit{intent determination} to determine the goal of the user, and finally, the last task is to do \textit{slot filling}.
+According to the authors of \textit{Speech and Language Processing} \cite{RefWorks:107}, three tasks need to be done to understand a user's utterance. The first is \textit{domain classification}, to determine the topic that the user is talking about (e.g. weather, sport, etc), although this is unnecessary for single-domain applications such as the contents of a video game. The second task is \textit{intent determination}, to determine the goal of the user, and finally, the last task is to do \textit{slot filling}.
 \\
 \\
-Slot filling involves determining the specific details of an intent by defining a grammar that the intent must adhere to. An example for arithmetic operations would be, $<DIGIT1>$ $<OPERATION>$ $<DIGIT2>$. The input would be parsed by a context-free grammar parsing algorithm to extract each bit of information in order to fill each slot in the grammar.
+Slot filling involves determining the specific details of an intent by defining a grammar that the intent must adhere to. An example for arithmetic operations would be, \texttt{<DIGIT1> <OPERATION> <DIGIT2>}. The input would be parsed by a context-free grammar parsing algorithm to extract each bit of information in order to fill each slot in the grammar. Figure \ref{fig:slot-filling-diagram-example} shows an example of a slot-filling grammar.
 \\
 \\
 A disadvantage to slot-filling using context-free grammar parsing is that not all valid expressions for an intent would match with the slots. A solution to this would be to define multiple grammars for different structures of inputs.
@@ -372,6 +404,7 @@ A disadvantage to slot-filling using context-free grammar parsing is that not al
 \begin{center}
   \includegraphics[scale=1]{slot-filling.png}
   \caption{An example of a slot-filling grammar for flights, using slot names as the internal parse tree nodes. Diagram taken from Chapter 29 of the book, \textit{Speech and Language Processing} \cite{RefWorks:107}.}
+  \label{fig:slot-filling-diagram-example}
   \end{center}
 \end{figure}
 \end{center}
@@ -379,13 +412,13 @@ A disadvantage to slot-filling using context-free grammar parsing is that not al
 
 \subsubsection{Synonyms and Hypernyms}
 
-Synonyms are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word ``dog" has seven word senses (different meanings), and for one of the word senses with a meaning of, ``a member of the genus Canis", the synonyms would be, ``domestic dog" and ``Canis familiris" \cite{RefWorks:45}.
+\textit{Synonyms} are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word ``dog" has seven word senses (i.e. different meanings), and for one of the word senses with a meaning of, ``a member of the genus Canis", the synonyms would be, ``domestic dog" and ``Canis familiris" \cite{RefWorks:45}.
 \\
 \\
-A hypernym, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, ``instrument" is a hypernym of ``guitar", because a guitar is a type of instrument. Similarly, the word ``animal" is a hypernym of ``cat" (or, at least, the sense which refers to the domestic animal, as ``cat" can have several usages).
+A \textit{hypernym}, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, ``instrument" is a hypernym of ``guitar", because a guitar is a type of instrument. Similarly, the word ``animal" is a hypernym of ``cat" (or, at least, the sense which refers to the domestic animal, as ``cat" can have several usages).
 \\
 \\
-The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense. Note that a hyponym is the inverse relationship between a word and its hypernyms.
+The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense.
 
 \begin{center}
 \begin{figure}[H]
@@ -396,14 +429,17 @@ The synonyms and hypernyms of words and phrases can be represented as a hyper-tr
 \end{figure}
 \end{center}
 
-Synonyms and hypernyms could be used to determine the semantic similarity between words and infer whether they match a certain intent of the user.
+Synonyms and hypernyms could be used to determine the semantic similarity between words and infer whether the user's intent matches a certain action.
+\\
+\\
+Note that a \textit{hyponym} is the inverse of a hypernym (e.g. the word, ``cat" is a hyponym of ``animal").
 
 \subsubsection{Semantic Similarity}
 
-There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonyms and hypernym trees of the words to infer similarity, and assign a `similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the intents in a game, and therefore can be mapped to that intent.
+There are many ways of calculating the semantic similarity between two words or phrases. Many of these methods use the synonym and hypernym trees of the words to infer similarity, and assign a `similarity score' to them. This score could be used to determine whether, for instance, a verb has semantic similarities to one of the actions in a game, and therefore can be mapped to that action.
 \\
 \\
-The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUP) measure, which takes the depth in the hypernym tree of the Least Common Subsummer (LCS) (that is, the most general hypernym that both words have in common) and compares it with the sum of the depths of each word. The formula for the similarity of words $w_1$ and $w_2$ is as follows:
+The following are some examples of measures for semantic similarity \cite{RefWorks:46}. The first is the Wu and Palmer (WUP) measure, which takes the depth in the hypernym tree of the Least Common Subsumer (LCS) (that is, the first hypernym that both words have in common) and compares it with the sum of the depths of each word. The formula for the similarity of words $w_1$ and $w_2$ is as follows:
 
 $$sim_{wup} = \frac{2*depth(LCS(w_1,w_2))}{depth(w_1)+depth(w_2)}$$
 
@@ -428,25 +464,25 @@ Score = 2 * DepthLCS / ( Depth1 + Depth2 ) = 2 * 6 / (8 + 7)
 Score = 0.8
 \end{lstlisting}
 
-The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words ``breathing" and ``fire" only have a WUP score of 0.47, suggesting they are not semantically similar.
+The WUP score of 0.8 out of 1.0 indicates that juice and water are semantically very similar \cite{RefWorks:47}, whereas the words ``chair" and ``biology" only have a WUP score of 0.17, suggesting they are not semantically similar.
 \\
 \\
 Another measure of semantic similarity is Leacock and Chodorow's method, which relies on the shortest distance between the two words in the hypernym tree, divided by the maximum depth of the whole tree; the shorter the distance, the more similar the words are \cite{RefWorks:46}. There are many more different measures and it is possible to combine them to produce an overall score for semantic similarity.
 
 \subsection{WordNet}
 
-Princeton University created a large lexical database for the English language \cite{RefWorks:20}. Words are grouped into synonyms (known as synsets, or \textit{synonym sets}), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
+Princeton University created a large lexical database for the English language, called \textit{WordNet} \cite{RefWorks:20}. Words are grouped into synonyms (known as synonym sets, or \textit{synsets} for short), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
 
 \subsection{Generating Objects from Descriptions}
 
-One feature for the proposed design of the RPG is to prevent the developer from manually placing objects in a room/environment within the game. A designer may want to just provide a description of the room without having to program anything. A simple solution to this would be to perform noun extraction on the description to extract the objects that should be in the room. However, it would also be useful to extract relations of objects to other objects as well. For instance, if a lamp should only be on a table if a table exists in the room; if the table is removed/broken by the player, then the lamp should now be on the floor. This would allow for more information to be extracted about the objects in the room, as opposed to simply their existence.
+One feature for the proposed design of the RPG is to prevent the developer from manually placing objects in a room/environment within the game. A designer may want to just provide a description of the room without having to program anything. A simple solution to this would be to perform noun extraction on the description to extract the objects that should be in the room. However, it would also be useful to extract relations of objects to other objects as well. For instance, a lamp should only be on a table if the table exists in the room; if the table is removed/broken by the player, then the lamp should now be on the floor. This would allow for more information to be extracted about the objects in the room, as opposed to simply their existence.
 \\
 \\
-Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships. They created a tool for this called \textit{ReVerb} \cite{ReVerb2011}. Taking the sentence, ``A knife is on the floor.", it would extract the triple, (a knife, be on, the floor), representing the binary relationship (``be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
+Fader, Soderland and Etzioni from the University of Washington proposed a solution for extracting these types of binary classifications using an extraction algorithm which takes as input a POS-tagged input and returns a set of triples representing binary relationships. They created a tool for this called \textit{ReVerb} \cite{ReVerb2011}. Taking the sentence, ``A knife is on the floor", it would extract the triple, \texttt{(a knife, be on, the floor)}, representing the binary relationship (``be on") between the knife and the floor. Using this, more interesting room generation may be possible just from a user-given description of the room.
 
 \subsection{Generating Descriptions from Objects}
 
-The opposite to the above is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, ``You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a sentence of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the above, where the object of a sentence/phrase is extracted; developers may want to go in the opposite direction.
+The opposite to the above is to be able to generate text-based descriptions of the current situation that the player is in based on objects around them. For instance, a description could be, ``You are in a room lit by a candle on a table. There is a piece of broken glass on the floor and a door in front of you." One could hard-code this sentence for each room the player visits, but if there are a lot of rooms in the game, this could become time-consuming. Developers would like to generate a description of the current situation based on sparse pieces of information (such as the items in the room, plus their locations, in a vector representation). This is the opposite of the above, where the object of a sentence/phrase is extracted; developers may want to go in the opposite direction.
 \\
 \\
 This is a relatively new field in NLP as it is particularly difficult. One method of sentence generation is suggested by Iyyer et al \cite{RefWorks:55}, where recursive autoencoders (a type of neural network) are used to generate a decomposition model of the sentence that can be used to reconstruct the sentence again. However, they found that proper nouns were not reconstructed correctly, and the model would need to be built in the first place to reconstruct the sentence.
@@ -459,13 +495,13 @@ One possible solution would be to only hard-code the general sentence structure 
 
 \subsection{Object Properties}
 
-One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, ``attack the enemy with a sharp object"); players would like to be able to select an item that matches the description (e.g. a sword is sharp, so use that if the user possesses one). One approach to this is to assign to the items a set of properties such as whether it is sharp or blunt, whether it can be thrown, and so on.
+One issue to note is when a user attempts to specify an item based on a description of it (e.g. the user says, ``attack the enemy with a sharp object"); players would like to be able to select an item that matches the description (e.g. a sword is sharp, so it will be chosen if the user possesses one). One approach to this is to assign the items a set of properties such as whether it is sharp or blunt, whether it can be thrown, and so on.
 \\
 \\
-A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but they have the same interaction properties. However, it still required the developers to go through encyclopaedias word-by-word. Using the semantic similarity scoring mechanism, this would not need to be done, as it can be inferred whether two objects would have the same properties instead of hard-coding each one.
+A similar technique was used by the developers of Scribblenauts for the Nintendo DS. Using the company's ObjectNaut engine, the game utilises a large database of a hierarchy of objects \cite{RefWorks:48}. This allows them to design sprites for different objects (such as a cyborg, robot or android), but assign them the same interaction properties. However, this still required the developers to go through encyclopaedias word-by-word to find which ones had similar properties. Using the semantic similarity scoring mechanism, this would not need to be done, as it can be inferred whether an object has a certain property based on how semantically similar it is to that property (e.g. an object may be sharp if it is semantically similar to the word, "sharp"), instead of hard-coding each property for every object in the game.
 \\
 \\
-By assigning items different properties, the actions that the user can perform for each variation of items (e.g. sword, katana, knife, etc.) does not need to be hard-coded. Instead, there can be general objects which have certain properties, and then the actions for each general object can be coded. For example, there could be a general object with a `sharpness' property, that would be able to, for example, cut something, and all swords and knifes would be of this type of general object.
+By assigning items different properties, the actions that the user can perform for each variation of items (e.g. sword, katana, knife, etc.) does not need to be hard-coded. Instead, there can be general objects which have certain properties, and then the actions for each general object can be coded. For example, there could be a general object with a `sharpness' property, that would be able to cut things, and all swords and knifes would be of this type of general object, and therefore also considered sharp.
 \newpage
 
 \section{Design}
@@ -984,7 +1020,7 @@ if (mUsingAltSFS) {
 ...
 \end{lstlisting}
 
-See the Appendix \ref{appendix:useAltSlotFillingStructure} for the Java code of the \texttt{isUsingAltSlotFillingStructure()} method.
+See the Java source code for the \texttt{isUsingAltSlotFillingStructure()} method in \texttt{VoiceProcess.java}.
 \\
 \\
 For the \texttt{getBestAction()}, \texttt{getBestTarget()} and  \texttt{getBestContext()} methods, the words in the input are checked sequentially to determine the best match. For instance, in the \texttt{getBestAction()} method, the candidate actions are chosen from the input. For each candidate action, a score out of 1.0 is calculated against each possible action defined in the ContextActionMap: if the words match character-by-character or the the candidate is a synonym for one of the action, then the score is set to 1.0. Otherwise, the score is set to the semantic similarity score of the two words. The \texttt{getBestTarget()} and \texttt{getBestContext()} methods work similarly.
@@ -1005,7 +1041,7 @@ private List<Integer> getCandidateActions(List<String> tags) {
 }
 \end{lstlisting}
 
-Listing \ref{lst:bestAction} shows the pseudocode for the \texttt{getBestAction} method. For the full Java code for this method, see Appendix \ref{appendix:bestActionJava}.
+Listing \ref{lst:bestAction} shows the pseudocode for the \texttt{getBestAction} method.
 \\
 \begin{lstlisting}[language=Java, caption=getBestAction() pseudocode, label={lst:bestAction}]
 def getBestAction(words, tags):
@@ -1098,8 +1134,7 @@ The WS4J library is packaged with its own implementation of this interface, call
 Therefore, a new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with a local Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
 \\
 \\
-Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online (renamed to \texttt{JwiLexicalDatabase.java}) that other developers may freely use \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}. See the Appendix \ref{appendix:customLexDB} for the full implementation.
-
+Since this implementation using the JWI library may be useful for others in the future, a GitHub gist has been published online (renamed to \texttt{JwiLexicalDatabase.java}) that other developers may freely use \footnote{https://gist.github.com/BaronKhan/5679157d1a8572debc8c75af1c875c16}.
 
 \subsubsection{\texttt{ContextActionMap}}
 \label{section:context-action-map}
@@ -1207,14 +1242,14 @@ public class HealItem extends Action {
 }
 \end{lstlisting}
 
-Some methods may wish to ask the user for confirmation before executing (e.g. ``Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said ``yes"/``no", etc). See the Appendix \ref{appendix:open-object} for an example of an Action class (\texttt{OpenObject}) which overrides the \texttt{processReply()} method and asks the player if they want to progress through a door.
+Some methods may wish to ask the user for confirmation before executing (e.g. ``Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said ``yes"/``no", etc).
 
 \subsubsection{\texttt{MultipleCommandProcess}}
 
-Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, ``attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleProcessCommand} class.
+Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, ``attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleCommandProcess} class.
 \\
 \\
-The \texttt{splitInput()} method splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupt and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a partial queue, and then processed once the previous intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the Appendix \ref{appendix:multiple-commands-execute} for the Java code of the \texttt{executeCommand()} method.
+The \texttt{splitInput()} method splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupt and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a partial queue, and then processed once the previous intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the \texttt{executeCommand()} method in \texttt{MultipleCommandProcess.java}.
 \\
 \\
 The following is an example of using an instance of the \texttt{MultipleCommandProcess} class for the \textit{Overworld} gameplay.
@@ -1330,7 +1365,7 @@ The \texttt{GameState} class also has an instance of the \texttt{Inventory} clas
 
 \subsubsection{Battle Mode}
 
-In the \textit{Battle} mode, the player is able to attack the enemy with a wepon in their inventory. If no weapon is specified in the intent (as the context), then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc), as well as look at their inventory or the available actions. Figure \ref{fig:battle-context-action-map} shows the `table' of action mappings for the \textit{Battle} mode. See the Appendix \ref{appendix:battle-context-action-map} for the full \texttt{BattleContextActionMap} class (including the helper features such as synonym maps and sentence matches).
+In the \textit{Battle} mode, the player is able to attack the enemy with a wepon in their inventory. If no weapon is specified in the intent (as the context), then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc), as well as look at their inventory or the available actions. Figure \ref{fig:battle-context-action-map} shows the `table' of action mappings for the \textit{Battle} mode. See the full \texttt{BattleContextActionMap} class in the project's source code (including the helper features such as synonym maps and sentence matches).
 
 \begin{center}
 \begin{figure}[H]
@@ -1352,7 +1387,7 @@ See the Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examp
 
 \subsubsection{Overworld Mode}
 
-In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Figure \ref{fig:overworld-context-action-map} shows the `table' of action mappings for the \textit{Overworld} mode. See the Appendix \ref{appendix:overworld-context-action-map} for the full \texttt{OverworldContextActionMap} class.
+In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Figure \ref{fig:overworld-context-action-map} shows the `table' of action mappings for the \textit{Overworld} mode. Refer to the project repository for the full \texttt{OverworldContextActionMap} class.
 
 \begin{center}
 \begin{figure}[H]
@@ -1479,7 +1514,7 @@ protected void addDescriptionWithObject(String text, Entity object) {
 }
 \end{lstlisting}
 
-See Listing \ref{lst:room01} for an example of the code for \texttt{Room01} using this version of the room generation (compare it to the previous version in the Appendix \ref{appendix:room-gen-v1} on page \pageref{appendix:room-gen-v1}).
+See Listing \ref{lst:room01} for an example of the code for \texttt{Room01} using this version of the room generation.
 
 \begin{lstlisting}[language=Java, caption=Room01.java (Version 2), label=lst:room01]
 public class Room01 extends Room {
@@ -1515,7 +1550,7 @@ public class Room01 extends Room {
 }
 \end{lstlisting}
 
-In the \texttt{getDescription()} method used for displaying the current description of the room to the player, we simply evaluate all the entries in the \texttt{mDescriptionList} field. See the Appendix \ref{appendix:get-description} for the method source code.
+In the \texttt{getDescription()} method used for displaying the current description of the room to the player, we simply evaluate all the entries in the \texttt{mDescriptionList} field.
 
 \subsubsection{Room Generation Program}
 
@@ -1620,7 +1655,7 @@ In order to demonstrate the flexibility of the voice recognition system, it has 
 The user is able to call a contact and add more contacts to the current call. All participants are displayed on the screen and the user can choose to end a call with a specific person, or end all of the calls. The user can also choose to mute the audio of a certain participant, or mute their own video/audio (with the video/audio icons changing accordingly).
 \\
 \\
-Figure \ref{fig:call-context-action-map} shows the context-action `table' for the video conferencing demo. See the Appendix \ref{appendix:call-context-action-map} for the full \texttt{CallContextActionMap} class. Also see the Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
+Figure \ref{fig:call-context-action-map} shows the context-action `table' for the video conferencing demo. See the the full \texttt{CallContextActionMap} class in the project's repository. Also see the Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
 
 \begin{center}
 \begin{figure}[H]
@@ -2331,7 +2366,7 @@ Below are screenshots of the room containing both a fork and a knife, with the s
 \end{center}
 
 \newpage
-If there are multiple mappings for utensil to various objects (e.g. \texttt{utensil --> [fork, knife, spoon, instrument]}). Below is a screenshot of a room with these objects.
+If there are multiple mappings for utensil to various objects (e.g. \texttt{utensil --> [fork, knife, spoon, instrument]}), then all matches are dispalyed at the same time. Below is a screenshot of a room with these objects.
 
 \begin{center}
 \includegraphics[scale=0.25]{utensil-3.png}
@@ -2908,7 +2943,7 @@ addDescriptionWithObjectCond(
 Out of the 10 relations in the description, 7 of them are extracted by the program.
 
 \newpage
-\section{Other Information}
+\section{Supplementary Materials}
 \subsection{Skyrim Kinect Command List}
 \label{appendix:skyrim}
 Below is a list of all 200 commands that can be used in the video game, The Elder Scrolls V: Skyrim, when a Microsoft Kinect peripheral is connected \cite{RefWorks:24}.

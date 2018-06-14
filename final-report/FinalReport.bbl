@@ -28,9 +28,16 @@ M.~Tabini, ``{Inside Siri's brain: The challenges of extending Apple's virtual
   \url{{https://www.macworld.com/article/2033073/inside-siris-brain-the-challenges-of-extending-apples-virtual-assistant.html}}
 \BIBentrySTDinterwordspacing
 
+\bibitem{RefWorks:134}
+\BIBentryALTinterwordspacing
+{Indomitus Games}, ``{In Verbis Virtus: voice controlled fantasy game},'' Nov
+  2013. [Online]. Available:
+  \url{{https://www.indiegogo.com/projects/in-verbis-virtus-voice-controlled-fantasy-game}}
+\BIBentrySTDinterwordspacing
+
 \bibitem{RefWorks:22}
 \BIBentryALTinterwordspacing
-{Indomitus Games}, ``{In Verbis Virtus}.'' [Online]. Available:
+------, ``{In Verbis Virtus}.'' [Online]. Available:
   \url{{http://www.indomitusgames.com/in-verbis-virtus}}
 \BIBentrySTDinterwordspacing
 
@@ -48,9 +55,16 @@ M.~Tabini, ``{Inside Siri's brain: The challenges of extending Apple's virtual
   \url{{https://www.nowgamer.com/skyrim-kinect-full-list-of-200-voice-commands/}}
 \BIBentrySTDinterwordspacing
 
+\bibitem{RefWorks:135}
+\BIBentryALTinterwordspacing
+{Ubisoft}, ``{Star Trek™: Bridge Crew on Steam},'' 2017, May 30. [Online].
+  Available:
+  \url{https://store.steampowered.com/app/527100/Star\_Trek\_Bridge\_Crew/}
+\BIBentrySTDinterwordspacing
+
 \bibitem{RefWorks:29}
 \BIBentryALTinterwordspacing
-{Ubisoft}, ``{Star Trek Bridge Crew},'' {2017}. [Online]. Available:
+------, ``{Star Trek Bridge Crew},'' {2017}. [Online]. Available:
   \url{{https://www.ubisoft.com/en-gb/game/star-trek-bridge-crew/}}
 \BIBentrySTDinterwordspacing
 
@@ -421,17 +435,17 @@ E.~Bamberg, ``{Parallel stream processing in Java 8 - performance of sequential
   \url{https://github.com/Kitt-AI/snowboy}
 \BIBentrySTDinterwordspacing
 
+\bibitem{RefWorks:108}
+\BIBentryALTinterwordspacing
+M.~Schmid, ``{simpleUMLCE},'' Apr 24 2010. [Online]. Available:
+  \url{https://plugins.jetbrains.com/plugin/4946-simpleumlce}
+\BIBentrySTDinterwordspacing
+
 \bibitem{RefWorks:42}
 \BIBentryALTinterwordspacing
 {University of Pennsylvania}, ``{Penn Treebank P.O.S. Tags},'' {2018}.
   [Online]. Available:
   \url{https://ling.upenn.edu/courses/Fall\_2003/ling001/penn\_treebank\_pos.html}
-\BIBentrySTDinterwordspacing
-
-\bibitem{RefWorks:108}
-\BIBentryALTinterwordspacing
-M.~Schmid, ``{simpleUMLCE},'' Apr 24 2010. [Online]. Available:
-  \url{https://plugins.jetbrains.com/plugin/4946-simpleumlce}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
