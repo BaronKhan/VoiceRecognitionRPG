@@ -1401,7 +1401,7 @@ The semantic similarity engine | on its own without any helper mechanisms (such 
 A separate Java project was created that runs the system on a set of commands across three entirely different domains: commands that may be found in a game; video conferencing commands; and commands that may potentially be used in a cooking system/application. On each run, a different semantic similarity method is used.
 \\
 \\
-The number of tests passed for each domain is calculated as a percentage of the total tests, and a final score is calculated for that semantic similarity method (as an average of all three domain scores), with the results saved as a CSV file.
+The number of tests that pass for each domain is calculated as a percentage of the total tests, and a final score is calculated for that semantic similarity method (as an average of all three domain scores), with the results saved as a CSV file.
 \\
 \\
 In the evaluation project, the action methods do not perform any function; they simply return a string containing the output (e.g. ``ATTACK\_WEAPON" for attacking with a  sword; ``SERVE\_SOUP" for serving soup, etc.). Each test case is a pair containing a string input (i.e. the user's utterance) and the expected output. For each test case, the string input is used to update the game/calling/cooking state. The output from the object is compared to the expected output, and the results are written to the CSV file. The time taken for a test suite is also recorded, as well as the average time taken for each test.
@@ -1425,13 +1425,13 @@ Figure \ref{fig:pie-charts-wup} shows pie charts for the percentage of tests in 
 The final score for the WUP method is 71.08\%. See Appendix \ref{appendix:evaluation-wup} for the full table of results (including test cases) when using the WUP method.
 \\
 \\
-Note that any failed test cases above can be resolved using helper mechanisms (e.g. synonym-mappings, match-ignores, sentence-matching, etc.), which have been removed from the evaluation project.
+Note that any failed test cases in the evaluation can be resolved using helper mechanisms (e.g. synonym-mappings, match-ignores, sentence-matching, etc.), which have been removed from the evaluation project in order to only evaluate the similarity method.
 \\
 \\
-Table \ref{table:method-results} shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}, while Figure \ref{fig:evaluation-results-bar-chart} shows the corresponding bar chart for the results.
+Table \ref{table:method-results} on page \pageref{table:method-results} shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}, while Figure \ref{fig:evaluation-results-bar-chart} shows the corresponding bar chart for the results.
 \\
 \\
-To see the full results for each semantic similarity method (including the result for each test case), see the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
+See the full results for each semantic similarity method (including the result for each test case) in the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
 \\
 \begin{figure}
 \begin{center}
@@ -1464,7 +1464,7 @@ The LCH method has the highest final score, closely followed by the WUP method. 
 The results suggest that path-based methods perform better than methods which use information content or the definitions of the words. This could be because words which are close in proximity in the WordNet database tend to be very similar. The exception to this is the PATH method (i.e. using the reciprocal of the distance between the word nodes in the tree) which performed very poorly with a final score of 42.17\%, perhaps because it is a very simplistic algorithm.
 \\
 \\
-These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. Though it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
+These results also suggest that different methods may perform better under different domains, and there is no optimal method that performs the best under all circumstances. However, it is clear that some methods such as the Resnik (RES) method perform poorly under all three domains, and are not suitable for the system.
 \\
 \\
 It should be noted that the performance of the methods could also be dependent on the confidence thresholds that have been set in \texttt{VoiceProcess.java}; adjusting these thresholds could affect the accuracy of the methods either positively or negatively.
@@ -1493,15 +1493,15 @@ WUP               & LCH          & 71.08\%
 The Leacock and Chodorow (LCH) and Wu and Palmer (WUP) methods are involved in almost all of the top combinations (since they also have the highest individual final scores). The best combination is the LCH method with either the LESK method or FASTLESK method, and since the FASTLESK method can be up to 10 times faster than the LESK method (see Section \ref{section:performance} below for performance details), it is the preferred combination.
 \\
 \\
-It should be noted that there is only a slight increase from 72.29\% to 74.70\% when combining the LCH method with the FASTLESK method (as opposed to just using the LCH method on its own), so the improvement in recognition in not large with a hybrid method.
+It should be noted that there is only a slight increase from 72.29\% to 74.70\% when combining the LCH method with the FASTLESK method (as opposed to just using the LCH method on its own), so the increase in accuracy may not be worth the increase in processing time when using two methods.
 
 \subsection{Performance of Semantic Similarity Methods}
 \label{section:performance}
 
-One user requirement for the system for the voice recognition to be fast and responsive; the user does not want to wait a noticeable amount of time until their voice command has been processed. Therefore, a semantic similarity method which is fast is required.
+One user requirement for the system is for the voice recognition to be fast and responsive; the user does not want to wait a noticeable amount of time until their voice command has been processed. Therefore, a semantic similarity method which is fast is required.
 \\
 \\
-According, Jakob Nielson of the Nielson Norman Group \cite{RefWorks:128}, there are three main response limits determined by human perceptual abilities that should be noted when optimising application performance:
+According to Jakob Nielson of the Nielson Norman Group \cite{RefWorks:128}, there are three main response limits determined by human perceptual abilities that should be noted when optimising application performance:
 
 \begin{itemize}
 \item 0.1 seconds | the limit for which the user feels the system is instantaneous.
@@ -1509,7 +1509,7 @@ According, Jakob Nielson of the Nielson Norman Group \cite{RefWorks:128}, there 
 \item 10 seconds | the limit for keeping the user's attention; anything longer requires a progress indicator (e.g. progress bar).
 \end{itemize}
 
-Ideally, command processing should be limited to 0.1 seconds, with 1 second being the limit for processing commands involving multiple intents, targets or contexts (e.g. ``attack the troll with a sword and with a hammer and then heal using a potion", as the intent would be broken down and processed separately, so may require more processing time).
+Ideally, command processing should be limited to 0.1 seconds, with 1 second being the limit for processing commands involving multiple intents, targets or contexts (e.g. ``attack the troll with a sword and with a hammer and then heal using a potion"), as the intent would be broken down and processed separately, so may require more processing time.
 \\
 \\
 Using the evaluation project described in Section \ref{section:eval-similarity} above, the average time taken to process one command was calculated for each semantic similarity method on three different machines. Note that the Java program is single-threaded, so multi-core processors are not fully utilised.
@@ -1558,7 +1558,7 @@ On the Desktop PC, all methods except the LESK method are below the 0.1 seconds 
 Clearly, the LESK method is not feasible on any machine, with the FASTLESK method being manyfold faster . This suggests that the use of definitions from the meronyms and holonyms of the words to calculate the similarity between two words (and any formatting to remove punctuation from the definitions) is not worthwhile in terms of speed (and given that the accuracy of both methods are very similar as seen in Section \ref{section:eval-similarity}, the FASTLESK method is unanimously the preferred method).
 \\
 \\
-Fortunately, methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application. It should also be noted that multi-threading the system may be to at least double the speed of processing.
+Methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application. It should also be noted that multi-threading the system may be to at least double the speed of processing.
 
 \subsection{Evaluation of System Features}
 
@@ -1579,13 +1579,14 @@ The system supports the following features that can be toggled in the \texttt{Vo
 Using the test cases from the Android mock testing (see Appendix \ref{appendix:mock-tests} for the list of commands that are tested), the number of tests that pass are calculated while gradually activating more features. It is not possible to test the features separately as some are dependent on others being enabled (e.g. the suggestions mechanism requires the semantic similarity engine to be enabled).
 \\
 \\
-The graph on page \pageref{fig:line-chart-features} shows a cumulative line chart of the number of tests that pass as more features are enabled, starting with no features, followed by adding the semantic similarity engine, and so on. There are a total of 158 tests, and with all features enabled, all of the tests pass.
+Figure \ref{fig:line-chart-features} shows a cumulative line chart of the number of tests that pass as more features are enabled, starting with no features, followed by adding the semantic similarity engine, and so on. There are a total of 158 tests, and with all features enabled, all of the tests pass.
 
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{feature-evaluation.pdf}
+  \caption{Cumulative line chart showing the number of tests that pass as more system features are activated.}
   \label{fig:line-chart-features}
   \end{center}
 \end{figure}
