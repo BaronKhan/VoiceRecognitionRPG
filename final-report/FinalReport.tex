@@ -907,9 +907,9 @@ The \texttt{MainActivity} class contains a \texttt{VoiceControl} class that  han
 Figure \ref{fig:snapshot-ui} shows a snapshot of the UI for the game logic with the following labels:
 
 \begin{enumerate}
-	\item The player's input for the game as a string (i.e. it is the output of the speech-to-text API).
-	\item The cumulative output as the game processes each user input.
-	\item Pressing this button activates the microphone and starts a voice intent.
+	\item A \texttt{TextView} element containing the player's input for the game as a string (i.e. it is the output of the speech-to-text API).
+	\item A \texttt{TextView} containing the cumulative output of the game as each input is processed.
+	\item Pressing this \texttt{Button} element activates the microphone and starts a voice intent.
 	\item A timer used for debugging the time taken to process an intent by the system.
 	\item This drop-down list contains various options (such as an option to open the settings menu).
 \end{enumerate}
@@ -924,7 +924,7 @@ Figure \ref{fig:snapshot-ui} shows a snapshot of the UI for the game logic with 
 \end{figure}
 \end{center}
 
-All UI elements are accessed in the \texttt{MainActivity} and are separate from the voice recognition system.
+All UI elements (such as \texttt{TextView}s, \texttt{Button}s, etc.) are accessed in the \texttt{MainActivity} class, and are separate from the voice recognition system.
 
 \subsection{User Flow Diagram}
 
@@ -940,16 +940,16 @@ Figure \ref{fig:wireframe} shows a wireframe for the different screen transition
 
 \subsection{Voice Recognition System Implementation}
 
-This section describes each component in the voice recognition system in more detail.
+This section outlines the general process of understanding the user's intent and mapping it to an action in the application. It also describes each component in the voice recognition system in more detail.
 
 \subsubsection{Data Flow Diagram}
 
-Figure \ref{fig:data-flow} shows how data flows in the voice recognition system, starting from the user's audio input, and ending with the output sent to the the UI. Note that not all data paths will be followed during a voice intent. The critical path is highlighted in red.
+Figure \ref{fig:data-flow} shows how data flows in the voice recognition system, starting from the user's audio input, and ending with the output sent to the UI. Note that not all data paths will be followed during a voice intent. The critical path is highlighted in red.
 
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{data-flow.pdf}
-  \caption{A data flow diagram showing how the user's input (as audio from the microphone) is processed by the different components until a response is sent to the UI. The critical path is highlighted in red. Diagram generated automatically using Graphviz.}
+  \caption{A data flow diagram showing how the player's input (starting from 'Player') is processed by the different components until a response is sent to the 'UI'. The critical path is highlighted in red. Diagram generated automatically using Graphviz.}
   \label{fig:data-flow}
   \end{center}
 \end{figure}
@@ -966,9 +966,19 @@ To support this scenario, there is a Boolean field called \texttt{mActionSucceed
 
 \subsubsection{\texttt{VoiceProcess}}
 
-\texttt{VoiceProcess.java} is the main class that performs all the processing on the text string input (of the user's utterance). The main method is the \texttt{processInput} method that takes the string input and returns the response. Listing \ref{lst:voice-process-pseudo} show the pseudocode for the method, with most of the details ignored (as it is a relatively long method). For the full Java method, refer to the source code in the project's repository.
+\texttt{VoiceProcess.java} is the main class that performs all the processing on the text string input (of the user's utterance). The main method is the \texttt{processInput()} method that takes the string input and returns the response. Figure \ref{fig:process-input} shows a flow chart for this method.
 
-\begin{lstlisting}[caption=VoiceProcess.processInput() pseudocode, label={lst:voice-process-pseudo}]
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{process-input.pdf}
+  \caption{A flow chart outlining the \texttt{processInput()} method in the \texttt{VoiceProcess} class. Note that any minor steps are not shown here.}
+  \label{fig:process-input}
+  \end{center}
+\end{figure}
+
+Listing \ref{lst:voice-process-pseudo} shows the pseudocode for the method, with most of the minor details removed. For the full Java method, refer to the source code in the project's repository.
+
+\begin{lstlisting}[caption=Pseudocode for processInput(), label={lst:voice-process-pseudo}]
 def processInput(input):
     checkIfWordNetIsLoaded()
     
@@ -979,11 +989,7 @@ def processInput(input):
     if currentAction.wantsReply():
         return currentAction.processReply(input)
     
-    //Tokenise and tag the input
-    words = input.split(" ")
-    tags = getTags(words)
-    if words.size() != tags.size:
-        throw Exeception
+    words, tags = tokeniseAndTag(input)
     
     //Check for learning phrase ("___ means ___")
     if words.size() == 3 and words.contains("means"):
@@ -1020,87 +1026,21 @@ def processInput(input):
             performSentenceMatching(input)
 \end{lstlisting}
 
-When tokenising and tagging the input create the \texttt{words} and \texttt{tags} lists, the index of a word in \texttt{words} corresponds to the index of its tag in \texttt{tags}.
+When tokenising and tagging the input, a list of \texttt{words} and a list of \texttt{tags} are created. The index of a word in \texttt{words} corresponds to the index of its tag in \texttt{tags}.
 \\
 \\
-On line 25 of the pseudocode, the order of choosing the best action, target and context (if they exist) is decided by which slot-filling structure (SFS) is being used. Below is the Java code for this.
-\\
-\begin{lstlisting}[language=Java, label={lst:sfs}]
-...
-
-mUsingAltSFS = isUsingAltSlotFillingStructure(words, tags, actionPair.first);
-if (mUsingAltSFS) {
-    // SFS: with/use CONTEXT ACTION TARGET
-    chosenContext = getBestContext(words, tags, true);
-    actionPair = getBestAction(words, tags);
-    currentTarget = getBestTarget(words, tags, true);
-} else {
-    // SFS: ACTION TARGET with/using CONTEXT
-    actionPair = getBestAction(words, tags);
-    currentTarget = getBestTarget(words, tags, false);
-    chosenContext = getBestContext(words, tags, false);
-}
-
-...
-\end{lstlisting}
-
-See the Java source code for the \texttt{isUsingAltSlotFillingStructure()} method in \texttt{VoiceProcess.java}.
+For the \texttt{getBestAction()}, \texttt{getBestTarget()} and  \texttt{getBestContext()} methods, the words in the input are checked sequentially to determine the best match. For instance, in the \texttt{getBestAction()} method, the candidate actions are first chosen from the input. For each candidate action, a score out of 1.0 is calculated against each possible action defined in the \texttt{ContextActionMap}: if the words match character-by-character or the candidate is a synonym for one of the actions, then the score is set to 1.0. Otherwise, the score is set to the semantic similarity score of the two words. The \texttt{getBestTarget()} and \texttt{getBestContext()} methods work similarly.
 \\
 \\
-For the \texttt{getBestAction()}, \texttt{getBestTarget()} and  \texttt{getBestContext()} methods, the words in the input are checked sequentially to determine the best match. For instance, in the \texttt{getBestAction()} method, the candidate actions are chosen from the input. For each candidate action, a score out of 1.0 is calculated against each possible action defined in the ContextActionMap: if the words match character-by-character or the the candidate is a synonym for one of the action, then the score is set to 1.0. Otherwise, the score is set to the semantic similarity score of the two words. The \texttt{getBestTarget()} and \texttt{getBestContext()} methods work similarly.
-\\
-\\
-The candidates are chosen using the POS tagging, to filter out words with no meaning such as ``the", ``it", etc. Words in the input are candidate actions if they are tagged as either a verb, adverb, or noun (as sometimes, the POS tagger incorrectly tags some imperative verbs as nouns). Listing \ref{lst:candidates} shows the method for finding candidate actions, which returns a list of the indices (positions) of the candidates in the \texttt{words} and \texttt{tags} lists.
-\\
-\begin{lstlisting}[language=Java, caption=getCandidateActions(), label={lst:candidates}]
-private List<Integer> getCandidateActions(List<String> tags) {
-    List<Integer> candidateActions = new ArrayList<>();
-    for (int i=0; i<tags.size(); ++i) {
-        String tag = tags.get(i).toLowerCase();
-        if (tag.charAt(0) == 'v' || tag.charAt(0) == 'n' || tag.charAt(0) == 'j') {
-            candidateActions.add(i);
-        }
-    }
-    return candidateActions;
-}
-\end{lstlisting}
-
-Listing \ref{lst:bestAction} shows the pseudocode for the \texttt{getBestAction} method.
-\\
-\begin{lstlisting}[language=Java, caption=getBestAction() pseudocode, label={lst:bestAction}]
-def getBestAction(words, tags):
-   candidateActions = getCandidateActions(tags)
-   bestScore, bestIndex, bestAction = ACTION_MIN, -1, "<none>"
-   actionList = mContextActionMap.getActions()
-   for i in candidateActions:
-       word = words.get(i)
-       if (wordIsSynonym(word)):
-           return new Pair(i, synonyms.get(word))
-       for action in actionList:
-           if word.equals(action):
-               return new Pair(i, action)
-       for action in actionList:
-           score = SemanticSimiarity.getInstance().calculateScore(word, action)
-           if score > ACTION_MIN && score < ACTION_CONFIDENT:
-               isAmbiguous = true
-               addAmbiguousActionCandidate(word, action, score)
-           if score > bestScore:
-               bestScore = score
-               bestIndex = i
-               bestAction = action
-   return new Pair(bestIndex, bestAction)
-\end{lstlisting}
-
-On line 11 of Listing \ref{lst:bestAction}, the same for loop over \texttt{actionList} is split into two: the first loop checks for direct matches, and the second loop runs the semantic similarity engine. The reason for the separation is so that, if there is a direct match with any of the words, then there is no need to run the similarity engine at all, and therefore the intent is processed faster.
+The candidates are chosen using POS tagging, to filter out words with no meaning such as ``the", ``it", etc. Words in the input are candidate actions if they are tagged as either a verb, adverb, or noun (occasionally, the POS tagger incorrectly tags some imperative verbs as nouns).
 
 \subsubsection{\texttt{AmbiguousHandler}}
 
-As shown on line 14 of Listing \ref{lst:bestAction}, candidate actions may be marked as ambiguous/uncertain if their confidence score is just below the \texttt{ACTION\_CONFIDENT} threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say ``no" or something similar), then the next suggestion is given, until no more suggestions are available.
+Candidate actions, targets and contexts may be marked as ambiguous/uncertain if their confidence score is just below a threshold value. If the best action/target/candidate has a confidence value lower than this threshold, then all the ambiguous candidates are queried to the user using the \texttt{AmbiguousHandler} class. This class will generate a suggestion and display it to the user, starting with the ambiguous candidate which gave the highest confidence. If the user disagrees with the suggestion (i.e, they say ``no" or something similar), then the next suggestion is given, until no more suggestions are available.
 \\
 \\
 Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed to the user after an ambiguous intent. See the \texttt{AmbiguousHandler.java} file in the project's repository for the full code.
 
-\begin{center}
 \begin{figure}
 \begin{center}
   \includegraphics[scale=0.25]{Screenshot_20180522-183411.png}
@@ -1108,7 +1048,6 @@ Figure \ref{fig:snapshot-suggestion} shows an example of a suggestion displayed 
   \label{fig:snapshot-suggestion}
   \end{center}
 \end{figure}
-\end{center}
 
 \subsubsection{\texttt{SemanticSimilarity}}
 \label{section:semantic-impl}
@@ -1119,15 +1058,15 @@ The semantic similarity engine is implemented as a singleton design pattern with
 The engine uses up to two semantic similarity methods, and if two are chosen, then the score returned is the average score from both methods. As well as the Wu and Palmer (WUP), Lin and Lesk methods mentioned previously, below is a list of methods that can also be chosen: 
 
 \begin{itemize}
-\item Fast Lesk (FASTLESK) - a faster implementation of the Lesk method, that removes definition string formatting and ignores meronym and holonym definitions of the words.
+\item Fast Lesk (FASTLESK) - a faster implementation of the Lesk method, that removes string formatting of definitions and ignores meronym and holonym definitions of the words.
 
 \item Path-based (PATH) - a simpler version of the WUP method which uses the reciprocal of the shortest path between the words in the WordNet database as the similarity score \cite{RefWorks:46}.
 
 \item Leacock and Chodorow (LCH) - another path-based measure which uses the negative log of the shortest distance between the two words \cite{RefWorks:46}.
 
-\item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' lowest common subsumer \cite{RefWorks:46}.
+\item Resnik (RES) - similar to the LIN method, but does not normalise the information content of the words' least common subsumer \cite{RefWorks:46}.
 
-\item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps in words).
+\item Cosine (COS) - similar to the Lesk method, but uses the cosine similarity of their definitions (as opposed to just overlaps in the definitions).
 \end{itemize}
 
 Most of the above similarity method implementations are provided by the WS4J library, except the FASTLESK and COS methods, which are unique to this project and are implemented manually in the code (though the FASTLESK method is altered from WS4J's LESK method which was decompiled using Android Studio's built-in Fernflower decompiler \cite{RefWorks:124}). By default, only the WUP method is used by the system, though other methods can be chosen in the application's settings.
@@ -1135,25 +1074,10 @@ Most of the above similarity method implementations are provided by the WS4J lib
 \subsubsection{\texttt{CustomLexicalDatabase}}
 \label{custom-lexical-database-impl}
 
-Despite the WS4J library providing implementations of the algorithms for most of the semantic similarity methods used in this project, they require an interface to be implemented in order to access a WordNet database. Listing \ref{lst:ilexicaldatabase} shows the interface that needs to be implemented and used as an input to the WS4J methods.
-
-\begin{lstlisting}[language=Java, caption=ILexicalDatabase.java (from the WS4J library), label={lst:ilexicaldatabase}]
-package edu.cmu.lti.lexical_db;
-
-import java.util.Collection;
-import edu.cmu.lti.lexical_db.data.Concept;
-
-public interface ILexicalDatabase {
-	Concept getMostFrequentConcept(String word, String pos);
-	Collection<Concept> getAllConcepts(String word, String pos);
-	Collection<String> getHypernyms(String synset);
-	Concept findSynsetBySynset( String synset );
-	String conceptToString( String synset );
-	Collection<String> getGloss( Concept synset, String linkString );
-}
-\end{lstlisting}
-
-The WS4J library is packaged with its own implementation of this interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet \cite{RefWorks:122}). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used. Adding to this, even if the SQLite methods worked, it would still require a connection to the internet in order to access the WordNet database, which is undesirable for this project, as one of the goals is to create a system that works entirely offline.
+Despite the WS4J library providing implementations of the algorithms for most of the semantic similarity methods used in this project, they require an interface to be implemented in order to access a WordNet database, called \texttt{ILexicalDatabase}.
+\\
+\\
+The WS4J library is packaged with its own implementation of \texttt{ILexicalDatabase} interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet \cite{RefWorks:122}). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used. Moreover, even if the SQLite methods worked, it would still require a connection to the internet in order to access the WordNet database, which is undesirable for this project, as one of the goals is to create a system that works entirely offline.
 \\
 \\
 Therefore, a new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with a local Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
@@ -1164,10 +1088,10 @@ Since this implementation using the JWI library may be useful for others in the 
 \subsubsection{\texttt{ContextActionMap}}
 \label{section:context-action-map}
 
-The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a `table' format (with contexts on the left and actions along the top) in the constructor. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context. The entries in the `table' are either null or inherit from the \texttt{Action} class (see Section \ref{section:action}).
+The \texttt{ContextActionMap} class contains the table of mappings of contexts to intents. The developer uses this abstract class to create a derived class that defines the mapping in a `table' format (with contexts on the left and actions along the top) in the constructor. The table itself is implemented as a 'map of maps'. The \texttt{setActionsList()} method specifies the possible actions, while the \texttt{addContextActions()} method describes which Java method should be invoked for each action based on the context. The entries in the `table' are either \texttt{null} or classes that inherit from the \texttt{Action} class (see Section \ref{section:action}).
 \\
 \\
-There is also an \texttt{addDefaultContextActions()} method, which defines the actions to be called if no context is given in the input. A \texttt{null} entry means that the action is invalid for the given context (e.g. you cannot attack with a potion). In this case, the default context action is called instead.
+There is also an \texttt{addDefaultContextActions()} method, which defines the actions to be called if no context is given in the input. A \texttt{null} entry means that the action is invalid for the given context (e.g. you cannot attack with a potion). In this case, the default context action is called instead, and if the default action is \texttt{null}, then nothing happens.
 \\
 \\
 Listing \ref{lst:game-context-action-map} shows an example of a derived class to create a table. Note that this example was only used for testing and evaluation of the system, and is not one of the tables used in the RPG demo.
@@ -1205,106 +1129,40 @@ See the source code in the project's repository for the full Python script.
 \end{tabular}
 \end{table}
 
-In the \texttt{ContextActionMap} class, there are two member fields that the developer must build in their application: the \texttt{mPossibleTargets} and \texttt{mPossibleContexts} lists. These are lists of objects that extend the abstract \texttt{Entity} class (described in Section \ref{section:entity}). Only entities in these lists are used in the target/context matching (when finding the best match).
+In the \texttt{ContextActionMap} class, there are two member fields that the developer must build in their application: the \texttt{mPossibleTargets} and \texttt{mPossibleContexts} lists. These are lists of objects that extend the abstract \texttt{Entity} class. Only entities in these lists are used in the target/context matching (when finding the best match).
 
 \subsubsection{\texttt{Entity}}
 \label{section:entity}
 
-\texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, ``sword", ``potion", etc.), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
+\texttt{Entity} is an abstract class in the system which represents anything that could be a possible target or context. Each derived class of \texttt{Entity} must set the following fields: \texttt{mContext}, which is the context type of the entity (i.e. the left-hand side value in a ContextActionMap described in Section \ref{section:context-action-map}); \texttt{mName}, which is the name of the entity (e.g, ``sword", ``potion", etc.), and, optionally, \texttt{mDescription}, which is a string array of adjectives that are used to describe the entity. \texttt{mDescription} is optional, but it assists the \texttt{processIntent} method in the \texttt{VoiceProcess} class in identifying the best matches for targets and contexts.
 \\
 \\
-Once a match for a context is found, its \texttt{mContext} string value is used to index the \texttt{ContextActionMap}, along with the best action.
+Once a match for a context is found, its \texttt{mContext} string value is used to index the \texttt{ContextActionMap} table, along with the chosen action.
 
 \subsubsection{\texttt{Action}}
 \label{section:action}
 
-The \texttt{Action} class is an abstract class that is used to wrap the methods that should be executed in the \texttt{ContextActionMap}. Listing \ref{lst:action} shows the source code for the class.
-
-\begin{lstlisting}[language=Java, caption=Action.java, label={lst:action}]
-public abstract class Action {
-    private static Entity sCurrentContext = null;
-    public abstract String execute(GlobalState state, Entity currentTarget);
-    protected boolean mWantsReply = false;
-    protected Entity mCurrentTarget;
-    
-    public boolean wantsReply() { return mWantsReply; }
-    public void setWantsReply(boolean wantsReply) { mWantsReply = wantsReply; }
-
-    public Object processReply(GlobalState state, String input) { 
-        return ``Intent not understood.";
-    }
-
-    protected static Entity getCurrentContext() { return sCurrentContext; }
-
-    protected static void setCurrentContext(Entity currentContext) {
-        sCurrentContext = currentContext;
-    }
-}
-\end{lstlisting}
-
-The \texttt{execute()} method is overridden by the derived class and executed when the action is chosen in the \texttt{VoiceProcess} class (see line 39 of the pseudocode in Listing \ref{lst:voice-process-pseudo}). The method takes as input the GlobalState object (so the method can update its state if needed) and the current target (if it exists).
-
-\begin{lstlisting}[language=Java, caption=HealItem.java, label={lst:heal-item}]
-public class HealItem extends Action {
-    public String execute(GlobalState state, Entity currentTarget) {
-        if (state instanceof GameState) {
-            GameState gameState = (GameState)state;
-            String itemName = Action.getCurrentContext().getName();
-            if (gameState.getInventory().hasItem(itemName)) {
-                gameState.incPlayerHealth(100);
-                //Remove healing item from inventory
-                gameState.getInventory().remove(itemName);
-                state.actionSucceeded();
-                return "You healed with a " + itemName;
-            } else {
-                state.actionFailed();
-                return "You don't have a " + itemName;
-            }
-        }
-        state.actionFailed();
-        return "Error: unknown GlobalState loaded.";
-    }
-}
-\end{lstlisting}
-
-Some methods may wish to ask the user for confirmation before executing (e.g. ``Are you sure you want to...?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said ``yes"/``no", etc.).
+The \texttt{Action} class is an abstract class that is used to wrap the methods that should be executed in the \texttt{ContextActionMap}. The \texttt{execute()} method is overridden by the derived class and executed when the action is chosen in the \texttt{VoiceProcess} class. The method takes as input the GlobalState object (so the method can update its state if needed) and the current target (if it exists).
+\\
+\\
+Some methods may wish to ask the user for confirmation before executing (e.g. ``Are you sure you want to do this?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said ``yes"/``no", etc.).
 
 \subsubsection{\texttt{MultipleCommandProcess}}
 
-Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, ``attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The can wrap their \texttt{VoiceProcess} class using a \texttt{MultipleCommandProcess} class.
+Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, ``attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The developer can wrap their \texttt{VoiceProcess} class inside a \texttt{MultipleCommandProcess} class.
 \\
 \\
-The \texttt{splitInput()} method splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupt and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a partial queue, and then processed once the previous intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the \texttt{executeCommand()} method in \texttt{MultipleCommandProcess.java}.
-\\
-\\
-The following is an example of using an instance of the \texttt{MultipleCommandProcess} class for the \textit{Overworld} gameplay.
-
-\begin{lstlisting}[language=Java]
-String overworldOutput = "";
-Queue<String> commandQueue = mOverworldVoiceProcess.splitInput(input);
-while (!commandQueue.isEmpty()) {
-    overworldOutput += mOverworldVoiceProcess.executeCommand(commandQueue)
-            + ((commandQueue.isEmpty()) ? "" : "\n\n---\n\n");
-}
-return overworldOutput;
-\end{lstlisting}
+The \texttt{MultipleCommandProcess} class has a \texttt{splitInput()} method which splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupted and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a second queue, and are processed once the current intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the \texttt{executeCommand()} method in \texttt{MultipleCommandProcess.java}.
 
 \subsubsection{\texttt{SentenceMapper}}
 
-The \texttt{SentenceMapper} is used to match sentences provided by the developer which do not fit the default slot-filling structures (e.g. question-based intents). Each instance of \texttt{ContextActionMap} holds a reference to an instance of a \texttt{SentenceMapper}. Invoking the \texttt{addSentenceMatch()} in the \texttt{ContextActionMap} class will add a map of several example utterances to an action and target. The following code block shows an example in the \texttt{BattleContextActionMap} class for showing the inventory.
-
-\begin{lstlisting}[language=Java]
-addSentenceMatch(new ShowDefault(), "inventory",
-        "what is in my inventory",
-        "what are the contents of my bag",
-        "what items do i have"
-);
-\end{lstlisting}
-
-The sentence mapper is run at the very end of the \texttt{processInput} method of the \texttt{VoiceControl} class, if no slot-filling matching failed. A disadvantage to this is that the example sentences should not be able to be matched to the slot-filling grammar.
+The \texttt{SentenceMapper} is used to match sentences provided by the developer which do not fit the default slot-filling grammars (e.g. question-based intents). Each instance of \texttt{ContextActionMap} holds a reference to an instance of a \texttt{SentenceMapper}. Invoking the \texttt{addSentenceMatch()} method in the \texttt{ContextActionMap} class will add a map of several example utterances to an action and target.
 \\
 \\
-The \texttt{checkSentenceMatch()} method of the \texttt{SentenceMapper} class goes through each group of sentences, and calculates the average similarity of each group of sentences to the user's utterance, and matches with the highest value (if it is greater than a threshold of 0.5).
+The sentence mapper is run at the very end of the \texttt{processInput()} method of the \texttt{VoiceControl} class, if the slot-filling matching failed. A disadvantage to this is that the example sentences should not be able to be matched to the slot-filling grammar.
+\\
+\\
+The \texttt{checkSentenceMatch()} method of the \texttt{SentenceMapper} class goes through each group of sentences, and calculates the average similarity of each group of sentences to the user's utterance, and matches with the highest value (if it is greater than a threshold value).
 \\
 \\
 The similarity of each sentence with the utterance is based on the cosine similarity of the sentences (refer to Section \ref{section:sentence-mapping}). First, a vector of each sentence is created (which is just a map of the words to the word count) before the formula for cosine similarity is applied. Listing \ref{lst:cos-score} shows the code for this method.
