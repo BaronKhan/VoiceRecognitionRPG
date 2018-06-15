@@ -203,7 +203,7 @@ This voice recognition interface could be improved by allowing the player to per
 \textit{The Elders Scrolls \rom{5}: Skyrim} is a first-person action role-playing game developed by Bethesda \cite{RefWorks:23}. The Xbox 360 version of the game supports the Microsoft Kinect peripheral which allows the player to execute voice commands \cite{RefWorks:24}. The user can use over 200 hundred pre-configured voice commands, and these can be used simultaneously with the traditional control scheme.
 \\
 \\
-There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to use any of the items selected from the menu within the game using only a voice command; this is only possible if you assign the item to a `hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See the Appendix \ref{appendix:skyrim} for a full list of available voice commands.
+There are voice commands available that allow the user to navigate the game's menu screens. For instance, the player would say, ``quick items'' to open their inventory menu. Afterwards, the user can open menus for specific categories of items such as ``potions'', ``books'', etc. However, it doesn't seem to be possible to use any of the items selected from the menu within the game using only a voice command; this is only possible if you assign the item to a `hotkey' (e.g. by saying, ``assign health potion'' once you have highlighted a potion item), and then saying ``equip health potion'' during the game. See Appendix \ref{appendix:skyrim} for a full list of available voice commands.
 \begin{center}
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{skyrim-item-commands.png}
@@ -378,7 +378,7 @@ The final two stages are very similar and is difficult to separate them into sep
 
 \subsubsection{Part-of-Speech Tagging}
 
-A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset containing POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See the Appendix \ref{appendix:penn} for the full Penn Treebank tagset.
+A technique often used in NLP is to try to label each word with its correct part of speech, known as part-of-speech (POS) tagging. POS-tagging systems generally use a tagset containing POS tags to assign a tag to each word. The most popular tagset is the Penn Treebank tagset. This consists of 48 tags, of which 12 are for punctuation and other symbols \cite{RefWorks:41}. See Appendix \ref{appendix:penn} for the full Penn Treebank tagset.
 \\
 \\
 There are two main challenges regarding POS tagging. The first challenge is that words can sometime be ambiguous. That is, the word can be assigned a number of possible POS tags depending on its context. For instance, the word, ``can" can either be a verb (``I can..."), a noun (``a can of tuna"), or another verb with a completely different meaning (``can that noise!") \cite{RefWorks:43}. The many meanings that are attributed to a word are known as its \textit{word senses}.
@@ -693,7 +693,7 @@ Figure \ref{fig:system-overview} shows a simplified UML class diagram focusing o
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{system-overview.pdf}
-  \caption{A simplified UML class diagram outlining the design of the voice recognition system. Diagram created using the online LucidChart tool. See the Appendix \ref{appendix:system-uml} for the full class diagram for the entire voice recognition system in the Android application.}
+  \caption{A simplified UML class diagram outlining the design of the voice recognition system. Diagram created using the online LucidChart tool. See Appendix \ref{appendix:system-uml} for the full class diagram for the entire voice recognition system in the Android application.}
   \label{fig:system-overview}
   \end{center}
 \end{figure}
@@ -849,7 +849,7 @@ Figure \ref{fig:game-overview} on page \pageref{fig:game-overview} shows a simpl
 \begin{figure}
 \begin{center}
   \includegraphics[width=\linewidth]{game-overview.pdf}
-  \caption{A simplified UML class diagram outlining the design of the gameplay mechanics. Diagram created using the online LucidChart tool. See the Appendix \ref{appendix:game-uml} for the full UML class diagram.}
+  \caption{A simplified UML class diagram outlining the design of the gameplay mechanics. Diagram created using the online LucidChart tool. See Appendix \ref{appendix:game-uml} for the full UML class diagram.}
   \label{fig:game-overview}
   \end{center}
 \end{figure}
@@ -1152,62 +1152,27 @@ Some methods may wish to ask the user for confirmation before executing (e.g. ``
 Optionally, the developer can enable the ability to execute multiple commands with a single utterance. For instance, the player can say, ``attack the troll with a sword and then heal with a potion"; this would execute the attacking and healing as separate intents. The developer can wrap their \texttt{VoiceProcess} class inside a \texttt{MultipleCommandProcess} class.
 \\
 \\
-The \texttt{MultipleCommandProcess} class has a \texttt{splitInput()} method which splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupted and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a second queue, and are processed once the current intent is resolved. See the Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the \texttt{executeCommand()} method in \texttt{MultipleCommandProcess.java}.
+The \texttt{MultipleCommandProcess} class has a \texttt{splitInput()} method which splits the user's input using the words, ``and" and ``then" as delimiters. It stores each result in a queue, and then processes each intent using the \texttt{executeCommand()} method, which takes the queue as input. If an intent is interrupted and more user input is required before continuing (e.g. if one of the intents is ambiguous, or an action requires a reply), then the remaining intents are stored in a second queue, and are processed once the current intent is resolved. See Appendix \ref{appendix:multiple-commands-ex} for an example of the aforementioned scenario. Also see the \texttt{executeCommand()} method in \texttt{MultipleCommandProcess.java}.
 
 \subsubsection{\texttt{SentenceMapper}}
 
 The \texttt{SentenceMapper} is used to match sentences provided by the developer which do not fit the default slot-filling grammars (e.g. question-based intents). Each instance of \texttt{ContextActionMap} holds a reference to an instance of a \texttt{SentenceMapper}. Invoking the \texttt{addSentenceMatch()} method in the \texttt{ContextActionMap} class will add a map of several example utterances to an action and target.
 \\
 \\
-The sentence mapper is run at the very end of the \texttt{processInput()} method of the \texttt{VoiceControl} class, if the slot-filling matching failed. A disadvantage to this is that the example sentences should not be able to be matched to the slot-filling grammar.
+The sentence mapper is run at the very end of the \texttt{processInput()} method of the \texttt{VoiceControl} class, if the slot-filling matching failed.
 \\
 \\
-The \texttt{checkSentenceMatch()} method of the \texttt{SentenceMapper} class goes through each group of sentences, and calculates the average similarity of each group of sentences to the user's utterance, and matches with the highest value (if it is greater than a threshold value).
+The \texttt{checkSentenceMatch()} method of the \texttt{SentenceMapper} class goes through each group of sentences, and calculates the average similarity of each group of sentences compared to the user's utterance, and matches with the highest value (if it is greater than a threshold value).
 \\
 \\
-The similarity of each sentence with the utterance is based on the cosine similarity of the sentences (refer to Section \ref{section:sentence-mapping}). First, a vector of each sentence is created (which is just a map of the words to the word count) before the formula for cosine similarity is applied. Listing \ref{lst:cos-score} shows the code for this method.
-
-\begin{lstlisting}[language=Java, caption=SentenceMapper.calculateCosScore(), label=lst:cos-score]
-private double calculateCosScore(List<String> words1, String sentence) {
-    Map<String, Integer> vector1 = getVector(words1);
-    Map<String, Integer> vector2 = getVector(sentence);
-
-    //Get common keys
-    double numerator = 0.0;
-    for (Map.Entry<String, Integer> entry1 : vector1.entrySet()) {
-        for (Map.Entry<String, Integer> entry2 : vector2.entrySet()) {
-            if (entry1.getKey().equals(entry2.getKey())) {
-                numerator += entry1.getValue() * entry2.getValue();
-            } else {
-                numerator += 0.25*min(SemanticSimilarity.getInstance().calculateScore(
-                        entry1.getKey(), entry2.getKey()) *
-                        (entry1.getValue() * entry2.getValue()), 1.0);
-            }
-        }
-    }
-
-    double sum1 = 0.0;
-    for (Map.Entry<String, Integer> entry1 : vector1.entrySet()) {
-        sum1 += pow(entry1.getValue(), 2);
-    }
-
-    double sum2 = 0.0;
-    for (Map.Entry<String, Integer> entry1 : vector2.entrySet()) {
-        sum2 += pow(entry1.getValue(), 2);
-    }
-
-    double denominator = sqrt(sum1) + sqrt(sum2);
-
-    if (denominator <= 0.0) { return 0.0; }
-    else { return numerator / denominator; }
-}
-\end{lstlisting}
-
+The similarity of each sentence with the utterance is based on the cosine similarity of the sentences (refer to Section \ref{section:sentence-mapping}). First, a vector of each sentence is created (which is a map containing the words as keys and the values being the word's frequency) before the formula for cosine similarity is applied. Refer to the \texttt{calculateCosScore()} method in the class.
+\\
+\\
 A disadvantage to running the sentence-matching at the very end is that the input may accidentally match to the slot-filling grammar. For example, if the user says, ``what can i cut?", and ``cut" is an action in the game, then it may map to the cut action, and not reach the \texttt{SentenceMapper}.
 
 \subsubsection{Synonym Mapping Implementation}
 
-Synonyms are used to aid the \texttt{VoiceProcess} system to match more words that the semantic similarity engine does not match automatically (due to a low similarity score). For example, the word, `obliterate' has a low similarity score to `attack' (below the threshold) even though they are very similar. Therefore, either the player or developer can add this mapping such that `obliterate' maps to `attack'.
+Synonyms are used to aid the \texttt{VoiceProcess} system to match more words that the semantic similarity engine does not match automatically (due to a low similarity score). For example, the word, `obliterate' has a similarity score with `attack' just below the threshold; they are similar but not enough. Therefore, either the player or developer can add this mapping such that `obliterate' maps to `attack'.
 \\
 \\
 The following are the possible ways of adding a synonym mapping:
@@ -1217,7 +1182,7 @@ The following are the possible ways of adding a synonym mapping:
 
 \item The synonym is added when the same ambiguous intent is spoken twice (e.g. when the system asks the user, ``Did you mean, `attack'?" twice, and the user replies with ``yes" twice).
 
-\item The player defines the mapping as an intent (i.e. they say, ``obliterate means attack"). See line 17 of the pseudocode in Listing \ref{lst:voice-process-pseudo} on page \pageref{lst:voice-process-pseudo}.
+\item The player defines the mapping as an intent (i.e. they say, ``obliterate means attack").
 \end{itemize}
 
 In some cases, a word could become a synonym for multiple words. Take the following scenario:
@@ -1230,13 +1195,13 @@ In some cases, a word could become a synonym for multiple words. Take the follow
 \item The player is now in a room with both a knife and a fork, and says, ``pick up the utensil".
 \end{itemize}
 
-In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See the Appendix \ref{appendix:utensil} for the room that demonstrates this scenario (as well as room with multiple utensils, in which case, all suggestions are displayed at the same time).
+In this scenario, the system will use the \texttt{AmbiguousHandler} to ask the user whether they meant the knife or the fork. See Appendix \ref{appendix:utensil} for the room that demonstrates this scenario. There is also an example of a room with multiple utensils, and when several synonym mappings are made for the word, "utensil", all suggestions are displayed at the same time (if those objects are present).
 
 \subsection{Role-Playing Game Implementation}
 
 Simple rooms were created to demonstrate the system working with a typical text-based role-playing game. The first room of the game focuses on the \textit{Overworld} gameplay, and has a door which leads to a battle with an enemy (transitioning to the \textit{Battle} mode).
 
-\subsubsection{GameState.java}
+\subsubsection{\texttt{GameState}}
 
 \texttt{GameState} is derived from \texttt{GlobalState} and acts as the `environment' for the game; it contains all the game's objects and handles the current state.
 \\
@@ -1248,71 +1213,39 @@ The \texttt{GameState} class also has an instance of the \texttt{Inventory} clas
 
 \subsubsection{Battle Mode}
 
-In the \textit{Battle} mode, the player is able to attack the enemy with a wepon in their inventory. If no weapon is specified in the intent (as the context), then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc.), as well as look at their inventory or the available actions. Figure \ref{fig:battle-context-action-map} shows the `table' of action mappings for the \textit{Battle} mode. See the full \texttt{BattleContextActionMap} class in the project's source code (including the helper features such as synonym maps and sentence matches).
-
-\begin{center}
-\begin{figure}[H]
-\begin{center}
-  \includegraphics[width=\linewidth]{battle-context-action-map.png}
-  \caption{A snapshot of the context-action `table' in \texttt{BattleContextActionMap.java}.}
-  \label{fig:battle-context-action-map}
-  \end{center}
-\end{figure}
-\end{center}
-
-Weapons can be classified as either ``sharp" or ``blunt" based on whether they are instantiated with a description containing one of those words - each type of weapon as has different multiplier for the damage caused to the enemy.
+In the \textit{Battle} mode, the player is able to attack the enemy with a weapon in their inventory. If no weapon is specified as the context in the intent, then a random weapon is selected from the inventory, and if no weapon is available, the player attacks the enemy with their bare hands. The player can also heal using any healing items they have (e.g. potions, elixers, etc.), as well as look at their inventory or the available actions. See the \texttt{BattleContextActionMap} class in the project's source code for the `table' of action mappings for the \textit{Battle} mode (including the helper features such as synonym maps and sentence matches).
+\\
+\\
+Weapons can be classified as either ``sharp" or ``blunt" based on whether they are instantiated with a description containing one of those words (or if the weapon's name is semantically similar to either of the properties) | each type of weapon has a different multiplier for the damage dealt to the enemy.
 \\
 \\
 Enemies are entities with their own health that the player fights. The enemy in the demo is a troll that can attack the enemy once the player has performed a successful action.
 \\
 \\
-See the Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode. Also see the Appendix \ref{appendix:battle-examples} for examples of commands that can be used during this mode.
+See Appendix \ref{appendix:battle-mode-screenshots} for screenshots of examples of actions performed during the \textit{Battle} mode. Also see Appendix \ref{appendix:battle-examples} for examples of commands that can be used during this mode.
 
 \subsubsection{Overworld Mode}
 
-In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Figure \ref{fig:overworld-context-action-map} shows the `table' of action mappings for the \textit{Overworld} mode. Refer to the project repository for the full \texttt{OverworldContextActionMap} class.
-
-\begin{center}
-\begin{figure}[H]
-\begin{center}
-  \includegraphics[width=\linewidth]{overworld-context-action-map.png}
-  \caption{A snapshot of the context-action `table' in \texttt{OverworldContextActionMap.java}.}
-  \label{fig:overworld-context-action-map}
-  \end{center}
-\end{figure}
-\end{center}
-
-Objects in the room can inherit from the \texttt{PhysicalObject} class, and can have properties such as whether they are breakable, whether they can be cut or scratched, etc.
+In the \textit{Overworld} mode, the player interacts with objects in order to solve puzzles and progress to the next room. Refer to the  \texttt{OverworldContextActionMap} class in the project's repository for the table of context-action mappings in this mode.
 \\
 \\
-See the Appendix \ref{appendix:overworld-examples} for examples of commands that can be used during the \textit{Overworld} mode. Also see the Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room.
+Objects in the room can inherit from the \texttt{PhysicalObject} class, and can have properties such as whether they are breakable, whether they can be cut or scratched, etc. For example, if the player breaks an object, the \texttt{onBroken()} method is invoked. By default, the object just breaks, but the user can override this method in the object to add special functions (e.g. if breaking an object reveals a key, etc.).
+\\
+\\
+See Appendix \ref{appendix:overworld-mode-screenshots} for screenshots of the first room in the game, and the actions required to solve the puzzle in the room. Also see Appendix \ref{appendix:overworld-examples} for examples of commands that can be used during the \textit{Overworld} mode. 
 
 \subsection{Object Properties with WordNet}
 
-Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, ``attack with something sharp", the sword will be selected because the adjective, ``sharp" has a high similarity score to ``sword". Similarly, the word, ``heavy" has a high similarity to score to ``hammer", so if the player says, ``hit with something heavy", the hammer will be used.
+Using the semantic similarity engine, a user can select an item to use/interact with based on its chracteristics. For example, if the user possesses a sword in their inventory and says, ``attack with something sharp", the sword will be selected because the adjective, ``sharp" has high similarity to ``sword". Similarly, the word, ``heavy" has high similarity to ``hammer", so if the player says, ``hit with something heavy", the hammer will be used.
 \\
 \\
 In order to aid this system, entities can also be given a list of words (\texttt{mDescriptionList}) which describe the object.  This aids the voice recogntion system in identifying objects with characteristics that the user has specified.
 \\
 \\
-Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable), although these physical properties can be automatically assigned using the \texttt{autoAssignProperties()} method, which uses the semantic similarity engine to compare the name of the object to words associated with the property. The methods that do this are shown below. Note that "scratchable" and "cuttable" are not words, so their root words are used instead.
-
-\begin{lstlisting}[language=Java, label=lst:auto-assign]
-protected void autoAssignProperties() {
-    String name = getName();
-    autoAssignProperty(name, "breakable", (x) -> mIsBreakable = x);
-    autoAssignProperty(name, "cut", (x) -> mIsCuttable = x);
-    autoAssignProperty(name, "scratch", (x) -> mIsScratchable = x);
-}
-
-private void autoAssignProperty(String name, String adj, Consumer<Boolean> prop) {
-    if (SemanticSimilarity.getInstance().calculateScore(name, adj) > THRESHOLD) {
-        prop.accept(true);
-    }
-}
-\end{lstlisting}
-
-This allows the user to create new objects without having to manually assign each property. See the \texttt{Chair} or \texttt{GlassTable} objects for examples of this. If the automatic assignment does not correctly assign a property, the user can manually add it for gameplay purposes. For example, we do not want the player to break the painting in the room, even though the method will automatically assign the painting to be breakable, so it is set manually to not be breakable.
+Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable), although these physical properties can be automatically assigned using the \texttt{autoAssignProperties()} method, which uses the semantic similarity engine to compare the name of the object to words associated with the property. This allows the user to create new objects without having to manually assign each property. See the \texttt{Chair} or \texttt{GlassTable} objects in the source code for examples of this.
+\\
+\\
+If the automatic assignment does not correctly assign a property (there is a program in the repository that determines which properties are automatically assigned  to an object\footnote{https://github.com/BaronKhan/VoiceRecognitionRPG/tree/master/archive/property-checker}), the developer can manually assign them. For example, we do not want the player to break the painting in the room, even though the method will automatically assign the painting to be breakable, so it is set manually to not be broken by the player.
 
 \label{section:obj-properties-wordnet}
 
@@ -1325,7 +1258,7 @@ The use of room generation in this project aims to decrease the workload of the 
 Rooms contain the objects that the player interacts with during the \textit{Overworld} mode.
 \\
 \\
-Each room is a derived class from the \texttt{Room} abstract class. Objects in the room are added in the constructor of the room. Objects were added to the room when it is instantiated, and a description of the room is displayed when the player issues a command such as, ``look around". Listing \ref{lst:room01-description} shows an example of of the description that is output in the first room.
+Each room is derived from the \texttt{Room} abstract class. Objects are added to the room when it is instantiated, and a description of the room is displayed when the player issues a command such as, ``look around". Listing \ref{lst:room01-description} shows an example of the description that is output in the first room.
 
 \begin{lstlisting}[label=lst:room01-description]
  - You are in a room with a locked door in front of you.
@@ -1353,87 +1286,12 @@ The \texttt{Room} abstract class contains an \texttt{mDescriptionList} field. Ea
 \begin{itemize}
 \item \texttt{Pair<String, String>} | a pair of sentences: one for when a conditional is \texttt{true} and the other for when it is \texttt{false}.
 
-\item \texttt{BooleanSupplier} | a lambda expression that denotes the existence of the object tied to the sentence. If no object is tied to the sentence, then it is set to \texttt{null}.
+\item \texttt{BooleanSupplier} | a lambda expression that represents the conditional which chooses the sentence that should be displayed from the pair above.
 
-\item \texttt{BooleanSupplier} | a lambda expression that represents the conditional which chooses the sentence the pair above that should be displayed.
+\item \texttt{BooleanSupplier} | a lambda expression that denotes the existence of the object tied to the sentence. If no object is tied to the sentence, then this is set to \texttt{null}.
 \end{itemize}
 
-\begin{lstlisting}[language=Java, caption=Room::addDescriptionWithObjectCond(), label=lst:room-description-code]
-protected void addDescriptionWithObjectCond(String textTrue, String textFalse, Entity obj, BooleanSupplier cond)
-{
-    BooleanSupplier objectExists = null;
-    if (obj != null) {
-        objectExists = () -> getRoomObjectCount(obj.getName()) > 0;
-        addRoomObject(obj);
-    }
-
-    mDescriptionList.add(new Triple<>(new Pair<>(textTrue, textFalse), objectExists, cond));
-}
-\end{lstlisting}
-
-There are also wrappers for this method that constrain the functionality (e.g. if the user just wants to add a single sentence to the description without connecting it to an object's existence in a room):
-
-\begin{lstlisting}[language=Java, caption=addDescriptionWithObjectCond() wrappers, label=lst:room-description-wrappers]
-//Only add a description that is always shown
-protected void addDescription(String text) {
-    addDescription(text, () -> true);
-}
-
-//Add a description that only shows if 'cond' is true
-protected void addDescription(String text, BooleanSupplier cond) {
-    addDescriptionCond(text, null, cond);
-}
-
-
-//Add a description that shows a different string based on 'cond' being true/false
-protected void addDescriptionCond(
-        String textTrue, String textFalse, BooleanSupplier cond) {
-    addDescriptionWithObjectCond(textTrue, textFalse, null, cond);
-}
-
-//Add a description that is shown as along as 'object' is still in the room
-protected void addDescriptionWithObject(String text, Entity object) {
-    addDescriptionWithObjectCond(text, "", object, () -> true);
-}
-\end{lstlisting}
-
-See Listing \ref{lst:room01} for an example of the code for \texttt{Room01} using this version of the room generation.
-
-\begin{lstlisting}[language=Java, caption=Room01.java (Version 2), label=lst:room01]
-public class Room01 extends Room {
-    public enum StateRoom01 {
-        START,
-        PAINTING_CUT,
-        END
-    }
-
-    public Room01() {
-        super();
-        setRoomState(StateRoom01.START.ordinal());
-        addDescriptionWithObject(
-                "You are in a room with a locked door in front of you.",
-                new Door(new Troll(100), true));
-        addDescriptionWithObject(
-                "There is a glass table in the middle of the room.",
-                new GlassTable());
-        addDescriptionWithObjectCond(
-                "A potion has been placed on the table.",
-                "A potion lays on the floor with the broken table.",
-                new Potion("potion"),
-                () -> getRoomObjectCount("table") > 0);
-        addDescriptionWithObject(
-                "There is a knife on the floor.",
-                new Weapon("knife", "sharp", "short", "metal"));
-        addDescriptionWithObjectCond(
-                "A painting of a tree hangs by a string on the left wall.",
-                "The painting that was on the wall lies on the floor.",
-                new Painting(),
-                () -> getRoomState() == StateRoom01.START.ordinal());
-    }
-}
-\end{lstlisting}
-
-In the \texttt{getDescription()} method used for displaying the current description of the room to the player, we simply evaluate all the entries in the \texttt{mDescriptionList} field.
+In the \texttt{getDescription()} method (which is called to output the current description of the room to the player), we simply evaluate the \texttt{BooleanSupplier}s in all the entries in the \texttt{mDescriptionList} field, and adjust the description accordingly. See the project's source code for examples of rooms.
 
 \subsubsection{Room Generation Program}
 
@@ -1443,7 +1301,7 @@ It is still quite difficult for a developer/designer to create new rooms using t
 A standalone Java program was created which takes as input a text file containing a description of a room, and outputs a Java source file for that room with the objects added to the constructor (as well as any conditionals for the description).
 \\
 \\
-The program reads an object file containing the available objects that are in the game (and the corresponding class name in the project). It then takes the description in the input file and breaks it down into sentences and parses each one to determine which objects should be added to the room, as well as any conditionals. Object creation is denoted using an asterisk (*) just before the object word. The object must be in the object file for it to be added.
+The program reads an \textit{object file} containing the available objects that are in the game (and the corresponding constructor that should be used to create the object). It then takes the description in the input file and breaks it down into sentences and parses each one to determine which objects should be added to the room, as well as any conditionals. Object creation is denoted using an asterisk (*) just before the object word. The object must be in the object file for it to be added.
 \\
 \\
 The semantic similarity engine used in the voice recognition system is used again here to create objects using synonyms in the room description (e.g. the sentence, ``There is a utensil in the room" may add a spoon to the room since ``spoon" is semantically similar to ``utensil", and spoon is in the object file).
@@ -1452,77 +1310,22 @@ The semantic similarity engine used in the voice recognition system is used agai
 More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, ``There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
 \\
 \\
-\textit{ReVerb} is a Java library that extracts binary classifications in sentences \cite{ReVerb2011}. It takes as input the raw text and extracts all the binary relationships in the text. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, ``The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
+\textit{ReVerb} is a Java library that takes as input a raw text file and extracts all the binary relationships in the text \cite{ReVerb2011}. Each relationship is represented as a triple of \texttt{(argument1, relation, argument2)}. An example of a binary relationship is in the sentence, ``The potion is on the table", where the triple would be \texttt{(potion, be on, table)}.
 \\
 \\
-These binary relationships can be used to add conditionals for descriptions. For example, on line 21 of Listing \ref{lst:room01} on page \pageref{lst:room01}, this type of conditional statement can be added when the program detects the sentence, ``A *potion has been placed on the table". It detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room.
+These binary relationships can be used to add conditionals for descriptions. For example, when the room generation program detects the sentence, ``A *potion has been placed on the table", it detects the relationship between the potion and table, so a potion can only be on the table is the table is still in the room, and therefore adds the conditional as a BooleanSupplier (\texttt{() -> getRoomObjectCount("table") > 0}) when rendering the source file.
 \\
 \\
 See the project's repository for the full Java program source code (\texttt{GenerateRoom.java}). For convenience when building, the Java program is wrapped around a Bash script, \texttt{generateRoom.sh}, which builds the source code and executes it.
-
-\subsubsection{Room Generation Example}
-
-Listing \ref{lst:room-table-txt} shows an example of a text file for a room with various objects in it.
-
-\begin{lstlisting}[caption=room-table.txt, label=lst:room-table-txt]
-You are in a large room. There is a single *door in front of you. There is a glass
-*table in the middle of the room. A *knife is on the floor. A *fork is with
-the knife. A *potion is on the table. Another *utensil is also on the table.
-\end{lstlisting}
-
-Using the following command:
-
-\begin{center}
-\texttt{./generateRoom.sh room-table.txt game-objects.obj RoomTable}
-\end{center}
-
-The following Java source file will be generated:
-
-\begin{lstlisting}[language=Java, label=lst:room-table-java]
-package com.khan.baron.voicerecrpg.game.rooms;
-/* TODO: insert object imports */
-
-public class RoomTable extends Room {
-    public RoomTable() {
-        super();
-        addDescription(
-            "You are in a large room.");
-        addDescriptionWithObject(
-            "There is a single door in front of you.",
-            new Door(new Troll(100), false));
-        addDescriptionWithObject(
-            "There is a glass table in the middle of the room.",
-            new GlassTable());
-        addDescriptionWithObject(
-            "A knife is on the floor.",
-            new Weapon("knife"));
-        addDescriptionWithObjectCond(
-            "A fork is with the knife.",
-            "A fork is in the room.",
-            new Weapon("fork"),
-            () -> getRoomObjectCount("knife") > 0);
-        addDescriptionWithObjectCond(
-            "A potion is on the table.",
-            "A potion is now on the floor.",
-            new Potion("potion"),
-            () -> getRoomObjectCount("table") > 0);
-        addDescriptionWithObjectCond(
-            "Another utensil is also on the table.",
-            "Another utensil is now on the floor.",
-            new Weapon("spoon"),
-            () -> getRoomObjectCount("table") > 0);
-    }
-}
-\end{lstlisting}
-
-The developer can still edit this source file to add more complex functionality that was not added by the program. This program was used to generate the tutorial rooms in the game (with some minor adjustments to determine which room a door leads to, as the program cannot handle that currently).
+\\
+\\
+See Appendix \ref{appendix:room-gen-ex} for an example of using the room generation program to render a \texttt{Room} Java source file from a text description.
 
 \subsection{Video Conferencing Demo}
 \label{section:calling-demo}
 
-In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within an separate (separate from the RPG demo) that allows a user to call contacts using voice commands. Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the activity.
-
-\begin{center}
+In order to demonstrate the flexibility of the voice recognition system, it has been applied to a video conferencing domain. A simple demo of a video conferencing system has been created within the \texttt{CallActivity} class (separate from the RPG demo) that allows a user to call contacts using voice commands. Figure \ref{fig:snapshot-calling} on page \pageref{fig:snapshot-calling} shows a screenshot of the activity.
+\\
 \begin{figure}
 \begin{center}
   \includegraphics[scale=0.3]{snapshot-calling.png}
@@ -1530,35 +1333,25 @@ In order to demonstrate the flexibility of the voice recognition system, it has 
   \label{fig:snapshot-calling}
   \end{center}
 \end{figure}
-\end{center}
 
 The user is able to call a contact and add more contacts to the current call. All participants are displayed on the screen and the user can choose to end a call with a specific person, or end all of the calls. The user can also choose to mute the audio of a certain participant, or mute their own video/audio (with the video/audio icons changing accordingly).
 \\
 \\
-Figure \ref{fig:call-context-action-map} shows the context-action `table' for the video conferencing demo. See the the full \texttt{CallContextActionMap} class in the project's repository. Also see the Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
-
-\begin{center}
-\begin{figure}[H]
-\begin{center}
-  \includegraphics[width=\linewidth]{call-context-action-map.png}
-  \caption{A snapshot of the context-action `table' in \texttt{CallContextActionMap.java}.}
-  \label{fig:call-context-action-map}
-  \end{center}
-\end{figure}
-\end{center}
-
-The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, ``Fred"). See the Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
+See the \texttt{CallContextActionMap} class in the project's repository for the actions available in the video conferencing demo. Also see Appendix \ref{appendix:call-examples} for examples of commands that can be used as well as the list of possible contacts.
+\\
+\\
+The system can also handle duplicate contacts if they exist (e.g. if there are multiple contacts with the first name, ``Fred"). See Appendix \ref{appendix:duplicate-contacts} for a screenshot of the scenario when an ambiguous contact is called.
 
 \subsection{Settings Activity}
 \label{section:settings}
 
-The application also has a settings activity, which allows the user to change various settings such as the current semantic similarity method used, as well as edit the user-defined synonym mappings. See the Appendix \ref{appendix:settings} for a screenshot of the settings activity.
+The application also has a settings activity, which allows the user to change various settings such as the current semantic similarity method used, as well as edit the user-defined synonym mappings. See Appendix \ref{appendix:settings} for a screenshot of the settings activity.
 
 \newpage
 \section{Evaluation}
 \label{evaluation}
 
-This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of practicality of the voice recognition system and whether it is easy to use via an anonymous survey\footnote{https://goo.gl/forms/8byr4MKo56bqJMvk2}. It should be noted that the results use a small sample size of eight, and are only supplementary to this section.
+This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of the practicality of the voice recognition system and whether it is easy to use via an anonymous survey\footnote{https://goo.gl/forms/8byr4MKo56bqJMvk2}. It should be noted that the results use a small sample size of eight, and are only supplementary to this section.
 
 \subsection{Mock Testing}
 \label{section:mock-testing}
@@ -1578,7 +1371,7 @@ There a four test classes in the Android project, each containing several test s
 \item \texttt{WordNetTest.java} | tests the interaction with the WordNet database; also tests the \texttt{SentenceMapper} class. 
 \end{itemize}
 
-Listing \ref{lst:battle-test-inventory} shows an example of a test suite for testing commands that show the inventory in \texttt{BattleTest.java}. Note that some tests actually test for \textit{incorrectness} of a command (such as line 7 of the listing).
+The listing below shows an example of a test suite for testing commands that show the inventory in \texttt{BattleTest.java}. Note that some tests actually test for \textit{incorrectness} of a command (such as line 7 of the listing).
 
 \begin{lstlisting}[language=Java, label=lst:battle-test-inventory]
 @Test
@@ -1597,7 +1390,7 @@ public void testInventorySuite() {
 New tests were added frequently and were executed to ensure a new feature did not break another feature. New features could not be committed to the project's repository unless every test in every test suite of every test class passed with no errors.
 \\
 \\
-See the Appendix \ref{appendix:mock-tests} for a list of commands that are tested for correctness using the mock tests (note that not all tests are shown here). See the project's repository for the entire testing framework.
+See Appendix \ref{appendix:mock-tests} for a list of commands that are tested for correctness using the mock tests (note that not all tests are shown here). See the project's repository for the entire testing framework.
 
 \subsection{Evaluation of Semantic Similarity}
 \label{section:eval-similarity}
@@ -1614,138 +1407,41 @@ The number of tests passed for each domain is calculated as a percentage of the 
 In the evaluation project, the action methods do not perform any function; they simply return a string containing the output (e.g. ``ATTACK\_WEAPON" for attacking with a  sword; ``SERVE\_SOUP" for serving soup, etc.). Each test case is a pair containing a string input (i.e. the user's utterance) and the expected output. For each test case, the string input is used to update the game/calling/cooking state. The output from the object is compared to the expected output, and the results are written to the CSV file. The time taken for a test suite is also recorded, as well as the average time taken for each test.
 \\
 \\
-The \texttt{ContextActionMap}s used in this evaluation project are not the same as the ones used in the Android application (they do not use any helper mechanisms). See the Appendix \ref{appendix:evaluation-context-action-maps} for the context-action mappings used in this evaluation projects.
+The \texttt{ContextActionMap}s used in this evaluation project are not the same as the ones used in the Android application (they do not use any helper mechanisms). See Appendix \ref{appendix:evaluation-context-action-maps} for the context-action mappings used in this evaluation projects.
 \\
 \\
-Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation using the Wu and Palmer (WUP) method.
-
-\begin{table}[]
-\centering
-\caption{Game Tests}
-\label{table:game-scores}
-\begin{tabular}{lll}
-\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
-\multicolumn{1}{l|}{attack}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{charge}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{hit}                            & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{tackle}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{fight}                          & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{assault}                        & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{battle}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{launch an assault}              & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{attack with a sword}            & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{attack with something sharp}    & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{attack with something pointy}   & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{attack with something long}     & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{attack with something metallic} & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{heal}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{recover}                        & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{regenerate}                     & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{rest}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{restore}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{defend}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{guard}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{safeguard}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{shield}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{heal with a potion}             & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{heal with an elixer}            & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{heal with an healing drink}     & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{move forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{move straight}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{move backwards}                 & \multicolumn{1}{l|}{MOVE\_BACKWARDS}    & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{move in reverse}                & \multicolumn{1}{l|}{MOVE\_BACKWARDS}    & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{move ahead}                     & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{continue forwards}              & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{run forwards}                   & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{dash forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{72.73\%}            &                              \\
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\scriptsize
-\centering
-\caption{Video Conferencing Tests}
-\label{table:calling-scores}
-\begin{tabular}{lll}
-\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
-\multicolumn{1}{l|}{phone}                          & \multicolumn{1}{l|}{PHONE}              & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{phone fred}                     & \multicolumn{1}{l|}{PHONE\_FRED}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{phone jane}                     & \multicolumn{1}{l|}{PHONE\_JANE}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{ring jane}                      & \multicolumn{1}{l|}{PHONE\_JANE}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{phone jane with video}          & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{phone jane with webcam}         & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{use webcam to call jane}        & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{call jane with audio}           & \multicolumn{1}{l|}{PHONE\_JANE\_AUDIO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{phone jane with sound}          & \multicolumn{1}{l|}{PHONE\_JANE\_AUDIO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{contact jane with video}        & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{stop call}                      & \multicolumn{1}{l|}{STOP}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stop call with fred}            & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{end call with fred}             & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{close}                          & \multicolumn{1}{l|}{STOP}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{finish call with fred}          & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{halt call with fred}            & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{mute video}                     & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{mute screen}                    & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{mute jane}                      & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{silence jane}                   & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{80.00\%}            &                              \\
-\end{tabular}
-\end{table}
-
-
-\begin{table}[H]
-\scriptsize
-\centering
-\caption{Cooking Tests}
-\label{table:cooking-scores}
-\begin{tabular}{lll}
-\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
-\multicolumn{1}{l|}{make egg}                       & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{make eggs}                      & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{make soup}                      & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{create soup}                    & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{produce soup}                   & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{cook egg}                       & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{make omelette}                  & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{make something liquid}          & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{boil egg}                       & \multicolumn{1}{l|}{BOIL\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{heat egg}                       & \multicolumn{1}{l|}{BOIL\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{boil soup with cooker}          & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{boil soup with boiler}          & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{boil soup with stove}           & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{heat pottage with stove}        & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{stir soup}                      & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{mix soup}                       & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{blend soup}                     & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{stir chowder}                   & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir pottage}                   & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir soup with spoon}           & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir soup with cutlery}         & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir soup with utensil}         & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir soup with tablespoon}      & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir soup with teaspoon}        & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{stir soup with soupspoon}       & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{blend chowder using soupspoon}  & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{pour buttermilk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{discharge milk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{present eggs}                   & \multicolumn{1}{l|}{SERVE\_EGG}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
-\multicolumn{1}{l|}{deliver soup}                   & \multicolumn{1}{l|}{SERVE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
-\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{63.33\%}            &                              \\
-
-\end{tabular}
-\end{table}
-
+Figure \ref{fig:pie-charts-wup} shows pie charts for the percentage of tests in the evaluation that pass using the Wu and Palmer (WUP) method.
+\\
+\begin{figure}
 \begin{center}
-\textbf{Final Score: 71.08\%}
-\end{center}
+  \includegraphics[width=0.3\textwidth]{game-test-pie.pdf}
+  \includegraphics[width=0.3\textwidth]{calling-test-pie.pdf}
+  \includegraphics[width=0.3\textwidth]{cooking-test-pie.pdf}
+  \caption{Pie charts showing the percentage of tests that pass in each domain using the WUP method.}
+  \label{fig:pie-charts-wup}
+  \end{center}
+\end{figure}
 
+The final score for the WUP method is 71.08\%. See Appendix \ref{appendix:evaluation-wup} for the full table of results (including test cases) when using the WUP method.
+\\
+\\
 Note that any failed test cases above can be resolved using helper mechanisms (e.g. synonym-mappings, match-ignores, sentence-matching, etc.), which have been removed from the evaluation project.
 \\
 \\
-Table \ref{table:method-results} below shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}. To see the full results for each semantic similarity method, see the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
+Table \ref{table:method-results} shows the final scores for each semantic similarity method outlined in Section \ref{section:semantic-impl}, while Figure \ref{fig:evaluation-results-bar-chart} shows the corresponding bar chart for the results.
+\\
+\\
+To see the full results for each semantic similarity method (including the result for each test case), see the corresponding CSV results file in the project's repository \footnote{The CSV files can be found in the \texttt{evaluation/evaluation-results} directory of the repository.}.
+\\
+\begin{figure}
+\begin{center}
+  \includegraphics[width=\textwidth]{evaluation-results-bar-chart.pdf}
+  \caption{A bar chart showing the score for each domain the final (average) score for each semantic similarity method in the evaluation project.}
+  \label{fig:evaluation-results-bar-chart}
+  \end{center}
+\end{figure}
 
-\begin{table}[H]
+\begin{table}
 \centering
 \caption{Evaluation of Similarity Methods}
 \label{table:method-results}
@@ -1880,7 +1576,7 @@ The system supports the following features that can be toggled in the \texttt{Vo
 \item Performing sentence matching.
 \end{itemize}
 
-Using the test cases from the Android mock testing (see the Appendix \ref{appendix:mock-tests} for the list of commands that are tested), the number of tests that pass are calculated while gradually activating more features. It is not possible to test the features separately as some are dependent on others being enabled (e.g. the suggestions mechanism requires the semantic similarity engine to be enabled).
+Using the test cases from the Android mock testing (see Appendix \ref{appendix:mock-tests} for the list of commands that are tested), the number of tests that pass are calculated while gradually activating more features. It is not possible to test the features separately as some are dependent on others being enabled (e.g. the suggestions mechanism requires the semantic similarity engine to be enabled).
 \\
 \\
 The graph on page \pageref{fig:line-chart-features} shows a cumulative line chart of the number of tests that pass as more features are enabled, starting with no features, followed by adding the semantic similarity engine, and so on. There are a total of 158 tests, and with all features enabled, all of the tests pass.
@@ -1929,10 +1625,10 @@ The voice recognition system implementation will be compared to two na\"ive/trad
 \item[Regex-style Matching] \hfill \\ Write a word-based regular expression to describe the structure of acceptable commands (see Section \ref{section:houndify} on page \pageref{section:houndify} for an example using Houndify).
 \end{description}
 
-When mapping a large number of commands, both of the above methods become increasingly complex and infeasible. With the system presented in this project, only a few lines of code need to be written to map the same number of commands, and more. See the Appendix \ref{appendix:comparison} for a comparison of the methods with an example.
+When mapping a large number of commands, both of the above methods become increasingly complex and infeasible. With the system presented in this project, only a few lines of code need to be written to map the same number of commands, and more. See Appendix \ref{appendix:comparison} for a comparison of the methods with an example.
 \\
 \\
-According to the anonymous survey, developers also preferred a system where they only have to write a few lines of code to implement countless voice commands. See the Appendix \ref{appendix:survey-results} for these results.
+According to the anonymous survey, developers also preferred a system where they only have to write a few lines of code to implement countless voice commands. See Appendix \ref{appendix:survey-results} for these results.
 \\
 \\
 In order to qualitatively evaluate the usability of the system further, a standalone Java library was created, and the process of using the library in order to add voice commands to a Java application is outlined in a user guide for the library. After studying the guide, developers were asked about the ease of integrating the library into a project via the anonymous survey. Figure \ref{fig:survey-ease} shows the responses to this question.
@@ -1978,7 +1674,7 @@ Many of these limitations are quite severe and hamper the usability of the syste
 
 \subsection{Room Generation Evaluation}
 
-Since the semantic similarity engine used in the room generation program has already been evaluated above, only the effectiveness of the object relationship mechanism needs to be evaluated. This can be done by creating a complex description of a room with all but the first sentence containing a different relation between two objects, and seeing if the system detects the relationship. See the Appendix \ref{appendix:room-generation-results} for the full results.
+Since the semantic similarity engine used in the room generation program has already been evaluated above, only the effectiveness of the object relationship mechanism needs to be evaluated. This can be done by creating a complex description of a room with all but the first sentence containing a different relation between two objects, and seeing if the system detects the relationship. See Appendix \ref{appendix:room-generation-results} for the full results.
 \\
 \\
 While the program can detect relations in sentences such as, ``A letter sits upon the table" or, ``A potion is underneath the table", it cannot detect some simple relations such as, ``There is a chair under the table" or ``A fork lays on the table". This could be because the \textit{Reverb} library does not understand the relations, ``lays on" and ``under". However, the majority of relations are detected by the program, and only a few conditionals have to be added manually by the developer.
@@ -2261,9 +1957,20 @@ If there are multiple mappings for utensil to various objects (e.g. \texttt{uten
 \newpage
 \subsection{Settings User Interface}
 \label{appendix:settings}
+
+Below is a screenshot containing the drop-down menu containing an option to access the settings activity:
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.25]{drop-down.png}
+  \caption{A snapshot of the \texttt{MainActivity} with the drop-down menu open.}
+  \label{fig:drop-down-menu}
+  \end{center}
+\end{figure}
+
+\newpage
 Below is a screenshot of the graphical user interface for the settings.
 
-\begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=0.25]{settings.png}
@@ -2271,7 +1978,6 @@ Below is a screenshot of the graphical user interface for the settings.
   \label{fig:snapshot-settings}
   \end{center}
 \end{figure}
-\end{center}
 
 \newpage
 \subsection{Duplicate Contacts}
@@ -2395,6 +2101,66 @@ Baron               & First                \\
 Baron               & Second              
 \end{tabular}
 \end{table}
+
+\newpage
+\subsection{Room Generation Example}
+\label{appendix:room-gen-ex}
+
+Listing \ref{lst:room-table-txt} shows an example of a text file for a room with various objects in it.
+
+\begin{lstlisting}[caption=room-table.txt, label=lst:room-table-txt]
+You are in a large room. There is a single *door in front of you. There is a glass
+*table in the middle of the room. A *knife is on the floor. A *fork is with
+the knife. A *potion is on the table. Another *utensil is also on the table.
+\end{lstlisting}
+
+Using the following command:
+
+\begin{center}
+\texttt{./generateRoom.sh room-table.txt game-objects.obj RoomTable}
+\end{center}
+
+The following Java source file will be generated:
+
+\begin{lstlisting}[language=Java, label=lst:room-table-java]
+/* AUTOMATICALLY GENERATED SOURCE FILE */
+package com.khan.baron.voicerecrpg.game.rooms;
+/* TODO: insert object imports */
+
+public class RoomTable extends Room {
+    public RoomTable() {
+        super();
+        addDescription(
+            "You are in a large room.");
+        addDescriptionWithObject(
+            "There is a single door in front of you.",
+            new Door(new Troll(100), false));
+        addDescriptionWithObject(
+            "There is a glass table in the middle of the room.",
+            new GlassTable());
+        addDescriptionWithObject(
+            "A knife is on the floor.",
+            new Weapon("knife"));
+        addDescriptionWithObjectCond(
+            "A fork is with the knife.",
+            "A fork is in the room.",
+            new Weapon("fork"),
+            () -> getRoomObjectCount("knife") > 0);
+        addDescriptionWithObjectCond(
+            "A potion is on the table.",
+            "A potion is now on the floor.",
+            new Potion("potion"),
+            () -> getRoomObjectCount("table") > 0);
+        addDescriptionWithObjectCond(
+            "Another utensil is also on the table.",
+            "Another utensil is now on the floor.",
+            new Weapon("spoon"),
+            () -> getRoomObjectCount("table") > 0);
+    }
+}
+\end{lstlisting}
+
+The developer can still edit this source file to add more complex functionality that was not added by the program. This program was used to generate the tutorial rooms in the game (with some minor adjustments to determine which room a door leads to, as the program cannot handle that currently).
 
 \newpage
 \section{Testing and Evaluation}
@@ -2645,6 +2411,129 @@ Below are the \texttt{ContextActionMap} `tables' used in the evaluation Java pro
 \textbf{spoon}   & Make          & StirSpoon     &               &               &                \\ \hline
 \textbf{cooker}  & Make          &               & BoilCooker    &               &                \\ \hline
 \textbf{food}    & MakeFood      &               &               &               &                \\
+\end{tabular}
+\end{table}
+
+\newpage
+\subsection{Evaluation Results for WUP}
+\label{appendix:evaluation-wup}
+
+Tables \ref{table:game-scores}, \ref{table:calling-scores} and \ref{table:cooking-scores} below show the results of the evaluation project using the Wu and Palmer (WUP) method.
+
+\begin{table}[H]
+\centering
+\caption{Game Tests}
+\label{table:game-scores}
+\begin{tabular}{lll}
+\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
+\multicolumn{1}{l|}{attack}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{charge}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{hit}                            & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{tackle}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{fight}                          & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{assault}                        & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{battle}                         & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{launch an assault}              & \multicolumn{1}{l|}{ATTACK}             & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{attack with a sword}            & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{attack with something sharp}    & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{attack with something pointy}   & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{attack with something long}     & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{attack with something metallic} & \multicolumn{1}{l|}{ATTACK\_WEAPON}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heal}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{recover}                        & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{regenerate}                     & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{rest}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{restore}                           & \multicolumn{1}{l|}{HEAL}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{defend}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{guard}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{safeguard}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{shield}                           & \multicolumn{1}{l|}{DEFEND}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heal with a potion}             & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heal with an elixer}            & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{heal with an healing drink}     & \multicolumn{1}{l|}{HEAL\_POTION}       & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{move forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{move straight}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{move backwards}                 & \multicolumn{1}{l|}{MOVE\_BACKWARDS}    & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{move in reverse}                & \multicolumn{1}{l|}{MOVE\_BACKWARDS}    & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{move ahead}                     & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{continue forwards}              & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{run forwards}                   & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{dash forwards}                  & \multicolumn{1}{l|}{MOVE\_FORWARDS}     & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{72.73\%}            &                              \\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\scriptsize
+\centering
+\caption{Video Conferencing Tests}
+\label{table:calling-scores}
+\begin{tabular}{lll}
+\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
+\multicolumn{1}{l|}{phone}                          & \multicolumn{1}{l|}{PHONE}              & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone fred}                     & \multicolumn{1}{l|}{PHONE\_FRED}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane}                     & \multicolumn{1}{l|}{PHONE\_JANE}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{ring jane}                      & \multicolumn{1}{l|}{PHONE\_JANE}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane with video}          & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane with webcam}         & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{use webcam to call jane}        & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{call jane with audio}           & \multicolumn{1}{l|}{PHONE\_JANE\_AUDIO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{phone jane with sound}          & \multicolumn{1}{l|}{PHONE\_JANE\_AUDIO} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{contact jane with video}        & \multicolumn{1}{l|}{PHONE\_JANE\_VIDEO} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stop call}                      & \multicolumn{1}{l|}{STOP}               & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stop call with fred}            & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{end call with fred}             & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{close}                          & \multicolumn{1}{l|}{STOP}               & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{finish call with fred}          & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{halt call with fred}            & \multicolumn{1}{l|}{STOP\_FRED}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mute video}                     & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mute screen}                    & \multicolumn{1}{l|}{MUTE\_VIDEO}        & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mute jane}                      & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{silence jane}                   & \multicolumn{1}{l|}{MUTE\_JANE}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{80.00\%}            &                              \\
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\scriptsize
+\centering
+\caption{Cooking Tests}
+\label{table:cooking-scores}
+\begin{tabular}{lll}
+\multicolumn{1}{l|}{Test}                           & \multicolumn{1}{l|}{Expected}           & Result                       \\ \hline
+\multicolumn{1}{l|}{make egg}                       & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{make eggs}                      & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{make soup}                      & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{create soup}                    & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{produce soup}                   & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{cook egg}                       & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{make omelette}                  & \multicolumn{1}{l|}{MAKE\_EGG}          & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{make something liquid}          & \multicolumn{1}{l|}{MAKE\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{boil egg}                       & \multicolumn{1}{l|}{BOIL\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{heat egg}                       & \multicolumn{1}{l|}{BOIL\_EGG}          & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{boil soup with cooker}          & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{boil soup with boiler}          & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{boil soup with stove}           & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{heat pottage with stove}        & \multicolumn{1}{l|}{BOIL\_SOUP\_COOKER} & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stir soup}                      & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{mix soup}                       & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{blend soup}                     & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stir chowder}                   & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stir pottage}                   & \multicolumn{1}{l|}{STIR\_SOUP}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{stir soup with spoon}           & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with cutlery}         & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with utensil}         & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with tablespoon}      & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with teaspoon}        & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{stir soup with soupspoon}       & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{blend chowder using soupspoon}  & \multicolumn{1}{l|}{STIR\_SOUP\_SPOON}  & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{pour buttermilk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{discharge milk}                   & \multicolumn{1}{l|}{POOR\_MILK}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{present eggs}                   & \multicolumn{1}{l|}{SERVE\_EGG}         & \cellcolor[HTML]{FD6864}FAIL \\ \hline
+\multicolumn{1}{l|}{deliver soup}                   & \multicolumn{1}{l|}{SERVE\_SOUP}         & \cellcolor[HTML]{67FD9A}PASS \\ \hline
+\multicolumn{1}{l|}{Score:}                         & \multicolumn{1}{l|}{63.33\%}            &                              \\
+
 \end{tabular}
 \end{table}
 
