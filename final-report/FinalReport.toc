@@ -60,7 +60,7 @@
 \contentsline {subsection}{\numberline {6.2}Voice Recognition Interface}{37}
 \contentsline {subsection}{\numberline {6.3}Graphical User Interface}{37}
 \contentsline {subsection}{\numberline {6.4}User Flow Diagram}{39}
-\contentsline {subsection}{\numberline {6.5}Voice Recognition System Implementation}{40}
+\contentsline {subsection}{\numberline {6.5}Voice Recognition System Implementation}{39}
 \contentsline {subsubsection}{\numberline {6.5.1}Data Flow Diagram}{40}
 \contentsline {subsubsection}{\numberline {6.5.2}\texttt {GlobalState}}{40}
 \contentsline {subsubsection}{\numberline {6.5.3}\texttt {VoiceProcess}}{40}

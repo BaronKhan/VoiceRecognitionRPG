@@ -928,43 +928,37 @@ All UI elements are accessed in the \texttt{MainActivity} and are separate from 
 
 \subsection{User Flow Diagram}
 
-Figure \ref{fig:wireframe} shows a wireframe for the different screen transitions as the user interacts with the application.
+Figure \ref{fig:wireframe} shows a wireframe for the different screen transitions that occur as the user interacts with the application.
 
 \begin{figure}[H]
 \begin{center}
   \includegraphics[width=\linewidth]{wireframe.pdf}
-  \caption{A wireframe showing the majority of transitions between activities as the user interacts with the application. The tails of the red arrows indicate where the user touches the screen (unless otherwise stated).}
+  \caption{A wireframe showing the majority of transitions between activities as the user interacts with the application. The tails of the red arrows indicate where the user touches the screen (unless otherwise stated). Diagram created using MockFlow.}
   \label{fig:wireframe}
   \end{center}
 \end{figure}
 
 \subsection{Voice Recognition System Implementation}
 
+This section describes each component in the voice recognition system in more detail.
+
 \subsubsection{Data Flow Diagram}
 
-TODO
+Figure \ref{fig:data-flow} shows how data flows in the voice recognition system, starting from the user's audio input, and ending with the output sent to the the UI. Note that not all data paths will be followed during a voice intent. The critical path is highlighted in red.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{data-flow.pdf}
+  \caption{A data flow diagram showing how the user's input (as audio from the microphone) is processed by the different components until a response is sent to the UI. The critical path is highlighted in red. Diagram generated automatically using Graphviz.}
+  \label{fig:data-flow}
+  \end{center}
+\end{figure}
 
 \subsubsection{\texttt{GlobalState}}
 
-The \texttt{GlobalState} class is an abstract interface that sends the string input to a \texttt{VoiceProcess} instance via the \texttt{updateState} method. Derived classes (e.g. \texttt{GameState} for a game, \texttt{KitchenState} for a cooking application, etc.) contain the application-specific logic and environment that can be accessed by the action methods. Listing \ref{lst:global-state} shows the code for the \texttt{GlobalState} class.
-
-\begin{lstlisting}[language=Java, caption=GlobalState.java, label={lst:global-state}]
-package com.khan.baron.voicerecrpg.system;
-
-//Derived classes should contain the environment objects to be used in actions
-public abstract class GlobalState {
-    protected boolean mActionSucceeded = true;
-    
-    public void actionSucceeded() { mActionSucceeded = true; }
-    
-    public void actionFailed() { mActionSucceeded = false; }
-    
-    public boolean getActionSucceeded() { return mActionSucceeded; }
-    
-    public abstract String updateState(String input);
-}
-\end{lstlisting}
-
+The \texttt{GlobalState} class is an abstract class that sends the string input to a \texttt{VoiceProcess} instance via the \texttt{updateState} method. Derived classes (e.g. \texttt{GameState} for a game, \texttt{KitchenState} for a cooking application, etc.) contain the application-specific logic and environment that can be accessed by the action methods.
+\\
+\\
 In some scenarios, a follow-up action may only take place if the user's action was successful. For instance, in a generic two-player game, the second player may only be able to make their move once the first player has made a successful move. A more relevant example is in a turn-based role-playing game, where the player is fighting an enemy. The enemy can make their move once the player has made their move.
 \\
 \\
