@@ -1,0 +1,26 @@
+digraph g{
+  rankdir=LR;
+  node [shape=rectangle]
+  "input" [shape=plaintext]
+  "output" [shape=plaintext]
+  reply [label="if expecting\naction reply", shape=diamond]
+  best [label="get best action\nget best target\nget best context"]
+  learning [label="if learning\nphrase", shape=diamond]
+  valid [label="if valid\naction", shape=diamond]
+  previous [label="find target or\ncontext for\nprevious action"]
+  execute [label="execute\naction"]
+  {rank=same; learning; best}
+  {rank=same; "add synonym"; execute; previous}
+  "input" -> reply
+  reply -> "tokenise\nand tag" [label="false"]
+  "tokenise\nand tag" -> learning
+  learning -> best [label="false"]
+  best -> valid
+  valid -> execute [label="true"]
+  execute -> "output"
+  learning -> "add synonym" [label="true"]
+  "add synonym" -> "output"
+  valid -> previous [label="false"]
+  previous -> output
+  reply -> execute [label="true"]
+}

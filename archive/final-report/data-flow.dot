@@ -1,0 +1,24 @@
+digraph g{
+  rankdir=LR;
+  node [shape=rectangle]
+  "Player"
+  "UI"
+  node [shape=oval]
+  { rank=same; "VoiceProcess"; "SemanticSimilarity" }
+  { rank=same; "VoiceControl"; "GlobalState"; "UI" }
+  "Player" -> "VoiceControl" [label="input:Audio", color=red]
+  "VoiceControl":se -> "UI":ne [label="input:String", color=red]
+  "VoiceControl":sw -> "UI":nw [xlabel="output:String ", color=red]
+  "VoiceControl":nw -> "GlobalState":sw [xlabel="input:String", color=red]
+  "GlobalState":se -> "VoiceControl":ne [label="output:String ", color=red]
+  "GlobalState" -> "VoiceProcess" [label="input:String", color=red]
+  "VoiceProcess" -> "GlobalState" [label="output:String", color=red]
+  "VoiceProcess":nw -> "SemanticSimilarity":sw [xlabel="word1:String; word2:String"]
+  "VoiceProcess" -> "SentenceMapper" [label="words:String[]"]
+  "VoiceProcess" -> "AmbiguousHandler" [label="ambiguousCandidates:List"]
+  "VoiceProcess" -> "ContextActionMap" [label="action:String; context:String"]
+  "SemanticSimilarity":se -> "VoiceProcess":ne  [label="score:Double"]
+  "SentenceMapper" -> "VoiceProcess" [label="action:Action; target:String"]
+  "AmbiguousHandler" -> "VoiceProcess" [label="suggestion:String"]
+  "ContextActionMap" -> "VoiceProcess" [label="action:Action"]
+}
