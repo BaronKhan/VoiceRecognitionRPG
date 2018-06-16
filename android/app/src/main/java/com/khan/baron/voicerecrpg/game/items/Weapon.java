@@ -9,7 +9,7 @@ import com.khan.baron.voicerecrpg.system.SemanticSimilarity;
 public class Weapon extends Item {
     public double mDamageModifier;
 
-    private final double PROPERTY_THRESHOLD=0.85;
+    private final double PROPERTY_THRESHOLD=0.99;
 
     public Weapon(String name) {
         super (name, ItemType.ITEM_WEAPON);

@@ -138,6 +138,9 @@ public class GameState extends GlobalState {
                 playerOutput += "Your health: " + mPlayerHealth + " / " + 100;
                 totalOutput += actionOutput + "\n\n" + enemyOutput + " | " + playerOutput
                         + ((commandQueue.isEmpty()) ? "" : "\n\n---\n\n");
+                if (mCurrentEnemy != null && mCurrentEnemy.getHealth() <= 0) {
+                    totalOutput += "\n"+onEnemyDefeated();
+                }
             }
             return totalOutput;
         } else {    //mGameMode == MODE_OVERWORLD
@@ -213,5 +216,12 @@ public class GameState extends GlobalState {
         this.mOverworldMap = mOverworldMap;
     }
 
+    public String onEnemyDefeated() {
+        String name = mCurrentEnemy.getName();
+        initOverworldState(new Room01());
+        return "The "+name+
+                " has been defeated! You proceed to the next room.\n-----\n"+
+                getInitOutput()+"\n";
+    }
 
 }

@@ -132,6 +132,16 @@ public class BattleTest {
     }
 
     @Test
+    public void testDefeatedTroll() {
+        gameState.initBattleState(new Troll(20));
+        gameState.getInventory().add(new Weapon("sword"));
+        gameState.getInventory().add(new Weapon("hammer"));
+        assertEquals(gameState.updateState("attack the troll with a hammer and then with a sword " +
+                "and then with a hammer and sword")
+                .contains("defeated"), true);
+    }
+
+    @Test
     public void testDescriptions() {
         gameState.initBattleState(new Troll(9999999));
         gameState.getInventory().add(new Weapon("hammer", "blunt", "heavy"));
