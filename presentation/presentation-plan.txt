@@ -13,7 +13,10 @@ Last summer would probably hard-code commands. Now just have to make this table
 
 (Remember to toggle complex battle table back on)
 
+[4 minutes]
+
 So, what is my project?
+Explain CLEARLY!
 Project was to create a text-based role-playing game, but to decrease the
 workload as much as possible.
 
@@ -24,6 +27,8 @@ avoid menus, voice commands mapping - main focus
 room gneration easier - minor exploration
 Other was oibject properties -minor exaploration
 
+[2 minutes]
+
 What if want ot say commands in various ways, synonyms
 
 Show hard-coded, regex; online APIs need money
@@ -31,3 +36,58 @@ Show hard-coded, regex; online APIs need money
 Offline solution
 
 Heart of solution is semantic similairty with wordnet
+
+Explain WordNet
+
+(Switch to overworld (main room))
+
+Demonstrate commands:
+
+- "break the table"
+- "look around"
+- Two objects on the table, multiple targets: "pick up the potion and the knife"
+- "cut the door with the knife"
+- "cut the painting using the knife"
+- "use the key to unlock the door"
+
+-- suggestions: "obliterate the troll", say twice
+-- synonym mapping: "regenerate means heal"
+
+How does it work? (slot-filling)
+- show data flow diagram and process input diagram
+
+Explain use of semantic similarity to find similar words
+semantic simiarlity methods (show performances, accuracy, speed)
+When talking about speed, talk about being completlely offline
+
+
+Explain how slot-filling grammar designed for imperatives
+explain sentence matching
+- show screenshot of adding sentence matches
+- "what items do i have in my possession"
+- "what type of actions can i perform"
+
+Applied to other domains (demo video conferencing)
+
+Also explored other areas (take previous slide and bold other two points)
+
+Object properties:
+- "Attack with something sharp"
+
+(Go back to main room)
+
+"cut the table"
+"break the table"
+- Explain how painting is set manually to not be broken
+
+Room Generation:
+Explain use of semantic similairity:
+
+Live demo:
+(Type description with object file. Load into Room01, build and run)
+
+(As it's building, explain binary relationships)
+
+Deliverables:
+
+Questions:
