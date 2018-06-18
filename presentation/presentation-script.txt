@@ -122,4 +122,15 @@ and performance of the system is quite decent.
 
 Slide 7:
 
-At the heart of the solution is the 
+So this voice recognition system has been applied to this role-playing
+game, and in this game, there are two distinct mode of play in order to
+reflect the flexibility of the voice recognition system. The first one
+is exploration gameplay, where the player interacts with objects around
+them
+
+
+Slide 8:
+
+At the heart of the solution is the #
+
+(Will deal with troll later)

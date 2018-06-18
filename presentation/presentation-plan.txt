@@ -35,28 +35,31 @@ Show hard-coded, regex; online APIs need money
 
 Offline solution
 
-Heart of solution is semantic similairty with wordnet
-
-Explain WordNet
-
-(Switch to overworld (main room))
-
 Explain two modes to RPG, designed to demonstrate power of the system.
+
+[Switch to overworld (puzzle room for presentation)]
 
 Demonstrate commands:
 
 - "smash the table"
 - "observe the surroundings"
-- Two objects on the table, multiple targets: "pick up the potion and the knife"
-- "cut the door with the knife"
-- "cut the painting using the knife"
+- Two objects on the table, multiple targets: "pick up the potion and the letter"
+- "look at the mirror"
+- "show my inventory"
+- "smash the pot with something heavy"
 - "use the key to unlock the door"
+- "attack with the sword"
+- "hit the troll using the blade"
 
--- suggestions: "obliterate the troll", say twice
--- synonym mapping: "regenerate means heal"
+How it works?
 
-How does it work? (slot-filling)
+Heart of solution is semantic similairty with wordnet
+
+Explain WordNet (used to find similar words)
+
+How does it work? (slot-filling, context action map)
 - show data flow diagram and process input diagram
+- LOTS of diagrams here
 
 Explain use of semantic similarity to find similar words
 semantic simiarlity methods (show performances, accuracy, speed)
