@@ -18,6 +18,9 @@ public class OpenObject extends Action {
                     mWantsReply = true;
                     mCurrentTarget = currentTarget;
                     return "Are you sure you want to leave this room? (yes/no)";
+                } else if (currentTarget.getName().equals("letter")) {
+                    state.actionSucceeded();
+                    return "You opened the letter. It reads, \"Get out now.\"";
                 } else if (currentTarget instanceof GlassTable) {
                     state.actionSucceeded();
                     return "You opened the drawer of the glass table but nothing is inside. You"

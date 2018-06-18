@@ -1,3 +1,4 @@
 You are in a room with a locked *door. There is a *table in the middle of the room.
 An *armchair is underneath the table. A *potion is on the table.
+A *knife is with the potion.
 You see a *vase in the corner of the room. You also see a *mirror on the wall.
