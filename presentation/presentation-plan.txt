@@ -43,7 +43,7 @@ Demonstrate commands:
 
 - "smash the table"
 - "observe the surroundings"
-- Two objects on the table, multiple targets: "pick up the potion and the letter"
+- Two objects on the table, multiple targets: "pick up the potion and the knife"
 - "look at the mirror"
 - "show my inventory"
 - "smash the pot with something heavy"

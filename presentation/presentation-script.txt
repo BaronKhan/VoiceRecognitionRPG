@@ -126,7 +126,25 @@ So this voice recognition system has been applied to this role-playing
 game, and in this game, there are two distinct mode of play in order to
 reflect the flexibility of the voice recognition system. The first one
 is exploration gameplay, where the player interacts with objects around
-them
+them in order to progress through the game. In this game, the user can
+pick up items, look at items, break items, and so on.
+
+[Switch to Puzzle Room]
+
+- "look at the mirror"
+- "pick up the potion and the knife"
+- "observe the surroundings"
+- "show my inventory"
+- "smash the pot with something heavy"
+- "use the key to unlock the door"
+
+So now there's an angry troll in front of me and we've transitioned to
+the turn-based battle mode. In this mode, I have to defeat the troll
+while staying alive. Each time I take a turn, the troll takes their
+turn and we alternate.
+
+- "attack with the sword"
+- "hit the troll using a blade"
 
 
 Slide 8:
