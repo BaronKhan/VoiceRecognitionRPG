@@ -388,10 +388,9 @@ public class VoiceProcess {
             if (bestScore > ACTION_MIN && bestScore < ACTION_CONFIDENT) {
                 mAmbiguousHandler.setIsAmbiguous(true);
             }
-            else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
             //Remove chosen action from list inputs
             if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
-        } else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
+        }
 
         return new Pair<>(bestIndex, bestAction);
     }
@@ -476,7 +475,6 @@ public class VoiceProcess {
             return mContextActionMap.getDefaultTarget();
         } else {
             if (bestScore > TARGET_MIN && bestScore < TARGET_CONFIDENT) { mAmbiguousHandler.setIsAmbiguous(true); }
-            else { mAmbiguousHandler.clearAmbiguousTargetCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
             return bestTarget;
         }
@@ -500,12 +498,12 @@ public class VoiceProcess {
             if (sUsingSynonyms && mContextActionMap.hasSynonym(word)) {
                 List<String> contextNames = mContextActionMap.getSynonymMapping(word);
                 if (contextNames.size() > 1) {
-                    for (String targetName : contextNames) {
-                        if (mContextActionMap.hasPossibleContext(targetName)) {
+                    for (String contextName : contextNames) {
+                        if (mContextActionMap.hasPossibleContext(contextName)) {
                             mAmbiguousHandler.setIsAmbiguous(true, true);
                             mAmbiguousHandler.addAmbiguousContextCandidate(
                                     new Triple<>(word,
-                                            mContextActionMap.getPossibleContext(targetName),
+                                            mContextActionMap.getPossibleContext(contextName),
                                             1.0),
                                     bestScore);
                         }
@@ -519,6 +517,9 @@ public class VoiceProcess {
                     break;
                 }
             }
+
+            if (bestScore >= 1.0) { break; }
+
             for (Entity context : possibleContextList) {
                 String contextName = context.getName();
                 if (sUsingMatchIgnore && mContextActionMap.wordIsIgnored(word, contextName)
@@ -558,9 +559,8 @@ public class VoiceProcess {
             bestContextType = bestContext.getContext();
             setActionContext(bestContext);
             if (bestScore > CONTEXT_MIN && bestScore < CONTEXT_CONFIDENT) { mAmbiguousHandler.setIsAmbiguous(true); }
-            else { mAmbiguousHandler.clearAmbiguousContextCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
-        } else { mAmbiguousHandler.clearAmbiguousContextCandidates(); }
+        }
 
         return bestContextType;
     }

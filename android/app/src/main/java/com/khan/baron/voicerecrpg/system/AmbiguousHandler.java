@@ -81,6 +81,7 @@ public class AmbiguousHandler {
                 "\ntarget candidates = "+mAmbiguousTargetCandidates+
                 "\ncontext candidates = "+mAmbiguousContextCandidates);
         mAmbiguousPermutations = generateAmbiguousPermutations();
+        mShowAllSuggestions = mShowAllSuggestions || mAmbiguousPermutations.size() > 4;
         if (mShowAllSuggestions && mAmbiguousPermutations.size() > 3) {
             mExpectingReply = false;
             return "Intent not understood.\n" + generateAllSuggestions();

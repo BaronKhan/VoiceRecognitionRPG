@@ -30,6 +30,7 @@ public class Pot extends PhysicalObject {
     @Override
     public String onBroken(GameState gameState) {
         gameState.actionSucceeded();
+        gameState.getCurrentRoom().removeRoomObject(this);
         String output = "You broke the pot. ";
         if (mItems.size() > 0) {
             output += "The following items were inside:\n";
