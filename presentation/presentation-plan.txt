@@ -41,10 +41,12 @@ Explain WordNet
 
 (Switch to overworld (main room))
 
+Explain two modes to RPG, designed to demonstrate power of the system.
+
 Demonstrate commands:
 
-- "break the table"
-- "look around"
+- "smash the table"
+- "observe the surroundings"
 - Two objects on the table, multiple targets: "pick up the potion and the knife"
 - "cut the door with the knife"
 - "cut the painting using the knife"

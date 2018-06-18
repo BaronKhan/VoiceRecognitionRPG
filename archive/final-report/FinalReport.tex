@@ -414,20 +414,21 @@ A disadvantage to slot-filling using context-free grammar parsing is that not al
 
 
 \subsubsection{Synonyms and Hypernyms}
+\label{section:bg-syn-hyp}
 
-\textit{Synonyms} are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word ``dog" has seven word senses (i.e. different meanings), and for one of the word senses with a meaning of, ``a member of the genus Canis", the synonyms would be, ``domestic dog" and ``Canis familiris" \cite{RefWorks:45}.
+\textit{Synonyms} are words or phrases which have a similar meaning to another word  \cite{RefWorks:44}. For example, the word ``dog" has seven word senses (i.e. different meanings), and for one of the word senses with a meaning of, ``a member of the genus Canis", the synonyms would be, ``domestic dog" and ``Canis familiris" \cite{RefWorks:45}. Another word sense for ``dog'' would have a meaning of someone who is morally reprehensible (e.g. ``you dirty dog''), and this sense would have its own synonyms.
 \\
 \\
 A \textit{hypernym}, on the other hand, is a word or phrase which generalises words for which it is a hypernym of. For instance, the word, ``instrument" is a hypernym of ``guitar", because a guitar is a type of instrument. Similarly, the word ``animal" is a hypernym of ``cat" (or, at least, the sense which refers to the domestic animal, as ``cat" can have several usages).
 \\
 \\
-The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes, while each sibling node would represent a different word sense for a word, with each sibling containing the synonyms for that sense.
+The synonyms and hypernyms of words and phrases can be represented as a hyper-tree structure, where the parent nodes are hypernyms of the child nodes. Each node is also connected to nodes that represent the other senses. For example, the word, "dog" would have a node for each of its senses (and each one containing the synonyms for that sense).
 
 \begin{center}
 \begin{figure}[H]
 \begin{center}
   \includegraphics[scale=1]{hypernym-tree.png}
-  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the senses of the noun, ``attack". The ``attack" verb sense (right) is a sibling node.}
+  \caption{A partial hypernym tree showing the synonyms and hypernyms for one of the senses of the noun, ``attack". The ``attack" verb sense (right) is a different node.}
   \end{center}
 \end{figure}
 \end{center}
@@ -475,7 +476,7 @@ Another measure of semantic similarity is Leacock and Chodorow's method, which r
 
 \subsection{WordNet}
 
-Princeton University created a large lexical database for the English language, called \textit{WordNet} \cite{RefWorks:20}. Words are grouped into synonyms (known as synonym sets, or \textit{synsets} for short), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hypernym tree mentioned previously. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
+Princeton University created a large lexical database for the English language, called \textit{WordNet} \cite{RefWorks:20}. Words are grouped into synonyms (known as synonym sets, or \textit{synsets} for short), and are connected to their respective hypernyms (more general words) and hyponyms (more specific words), creating the large hyper-tree mentioned in Section \ref{section:bg-syn-hyp}. The database is open-source and is used extensively in this project, using various APIs that interact with the WordNet database (which will be initially downloaded by the game for offline use).
 
 \subsection{Generating Objects from Descriptions}
 

@@ -30,7 +30,7 @@ public class Pot extends PhysicalObject {
             output += "The following items were inside:\n";
             for (Item item : mItems) {
                 gameState.getInventory().add(item);
-                output += " - "+item.getName();
+                output += " - "+item.getName()+"\n";
             }
             output += "All items were added to inventory.\n"+
                     (new ShowInventory().execute(gameState, gameState.getInventory()));
