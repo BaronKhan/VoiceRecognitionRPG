@@ -1,0 +1,6 @@
+            , look           , show       , cut              , break              , grab      , open
+default     , LookDefault    , ShowDefault, CutDefault       , BreakDefault       , GrabObject, OpenObject
+weapon      ,                ,            , CutWeaponNotSharp, BreakWeaponNotBlunt,,
+weapon-sharp,                ,            , CutWeaponSharp   , BreakWeaponNotBlunt,,
+weapon-blunt,                ,            , CutWeaponNotSharp, BreakWeaponBlunt,,
+vision-item , LookDefault,,,,,

@@ -18,11 +18,12 @@ import java.util.Arrays;
 public class OverworldContextActionMap extends ContextActionMap {
     public OverworldContextActionMap(GlobalState state) {
         super(state);
-        setActionList(Arrays.asList(        "look",             "show",             "grab",             "open",             "cut",                      "break"));
-        addDefaultContextActions(           new LookDefault(),  new ShowDefault(),  new GrabObject(),   new OpenObject(),   new CutDefault(),           new BreakDefault());
-        addContextActions("weapon",         null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponNotBlunt());
-        addContextActions("weapon-sharp",   null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponSharp(),       new BreakWeaponNotBlunt());
-        addContextActions("weapon-blunt",   null,               null,               new GrabObject(),   new OpenObject(),   new CutWeaponNotSharp(),    new BreakWeaponBlunt());
+        setActionList(Arrays.asList(        "look",             "show",             "cut",                   "break",                   "grab",             "open"));
+        addDefaultContextActions(           new LookDefault(),  new ShowDefault(),  new CutDefault(),        new BreakDefault(),        new GrabObject(),   new OpenObject());
+        addContextActions("weapon",         null,               null,               new CutWeaponNotSharp(), new BreakWeaponNotBlunt(), null,               null);
+        addContextActions("weapon-sharp",   null,               null,               new CutWeaponSharp(),    new BreakWeaponNotBlunt(), null,               null);
+        addContextActions("weapon-blunt",   null,               null,               new CutWeaponNotSharp(), new BreakWeaponBlunt(),    null,               null);
+        addContextActions("vision-item",    new LookDefault(),  null,               null,                    null,                      null,               null);
 
         addSynonym("observe", "look");
         addSynonym("reveal", "show");

@@ -28,6 +28,7 @@ public class BattleContextActionMap extends ContextActionMap {
         if (!sUseSimplerBattleTable) {
             addSynonym("hit", "attack");
             addSynonym("punch", "attack");
+            addSynonym("fight", "attack");
             addSynonym("assault", "attack");
             addSynonym("observe", "look");
             addSynonym("blade", "knife");
@@ -36,6 +37,7 @@ public class BattleContextActionMap extends ContextActionMap {
             addMatchIgnore("jump", "look");
             addMatchIgnore("jump", "attack");
             addMatchIgnore("bag", "attack");
+            addMatchIgnore("blade", "hammer");
 
             addSentenceMatch(new ShowDefault(), "inventory",
                     "what is in my inventory",

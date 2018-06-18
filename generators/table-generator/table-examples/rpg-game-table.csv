@@ -1,0 +1,6 @@
+            , attack           , heal       , show       , look
+default     , AttackDefault    , HealDefault, ShowDefault, LookDefault
+weapon      , AttackWeapon
+weapon-sharp, AttackWeaponSharp
+weapon-blunt, AttackWeaponBlunt
+healing-item,                  , HealItem

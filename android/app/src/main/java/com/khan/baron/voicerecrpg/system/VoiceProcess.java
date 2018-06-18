@@ -388,9 +388,10 @@ public class VoiceProcess {
             if (bestScore > ACTION_MIN && bestScore < ACTION_CONFIDENT) {
                 mAmbiguousHandler.setIsAmbiguous(true);
             }
+            else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
             //Remove chosen action from list inputs
             if (deleteWord) { removeWordAtIndex(words, tags, bestIndex); }
-        }
+        } else { mAmbiguousHandler.clearAmbiguousActionCandidates(); }
 
         return new Pair<>(bestIndex, bestAction);
     }
@@ -475,6 +476,7 @@ public class VoiceProcess {
             return mContextActionMap.getDefaultTarget();
         } else {
             if (bestScore > TARGET_MIN && bestScore < TARGET_CONFIDENT) { mAmbiguousHandler.setIsAmbiguous(true); }
+            else { mAmbiguousHandler.clearAmbiguousTargetCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
             return bestTarget;
         }
@@ -482,6 +484,7 @@ public class VoiceProcess {
 
     private String getBestContext(List<String> words, List<String> tags, boolean usingAltSFS) {
         mAmbiguousHandler.initAmbiguousContextCandidates();
+        boolean clearAmbiguousList = true;
         List<Integer> candidateContext = getCandidateContext(words, tags, usingAltSFS);
         List<Entity> possibleContextList = mContextActionMap.getPossibleContexts();
         if (candidateContext == null || possibleContextList == null ||
@@ -508,6 +511,7 @@ public class VoiceProcess {
                                     bestScore);
                         }
                     }
+                    clearAmbiguousList = false;
                 }
                 String contextName = contextNames.get(0);
                 if (mContextActionMap.hasPossibleContext(contextName)) {
@@ -559,8 +563,9 @@ public class VoiceProcess {
             bestContextType = bestContext.getContext();
             setActionContext(bestContext);
             if (bestScore > CONTEXT_MIN && bestScore < CONTEXT_CONFIDENT) { mAmbiguousHandler.setIsAmbiguous(true); }
+            else if (clearAmbiguousList) { mAmbiguousHandler.clearAmbiguousContextCandidates(); }
             removeWordAtIndex(words, tags, bestIndex);
-        }
+        } else if (clearAmbiguousList) { mAmbiguousHandler.clearAmbiguousContextCandidates(); }
 
         return bestContextType;
     }
