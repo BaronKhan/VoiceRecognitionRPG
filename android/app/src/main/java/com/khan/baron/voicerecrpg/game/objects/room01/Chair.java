@@ -7,5 +7,6 @@ public class Chair extends PhysicalObject {
         super("chair", "seat", "furniture");
         setContext("chair");
         autoAssignProperties();
+        setCuttable(false);
     }
 }

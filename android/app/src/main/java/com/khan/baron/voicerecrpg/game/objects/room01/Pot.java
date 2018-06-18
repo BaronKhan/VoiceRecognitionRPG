@@ -24,6 +24,11 @@ public class Pot extends PhysicalObject {
 
     @Override
     public String onBroken(GameState gameState, Entity currentContext) {
+        return onBroken(gameState);
+    }
+
+    @Override
+    public String onBroken(GameState gameState) {
         gameState.actionSucceeded();
         String output = "You broke the pot. ";
         if (mItems.size() > 0) {
