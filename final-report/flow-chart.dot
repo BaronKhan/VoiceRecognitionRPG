@@ -1,0 +1,16 @@
+digraph nlp_stages{
+  subgraph mode{
+    rank=same;
+    a [shape=box, constrained=false, label="Speech-to-Text"];
+    b [shape=box, constrained=false, label="POS Tagger"];
+    c [shape=box, constrained=false, label="Slot-filling Matching"];
+    d [shape=box, constrained=false, label="Semantic Similarity"];
+    e [shape=box, constrained=false, label="Context-Action Mapping"];
+    f [shape=box, constrained=false, label="Intent Execution"];
+  }
+  a -> b;
+  b -> c;
+  c -> d;
+  d -> e;
+  e -> f;
+}
