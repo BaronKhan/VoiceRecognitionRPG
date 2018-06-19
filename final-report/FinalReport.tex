@@ -1034,7 +1034,7 @@ Most of the above similarity method implementations are provided by the WS4J lib
 Despite the WS4J library providing implementations of the algorithms for most of the semantic similarity methods used in this project, they require an interface to be implemented in order to access a WordNet database, called \texttt{ILexicalDatabase}.
 \\
 \\
-The WS4J library is packaged with its own implementation of \texttt{ILexicalDatabase} interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similiar to the Princeton WordNet \cite{RefWorks:122}). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used. Moreover, even if the SQLite methods worked, it would still require a connection to the internet in order to access the WordNet database, which is undesirable for this project, as one of the goals is to create a system that works entirely offline.
+The WS4J library is packaged with its own implementation of \texttt{ILexicalDatabase} interface, called \texttt{NictWordNet} (which accesses a Japanese WordNet database similar to the Princeton WordNet \cite{RefWorks:122}). Unfortunately, due to its use of SQLite methods to access the database, the implementation is not compatible with the Android SDK, and could not be used.
 \\
 \\
 Therefore, a new implementation of the \texttt{ILexicalDatabase} interface was created that works with the Android SDK, called \texttt{CustomLexicalDatabase.java}. It interfaces with a local Princeton WordNet database using the MIT JWI API mentioned previously. All methods were implemented using the JWI API except the \texttt{findSynsetBySynset()} and \texttt{conceptToString()} methods (these methods are not required for the above similarity methods).
@@ -1094,7 +1094,7 @@ Once a match for a context is found, its \texttt{mContext} string value is used 
 \subsubsection{\texttt{Action}}
 \label{section:action}
 
-The \texttt{Action} class is an abstract class that is used to wrap the methods that should be executed in the \texttt{ContextActionMap}. The \texttt{execute()} method is overridden by the derived class and executed when the action is chosen in the \texttt{VoiceProcess} class. The method takes as input the GlobalState object (so the method can update its state if needed) and the current target (if it exists).
+The \texttt{Action} class is an abstract class that is used to wrap the methods that should be executed in the \texttt{ContextActionMap}. The \texttt{execute()} method is overridden by the derived class and executed when the action is chosen in the \texttt{VoiceProcess} class. The method takes as input the \texttt{GlobalState} object (so the method can update its state if needed) and the current target (if it exists).
 \\
 \\
 Some methods may wish to ask the user for confirmation before executing (e.g. ``Are you sure you want to do this?"). In this case, the \texttt{execute()} method would set the \texttt{mWantsReply} member field to \texttt{true}. On the next user intent, the input is processed by the \texttt{processReply()} method (i.e. whether the user said ``yes"/``no", etc.).
@@ -1197,14 +1197,14 @@ In order to aid this system, entities can also be given a list of words (\texttt
 Note that these properties associated to objects are separate from the properties in \texttt{PhysicalObject}, which are related to interactions specific in the \textit{Overworld} gameplay (e.g. whether an object is breakable), although these physical properties can be automatically assigned using the \texttt{autoAssignProperties()} method, which uses the semantic similarity engine to compare the name of the object to words associated with the property. This allows the user to create new objects without having to manually assign each property. See the \texttt{Chair} or \texttt{GlassTable} objects in the source code for examples of this.
 \\
 \\
-If the automatic assignment does not correctly assign a property (there is a program in the repository that determines which properties are automatically assigned  to an object\footnote{https://github.com/BaronKhan/VoiceRecognitionRPG/tree/master/archive/property-checker}), the developer can manually assign them. For example, we do not want the player to break the painting in the room, even though the method will automatically assign the painting to be breakable, so it is set manually to not be broken by the player.
+If the automatic assignment does not correctly assign a property (there is a program in the repository that determines which properties are automatically assigned  to an object \footnote{https://github.com/BaronKhan/VoiceRecognitionRPG/tree/master/archive/property-checker}), the developer can manually assign them. For example, we do not want the player to break the painting in the room, even though the method will automatically assign the painting to be breakable, so it is set manually to not be broken by the player.
 
 \label{section:obj-properties-wordnet}
 
 \subsection{Room Generation Implementation}
 \label{section:room-generation}
 
-The use of room generation in this project aims to decrease the workload of the developer and designer as much as possible, using NLP techniques discussed above.
+The use of room generation in this project aims to decrease the workload of the developer and designer as much as possible, using semantic similarity techniques discussed above.
 
 \subsubsection{Rooms}
 Rooms contain the objects that the player interacts with during the \textit{Overworld} mode.
@@ -1256,7 +1256,7 @@ A standalone Java program was created which takes as input a text file containin
 The program reads an \textit{object file} containing the available objects that are in the game (and the corresponding constructor that should be used to create the object). It then takes the description in the input file and breaks it down into sentences and parses each one to determine which objects should be added to the room, as well as any conditionals. Object creation is denoted using an asterisk (*) just before the object word. The object must be in the object file for it to be added.
 \\
 \\
-The semantic similarity engine used in the voice recognition system is used again here to create objects using synonyms in the room description (e.g. the sentence, ``There is a utensil in the room" may add a spoon to the room since ``spoon" is semantically similar to ``utensil", and spoon is in the object file).
+The semantic similarity engine used in the voice recognition system is used again here to create objects using synonyms in the room description (e.g. the sentence, ``There is a utensil in the room" may add a spoon to the room since ``spoon" is semantically similar to ``utensil", and a spoon is in the object file).
 \\
 \\
 More interesting room generation is possible by finding binary relationships between two objects. For example, if a description in a room says, ``There is a potion on the table", then the potion being on the table should only be the case if and only if the table is still in the room; if the player destroys the table, then the description of the potion's position should change (e.g. it should be on the floor now).
@@ -1306,7 +1306,7 @@ The application also has a settings activity, which allows the user to change va
 \section{Evaluation}
 \label{evaluation}
 
-This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of the practicality of the voice recognition system and whether it is easy to use via an anonymous survey\footnote{https://goo.gl/forms/8byr4MKo56bqJMvk2}. It should be noted that the results use a small sample size of eight, and are only supplementary to this section.
+This section outlines a quantitative evaluation of the project's correctness and performance. It also contains a qualitative evaluation of the practicality of the voice recognition system and whether it is easy to use via an anonymous survey \footnote{https://goo.gl/forms/8byr4MKo56bqJMvk2}. It should be noted that the results use a small sample size of eight, and are only supplementary to this section.
 
 \subsection{Mock Testing}
 \label{section:mock-testing}
@@ -1314,7 +1314,7 @@ This section outlines a quantitative evaluation of the project's correctness and
 Different systems in the Android application are tested for correctness using Android Instrumentation tests and the \textit{Android JUnit} framework. These tests run directly on the Android device without using the GUI; only the individual modules are tested in a closed environment.
 \\
 \\
-There a four test classes in the Android project, each containing several test suites that test certain functionalities (a test suite can have between 3-20 different tests):
+There are four test classes in the Android project, each containing several test suites that test certain functionalities (a test suite can have between 3-20 different tests):
 
 \begin{itemize}
 \item \texttt{BattleTest.java} | tests the correctness of commands during the \textit{Battle} mode.
@@ -1521,7 +1521,7 @@ On the Desktop PC, all methods except the LESK method are below the 0.1 seconds 
 Clearly, the LESK method is not feasible on any machine, with the FASTLESK method being manyfold faster. This suggests that the use of definitions from the meronyms and holonyms of the words to calculate the similarity between two words (and any formatting to remove punctuation from the definitions) is not worthwhile in terms of speed (and given that the accuracy of both methods are very similar as seen in Section \ref{section:eval-similarity}, the FASTLESK method is unanimously the preferred method).
 \\
 \\
-Methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application. It should also be noted that multi-threading the system may be to at least double the speed of processing.
+Methods which produced high accuracy such as LCH and WUP also have fast performance, so they are ideal methods to use in the application. It should also be noted that multi-threading the system may be able to, at least, double the speed of processing.
 
 \subsection{Evaluation of System Features}
 
@@ -1552,7 +1552,7 @@ Figure \ref{fig:line-chart-features} shows a cumulative line chart of the number
   \end{center}
 \end{figure}
 
-The large increases in the number of tests that pass when adding the semantic similarity or the suggestions mechanism suggest that have a more sizeable impact compared to the other features (i.e. most variations of commands can only be detected if these features are enabled).
+The large increases in the number of tests that pass when adding the semantic similarity engine or the suggestions mechanism indicates that they have a more sizeable impact compared to the other features (i.e. most variations of commands can only be detected if these features are enabled).
 
 \subsection{Evaluation of Slot-Filling Grammar}
 \label{section:eval-sfs}
