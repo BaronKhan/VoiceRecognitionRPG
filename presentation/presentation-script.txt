@@ -146,9 +146,10 @@ turn and we alternate.
 - "attack with the sword"
 - "hit the troll using a blade"
 
+(Will deal with troll later)
 
 Slide 8:
 
-At the heart of the solution is the #
+At the heart of the solution is the WordNet
 
-(Will deal with troll later)
+(attack noun box: synonyms meaning an aggressive operation)
