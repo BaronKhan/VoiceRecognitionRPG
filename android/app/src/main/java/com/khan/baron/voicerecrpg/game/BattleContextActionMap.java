@@ -33,6 +33,8 @@ public class BattleContextActionMap extends ContextActionMap {
             addSynonym("observe", "look");
             addSynonym("blade", "knife");
             addSynonym("blade", "sword");
+            addSynonym("reveal", "show");
+            addSynonym("check", "look");
 
             addMatchIgnore("jump", "look");
             addMatchIgnore("jump", "attack");
