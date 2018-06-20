@@ -62,9 +62,13 @@ How does it work? (slot-filling, context action map)
 - LOTS of diagrams here
 
 Explain use of semantic similarity to find similar words
-semantic simiarlity methods (show performances, accuracy, speed)
-When talking about speed, talk about being completlely offline
+semantic simiarlity methods
 
+The information content of a concept is estimated by
+counting the frequency of that concept in a large corpus
+of text.
+
+Example of suggestions
 
 Explain how slot-filling grammar designed for imperatives
 explain sentence matching
@@ -73,6 +77,10 @@ explain sentence matching
 - "what type of actions can i perform"
 
 Applied to other domains (demo video conferencing)
+
+Performance
+ (show performances of methods, accuracy, speed)
+When talking about speed, talk about being completlely offline
 
 Also explored other areas (take previous slide and bold other two points)
 
