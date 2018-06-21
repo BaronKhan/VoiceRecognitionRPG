@@ -103,4 +103,6 @@ Live demo:
 
 Deliverables:
 
+(Library made to help with evalution of the system with develoeprs)
+
 Questions:
