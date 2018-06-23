@@ -34,3 +34,10 @@ solutions, and cooking applications.
 This project also explores other areas for easing the development of the RPG
 using WordNet, such as automatically assigning properties to objects, and room
 generation from text descriptions.
+
+External Libraries
+------
+
+Note that external dependencies have been removed completely from this
+repository. Refer to the `README.md` documents in each `lib` directory for
+instructions on how to download the correct dependencies.
