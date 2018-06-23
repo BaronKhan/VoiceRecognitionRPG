@@ -10,7 +10,7 @@ public class RoomTutorial1 extends Room {
             "Welcome to this Voice Recognition RPG demo!.");
         addDescriptionWithObject(
             "You are in a large room with a door in front of you.",
-            new Door(new RoomTutorial2(), false));
+            Door.toNextRoomFrom(this.getClass(), false));
         addDescription(
             "Try clicking the blue button below and say, 'open the door'.",
             () -> getRoomObjectCount("door") > 0);

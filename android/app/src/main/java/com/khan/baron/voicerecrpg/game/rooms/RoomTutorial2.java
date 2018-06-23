@@ -11,7 +11,7 @@ public class RoomTutorial2 extends Room {
                 "You are in a very small room.");
         addDescriptionWithObject(
                 "There is a locked door on the opposite side.",
-                new Door(new RoomPuzzle(), true));
+                Door.toNextRoomFrom(this.getClass(), true));
         addDescriptionWithObject(
                 "You see a key on the floor.",
                 new Item("key", Item.ItemType.ITEM_KEY, "access"));

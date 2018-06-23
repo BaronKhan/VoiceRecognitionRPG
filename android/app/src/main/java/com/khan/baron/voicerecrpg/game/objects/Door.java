@@ -2,6 +2,7 @@ package com.khan.baron.voicerecrpg.game.objects;
 
 import com.khan.baron.voicerecrpg.game.GameState;
 import com.khan.baron.voicerecrpg.game.enemies.Enemy;
+import com.khan.baron.voicerecrpg.game.enemies.Troll;
 import com.khan.baron.voicerecrpg.game.objects.PhysicalObject;
 import com.khan.baron.voicerecrpg.game.rooms.Room;
 
@@ -16,6 +17,19 @@ public class Door extends PhysicalObject {
         setContext("door");
         setScratchable(true);
         mNeedsKey = needsKey;
+    }
+
+    public static Door toNextRoomFrom(Class nextRoom, boolean needsKey) {
+        try {
+            if (Room.getRoomConnections().containsKey(nextRoom)) {
+                return new Door((Room)(Room.getRoomConnections().get(nextRoom).newInstance()),
+                        needsKey);
+            } else {
+                return new Door(new Troll(100), needsKey);
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            return new Door(new Troll(100), needsKey);
+        }
     }
 
     public Door(Room nextRoom, boolean needsKey) {

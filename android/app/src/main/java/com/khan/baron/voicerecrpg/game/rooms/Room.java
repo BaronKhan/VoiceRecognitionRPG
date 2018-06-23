@@ -9,7 +9,9 @@ import com.khan.baron.voicerecrpg.game.items.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
@@ -23,6 +25,14 @@ public abstract class Room extends Entity {
 
     private Inventory mInventory;
     private ContextActionMap mMap;
+
+    private static Map<Class, Class> sRoomConnections;
+    static
+    {
+        sRoomConnections = new HashMap<>();
+        sRoomConnections.put(RoomTutorial1.class, RoomTutorial2.class);
+        sRoomConnections.put(RoomTutorial2.class, RoomPuzzle.class);
+    }
 
     public static void transferRoomItemToInventory(
             Room room, Item roomItem, Inventory inventory) {
@@ -45,6 +55,10 @@ public abstract class Room extends Entity {
 
     public Room() {
         super("room", "environment", "surrounding");
+    }
+
+    public static Map<Class, Class> getRoomConnections() {
+        return sRoomConnections;
     }
 
     public List<Entity> getRoomObjects() { return mRoomObjects; }
