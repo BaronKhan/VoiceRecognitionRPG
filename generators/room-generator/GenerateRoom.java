@@ -173,12 +173,12 @@ public class GenerateRoom {
                 if (foundRel) {
                     writer.write("        addDescriptionWithObjectCond(\n            \""+
                         prettySentence+"\",\n            "+
-                        altSentence+",\n            new "+
+                        altSentence+",\n            "+
                         sObjectMap.get(word)+",\n            "+
                         relCond+");\n");
                 } else {
                     writer.write("        addDescriptionWithObject(\n            \""+
-                        prettySentence+"\",\n            new "+
+                        prettySentence+"\",\n            "+
                         sObjectMap.get(word)+");\n");
                 }
                 return;
@@ -198,13 +198,13 @@ public class GenerateRoom {
                 if (foundRel) {
                     writer.write("        addDescriptionWithObjectCond(\n            \""+
                         prettySentence+"\",\n            "+
-                        altSentence+",\n            new "+
+                        altSentence+",\n            "+
                         sObjectMap.get(bestObj)+",\n            "+
                         relCond+");\n");
                 } 
                 else {
                     writer.write("        addDescriptionWithObject(\n            \""+
-                        prettySentence+"\",\n            new "+
+                        prettySentence+"\",\n            "+
                         sObjectMap.get(bestObj)+");\n");
                 }
                 return;
