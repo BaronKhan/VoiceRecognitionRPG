@@ -8,6 +8,7 @@ assessment in the Department of Computing at Imperial College London.
 - [Final Report](https://github.com/BaronKhan/VoiceRecognitionRPG/blob/master/final-report/FinalReport.pdf)
 - [Voice Commands with WordNet Library](https://github.com/BaronKhan/voice-commands-with-wordnet)
 - [Voice Recognition RPG Demo Download](https://play.google.com/store/apps/details?id=com.khan.baron.voicerecrpg)
+- [YouTube Video Playlist](https://www.youtube.com/playlist?list=PLBVbkxcBQvMCuuftnUTWWwWBGgxkZ5W4_)
 
 Abstract
 ------
